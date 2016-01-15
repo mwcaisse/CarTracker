@@ -1,0 +1,80 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'war'
+
+sourceCompatibility = 1.7
+version = '0.1'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart',
+                   'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+ext {
+	springVersion = '4.2.4.RELEASE'
+	springSecurityVersion = '4.0.3.RELEASE'
+	mybatisVersion = '3.3.0'
+	mybatisSpringVersion = '1.2.3'
+	thymeleafVersion = '2.1.4.RELEASE'
+	thymeleafLayoutVersion = '1.3.1'
+	thymeleafExtrasVersion = '2.1.2.RELEASE'
+	mysqlVersion = '5.1.38'
+	gsonVersion = '2.5'
+	slf4jVersion = '1.7.13'
+	log4jVersion = '2.5'
+}
+
+dependencies {
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    
+    //spring framework
+    compile group: 'org.springframework', name: 'spring-webmvc', version: "$springVersion"
+    compile group: 'org.springframework', name: 'spring-jdbc', version: "$springVersion"
+    
+    //spring security
+    compile group: 'org.springframework.security', name: 'spring-security-web', version: "$springSecurityVersion"
+    compile group: 'org.springframework.security', name: 'spring-security-config', version: "$springSecurityVersion"
+    
+    //mybatis
+    compile group: 'org.mybatis', name: 'mybatis', version: "$mybatisVersion"
+    compile group: 'org.mybatis', name: 'mybatis-spring', version: "$mybatisSpringVersion"
+    
+    //thymeleaf
+    compile group: 'org.thymeleaf', name: 'thymeleaf', version: "$thymeleafVersion"
+    compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: "$thymeleafVersion"
+    compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: "$thymeleafLayoutVersion"
+    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity4', version: "$thymeleafExtrasVersion"
+    
+    //mysql connector
+    compile group: 'mysql', name: 'mysql-connector-java', version: "$mysqlVersion"
+    
+    //gson
+    compile group: 'com.google.code.gson', name: 'gson', version: "$gsonVersion"
+    
+    //logging
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: "$log4jVersion"
+    compile group: 'org.slf4j', name: 'slf4j-api', version: "$slf4jVersion"
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: "$log4jVersion"
+    
+    providedCompile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
+    
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
