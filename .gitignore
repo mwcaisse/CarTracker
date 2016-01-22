@@ -50,6 +50,7 @@ doc/
 .prefs
 .settings/
 lint.xml
+.idea/
 
 
 
