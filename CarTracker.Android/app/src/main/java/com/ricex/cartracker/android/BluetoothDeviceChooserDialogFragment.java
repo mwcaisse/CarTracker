@@ -37,7 +37,7 @@ public class BluetoothDeviceChooserDialogFragment extends DialogFragment {
         for (BluetoothDevice device : devices) {
             deviceNames.add(device.getName());
         }
-
+/*
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Choose a Bluetooth Device");
         builder.setItems(deviceNames.toArray(), new DialogInterface.OnClickListener() {
@@ -45,7 +45,8 @@ public class BluetoothDeviceChooserDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
 
             }
-        };
+        };*/
+        return null;
 
     }
 

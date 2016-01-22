@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
      */
     protected void promptUserEnableBluetooth() {
         Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-        startActivityForResult(enableBtIntent, REQ
+        startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
     }
 
 }
