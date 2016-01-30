@@ -25,4 +25,10 @@
         android:summary="The address of the server containing the api"
         android:defaultValue="localhost:8080" />
 
+    <com.ricex.cartracker.android.BluetoothDevicePreference
+        android:key="pref_bluetoothDevice"
+        android:title="Bluetooth Device"
+        android:summary="The ODBII bluetooth device"
+        android:defaultValue="" />
+
 </PreferenceScreen>
