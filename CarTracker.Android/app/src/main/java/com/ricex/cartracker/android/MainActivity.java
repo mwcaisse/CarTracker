@@ -37,60 +37,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void onResume(Bundle savedInstanceState) {
-        /*
-        //check for bluetooth enabled
-        if (!isBluetoothSupported()) {
-            //device does not support bluetooth, inform user and then exit
-            //or just exit for now.
-            finish();
-        }
 
-
-        if  (!isBluetoothEnabled()) {
-            //check if we tried to enable bluetooth
-            if (triedEnableBluetooth) {
-                //we did, so it obviously failed, inform the user that application need bluetooth and exit
-                finish();
-            }
-            else {
-                promptUserEnableBluetooth();
-            }
-        }
-        */
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        /*if (requestCode == REQUEST_ENABLE_BT) {
-            triedEnableBluetooth = true;
-        }*/
-    }
-
-
-    /**
-     *  Checks if bluetooth is supported on this device or not
-     * @return True if bluetooth is supported, false otherwise
-     */
-    protected boolean isBluetoothSupported() {
-        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-        return null != adapter;
-    }
-
-    /**
-     *  Checks if Bluetooth is currently enabled on this device or not
-     * @return True if bluetooth is enabled, false otehrwise
-     */
-    protected boolean isBluetoothEnabled() {
-        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-        return adapter.isEnabled();
-    }
-
-    /**
-     *  Creates the intent to prompt the user to enable bluetooth
-     */
-    protected void promptUserEnableBluetooth() {
-        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-        startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-    }
 
 }
