@@ -30,9 +30,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
+        /*
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
+                .commit();*/
+
+        getFragmentManager().beginTransaction()
+                .replace(android.R.id.content, new DebugFragment())
                 .commit();
     }
 

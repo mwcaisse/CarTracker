@@ -13,6 +13,9 @@ Car Tracker
 			-Detect when bluetooth device is available
 			-Detect when bluetooth device is no longer available
 			
+			-Java ODBII Library
+				https://github.com/pires/obd-java-api
+			
 		-Collects telemetrics data paired with time + location
 			-Background service to collect the data
 			-Service is started when it detects the bluetooth device is paired
@@ -65,6 +68,23 @@ Car Tracker
 			
 			
 			
+			
+			
+			
+	-PoC
+		-Commands:
+			Air Intake Temp
+			Ambient Air Temp
+			Engine Coolant Temp
+			
+			Engine RPM
+			Speed
+			MAF
+			Throttle Position
+			Fuel Level
+			Fuel Type
+			VIN
+			Oil Temp
 			
 			
 			
