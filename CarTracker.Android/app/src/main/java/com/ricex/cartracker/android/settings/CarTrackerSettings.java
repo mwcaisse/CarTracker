@@ -13,11 +13,13 @@ public class CarTrackerSettings {
     private static final String LOCATION_ENABLED_KEY = "pref_locationEnabled";
     private static final String SAVE_LOCALLY_ENABLED_KEY = "pref_saveLocallyEnabled";
     private static final String SERVER_ADDRESS_KEY = "pref_serverAddress";
+    private static final String BLUETOOTH_DEVICE_ADDRESS_KEY = "pref_bluetoothDevice";
 
     private boolean serviceEnabled;
     private boolean locationEnabled;
     private boolean savingLocallyEnabled;
     private String serverAddress;
+    private String bluetoothDeviceAddress;
 
     /** The context the settings were created om */
     private Context context;
@@ -40,6 +42,7 @@ public class CarTrackerSettings {
         locationEnabled = preferences.getBoolean(LOCATION_ENABLED_KEY, true);
         savingLocallyEnabled = preferences.getBoolean(SAVE_LOCALLY_ENABLED_KEY, true);
         serverAddress = preferences.getString(SERVER_ADDRESS_KEY, "");
+        bluetoothDeviceAddress = preferences.getString(BLUETOOTH_DEVICE_ADDRESS_KEY, "");
     }
 
     public boolean isLocationEnabled() {
@@ -58,4 +61,7 @@ public class CarTrackerSettings {
         return serverAddress;
     }
 
+    public String getBluetoothDeviceAddress() {
+        return bluetoothDeviceAddress;
+    }
 }
