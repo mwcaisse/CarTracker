@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +28,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+        getFragmentManager().beginTransaction()
+                .replace(android.R.id.content, new SettingsFragment())
+                .commit();
     }
 
     protected void onResume(Bundle savedInstanceState) {
-
+        /*
         //check for bluetooth enabled
         if (!isBluetoothSupported()) {
             //device does not support bluetooth, inform user and then exit
@@ -50,13 +56,14 @@ public class MainActivity extends AppCompatActivity {
                 promptUserEnableBluetooth();
             }
         }
+        */
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_ENABLE_BT) {
+        /*if (requestCode == REQUEST_ENABLE_BT) {
             triedEnableBluetooth = true;
-        }
+        }*/
     }
 
 

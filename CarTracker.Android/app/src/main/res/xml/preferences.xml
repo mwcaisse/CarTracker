@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="pref_serviceEnabled"
+        android:title="Telemetrics Service Enabled"
+        android:summary="Whether or not the service is enabled"
+        android:defaultValue="true" />
+
+    <CheckBoxPreference
+        android:key="pref_locationEnabled"
+        android:title="Save Location"
+        android:summary="Whether or not keeps track of location information"
+        android:defaultValue="true" />
+
+    <CheckBoxPreference
+        android:key="pref_saveLocallyEnabled"
+        android:title="Save Data Locally"
+        android:summary="Whether or not the data is saved locally"
+        android:defaultValue="true" />
+
+    <EditTextPreference
+        android:key="pref_serverAddress"
+        android:title="Server Address"
+        android:summary="The address of the server containing the api"
+        android:defaultValue="localhost:8080" />
+
+</PreferenceScreen>
