@@ -1,11 +1,15 @@
 package com.ricex.cartracker.android;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 /**
@@ -14,7 +18,7 @@ import android.widget.TextView;
  *
  * Created by Mitchell on 1/30/2016.
  */
-public class DebugFragment extends Fragment {
+public class DebugFragment extends Fragment implements OBDServiceListener {
 
     private String airIntakeTemp;
     private String ambientAirTemp;
@@ -47,8 +51,10 @@ public class DebugFragment extends Fragment {
 
     private TextView tvVIN;
 
-    public DebugFragment() {
+    private Handler handler;
 
+    public DebugFragment() {
+        createHandler();
     }
 
     @Override
@@ -56,6 +62,33 @@ public class DebugFragment extends Fragment {
         return inflater.inflate(R.layout.debug_fragment_layout, container, false);
     }
 
+    protected void createHandler() {
+        handler = new Handler(Looper.getMainLooper()) {
+
+            @Override
+            public void handleMessage(Message message) {
+                OBDData data = (OBDData)message.obj;
+                updateFromData(data);
+            };
+
+        };
+    }
+
+
+    public void updateFromData(OBDData data) {
+        updateAirIntakeTemp(data.getAirIntakeTemp());
+        updateAmbientAirTemp(data.getAmbientAirTemp());
+        updateEngineCoolantTemp(data.getEngineCoolantTemp());
+        updateEngineRPM(data.getEngineRPM());
+
+        updateSpeed(data.getSpeed());
+        updateMAF(data.getMaf());
+        updateThrottlePosition(data.getThrottlePosition());
+        updateFuelLevel(data.getFuelLevel());
+        updateFuelType(data.getFuelType());
+
+        updateVIN(data.getVin());
+    }
 
     public void updateAirIntakeTemp(String airIntakeTemp) {
         this.airIntakeTemp = airIntakeTemp;
@@ -112,5 +145,10 @@ public class DebugFragment extends Fragment {
         tvVIN.setText(val);
     }
 
+    @Override
+    public void obdDataRead(OBDData data) {
+        Message message = handler.obtainMessage(1, data);
+        message.sendToTarget();
+    }
 }
 
