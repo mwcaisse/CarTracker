@@ -1,0 +1,82 @@
+Car Tracker
+
+	Server
+		API
+		
+		Web Site
+	
+	Android Application
+		-Connects to ODBII reader over bluetooth
+			-Need to know which bluetooth device to connect to
+			-Save the bluetooth device for easy re-connecting
+			-GUI for selecting the bluetooth device to use
+			-Detect when bluetooth device is available
+			-Detect when bluetooth device is no longer available
+			
+		-Collects telemetrics data paired with time + location
+			-Background service to collect the data
+			-Service is started when it detects the bluetooth device is paired
+			-Service is ended when it detects the bluetooth device is unpaired
+			
+			Android Service Documentation
+				http://developer.android.com/guide/components/services.html
+				-Should use Foreground Service
+				
+				-Bluetooth Broadcast Receiver
+					http://developer.android.com/reference/android/bluetooth/BluetoothDevice.html
+			
+		-Sends data back to the server
+			-Sends the collected telemetrics data back to the server at given intervals
+			-Saves a copy of the data locally
+				-if phone doesn't currently have an internet connection it is not lost
+		
+		-Settings
+			-Bluetooth device
+			-Upload frequency
+			-Upload server
+			-Data poll frequency
+			-Location enabled
+			-Enable saving data locally
+			-Cache time?
+			
+		Main Activity
+			-Contain the Settings for the Service
+		
+		UI
+			-The settings UI
+				-A list view
+			-The bluetooth device chooser
+			
+			
+	Data
+		-End / Resulting Data Points
+			-Location / Travel History
+			-Speed
+				-Instantaneous
+				-Average
+			-Trip Time
+				-Trip Start
+				-Trip End
+			-Trip Distance
+			-Fuel Economy
+				-Starting Fuel Level
+				-Ending Fuel Level
+				-MPG
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+				
+				
