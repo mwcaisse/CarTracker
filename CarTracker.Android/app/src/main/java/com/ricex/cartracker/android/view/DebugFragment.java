@@ -53,7 +53,12 @@ public class DebugFragment extends Fragment implements OBDServiceListener {
 
     private TextView tvVIN;
 
+    private TextView tvErrorMessage;
+
     private Handler handler;
+
+    private static final int MESSAGE_ID_MSG = 1;
+    private static final int MESSAGE_ID_OBD_DATA = 2;
 
     public DebugFragment() {
         createHandler();
@@ -61,7 +66,25 @@ public class DebugFragment extends Fragment implements OBDServiceListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.debug_fragment_layout, container, false);
+        View view = inflater.inflate(R.layout.debug_fragment_layout, container, false);
+        setFields(view);
+        return view;
+    }
+
+    public void setFields(View view) {
+        tvAirIntakeTemp = (TextView) view.findViewById(R.id.valAirIntakeTemp);
+        tvAmbientAirTemp = (TextView) view.findViewById(R.id.valAmbientAirTemp);
+        tvEngineCoolantTemp = (TextView) view.findViewById(R.id.valEngineCoolantTemp);
+        tvOilTemp = (TextView) view.findViewById(R.id.valOilTemp);
+        tvEngineRPM = (TextView) view.findViewById(R.id.valEngineRPM);
+        tvSpeed = (TextView) view.findViewById(R.id.valSpeed);
+        tvMAF = (TextView) view.findViewById(R.id.valMAF);
+        tvThrottlePosition = (TextView) view.findViewById(R.id.valThrottlePosition);
+        tvFuelType = (TextView) view.findViewById(R.id.valFuelLevel);
+        tvFuelLevel = (TextView) view.findViewById(R.id.valFuelLevel);
+        tvVIN = (TextView) view.findViewById(R.id.valVIN);
+
+        tvErrorMessage = (TextView) view.findViewById(R.id.tvMessages);
     }
 
     protected void createHandler() {
@@ -69,8 +92,17 @@ public class DebugFragment extends Fragment implements OBDServiceListener {
 
             @Override
             public void handleMessage(Message message) {
-                OBDReading data = (OBDReading)message.obj;
-                updateFromData(data);
+                switch (message.what) {
+                    case MESSAGE_ID_MSG:
+                        String msg = message.obj.toString();
+                        addMessage(msg);
+                        break;
+
+                    case MESSAGE_ID_OBD_DATA:
+                        OBDReading data = (OBDReading)message.obj;
+                        updateFromData(data);
+                        break;
+                }
             };
 
         };
@@ -82,6 +114,7 @@ public class DebugFragment extends Fragment implements OBDServiceListener {
         updateAmbientAirTemp(data.getAmbientAirTemp());
         updateEngineCoolantTemp(data.getEngineCoolantTemp());
         updateEngineRPM(data.getEngineRPM());
+        updateOilTemp(data.getOilTemp());
 
         updateSpeed(data.getSpeed());
         updateMAF(data.getMaf());
@@ -147,10 +180,21 @@ public class DebugFragment extends Fragment implements OBDServiceListener {
         tvVIN.setText(val);
     }
 
+    public void addMessage(String message) {
+        String curText = tvErrorMessage.getText().toString();
+        tvErrorMessage.setText(curText + "\n" + message);
+    }
+
     @Override
     public void obdDataRead(OBDReading data) {
-        Message message = handler.obtainMessage(1, data);
+        Message message = handler.obtainMessage(MESSAGE_ID_OBD_DATA, data);
         message.sendToTarget();
+    }
+
+    @Override
+    public void onMessage(String message) {
+        Message msg = handler.obtainMessage(MESSAGE_ID_MSG, message);
+        msg.sendToTarget();
     }
 }
 

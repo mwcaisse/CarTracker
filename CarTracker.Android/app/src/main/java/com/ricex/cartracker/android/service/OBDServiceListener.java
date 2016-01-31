@@ -13,4 +13,10 @@ public interface OBDServiceListener {
      */
     public void obdDataRead(OBDReading data);
 
+    /** Handles a message from the service
+     *
+     * @param message The message
+     */
+    public void onMessage(String message);
+
 }

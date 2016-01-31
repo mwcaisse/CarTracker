@@ -57,8 +57,13 @@ public class OBDServiceTask implements Runnable {
         while (loopOn) {
 
             //perform the data read
-            OBDReading data = readData();
-            service.notifyListeners(data);
+            try {
+                OBDReading data = readData();
+                service.notifyListeners(data);
+            }
+            catch (Exception e) {
+                service.addMessage(String.format("Error occured while trying to read data: {0}", e.getMessage()));
+            }
 
             //sleep for 30 secconds
             try {
@@ -86,6 +91,7 @@ public class OBDServiceTask implements Runnable {
         }
         catch (IOException e) {
             Log.e(LOG_TAG, "Exception occured opening input/output stream to bluetooth device!", e);
+            service.addMessage("Error occured while establishing communication to bluetooth device!");
         }
         catch (InterruptedException e) {
             Log.e(LOG_TAG, "Command was interrupted!", e);

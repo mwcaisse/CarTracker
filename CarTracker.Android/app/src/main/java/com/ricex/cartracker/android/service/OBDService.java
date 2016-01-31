@@ -101,6 +101,12 @@ public class OBDService extends Service {
         }
     }
 
+    protected void addMessage(String message) {
+        for (OBDServiceListener listener : listeners) {
+            listener.onMessage(message);
+        }
+    }
+
     protected void initializeSettings() {
         settings = new CarTrackerSettings(this);
     }
@@ -115,6 +121,8 @@ public class OBDService extends Service {
         catch (Exception e) {
             Log.e(LOG_TAG, "Error opening bluetooth connection to device: " + settings.getBluetoothDeviceAddress() + " trying fallback", e);
 
+            addMessage("Error opening bluetooth connection to device: " + settings.getBluetoothDeviceAddress() + " trying fallback method");
+
             Class<?> clazz = bluetoothSocket.getRemoteDevice().getClass();
             Class<?>[] paramTypes = new Class<?>[]{Integer.TYPE};
 
@@ -127,6 +135,7 @@ public class OBDService extends Service {
             }
             catch (Exception e2) {
                 Log.e(LOG_TAG, "Couldn't use fallback socket / connection", e2);
+                addMessage("Failed to fallback, cannot establish bluetooth connection");
             }
         }
     }

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.ricex.cartracker.android.R;
 import com.ricex.cartracker.android.service.OBDService;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         getFragmentManager().beginTransaction()
                             .add(R.id.fragment_container, debugFragment)
                             .commit();
+
     }
 
     @Override
@@ -95,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void startService() {
+        debugFragment.addMessage("Starting OBD Service...");
         serviceIntent = new Intent(this, OBDService.class);
         startService(serviceIntent);
         bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
@@ -104,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected void stopService() {
         if (bound) {
+            debugFragment.addMessage("Stopping OBD Service...");
             service.removeListener(debugFragment);
             unbindService(serviceConnection);
             bound = false;
@@ -123,10 +127,20 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
+    public void toggleService(View v) {
+        if (bound) {
+            stopService();
+        }
+        else {
+            startService();
+        }
+    }
+
     private ServiceConnection serviceConnection = new ServiceConnection() {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder srv) {
+            debugFragment.onMessage("Bound to OBD Service");
             OBDServiceBinder binder = (OBDServiceBinder) srv;
             service = binder.getService();
             bound = true;
