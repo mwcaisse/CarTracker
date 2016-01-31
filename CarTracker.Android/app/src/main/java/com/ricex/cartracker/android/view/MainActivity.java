@@ -45,26 +45,29 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-/*
-        getFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new SettingsFragment())
-                .commit();*/
 
         debugFragment = new DebugFragment();
-/*
+
         getFragmentManager().beginTransaction()
-                .replace(android.R.id.content, debugFragment)
-                .commit();
-        */
+                            .add(R.id.fragment_container, debugFragment)
+                            .commit();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -78,9 +81,11 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_settings:
 
-                getFragmentManager().beginTransaction()
-                        .replace(android.R.id.content, new SettingsFragment())
-                        .commit();
+             getFragmentManager().beginTransaction()
+                                        .replace(R.id.fragment_container, new SettingsFragment())
+                                        .addToBackStack(null)
+                                        .commit();
+
 
                 return true;
 
