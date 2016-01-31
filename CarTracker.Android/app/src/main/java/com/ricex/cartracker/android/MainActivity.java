@@ -11,6 +11,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.preference.PreferenceManager;
 
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean bound;
 
+    private Intent serviceIntent;
+
     public MainActivity() {
         triedEnableBluetooth = false;
         bound = false;
@@ -41,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        /*
+/*
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();*/
@@ -57,8 +60,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        Intent intent = new Intent(this, OBDService.class);
-        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+        serviceIntent = new Intent(this, OBDService.class);
+        startService(serviceIntent);
+        bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+
+        Log.i("CarTracker", "Bound to Service");
 
     }
 
@@ -70,12 +76,14 @@ public class MainActivity extends AppCompatActivity {
             service.removeListener(debugFragment);
             unbindService(serviceConnection);
             bound = false;
+
+            stopService(serviceIntent);
         }
     }
 
-
-    protected void onResume(Bundle savedInstanceState) {
-
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     private ServiceConnection serviceConnection = new ServiceConnection() {

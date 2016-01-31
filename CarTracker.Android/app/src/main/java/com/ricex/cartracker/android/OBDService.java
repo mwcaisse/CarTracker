@@ -25,6 +25,7 @@ import com.github.pires.obd.enums.AvailableCommandNames;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,17 +47,19 @@ public class OBDService extends Service {
 
     private OBDServiceTask task;
     private Thread thread;
+    private OBDServiceBinder binder;
 
     public List<OBDServiceListener> listeners;
 
     public OBDService() {
         listeners = new ArrayList<OBDServiceListener>();
+        binder = new OBDServiceBinder(this);
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return binder;
     }
 
     public void onCreate() {
@@ -64,6 +67,11 @@ public class OBDService extends Service {
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
+        startService();
+        return START_STICKY;
+    }
+
+    protected void startService() {
         if (!isConnected()) {
             initiateBluetoothConnection();
         }
@@ -80,8 +88,6 @@ public class OBDService extends Service {
             Log.i(LOG_TAG, "Starting the OBD Service Task!");
             thread.start();
         }
-
-        return START_STICKY;
     }
 
     public void onDestroy() {
@@ -120,8 +126,22 @@ public class OBDService extends Service {
             bluetoothSocket = device.createInsecureRfcommSocketToServiceRecord(uuid);
             bluetoothSocket.connect();
         }
-        catch (IOException e) {
-            Log.e(LOG_TAG, "Error opening bluetooth connection to device: " + settings.getBluetoothDeviceAddress(), e);
+        catch (Exception e) {
+            Log.e(LOG_TAG, "Error opening bluetooth connection to device: " + settings.getBluetoothDeviceAddress() + " trying fallback", e);
+
+            Class<?> clazz = bluetoothSocket.getRemoteDevice().getClass();
+            Class<?>[] paramTypes = new Class<?>[]{Integer.TYPE};
+
+            try {
+                Method m = clazz.getMethod("createRfcommSocket", paramTypes);
+                Object[] params = new Object[]{Integer.valueOf(1)};
+                BluetoothSocket sockFallback = (BluetoothSocket) m.invoke(bluetoothSocket.getRemoteDevice(), params);
+                sockFallback.connect();
+                bluetoothSocket = sockFallback;
+            }
+            catch (Exception e2) {
+                Log.e(LOG_TAG, "Couldn't use fallback socket / connection", e2);
+            }
         }
     }
 

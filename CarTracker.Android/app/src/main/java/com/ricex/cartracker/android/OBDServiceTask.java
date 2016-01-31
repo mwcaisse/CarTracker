@@ -44,6 +44,8 @@ public class OBDServiceTask implements Runnable {
 
     public OBDServiceTask(OBDService service, BluetoothSocket socket) {
         this.service = service;
+        this.bluetoothSocket = socket;
+        monitor = new Object();
     }
 
     @Override
