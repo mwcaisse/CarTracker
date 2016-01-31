@@ -62,7 +62,7 @@ public class OBDServiceTask implements Runnable {
                 service.notifyListeners(data);
             }
             catch (Exception e) {
-                service.addMessage(String.format("Error occured while trying to read data: {0}", e.getMessage()));
+                service.addMessage("Error occurred while trying to read data: " + e.getMessage());
             }
 
             //sleep for 30 secconds
