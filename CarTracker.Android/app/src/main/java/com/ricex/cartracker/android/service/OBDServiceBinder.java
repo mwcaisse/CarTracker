@@ -1,4 +1,4 @@
-package com.ricex.cartracker.android;
+package com.ricex.cartracker.android.service;
 
 import android.os.Binder;
 

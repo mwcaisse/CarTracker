@@ -1,4 +1,4 @@
-package com.ricex.cartracker.android;
+package com.ricex.cartracker.android.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

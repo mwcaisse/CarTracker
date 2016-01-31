@@ -1,4 +1,4 @@
-package com.ricex.cartracker.android;
+package com.ricex.cartracker.android.view;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;

@@ -1,4 +1,4 @@
-package com.ricex.cartracker.android;
+package com.ricex.cartracker.android.service;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -9,28 +9,14 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.github.pires.obd.commands.ObdMultiCommand;
-import com.github.pires.obd.commands.SpeedCommand;
-import com.github.pires.obd.commands.control.VinCommand;
-import com.github.pires.obd.commands.engine.MassAirFlowCommand;
-import com.github.pires.obd.commands.engine.OilTempCommand;
-import com.github.pires.obd.commands.engine.RPMCommand;
-import com.github.pires.obd.commands.engine.ThrottlePositionCommand;
-import com.github.pires.obd.commands.fuel.FindFuelTypeCommand;
-import com.github.pires.obd.commands.fuel.FuelLevelCommand;
-import com.github.pires.obd.commands.temperature.AirIntakeTemperatureCommand;
-import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand;
-import com.github.pires.obd.commands.temperature.EngineCoolantTemperatureCommand;
-import com.github.pires.obd.enums.AvailableCommandNames;
+import com.ricex.cartracker.android.model.OBDReading;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-import com.github.pires.obd.commands.ObdCommand;
 
 /**
  * Created by Mitchell on 1/30/2016.
@@ -109,7 +95,7 @@ public class OBDService extends Service {
         listeners.remove(listener);
     }
 
-    protected void notifyListeners(OBDData data) {
+    protected void notifyListeners(OBDReading data) {
         for (OBDServiceListener listener : listeners) {
             listener.obdDataRead(data);
         }

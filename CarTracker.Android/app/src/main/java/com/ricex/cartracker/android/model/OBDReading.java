@@ -1,13 +1,13 @@
-package com.ricex.cartracker.android;
+package com.ricex.cartracker.android.model;
 
 import java.util.Date;
 
 /**
- *  POJO for representing OBDData
+ *  POJO for representing OBDReading
  *
  * Created by Mitchell on 1/30/2016.
  */
-public class OBDData {
+public class OBDReading {
 
 
     private String airIntakeTemp;
@@ -27,7 +27,7 @@ public class OBDData {
 
     private Date readDate;
 
-    public OBDData() {
+    public OBDReading() {
         readDate = new Date();
     }
 

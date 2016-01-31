@@ -1,23 +1,18 @@
-package com.ricex.cartracker.android;
+package com.ricex.cartracker.android.view;
 
-import android.app.AlertDialog;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.preference.PreferenceManager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import com.ricex.cartracker.android.R;
+import com.ricex.cartracker.android.service.OBDService;
+import com.ricex.cartracker.android.service.OBDServiceBinder;
 
 public class MainActivity extends AppCompatActivity {
 

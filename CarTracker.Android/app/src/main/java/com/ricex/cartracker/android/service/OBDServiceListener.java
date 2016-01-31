@@ -1,4 +1,6 @@
-package com.ricex.cartracker.android;
+package com.ricex.cartracker.android.service;
+
+import com.ricex.cartracker.android.model.OBDReading;
 
 /**
  * Created by Mitchell on 1/30/2016.
@@ -9,6 +11,6 @@ public interface OBDServiceListener {
      *  Called when new OBD Data has been read
      * @param data
      */
-    public void obdDataRead(OBDData data);
+    public void obdDataRead(OBDReading data);
 
 }

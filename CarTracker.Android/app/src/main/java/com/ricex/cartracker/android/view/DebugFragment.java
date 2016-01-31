@@ -1,8 +1,6 @@
-package com.ricex.cartracker.android;
+package com.ricex.cartracker.android.view;
 
 import android.app.Fragment;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,6 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.ricex.cartracker.android.model.OBDReading;
+import com.ricex.cartracker.android.R;
+import com.ricex.cartracker.android.service.OBDServiceListener;
 
 /**
  *
@@ -67,7 +69,7 @@ public class DebugFragment extends Fragment implements OBDServiceListener {
 
             @Override
             public void handleMessage(Message message) {
-                OBDData data = (OBDData)message.obj;
+                OBDReading data = (OBDReading)message.obj;
                 updateFromData(data);
             };
 
@@ -75,7 +77,7 @@ public class DebugFragment extends Fragment implements OBDServiceListener {
     }
 
 
-    public void updateFromData(OBDData data) {
+    public void updateFromData(OBDReading data) {
         updateAirIntakeTemp(data.getAirIntakeTemp());
         updateAmbientAirTemp(data.getAmbientAirTemp());
         updateEngineCoolantTemp(data.getEngineCoolantTemp());
@@ -146,7 +148,7 @@ public class DebugFragment extends Fragment implements OBDServiceListener {
     }
 
     @Override
-    public void obdDataRead(OBDData data) {
+    public void obdDataRead(OBDReading data) {
         Message message = handler.obtainMessage(1, data);
         message.sendToTarget();
     }

@@ -1,7 +1,9 @@
-package com.ricex.cartracker.android;
+package com.ricex.cartracker.android.view;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+
+import com.ricex.cartracker.android.R;
 
 /**
  * Created by Mitchell on 1/29/2016.

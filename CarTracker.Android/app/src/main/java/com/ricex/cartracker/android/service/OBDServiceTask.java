@@ -1,9 +1,6 @@
-package com.ricex.cartracker.android;
+package com.ricex.cartracker.android.service;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.Context;
 import android.util.Log;
 
 import com.github.pires.obd.commands.ObdCommand;
@@ -20,11 +17,10 @@ import com.github.pires.obd.commands.temperature.AirIntakeTemperatureCommand;
 import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand;
 import com.github.pires.obd.commands.temperature.EngineCoolantTemperatureCommand;
 import com.github.pires.obd.enums.AvailableCommandNames;
-import com.ricex.cartracker.android.settings.CarTrackerSettings;
+import com.ricex.cartracker.android.model.OBDReading;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.UUID;
 
 /**
  * Created by Mitchell on 1/30/2016.
@@ -61,7 +57,7 @@ public class OBDServiceTask implements Runnable {
         while (loopOn) {
 
             //perform the data read
-            OBDData data = readData();
+            OBDReading data = readData();
             service.notifyListeners(data);
 
             //sleep for 30 secconds
@@ -81,7 +77,7 @@ public class OBDServiceTask implements Runnable {
     }
 
 
-    protected OBDData readData() {
+    protected OBDReading readData() {
         HashMap<AvailableCommandNames, ObdCommand> commands = createCommands();
         ObdMultiCommand command = createMultiCommand(commands);
 
@@ -98,8 +94,8 @@ public class OBDServiceTask implements Runnable {
         return readDataFromCommands(commands);
     }
 
-    protected OBDData readDataFromCommands(HashMap<AvailableCommandNames, ObdCommand> commands) {
-        OBDData data = new OBDData();
+    protected OBDReading readDataFromCommands(HashMap<AvailableCommandNames, ObdCommand> commands) {
+        OBDReading data = new OBDReading();
 
         data.setAirIntakeTemp(commands.get(AvailableCommandNames.AIR_INTAKE_TEMP).getFormattedResult());
         data.setAmbientAirTemp(commands.get(AvailableCommandNames.AMBIENT_AIR_TEMP).getFormattedResult());
