@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,8 @@ public class DebugFragment extends Fragment implements OBDServiceListener {
     private static final int MESSAGE_ID_MSG = 1;
     private static final int MESSAGE_ID_OBD_DATA = 2;
 
+    private static final String LOG_TAG = "ODBDebugFragment";
+
     public DebugFragment() {
         createHandler();
     }
@@ -101,6 +104,7 @@ public class DebugFragment extends Fragment implements OBDServiceListener {
                     case MESSAGE_ID_OBD_DATA:
                         OBDReading data = (OBDReading)message.obj;
                         updateFromData(data);
+                        Log.i(LOG_TAG, "Obtained a data message!");
                         break;
                 }
             };
@@ -123,6 +127,9 @@ public class DebugFragment extends Fragment implements OBDServiceListener {
         updateFuelType(data.getFuelType());
 
         updateVIN(data.getVin());
+
+        //refresh the view
+        getView().invalidate();
     }
 
     public void updateAirIntakeTemp(String airIntakeTemp) {
@@ -176,6 +183,7 @@ public class DebugFragment extends Fragment implements OBDServiceListener {
     }
 
     public void updateVIN(String val) {
+        addMessage("Updated VIN to: " + val);
         vin = val;
         tvVIN.setText(val);
     }
@@ -195,6 +203,11 @@ public class DebugFragment extends Fragment implements OBDServiceListener {
     public void onMessage(String message) {
         Message msg = handler.obtainMessage(MESSAGE_ID_MSG, message);
         msg.sendToTarget();
+    }
+
+    @Override
+    public void onServiceStopped() {
+        onMessage("OBD Service stoped!");
     }
 }
 

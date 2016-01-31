@@ -19,4 +19,8 @@ public interface OBDServiceListener {
      */
     public void onMessage(String message);
 
+    /** Called when the service stops
+     *
+     */
+    public void onServiceStopped();
 }
