@@ -109,6 +109,7 @@ public class OBDServiceTask implements Runnable {
 
     protected boolean initiateOBDConnection() {
         try {
+            service.addMessage("Initiating the OBD Connection...");
             runOBDCommand(new ObdResetCommand());
             runOBDCommand(new LineFeedOffCommand());
             runOBDCommand(new TimeoutCommand(62));
@@ -116,8 +117,12 @@ public class OBDServiceTask implements Runnable {
 
             runOBDCommand(new SelectProtocolCommand(ObdProtocols.AUTO));
             runOBDCommand(new AmbientAirTemperatureCommand());
+
+            service.addMessage("Initiated the OBD Connection.");
         }
         catch (IOException | InterruptedException e) {
+            service.addMessage("Failed to initiate the OBD Connection...: " + e.getMessage());
+            Log.e(LOG_TAG, "Failed to initiate the OBD Connection", e);
             return false;
         }
         return true;
