@@ -1,22 +1,17 @@
 package com.ricex.cartracker.android.service;
 
 import android.app.Service;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.ricex.cartracker.android.model.OBDReading;
+import com.ricex.cartracker.android.service.task.OBDServiceTask;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by Mitchell on 1/30/2016.
@@ -79,19 +74,19 @@ public class OBDService extends Service {
         listeners.remove(listener);
     }
 
-    protected void notifyListeners(OBDReading data) {
+    public void notifyListeners(OBDReading data) {
         for (OBDServiceListener listener : listeners) {
             listener.obdDataRead(data);
         }
     }
 
-    protected void addMessage(String message) {
+    public void addMessage(String message) {
         for (OBDServiceListener listener : listeners) {
             listener.onMessage(message);
         }
     }
 
-    protected void onTaskStopped() {
+    public void onTaskStopped() {
         stopSelf();
     }
 

@@ -66,11 +66,6 @@ Car Tracker
 				-Ending Fuel Level
 				-MPG
 			
-			
-			
-			
-			
-			
 	-PoC
 		-Commands:
 			Air Intake Temp
@@ -87,6 +82,50 @@ Car Tracker
 			Oil Temp
 			
 			
+			
+
+			
+Notes:
+	Android Application Service Structure
+	
+	-Take OBD data
+		-Read in the data from the OBD reader
+	-Push data to temporary storage
+		-temporary storage / cache before we persist the data up to the service
+		-assigns a unique id for each reading
+		-keep track of the upload status for each reading
+		-if successful removes it from the queue
+		-if not successful makes note, and tries to upload again
+			-after x retries don't upload
+	-Push data to server
+		-Reads the cache for any records need uploading
+			-possibly have a minimum number of records
+				-won't upload unless there are 10 readigns ready.
+				-so we aren't always using the network connection
+		-if records meet upload criteria,
+			-we create the bulk upload record for them.
+			-update thier status in the cache to uploading
+			-wait for server response
+			-on server response
+				-check for success or errors
+				-remove all of the successful ones from cache
+				-determine reason for error					
+					-network / server error occured? slate them for re-upload
+					-server said invalid upload,
+						-remove and don't try
+						-not sure if/how this would happen though.
+						
+			
+	-Need a class that will manage the Data collection
+		-expsoes a readData method that returns an OBD reading
+	
+	-Need a class to store / persist the data
+		-Keep the cache + server logic together or seperate?
+		-Together.. one base storage class.
+			-can put in different behaviours
+			-aka cacheing persister, server persister, combination, etc
+					
+		
 			
 			
 			

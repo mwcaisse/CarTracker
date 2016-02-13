@@ -1,4 +1,4 @@
-package com.ricex.cartracker.android.service;
+package com.ricex.cartracker.android.service.task;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -27,6 +27,9 @@ import com.github.pires.obd.enums.AvailableCommandNames;
 import com.github.pires.obd.enums.ObdProtocols;
 import com.github.pires.obd.exceptions.UnsupportedCommandException;
 import com.ricex.cartracker.android.model.OBDReading;
+import com.ricex.cartracker.android.service.OBDCommandJob;
+import com.ricex.cartracker.android.service.OBDCommandStatus;
+import com.ricex.cartracker.android.service.OBDService;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
 
 import java.io.IOException;
@@ -39,15 +42,11 @@ import java.util.UUID;
 /**
  * Created by Mitchell on 1/30/2016.
  */
-public class OBDServiceTask implements Runnable {
+public class OBDServiceTask extends ServiceTask {
 
     private OBDService service;
 
     private CarTrackerSettings settings;
-
-    private Object monitor;
-
-    private boolean cont;
 
     private BluetoothSocket bluetoothSocket;
 
@@ -57,61 +56,50 @@ public class OBDServiceTask implements Runnable {
     private static final String LOG_TAG = "ODBSERVICETASK";
 
     public OBDServiceTask(OBDService service, CarTrackerSettings settings) {
+        super(15);
         this.service = service;
         this.settings = settings;
-        monitor = new Object();
-
-        cont = true;
     }
 
-    @Override
-    public void run() {
+    public boolean performLoopInitialization() {
         if (!initiateBluetoothConnection() || !initiateOBDConnection()) {
-            //we couldn't initiate the bluetooth connection, or the OBD connection, stop service
-            stop();
+            return false;
         }
-
         service.addMessage("OBB connection established, starting data collection loop..");
+        return true;
+    }
 
-        boolean loopOn = cont;
+    public boolean performLoopLogic() {
+        if (!isConnected()) {
+            if (!initiateBluetoothConnection() || !initiateOBDConnection()) {
+                //we are not connected, and we couldn't establish a connection. stop service
 
-        while (loopOn) {
+                //TODO: Possibly add a retry count? So that if it fails once, it will wait then
+                //      try to reconnect after a certian amount of time has passed
+                //      up to x times
 
-            if (!isConnected()) {
-                if (!initiateBluetoothConnection() || !initiateOBDConnection()) {
-                    //we are not connected, and we couldn't establish a connection. stop service
-                    Log.i(LOG_TAG, "Stopping service, could not establish connection");
-                    service.addMessage("Stopping service.. Could not establish connection!");
-                    stop();
-                }
-            }
-
-            //perform the data read
-            try {
-                OBDReading data = readData();
-                service.notifyListeners(data);
-                service.addMessage("Recieved data from OBD device! RPM: " + data.getEngineRPM());
-                Log.i(LOG_TAG, "Recieved data from OBD device! RPM: " + data.getEngineRPM());
-            }
-            catch (Exception e) {
-                service.addMessage("Error occurred while trying to read data: " + e.getMessage());
-                Log.e(LOG_TAG, "Error Occured while trying to read data!", e);
-            }
-
-            //sleep for 5 secconds
-            try {
-                Thread.sleep(1000 * 5);
-            }
-            catch (InterruptedException e) {
-                //we were interrupted... meh. just go back through loop, no need to re-sleep
-            }
-
-            //update the ending condition
-            synchronized (monitor) {
-                loopOn = cont;
+                Log.i(LOG_TAG, "Stopping service, could not establish connection");
+                service.addMessage("Stopping service.. Could not establish connection!");
+                return false;
             }
         }
 
+        //perform the data read
+        try {
+            OBDReading data = readData();
+            service.notifyListeners(data);
+            service.addMessage("Recieved data from OBD device! RPM: " + data.getEngineRPM());
+            Log.i(LOG_TAG, "Recieved data from OBD device! RPM: " + data.getEngineRPM());
+        }
+        catch (Exception e) {
+            service.addMessage("Error occurred while trying to read data: " + e.getMessage());
+            Log.e(LOG_TAG, "Error Occured while trying to read data!", e);
+        }
+
+        return true;
+    }
+
+    public void performLoopFinilization() {
         service.addMessage("OBDTask Loop exiting...");
     }
 
@@ -257,7 +245,7 @@ public class OBDServiceTask implements Runnable {
                     break;
             }
         }
-        
+
         return data;
     }
 
@@ -312,10 +300,9 @@ public class OBDServiceTask implements Runnable {
         return jobs;
     }
 
+    @Override
     public void stop() {
-        synchronized (monitor) {
-            cont = false;
-        }
+        super.stop(); // call the parent stop method
 
         service.onTaskStopped();
     }
