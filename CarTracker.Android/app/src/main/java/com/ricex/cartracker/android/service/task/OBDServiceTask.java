@@ -192,11 +192,20 @@ public class OBDServiceTask extends ServiceTask {
         return readDataFromJobs(jobs);
     }
 
+    protected AvailableCommandNames parseCommandNameFromString(String commandName) {
+        for (AvailableCommandNames name : AvailableCommandNames.values()) {
+            if (name.getValue().equals(commandName)) {
+                return name;
+            }
+        }
+        return null;
+    }
+
     protected OBDReading readDataFromJobs(List<OBDCommandJob> jobs) {
         OBDReading data = new OBDReading();
 
         for (OBDCommandJob job : jobs) {
-            AvailableCommandNames commandName = AvailableCommandNames.valueOf(job.getCommand().getName());
+            AvailableCommandNames commandName = parseCommandNameFromString(job.getCommand().getName());
 
             String results = "";
 
