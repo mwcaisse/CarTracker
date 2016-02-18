@@ -6,7 +6,7 @@ package com.ricex.cartracker.android.settings;
 public enum OBDReaderType {
 
     BLUETOOTH_READER ("Bluetooth Reader", "Uses the selected bluetooth device to poll for OBD Data."),
-    TEST_READ ("Test Reader", "Uses a test reader that generates random reading data. For testing purposes.");
+    TEST_READER ("Test Reader", "Uses a test reader that generates random reading data. For testing purposes.");
 
     /** The name of this reader type */
     private final String name;

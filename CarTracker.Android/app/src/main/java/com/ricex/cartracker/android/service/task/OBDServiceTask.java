@@ -33,6 +33,7 @@ import com.ricex.cartracker.android.service.OBDService;
 import com.ricex.cartracker.android.service.ServiceLogger;
 import com.ricex.cartracker.android.service.reader.BluetoothOBDReader;
 import com.ricex.cartracker.android.service.reader.OBDReader;
+import com.ricex.cartracker.android.service.reader.TestOBDReader;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
 
 import java.io.IOException;
@@ -64,7 +65,18 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
         super(15);
         this.service = service;
         this.settings = settings;
-        reader = new BluetoothOBDReader(this, settings);
+        createReader();
+    }
+
+    protected void createReader() {
+        switch (settings.getOBDReaderType()) {
+            case BLUETOOTH_READER:
+                reader = new BluetoothOBDReader(this, settings);
+                break;
+            case TEST_READER:
+                reader = new TestOBDReader();
+                break;
+        }
     }
 
     public boolean performLoopInitialization() {

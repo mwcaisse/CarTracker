@@ -31,4 +31,10 @@
         android:summary="The ODBII bluetooth device"
         android:defaultValue="" />
 
+    <com.ricex.cartracker.android.view.OBDReaderTypePreference
+        android:key="pref_obdReaderType"
+        android:title="OBD Reader Type"
+        android:summary="The OBD Reader to use for gathering OBD data"
+        android:defaultValue="BLUETOOTH_READER" />
+
 </PreferenceScreen>
