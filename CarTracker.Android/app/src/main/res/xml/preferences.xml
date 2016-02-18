@@ -37,4 +37,12 @@
         android:summary="The OBD Reader to use for gathering OBD data"
         android:defaultValue="BLUETOOTH_READER" />
 
+    <EditTextPreference
+        android:key="pref_obdReadingInterval"
+        android:title="OBD Reading Interval"
+        android:summary="Number of seconds between each reading. 0 for none"
+        android:defaultValue="15.0"
+        android:inputType="numberDecimal" />
+
+
 </PreferenceScreen>

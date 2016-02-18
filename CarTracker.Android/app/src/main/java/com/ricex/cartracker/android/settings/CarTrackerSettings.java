@@ -14,7 +14,8 @@ public class CarTrackerSettings {
     private static final String SAVE_LOCALLY_ENABLED_KEY = "pref_saveLocallyEnabled";
     private static final String SERVER_ADDRESS_KEY = "pref_serverAddress";
     private static final String BLUETOOTH_DEVICE_ADDRESS_KEY = "pref_bluetoothDevice";
-    private static final String OBD_READER_TYPE = "pref_obdReaderType";
+    private static final String OBD_READER_TYPE_KEY = "pref_obdReaderType";
+    private static final String OBD_READING_INTERVAL_KEY = "pref_obdReadingInterval";
 
     private boolean serviceEnabled;
     private boolean locationEnabled;
@@ -22,6 +23,7 @@ public class CarTrackerSettings {
     private String serverAddress;
     private String bluetoothDeviceAddress;
     private OBDReaderType obdReaderType;
+    private double obdReadingInterval;
 
     /** The context the settings were created om */
     private Context context;
@@ -45,7 +47,14 @@ public class CarTrackerSettings {
         savingLocallyEnabled = preferences.getBoolean(SAVE_LOCALLY_ENABLED_KEY, true);
         serverAddress = preferences.getString(SERVER_ADDRESS_KEY, "");
         bluetoothDeviceAddress = preferences.getString(BLUETOOTH_DEVICE_ADDRESS_KEY, "");
-        obdReaderType = OBDReaderType.valueOf(preferences.getString(OBD_READER_TYPE, OBDReaderType.BLUETOOTH_READER.toString()));
+        obdReaderType = OBDReaderType.valueOf(preferences.getString(OBD_READER_TYPE_KEY, OBDReaderType.BLUETOOTH_READER.toString()));
+        try {
+            obdReadingInterval = Double.parseDouble(preferences.getString(OBD_READING_INTERVAL_KEY, "15.0"));
+        }
+        catch (NumberFormatException e) {
+            obdReadingInterval = 15.0;
+        }
+
     }
 
     public boolean isLocationEnabled() {
@@ -66,6 +75,10 @@ public class CarTrackerSettings {
 
     public String getBluetoothDeviceAddress() {
         return bluetoothDeviceAddress;
+    }
+
+    public double getODBReadingInterval() {
+        return obdReadingInterval;
     }
 
     public OBDReaderType getOBDReaderType() {

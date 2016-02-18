@@ -7,7 +7,7 @@ public abstract class ServiceTask implements Runnable {
 
 
     /** The number of secconds to sleep after performing task */
-    private int secondsToSleep;
+    private double secondsToSleep;
 
     /** Continue the looping task or not */
     private boolean cont;
@@ -15,7 +15,7 @@ public abstract class ServiceTask implements Runnable {
     /** Monitor for changing the cont */
     private Object monitor;
 
-    public ServiceTask(int secondsToSleep) {
+    public ServiceTask(double secondsToSleep) {
         cont = true;
         monitor = new Object();
         this.secondsToSleep = secondsToSleep;
@@ -38,9 +38,9 @@ public abstract class ServiceTask implements Runnable {
                 break;
             }
 
-            //sleep for 15 secconds
+            //sleep for configured number of secconds
             try {
-                Thread.sleep(1000 * secondsToSleep);
+                Thread.sleep((long)(1000 * secondsToSleep));
             }
             catch (InterruptedException e) {
                 //we were interrupted... meh. just go back through loop, no need to re-sleep

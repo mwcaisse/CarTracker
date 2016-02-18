@@ -62,7 +62,7 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
     private static final String LOG_TAG = "ODBSERVICETASK";
 
     public OBDServiceTask(OBDService service, CarTrackerSettings settings) {
-        super(15);
+        super(settings.getODBReadingInterval());
         this.service = service;
         this.settings = settings;
         createReader();
