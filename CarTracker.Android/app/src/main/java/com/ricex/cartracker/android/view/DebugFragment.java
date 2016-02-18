@@ -183,7 +183,6 @@ public class DebugFragment extends Fragment implements OBDServiceListener {
     }
 
     public void updateVIN(String val) {
-        addMessage("Updated VIN to: " + val);
         vin = val;
         tvVIN.setText(val);
     }
