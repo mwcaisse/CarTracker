@@ -14,12 +14,14 @@ public class CarTrackerSettings {
     private static final String SAVE_LOCALLY_ENABLED_KEY = "pref_saveLocallyEnabled";
     private static final String SERVER_ADDRESS_KEY = "pref_serverAddress";
     private static final String BLUETOOTH_DEVICE_ADDRESS_KEY = "pref_bluetoothDevice";
+    private static final String OBD_READER_TYPE = "pref_obdReaderType";
 
     private boolean serviceEnabled;
     private boolean locationEnabled;
     private boolean savingLocallyEnabled;
     private String serverAddress;
     private String bluetoothDeviceAddress;
+    private OBDReaderType obdReaderType;
 
     /** The context the settings were created om */
     private Context context;
@@ -43,6 +45,7 @@ public class CarTrackerSettings {
         savingLocallyEnabled = preferences.getBoolean(SAVE_LOCALLY_ENABLED_KEY, true);
         serverAddress = preferences.getString(SERVER_ADDRESS_KEY, "");
         bluetoothDeviceAddress = preferences.getString(BLUETOOTH_DEVICE_ADDRESS_KEY, "");
+        obdReaderType = OBDReaderType.valueOf(preferences.getString(OBD_READER_TYPE, OBDReaderType.BLUETOOTH_READER.toString()));
     }
 
     public boolean isLocationEnabled() {
@@ -63,5 +66,9 @@ public class CarTrackerSettings {
 
     public String getBluetoothDeviceAddress() {
         return bluetoothDeviceAddress;
+    }
+
+    public OBDReaderType getOBDReaderType() {
+        return obdReaderType;
     }
 }

@@ -26,16 +26,16 @@ public class BluetoothManager {
 
     private static final String LOG_TAG = "BluetoothManager";
 
-    public BluetoothDevice getDevice(String deviceAddress) {
+    public static BluetoothDevice getDevice(String deviceAddress) {
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
         return adapter.getRemoteDevice(deviceAddress);
     }
 
-    public BluetoothSocket connectToDevice(String deviceAddress) {
+    public static BluetoothSocket connectToDevice(String deviceAddress) {
         return connectToDevice(getDevice(deviceAddress));
     }
 
-    public BluetoothSocket connectToDevice(BluetoothDevice device) {
+    public static BluetoothSocket connectToDevice(BluetoothDevice device) {
         BluetoothSocket socket = null;
         try {
             socket = device.createInsecureRfcommSocketToServiceRecord(BT_SERIAL_UUID);
