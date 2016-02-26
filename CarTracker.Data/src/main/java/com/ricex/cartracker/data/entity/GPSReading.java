@@ -8,8 +8,6 @@ public class GPSReading extends AbstractEntity {
 	
 	private double longitude;
 	
-	private double altitude;
-	
 	private Date readDate;
 	
 	private long tripId;
@@ -42,20 +40,6 @@ public class GPSReading extends AbstractEntity {
 	 */
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
-	}
-
-	/**
-	 * @return the altitude
-	 */
-	public double getAltitude() {
-		return altitude;
-	}
-
-	/**
-	 * @param altitude the altitude to set
-	 */
-	public void setAltitude(double altitude) {
-		this.altitude = altitude;
 	}
 
 	/**
