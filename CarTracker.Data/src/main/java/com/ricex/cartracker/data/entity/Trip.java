@@ -1,0 +1,89 @@
+package com.ricex.cartracker.data.entity;
+
+import java.util.Date;
+
+public class Trip extends AbstractEntity {
+	
+	private Date startDate;
+	
+	private Date endDate;
+	
+	private String name;
+	
+	private long CarId;
+	
+	private Car car;
+
+	/**
+	 * @return the startDate
+	 */
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	/**
+	 * @param startDate the startDate to set
+	 */
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	/**
+	 * @return the endDate
+	 */
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	/**
+	 * @param endDate the endDate to set
+	 */
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the carId
+	 */
+	public long getCarId() {
+		return CarId;
+	}
+
+	/**
+	 * @param carId the carId to set
+	 */
+	public void setCarId(long carId) {
+		CarId = carId;
+	}
+
+	/**
+	 * @return the car
+	 */
+	public Car getCar() {
+		return car;
+	}
+
+	/**
+	 * @param car the car to set
+	 */
+	public void setCar(Car car) {
+		this.car = car;
+	}
+
+	
+	
+}
