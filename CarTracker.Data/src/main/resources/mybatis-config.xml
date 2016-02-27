@@ -18,6 +18,11 @@
 	
 	<mappers>
 		<mapper resource="com/ricex/cartracker/data/mapper/CarMapper.xml" />
+		<mapper resource="com/ricex/cartracker/data/mapper/GPSReadingMapper.xml" />
+		<mapper resource="com/ricex/cartracker/data/mapper/OBDReadingMapper.xml" />
+		<mapper resource="com/ricex/cartracker/data/mapper/ReadingMapper.xml" />
+		<mapper resource="com/ricex/cartracker/data/mapper/TripMapper.xml" />
+		<mapper resource="com/ricex/cartracker/data/mapper/UserMapper.xml" />
 
 	</mappers>
 
