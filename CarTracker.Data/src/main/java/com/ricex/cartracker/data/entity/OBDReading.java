@@ -24,13 +24,11 @@ public class OBDReading extends AbstractEntity {
 	
 	private double fuelLevel;
 	
-	private String vin;
+	private String vin;	
 	
-	private Date readDate;
+	private long readingId;
 	
-	private long tripId;
-	
-	private Trip trip;
+	private Reading reading;
 
 	/**
 	 * @return the airIntakeTemperature
@@ -187,48 +185,32 @@ public class OBDReading extends AbstractEntity {
 	}
 
 	/**
-	 * @return the readDate
+	 * @return the readingId
 	 */
-	public Date getReadDate() {
-		return readDate;
+	public long getReadingId() {
+		return readingId;
 	}
 
 	/**
-	 * @param readDate the readDate to set
+	 * @param readingId the readingId to set
 	 */
-	public void setReadDate(Date readDate) {
-		this.readDate = readDate;
+	public void setReadingId(long readingId) {
+		this.readingId = readingId;
 	}
 
 	/**
-	 * @return the tripId
+	 * @return the reading
 	 */
-	public long getTripId() {
-		return tripId;
+	public Reading getReading() {
+		return reading;
 	}
 
 	/**
-	 * @param tripId the tripId to set
+	 * @param reading the reading to set
 	 */
-	public void setTripId(long tripId) {
-		this.tripId = tripId;
+	public void setReading(Reading reading) {
+		this.reading = reading;
 	}
-
-	/**
-	 * @return the trip
-	 */
-	public Trip getTrip() {
-		return trip;
-	}
-
-	/**
-	 * @param trip the trip to set
-	 */
-	public void setTrip(Trip trip) {
-		this.trip = trip;
-	}
-	
-	
 		
 	
 }
