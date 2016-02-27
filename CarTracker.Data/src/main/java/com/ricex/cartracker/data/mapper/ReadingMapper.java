@@ -1,5 +1,16 @@
 package com.ricex.cartracker.data.mapper;
 
-public interface ReadingMapper {
+import java.util.List;
+
+import com.ricex.cartracker.data.entity.Reading;
+
+public interface ReadingMapper extends EntityMapper<Reading> {
+	
+	/** Gets a list of all readings for the given trip
+	 * 
+	 * @param tripId The trip id
+	 * @return The list of trips for the reading
+	 */
+	public List<Reading> getForTrip(long tripId);
 
 }

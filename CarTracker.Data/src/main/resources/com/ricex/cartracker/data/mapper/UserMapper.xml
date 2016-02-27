@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.cartracker.data.mapper.UserMapper">
+    
+    <cache />
+    
+    <resultMap id="userResultMap" type="User">
+        <id property="id" column="ID" />
+        <result property="username" column="USERNAME" />
+        <result property="name" column="USERNAME" />          
+    </resultMap>
+    
+     <select id="get" resultMap="userResultMap" parameterType="long">
+        SELECT USER.* FROM USER
+        WHERE USER.ID = #{id}
+    </select>
+    
+    <select id="getAll" resultMap="userResultMap">
+        SELECT USER.* FROM USER
+    </select>
+    
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO USER (USERNAME)
+    	VALUES #{username}	
+    </insert>
+    
+    <update id="update">
+  		UPDATE USER SET
+  			USERNAME = #{username}
+		WHERE USER.ID = #{id}        
+    </update>
+    
+    
+</mapper>

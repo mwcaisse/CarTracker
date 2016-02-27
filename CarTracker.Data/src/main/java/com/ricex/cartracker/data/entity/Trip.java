@@ -10,7 +10,7 @@ public class Trip extends AbstractEntity {
 	
 	private String name;
 	
-	private long CarId;
+	private long carId;
 	
 	private Car car;
 
@@ -60,14 +60,14 @@ public class Trip extends AbstractEntity {
 	 * @return the carId
 	 */
 	public long getCarId() {
-		return CarId;
+		return carId;
 	}
 
 	/**
 	 * @param carId the carId to set
 	 */
 	public void setCarId(long carId) {
-		CarId = carId;
+		carId = carId;
 	}
 
 	/**

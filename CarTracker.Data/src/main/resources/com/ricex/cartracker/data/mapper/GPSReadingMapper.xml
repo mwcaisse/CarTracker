@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.cartracker.data.mapper.GPSReadingMapper">
+    
+    <cache />
+    
+    <resultMap id="gpsReadingResultMap" type="GPSReading">
+        <id property="id" column="ID" />
+        <result property="latitude" column="LATITUDE" />
+        <result property="longitude" column="LONGITUDE" />      
+        <result property="readingId" column="READING_ID" />      
+        <result property="createDate" column="CREATE_DATE" />
+        <result property="modifiedDate" column="MODIFIED_DATE" />
+        
+        <association property="reading" column="READING_ID" javaType="Reading" select="com.ricex.cartracker.data.mapper.ReadingMapper.get" />        
+    </resultMap>
+    
+     <select id="get" resultMap="gpsReadingResultMap" parameterType="long">
+        SELECT GPS_READING.* FROM GPS_READING
+        WHERE GPS_READING.ID = #{id}
+    </select>
+    
+    <select id="getAll" resultMap="gpsReadingResultMap">
+        SELECT GPS_READING.* FROM GPS_READING
+    </select>
+    
+    <select id="getForReading" resultMap="gpsReadingResultMap" parameterType="long">
+        SELECT GPS_READING.* FROM GPS_READING
+        WHERE GPS_READING.READING_ID = #{readingId}
+    </select>   
+    
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO GPS_READING (LATITUDE, LONGITUDE, READING_ID)
+    	VALUES ( #{latitude}, #{longitude}, #{readingId} )
+    </insert>
+    
+    <update id="update">
+        UPDATE GPS_READING SET
+        	LATITUDE = #{latitude},
+        	LONGITUDE = #{longitude},
+        	READING_ID = #{readingId}
+       	WHERE GPS_READING.ID = #{id}
+    </update>
+    
+    
+</mapper>

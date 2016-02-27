@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+	
+<configuration>
+	
+	<typeAliases>
+		<typeAlias alias="Car" type="com.ricex.cartracker.data.entity.Car"/>
+		<typeAlias alias="GPSReading" type="com.ricex.cartracker.data.entity.GPSReading"/>
+		<typeAlias alias="OBDReading" type="com.ricex.cartracker.data.entity.OBDReading"/>
+		<typeAlias alias="Reading" type="com.ricex.cartracker.data.entity.Reading"/>
+		<typeAlias alias="Trip" type="com.ricex.cartracker.data.entity.Trip"/>
+		<typeAlias alias="User" type="com.ricex.cartracker.data.entity.User"/>
+
+	</typeAliases>
+	
+	
+	<mappers>
+		<mapper resource="com/ricex/cartracker/data/mapper/CarMapper.xml" />
+
+	</mappers>
+
+</configuration>

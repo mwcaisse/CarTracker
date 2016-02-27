@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.cartracker.data.mapper.CarMapper">
+    
+    <cache />
+    
+    <resultMap id="carResultMap" type="Car">
+        <id property="id" column="ID" />
+        <result property="vin" column="VIN" />
+        <result property="name" column="NAME" />
+        <result property="ownerId" column="OWNER_ID" />
+        <result property="createDate" column="CREATE_DATE" />
+        <result property="modifiedDate" column="MODIFIED_DATE" />
+        
+        <association property="owner" column="OWNER_ID" javaType="User" select="com.ricex.cartracker.data.mapper.UserMapper.get" />        
+    </resultMap>
+    
+    <select id="getAll" resultMap="carResultMap">
+        SELECT CAR.* FROM CAR
+    </select>
+    
+    <select id="get" resultMap="carResultMap" parameterType="long">
+        SELECT CAR.* FROM CAR
+        WHERE CAR.ID = #{id}
+    </select>
+    
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO CAR (VIN, NAME, OWNER_ID)
+        VALUES (#{vin}, #{name}, #{ownerId})
+    </insert>
+    
+    <update id="update">
+        UPDATE CAR SET
+        	VIN = #{vin},
+        	NAME = #{name},
+        	OWNER_ID = #{ownerId}
+       	WHERE ID = #{id}
+    </update>
+    
+    
+</mapper>

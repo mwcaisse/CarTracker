@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.cartracker.data.mapper.ReadingMapper">
+    
+    <cache />
+    
+    <resultMap id="readingResultMap" type="Reading">
+        <id property="id" column="ID" />
+        <result property="readDate" column="READ_DATE" />
+        <result property="tripId" column="TRIP_ID" />      
+        <result property="createDate" column="CREATE_DATE" />
+        <result property="modifiedDate" column="MODIFIED_DATE" />
+        
+        <association property="trip" column="TRIP_ID" javaType="Trip" select="com.ricex.cartracker.data.mapper.TripMapper.get" />   
+        <association property="gpsReading" column="ID" javaType="GPSReading" select="com.ricex.cartracker.data.mapper.GPSReadingMapper.getForReading" />     
+        <association property="obdReading" column="ID" javaType="OBDReading" select="com.ricex.cartracker.data.mapper.OBDReadingMapper.getForReading" />     
+    </resultMap>
+    
+     <select id="get" resultMap="readingResultMap" parameterType="long">
+        SELECT READING.* FROM READING
+        WHERE READING.ID = #{id}
+    </select>
+    
+    <select id="getAll" resultMap="readingResultMap">
+        SELECT READING.* FROM READING
+    </select>
+    
+    <select id="getForTrip" resultMap="readingResultMap" parameterType="long">
+        SELECT READING.* FROM READING
+        WHERE READING.TRIP_ID = #{tripId}
+    </select>   
+    
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO READING (READ_DATE, TRIP_ID)
+        VALUES (#{readDate}, #{tripId})
+    </insert>
+    
+    <update id="update">
+        UPDATE READING SET
+        	READ_DATE = #{readDate},
+        	TRIP_ID = #{tripId}
+       	WHERE READING.ID = #{id}
+    </update>
+    
+    
+</mapper>

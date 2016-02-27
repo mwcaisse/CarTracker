@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.cartracker.data.mapper.TripMapper">
+    
+    <cache />
+    
+    <resultMap id="tripResultMap" type="Trip">
+        <id property="id" column="ID" />
+        <result property="startDate" column="START_DATE" />
+        <result property="endDate" column="END_DATE" />
+        <result property="name" column="NAME" />
+        <result property="carId" column="CAR_ID" />
+        <result property="createDate" column="CREATE_DATE" />
+        <result property="modifiedDate" column="MODIFIED_DATE" />
+        
+        <association property="car" column="CAR_ID" javaType="Car" select="com.ricex.cartracker.data.mapper.CarMapper.get" />        
+    </resultMap>
+    
+     <select id="get" resultMap="tripResultMap" parameterType="long">
+        SELECT TRIP.* FROM TRIP
+        WHERE TRIP.ID = #{id}
+    </select>
+    
+    <select id="getAll" resultMap="tripResultMap">
+        SELECT TRIP.* FROM TRIP
+    </select>
+    
+    <select id="getForCar" resultMap="tripResultMap" parameterType="long">
+        SELECT TRIP.* FROM TRIP
+        WHERE TRIP.CAR_ID = #{carId}
+    </select>   
+    
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO TRIP (START_DATE, END_DATE, NAME, CAR_ID)
+        VALUES (#{startDate}, #{endDate}, #{name}, #{carId})
+    </insert>
+    
+    <update id="update">
+        UPDATE TRIP SET
+        	START_DATE = #{startDate},
+        	END_DATE = #{endDate},
+        	NAME = #{name},
+        	CAR_ID = #{carId}
+       	WHERE TRIP.ID = #{id}
+    </update>
+    
+    
+</mapper>

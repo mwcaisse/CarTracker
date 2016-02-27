@@ -8,11 +8,11 @@ public class OBDReading extends AbstractEntity {
 	
 	private double ambientAirTemperature;
 	
-	private double engineCoolandTemperature;
+	private double engineCoolantTemperature;
 	
 	private double oilTemperature;
 	
-	private double engineRMP;
+	private double engineRPM;
 	
 	private double speed;
 	
@@ -22,9 +22,7 @@ public class OBDReading extends AbstractEntity {
 	
 	private String fuelType;
 	
-	private double fuelLevel;
-	
-	private String vin;	
+	private double fuelLevel;	
 	
 	private long readingId;
 	
@@ -59,17 +57,17 @@ public class OBDReading extends AbstractEntity {
 	}
 
 	/**
-	 * @return the engineCoolandTemperature
+	 * @return the engineCoolantTemperature
 	 */
-	public double getEngineCoolandTemperature() {
-		return engineCoolandTemperature;
+	public double getEngineCoolantTemperature() {
+		return engineCoolantTemperature;
 	}
 
 	/**
-	 * @param engineCoolandTemperature the engineCoolandTemperature to set
+	 * @param engineCoolantTemperature the engineCoolantTemperature to set
 	 */
-	public void setEngineCoolandTemperature(double engineCoolandTemperature) {
-		this.engineCoolandTemperature = engineCoolandTemperature;
+	public void setEngineCoolantTemperature(double engineCoolantTemperature) {
+		this.engineCoolantTemperature = engineCoolantTemperature;
 	}
 
 	/**
@@ -84,20 +82,6 @@ public class OBDReading extends AbstractEntity {
 	 */
 	public void setOilTemperature(double oilTemperature) {
 		this.oilTemperature = oilTemperature;
-	}
-
-	/**
-	 * @return the engineRMP
-	 */
-	public double getEngineRMP() {
-		return engineRMP;
-	}
-
-	/**
-	 * @param engineRMP the engineRMP to set
-	 */
-	public void setEngineRMP(double engineRMP) {
-		this.engineRMP = engineRMP;
 	}
 
 	/**
@@ -171,20 +155,6 @@ public class OBDReading extends AbstractEntity {
 	}
 
 	/**
-	 * @return the vin
-	 */
-	public String getVin() {
-		return vin;
-	}
-
-	/**
-	 * @param vin the vin to set
-	 */
-	public void setVin(String vin) {
-		this.vin = vin;
-	}
-
-	/**
 	 * @return the readingId
 	 */
 	public long getReadingId() {
@@ -211,6 +181,20 @@ public class OBDReading extends AbstractEntity {
 	public void setReading(Reading reading) {
 		this.reading = reading;
 	}
-		
+
+	/**
+	 * @return the engineRPM
+	 */
+	public double getEngineRPM() {
+		return engineRPM;
+	}
+
+	/**
+	 * @param engineRPM the engineRPM to set
+	 */
+	public void setEngineRPM(double engineRPM) {
+		this.engineRPM = engineRPM;
+	}
+			
 	
 }
