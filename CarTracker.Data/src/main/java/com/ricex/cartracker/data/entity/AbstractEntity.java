@@ -7,6 +7,8 @@ public abstract class AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = 745522159251623207L;	
 	
+	public static final long INVALID_ID = -1;
+	
 	protected long id;
 	
 	protected Date createDate;
@@ -14,7 +16,7 @@ public abstract class AbstractEntity implements Serializable {
 	protected Date modifiedDate;	
 	
 	public AbstractEntity() {
-		
+		setNew();
 	}
 
 	/**
@@ -58,6 +60,27 @@ public abstract class AbstractEntity implements Serializable {
 	 */
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
+	}
+	
+	/** Determines whether or not this Entity is new or existing
+	 * 
+	 * Entity is new if its id is equal to the invalid id
+	 * 
+	 * @return True if entity is new, false otherwise
+	 */
+	public boolean isNew() {
+		return id == INVALID_ID;
+	}
+	
+	/** Marks this entity as new
+	 * 
+	 *  Re-setting its ID and Create/Modified dates
+	 * 
+	 */
+	public void setNew() {
+		id = INVALID_ID;
+		createDate = new Date();
+		modifiedDate = new Date();
 	}
 
 	@Override

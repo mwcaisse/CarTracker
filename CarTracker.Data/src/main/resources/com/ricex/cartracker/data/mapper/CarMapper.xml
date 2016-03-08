@@ -27,6 +27,11 @@
         WHERE CAR.ID = #{id}
     </select>
     
+    <select id="getByVin" resultMap="carResultMap" parameterType="String">
+        SELECT CAR.* FROM CAR
+        WHERE CAR.VIN = #{vin}
+    </select>
+    
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO CAR (VIN, NAME, OWNER_ID)
         VALUES (#{vin}, #{name}, #{ownerId})
