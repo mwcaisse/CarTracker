@@ -17,3 +17,5 @@ include 'services:webservice'
 */
 
 rootProject.name = 'CarTracker'
+
+include 'CarTracker.Common', 'CarTracker.Data', 'CarTracker.Web', 'CarTracker.Android'

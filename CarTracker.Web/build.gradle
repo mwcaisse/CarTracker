@@ -28,9 +28,14 @@ ext {
 	gsonVersion = '2.5'
 	slf4jVersion = '1.7.13'
 	log4jVersion = '2.5'
+	apacheCommonsVersion = '3.4'
 }
 
 dependencies {
+	
+	compile project(':CarTracker.Common')
+	compile project(':CarTracker.Data')
+	
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
     
     //spring framework
@@ -50,6 +55,9 @@ dependencies {
     compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: "$thymeleafVersion"
     compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: "$thymeleafLayoutVersion"
     compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity4', version: "$thymeleafExtrasVersion"
+    
+    //apache commons
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: "$apacheCommonsVersion"
     
     //mysql connector
     compile group: 'mysql', name: 'mysql-connector-java', version: "$mysqlVersion"

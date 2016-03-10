@@ -20,6 +20,9 @@ ext {
 }
 
 dependencies {
+
+	compile project(':CarTracker.Common')
+
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: "$apacheCommonsVersion"
     compile group: 'org.mybatis', name: 'mybatis', version: "$mybatisVersion"
