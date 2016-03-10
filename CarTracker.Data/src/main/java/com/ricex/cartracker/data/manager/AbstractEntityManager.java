@@ -7,7 +7,7 @@ import com.ricex.cartracker.data.mapper.EntityMapper;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 import com.ricex.cartracker.data.validation.EntityValidator;
 
-public class AbstractEntityManager<T extends AbstractEntity> {
+public abstract class AbstractEntityManager<T extends AbstractEntity> {
 	
 	
 	protected EntityMapper<T> entityMapper;
