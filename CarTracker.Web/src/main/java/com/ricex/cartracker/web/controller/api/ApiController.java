@@ -42,12 +42,8 @@ public abstract class ApiController<T extends AbstractEntity> {
 	 * @param id The id of the entity to fetch
 	 * @return All of the entities or an appropriate error message
 	 */
-	public EntityResponse<T> get(long id) {
-		T entity = manager.get(id);
-		if (null == entity) {
-			return new EntityResponse<T>(null, String.format("No {0} with that id exists!", entityName));
-		}
-		return createEntityResponse(entity);
+	public EntityResponse<T> get(long id) {	
+		return createEntityResponseErrorIfNull(manager.get(id), String.format("No {0} with that id exists!", entityName));
 	}
 	
 	/** Determines if an entity with the given id exists
@@ -96,6 +92,19 @@ public abstract class ApiController<T extends AbstractEntity> {
 	 */
 	protected <R> EntityResponse<R> createEntityResponse(R data) {	
 		return new EntityResponse<R>(data);
+	}
+	
+	/** Creates a new entity resposne with the given error message if null
+	 * 
+	 * @param data The response data
+	 * @param message The error message if the response data is null
+	 * @return The created response
+	 */
+	protected <R> EntityResponse<R> createEntityResponseErrorIfNull(R data, String message) {
+		if (null == data) {
+			return new EntityResponse<R>(data, message);
+		}
+		return createEntityResponse(data);
 	}
 	
 }
