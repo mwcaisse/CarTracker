@@ -2,15 +2,14 @@ package com.ricex.cartracker.web.controller.api;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ricex.cartracker.data.entity.AbstractEntity;
 import com.ricex.cartracker.data.manager.AbstractEntityManager;
 import com.ricex.cartracker.data.validation.EntityValidationException;
-import com.ricex.cartracker.web.viewmodel.ResponseViewModel;
+import com.ricex.cartracker.web.viewmodel.BooleanResponse;
+import com.ricex.cartracker.web.viewmodel.EntityResponse;
 
 public abstract class ApiController<T extends AbstractEntity> {
 
@@ -18,32 +17,85 @@ public abstract class ApiController<T extends AbstractEntity> {
 
 	private AbstractEntityManager<T> manager;
 	
+	/** The name of the entity that this controller will be working with  */
+	private String entityName;
+	
 	/** Creates a new API Controller
 	 * 
 	 */
 	
-	public ApiController() {
-
-	}
-	
-	public ResponseViewModel<List<T>> getAll() {		
-		return createResponseViewModel(manager.getAll());
-	}
-	
-	public ResponseViewModel<T> get(long id) {
-		return createResponseViewModel(manager.get(id));
-	}
-		
-	public ResponseViewModel<T> handleValidationException(EntityValidationException e, HttpServletResponse resp) {
-		return null;
-	}
-	
-	public void setManager(AbstractEntityManager<T> manager) {
+	public ApiController(String entityName, AbstractEntityManager<T> manager) {
+		this.entityName = entityName;
 		this.manager = manager;
 	}
 	
-	protected <R> ResponseViewModel<R> createResponseViewModel(R data) {
-		return new ResponseViewModel<R>(data);
+	/** Fetches all of the entities of this type 
+	 * 
+	 * @return All of the entities of this type
+	 */
+	public EntityResponse<List<T>> getAll() {		
+		return createEntityResponse(manager.getAll());
+	}
+	
+	/** Fetches an entity with the specified id
+	 * 
+	 * @param id The id of the entity to fetch
+	 * @return All of the entities or an appropriate error message
+	 */
+	public EntityResponse<T> get(long id) {
+		T entity = manager.get(id);
+		if (null == entity) {
+			return new EntityResponse<T>(null, String.format("No {0} with that id exists!", entityName));
+		}
+		return createEntityResponse(entity);
+	}
+	
+	/** Determines if an entity with the given id exists
+	 * 
+	 * @param id The id of the entity to check
+	 * @return True if it exists, false otherwise
+	 */
+	public BooleanResponse exists(long id) {
+		return new BooleanResponse(manager.exists(id));
+	}
+	
+	/** Creates the given entity
+	 * 
+	 * @param entity The entity to create
+	 * @return The created entity or an error message if it failed 
+	 */
+	public EntityResponse<T> create(T entity) {
+		try {
+			manager.create(entity);
+			return createEntityResponse(entity);
+		}
+		catch (EntityValidationException e) {
+			return new EntityResponse<T>(null, e.getMessage());
+		}
+	}
+	
+	/** Updates the given entity
+	 * 
+	 * @param entity The entity to update
+	 * @return True if the entity saved without issue. False + Error message otherwise
+	 */
+	public BooleanResponse update(T entity) {
+		try {
+			manager.update(entity);
+			return new BooleanResponse(true);
+		}
+		catch (EntityValidationException e) {
+			return new BooleanResponse(e.getMessage());
+		}
+	}
+	
+	/** Creates an entity response to send data back to the user
+	 * 
+	 * @param data The data for the response
+	 * @return The response
+	 */
+	protected <R> EntityResponse<R> createEntityResponse(R data) {	
+		return new EntityResponse<R>(data);
 	}
 	
 }

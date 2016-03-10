@@ -14,8 +14,9 @@ public abstract class AbstractEntityManager<T extends AbstractEntity> {
 	
 	protected EntityValidator<T> entityValidator;
 	
-	protected AbstractEntityManager() {
-	
+	protected AbstractEntityManager(EntityMapper<T> entityMapper, EntityValidator<T> entityValidator) {
+		this.entityMapper = entityMapper;
+		this.entityValidator = entityValidator;
 	}		
 	
 	public List<T> getAll() {
@@ -51,14 +52,6 @@ public abstract class AbstractEntityManager<T extends AbstractEntity> {
 	
 	public boolean exists(long id) {
 		return null != get(id);
-	}
-	
-	public void setEntityMapper(EntityMapper<T> mapper) {
-		entityMapper = mapper;
-	}
-	
-	public void setEntityValidator(EntityValidator<T> validator) {
-		entityValidator = validator;
 	}
 
 }

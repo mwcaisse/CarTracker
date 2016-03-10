@@ -2,17 +2,17 @@ package com.ricex.cartracker.web.viewmodel;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class ResponseViewModel<T> {
+public class EntityResponse<T> {
 
 	private T data;
 	
 	private String errorMessage;
 	
-	public ResponseViewModel(T data) {
+	public EntityResponse(T data) {
 		this.data = data;
 	}
 	
-	public ResponseViewModel(T data, String message) {
+	public EntityResponse(T data, String message) {
 		this.data = data;
 		this.errorMessage = message;
 	}
@@ -29,26 +29,10 @@ public class ResponseViewModel<T> {
 	}
 
 	/**
-	 * @param data the data to set
-	 */
-	public void setData(T data) {
-		this.data = data;
-	}
-
-	/**
 	 * @return the errorMessage
 	 */
 	public String getErrorMessage() {
 		return errorMessage;
-	}
-
-	/**
-	 * @param errorMessage the errorMessage to set
-	 */
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
-	}
-	
-	
+	}	
 	
 }
