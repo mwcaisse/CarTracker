@@ -7,10 +7,25 @@ import com.ricex.cartracker.data.validation.CarValidator;
 public class CarManager extends AbstractEntityManager<Car> {
 
 	protected CarMapper mapper;
+	protected CarValidator validator;
 	
+	/** Creates a new Car Manager with the given CarMapper
+	 * 
+	 * @param mapper The Car Mapper to use for database tasks
+	 */
 	public CarManager(CarMapper mapper) {
-		super(mapper, new CarValidator());
+		this(mapper, new CarValidator());
+	}
+	
+	/** Creates a new Car Manager with the given CarMapper and CarValidator
+	 * 
+	 * @param mapper The mapper to use
+	 * @param validator The validator to use
+	 */
+	public CarManager(CarMapper mapper, CarValidator validator) {
+		super(mapper, validator);
 		this.mapper = mapper;
+		this.validator = validator;
 	}
 	
 	/** Fetches a car by its VIN
