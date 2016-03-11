@@ -60,4 +60,5 @@ lint.xml
 gradle/
 gradlew
 gradlew.bat
+build/
 
