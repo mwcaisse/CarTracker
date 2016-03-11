@@ -104,9 +104,4 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 		configurer.enable();
 	}
 	
-	@Override
-	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-		configurer.enable();
-	}
-	
 }
