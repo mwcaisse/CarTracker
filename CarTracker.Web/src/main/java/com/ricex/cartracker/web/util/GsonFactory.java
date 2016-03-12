@@ -22,7 +22,7 @@ public class GsonFactory {
 	 * @return The Gson parser
 	 */
 	public Gson constructGson() {
-		Gson gson = new GsonBuilder().setDateFormat(DateFormat.LONG)
+		Gson gson = new GsonBuilder().serializeNulls().setDateFormat(DateFormat.LONG)
 				.create();		
 		return gson;
 	}

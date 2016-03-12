@@ -33,15 +33,14 @@
     </select>
     
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO CAR (VIN, NAME, OWNER_ID)
-        VALUES (#{vin}, #{name}, #{ownerId})
+        INSERT INTO CAR (VIN, NAME)
+        VALUES (#{vin}, #{name})
     </insert>
     
     <update id="update">
         UPDATE CAR SET
         	VIN = #{vin},
-        	NAME = #{name},
-        	OWNER_ID = #{ownerId}
+        	NAME = #{name}
        	WHERE ID = #{id}
     </update>
     

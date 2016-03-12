@@ -1,5 +1,6 @@
 package com.ricex.cartracker.data.manager;
 
+import java.util.Date;
 import java.util.List;
 
 import com.ricex.cartracker.data.entity.AbstractEntity;
@@ -36,6 +37,7 @@ public abstract class AbstractEntityManager<T extends AbstractEntity> {
 	public T create(T toCreate) throws EntityValidationException {
 		toCreate.setNew();
 		entityValidator.validate(toCreate);
+		createValidationLogic(toCreate);
 		entityMapper.create(toCreate);
 		return toCreate;
 	}
@@ -47,11 +49,32 @@ public abstract class AbstractEntityManager<T extends AbstractEntity> {
 	 */
 	public void update(T toUpdate) throws EntityValidationException {
 		entityValidator.validate(toUpdate);
+		updateValidationLogic(toUpdate);
+		toUpdate.setModifiedDate(new Date());
 		entityMapper.update(toUpdate);
 	}
 	
 	public boolean exists(long id) {
 		return null != get(id);
 	}
+	
+	/** Performs any required logic for validating that creating this entity is allowed.
+	 * 
+	 *  Performed after/if the entity passes validation
+	 * 
+	 * @param toCreate The entity to create
+	 * @throws EntityValidationException If this entity cannot be created
+	 */
+	protected abstract void createValidationLogic(T toCreate) throws EntityValidationException;
+	
+	/** Performs any required logic for validating that performing the specified updates to the entity is allowed.
+	 * 
+	 * 	Performed after/if the entity passes validation
+	 * 
+	 * @param toUpdate The entity being updated
+	 * @throws EntityValidationException If the the update to this entity cannot be performed
+	 */
+	
+	protected abstract void updateValidationLogic(T toUpdate) throws EntityValidationException;
 
 }
