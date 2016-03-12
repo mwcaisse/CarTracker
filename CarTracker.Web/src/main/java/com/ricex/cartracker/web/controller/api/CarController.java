@@ -21,7 +21,7 @@ public class CarController extends ApiController<Car> {
 
 	private static final String ENTITY_NAME = "Car";
 	
-	private CarManager manager;
+	private final CarManager manager;
 	
 	public CarController(CarManager manager) {
 		super(ENTITY_NAME, manager);
@@ -31,7 +31,7 @@ public class CarController extends ApiController<Car> {
 	/** Returns the Car with the specified Id
 	 * 
 	 */
-	@RequestMapping(value="/{id}", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value="/{id}", method=RequestMethod.GET, produces={JSON})
 	public @ResponseBody EntityResponse<Car> get(@PathVariable long id) {
 		return super.get(id);
 	}
@@ -41,7 +41,7 @@ public class CarController extends ApiController<Car> {
 	 * @param vin The VIN of the car
 	 * @return The car with the given VIN
 	 */
-	@RequestMapping(value="/vin/{vin}", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value="/vin/{vin}", method=RequestMethod.GET, produces={JSON})
 	public @ResponseBody EntityResponse<Car> getByVin(@PathVariable String vin) {
 		Car car = manager.getByVin(vin);
 		//TODO: Do I want to return a 404 here? Would allow for better programmatic response handling..
@@ -53,7 +53,7 @@ public class CarController extends ApiController<Car> {
 	 * 
 	 * @return All of the cars
 	 */
-	@RequestMapping(value="/", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value="/", method=RequestMethod.GET, produces={JSON})
 	public @ResponseBody EntityResponse<List<Car>> getAll() {
 		return super.getAll();
 	}
@@ -63,7 +63,7 @@ public class CarController extends ApiController<Car> {
 	 * @param vin The VIN to check
 	 * @return True if it is registered false otherwise
 	 */
-	@RequestMapping(value ="/registered/{vin}", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value ="/registered/{vin}", method=RequestMethod.GET, produces={JSON})
 	public @ResponseBody BooleanResponse isRegistered(@PathVariable String vin) {
 		return new BooleanResponse(manager.existsByVin(vin));
 	}
@@ -73,7 +73,7 @@ public class CarController extends ApiController<Car> {
 	 * @param car The car to create
 	 * @return The created car, or an error message stating why it couldn't be created
 	 */
-	@RequestMapping(value = "/", method=RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE}, consumes={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/", method=RequestMethod.POST, produces={JSON}, consumes={JSON})
 	public @ResponseBody EntityResponse<Car> create(@RequestBody Car car) {
 		return super.create(car);
 	}
@@ -83,7 +83,7 @@ public class CarController extends ApiController<Car> {
 	 * @param car The car to update
 	 * @return The updated car, or an error message stating why it couldn't be updated
 	 */
-	@RequestMapping(value ="/", method=RequestMethod.PUT, produces={MediaType.APPLICATION_JSON_VALUE}, consumes={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value ="/", method=RequestMethod.PUT, produces={JSON}, consumes={JSON})
 	public @ResponseBody BooleanResponse update(@RequestBody Car car) {
 		return super.update(car);
 	}

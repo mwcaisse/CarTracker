@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ricex.cartracker.data.entity.AbstractEntity;
 import com.ricex.cartracker.data.manager.AbstractEntityManager;
@@ -15,6 +17,8 @@ public abstract class ApiController<T extends AbstractEntity> {
 
 	private static Logger log = LoggerFactory.getLogger(ApiController.class);
 
+	protected static final String JSON = MediaType.APPLICATION_JSON_VALUE;
+	
 	private AbstractEntityManager<T> manager;
 	
 	/** The name of the entity that this controller will be working with  */

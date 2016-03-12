@@ -9,6 +9,8 @@ import com.ricex.cartracker.data.validation.EntityValidationException;
 
 public class CarManager extends AbstractEntityManager<Car> {
 
+	public static final String ENTITY_NAME = "Car";
+	
 	protected CarMapper mapper;
 	protected CarValidator validator;
 	
@@ -25,7 +27,7 @@ public class CarManager extends AbstractEntityManager<Car> {
 	 * @param mapper The mapper to use
 	 * @param validator The validator to use
 	 */
-	protected CarManager(CarMapper mapper, CarValidator validator) {
+	public CarManager(CarMapper mapper, CarValidator validator) {
 		super(mapper, validator);
 		this.mapper = mapper;
 		this.validator = validator;
@@ -60,13 +62,14 @@ public class CarManager extends AbstractEntityManager<Car> {
 	@Override
 	protected void updateValidationLogic(Car toUpdate) throws EntityValidationException {
 		Car existing = get(toUpdate.getId());
-		if (null == existing) {
-			throw new EntityValidationException("This car does not exist!");
-		}
 		if (!StringUtils.equalsIgnoreCase(existing.getVin(), toUpdate.getVin())) {
 			throw new EntityValidationException("You cannot modify a Car's VIN!");
 		}
 		
+	}
+	
+	protected String getEntityName() {
+		return ENTITY_NAME;
 	}	
 	
 }

@@ -48,6 +48,11 @@ public abstract class AbstractEntityManager<T extends AbstractEntity> {
 	 * @throws EntityValidationException If the entity is not valid an exception is thrown, with the reasoning in the message
 	 */
 	public void update(T toUpdate) throws EntityValidationException {
+		//check to make sure that the entity exists
+		T existing = get(toUpdate.getId());
+		if (null == existing) {
+			throw new EntityValidationException(String.format("This {0} does not exist!", getEntityName()));
+		}
 		entityValidator.validate(toUpdate);
 		updateValidationLogic(toUpdate);
 		toUpdate.setModifiedDate(new Date());
@@ -56,7 +61,7 @@ public abstract class AbstractEntityManager<T extends AbstractEntity> {
 	
 	public boolean exists(long id) {
 		return null != get(id);
-	}
+	}	
 	
 	/** Performs any required logic for validating that creating this entity is allowed.
 	 * 
@@ -76,5 +81,11 @@ public abstract class AbstractEntityManager<T extends AbstractEntity> {
 	 */
 	
 	protected abstract void updateValidationLogic(T toUpdate) throws EntityValidationException;
+	
+	/** Returns the name of the entity that this manager operates on
+	 * 
+	 * @return The entity name
+	 */
+	protected abstract String getEntityName();
 
 }

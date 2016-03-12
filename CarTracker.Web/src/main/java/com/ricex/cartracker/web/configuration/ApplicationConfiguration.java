@@ -20,8 +20,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 import com.google.gson.Gson;
 import com.ricex.cartracker.data.manager.CarManager;
+import com.ricex.cartracker.data.manager.TripManager;
 import com.ricex.cartracker.data.mapper.CarMapper;
+import com.ricex.cartracker.data.mapper.TripMapper;
 import com.ricex.cartracker.web.controller.api.CarController;
+import com.ricex.cartracker.web.controller.api.TripController;
 import com.ricex.cartracker.web.util.GsonFactory;
 
 @Configuration
@@ -36,14 +39,32 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	}
 	
 	@Bean
+	public TripController tripController() throws Exception {
+		return new TripController(tripManager());
+	}
+	
+	@Bean
 	public CarManager carManager() throws Exception {
 		return new CarManager(carMapper());
+	}
+	
+	@Bean
+	public TripManager tripManager() throws Exception {
+		return new TripManager(tripMapper(), carManager());
 	}
 	
 	@Bean
 	public CarMapper carMapper() throws Exception { 
 		MapperFactoryBean<CarMapper> mapperFactoryBean = new MapperFactoryBean<CarMapper>();
 		mapperFactoryBean.setMapperInterface(CarMapper.class);
+		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
+		return mapperFactoryBean.getObject();
+	}
+	
+	@Bean
+	public TripMapper tripMapper() throws Exception {
+		MapperFactoryBean<TripMapper> mapperFactoryBean = new MapperFactoryBean<TripMapper>();
+		mapperFactoryBean.setMapperInterface(TripMapper.class);
 		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
 		return mapperFactoryBean.getObject();
 	}
