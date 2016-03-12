@@ -53,7 +53,7 @@ public class TripController extends ApiController<Trip> {
 	 * @return List of trips for the car
 	 */
 	@RequestMapping(value="/car/{carId}/trip/", method = RequestMethod.GET, produces={JSON})
-	public @ResponseBody EntityResponse<List<Trip>> getAllForCar(long carId) {
+	public @ResponseBody EntityResponse<List<Trip>> getAllForCar(@PathVariable long carId) {
 		return createEntityResponse(manager.getForCar(carId));
 	}
 	
