@@ -16,7 +16,7 @@ import com.ricex.cartracker.web.viewmodel.BooleanResponse;
 import com.ricex.cartracker.web.viewmodel.EntityResponse;
 
 @Controller
-@RequestMapping("/api/device")
+@RequestMapping("/api/car")
 public class CarController extends ApiController<Car> {
 
 	private static final String ENTITY_NAME = "Car";
