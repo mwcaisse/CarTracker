@@ -1,10 +1,11 @@
 package com.ricex.cartracker.data.manager;
 
+import java.util.List;
+
 import com.ricex.cartracker.data.entity.Reading;
-import com.ricex.cartracker.data.mapper.EntityMapper;
 import com.ricex.cartracker.data.mapper.ReadingMapper;
 import com.ricex.cartracker.data.validation.EntityValidationException;
-import com.ricex.cartracker.data.validation.EntityValidator;
+import com.ricex.cartracker.data.validation.ReadingValidator;
 
 public class ReadingManager extends AbstractEntityManager<Reading> {
 
@@ -12,22 +13,36 @@ public class ReadingManager extends AbstractEntityManager<Reading> {
 	
 	private ReadingMapper mapper;
 	
+	private ReadingValidator validator;
 	
+	private TripManager tripManager;
 	
-	protected ReadingManager(EntityMapper<Reading> entityMapper, EntityValidator<Reading> entityValidator) {
-		super(entityMapper, entityValidator);
+	public ReadingManager(ReadingMapper mapper, TripManager tripManager) {
+		this (mapper, tripManager, new ReadingValidator());
+	}
+	
+	protected ReadingManager(ReadingMapper mapper, TripManager tripManager, ReadingValidator validator) {
+		super(mapper, validator);
+		
+		this.mapper = mapper;
+		this.validator = validator;
+		this.tripManager = tripManager;
+	}
+	
+	public List<Reading> getForTrip(long tripId) {
+		return mapper.getForTrip(tripId);
 	}
 
 	@Override
 	protected void createValidationLogic(Reading toCreate) throws EntityValidationException {
-		// TODO Auto-generated method stub
-		
+		if (!tripManager.exists(toCreate.getTripId())) {
+			throw new EntityValidationException(String.format("The specified {0} does not exist!", tripManager.ENTITY_NAME));
+		}
 	}
 
 	@Override
 	protected void updateValidationLogic(Reading toUpdate) throws EntityValidationException {
-		// TODO Auto-generated method stub
-		
+		createValidationLogic(toUpdate);
 	}
 
 	@Override

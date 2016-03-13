@@ -1,5 +1,9 @@
 package com.ricex.cartracker.data.validation;
 
+
+
+import java.util.Date;
+
 import com.ricex.cartracker.data.entity.Reading;
 
 public class ReadingValidator implements EntityValidator<Reading> {
@@ -12,7 +16,15 @@ public class ReadingValidator implements EntityValidator<Reading> {
 	 */
 	
 	public void validate(Reading entity) throws EntityValidationException {
-		
+		if (null == entity.getReadDate()) {
+			throw new EntityValidationException("Read Date cannot be blank!");
+		}
+		if (entity.getReadDate().after(new Date())) {
+			throw new EntityValidationException("Read Date cannot be in the future!");
+		}
+		if (entity.getTripId() <= 0) {
+			throw new EntityValidationException("Reading must be associated with a trip!");
+		}
 	}
 
 }
