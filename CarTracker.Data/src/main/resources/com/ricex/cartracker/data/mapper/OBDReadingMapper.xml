@@ -21,7 +21,7 @@
         <result property="fuelLevel" column="FUEL_LEVEL" />
         <result property="readingId" column="READING_ID" />     
         
-        <association property="reading" column="READING_ID" javaType="Reading" select="com.ricex.cartracker.data.mapper.ReadingMapper.get" />        
+        <association property="reading" column="ID" javaType="Reading" select="com.ricex.cartracker.data.mapper.ReadingMapper.get" />        
     </resultMap>
     
      <select id="get" resultMap="obdReadingResultMap" parameterType="long">
@@ -33,13 +33,9 @@
         SELECT OBD_READING.* FROM OBD_READING
     </select>
     
-    <select id="getForReading" resultMap="obdReadingResultMap" parameterType="long">
-        SELECT OBD_READING.* FROM OBD_READING
-        WHERE OBD_READING.READING_ID = #{readingId}
-    </select>   
-    
-    <insert id="create" useGeneratedKeys="true" keyProperty="id">
-    	INSERT INTO OBD_READING ( AIR_INTAKE_TEMP,
+    <insert id="create" useGeneratedKeys="false" keyProperty="id">
+    	INSERT INTO OBD_READING ( ID,
+    							  AIR_INTAKE_TEMP,
     							  AMBIENT_AIR_TEMP,
     							  ENGINE_COOLANT_TEMP,
     							  OIL_TEMP,
@@ -48,9 +44,9 @@
     							  MASS_AIR_FLOW,
     							  THROTTLE_POSITION,
     							  FUEL_TYPE,
-    							  FUEL_LEVEL,
-    							  READING_ID)
-		VALUES 				    ( #{airIntakeTemperature},
+    							  FUEL_LEVEL)
+		VALUES 				    ( #{id},
+								  #{airIntakeTemperature},
 								  #{ambientAirTemperature},
 								  #{engineCoolantTemperature},
 								  #{oilTemperature},
@@ -59,8 +55,7 @@
 								  #[massAirFlow},
 								  #{throttlePosition},
 								  #{fuelType},
-								  #{fuelLevel},
-								  #{readingId} )		
+								  #{fuelLevel} )		
     </insert>
     
     <update id="update">
@@ -74,8 +69,7 @@
 			MASS_AIR_FLOW = 	#{massAirFlow},
 			THROTTLE_POSITION = #{throttlePosition},
 			FUEL_TYPE = 		#{fuelType},
-			FUEL_LEVEL = 		#{fuelLeve},
-			READING_ID = 		#{readingId}
+			FUEL_LEVEL = 		#{fuelLeve}
        	WHERE OBD_READING.ID =  #{id}
         
     </update>

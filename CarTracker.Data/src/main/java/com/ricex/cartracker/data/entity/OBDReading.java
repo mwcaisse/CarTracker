@@ -22,9 +22,8 @@ public class OBDReading extends AbstractEntity {
 	
 	private String fuelType;
 	
-	private double fuelLevel;	
-	
-	private long readingId;
+	private double fuelLevel;
+
 	
 	private Reading reading;
 
@@ -152,20 +151,6 @@ public class OBDReading extends AbstractEntity {
 	 */
 	public void setFuelLevel(double fuelLevel) {
 		this.fuelLevel = fuelLevel;
-	}
-
-	/**
-	 * @return the readingId
-	 */
-	public long getReadingId() {
-		return readingId;
-	}
-
-	/**
-	 * @param readingId the readingId to set
-	 */
-	public void setReadingId(long readingId) {
-		this.readingId = readingId;
 	}
 
 	/**

@@ -13,9 +13,8 @@
         <result property="longitude" column="LONGITUDE" />      
         <result property="readingId" column="READING_ID" />      
         <result property="createDate" column="CREATE_DATE" />
-        <result property="modifiedDate" column="MODIFIED_DATE" />
-        
-        <association property="reading" column="READING_ID" javaType="Reading" select="com.ricex.cartracker.data.mapper.ReadingMapper.get" />        
+        <result property="modifiedDate" column="MODIFIED_DATE" />        
+        <association property="reading" column="ID" javaType="Reading" select="com.ricex.cartracker.data.mapper.ReadingMapper.get" />        
     </resultMap>
     
      <select id="get" resultMap="gpsReadingResultMap" parameterType="long">
@@ -27,23 +26,16 @@
         SELECT GPS_READING.* FROM GPS_READING
     </select>
     
-    <select id="getForReading" resultMap="gpsReadingResultMap" parameterType="long">
-        SELECT GPS_READING.* FROM GPS_READING
-        WHERE GPS_READING.READING_ID = #{readingId}
-    </select>   
-    
-    <insert id="create" useGeneratedKeys="true" keyProperty="id">
-    	INSERT INTO GPS_READING (LATITUDE, LONGITUDE, READING_ID)
-    	VALUES ( #{latitude}, #{longitude}, #{readingId} )
+    <insert id="create" useGeneratedKeys="false" keyProperty="id">
+    	INSERT INTO GPS_READING (ID, LATITUDE, LONGITUDE)
+    	VALUES (#{id}, #{latitude}, #{longitude} )
     </insert>
     
     <update id="update">
         UPDATE GPS_READING SET
         	LATITUDE = #{latitude},
-        	LONGITUDE = #{longitude},
-        	READING_ID = #{readingId}
+        	LONGITUDE = #{longitude},      
        	WHERE GPS_READING.ID = #{id}
-    </update>
-    
+    </update>    
     
 </mapper>

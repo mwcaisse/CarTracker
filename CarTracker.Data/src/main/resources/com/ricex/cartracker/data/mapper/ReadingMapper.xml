@@ -15,8 +15,8 @@
         <result property="modifiedDate" column="MODIFIED_DATE" />
         
         <association property="trip" column="TRIP_ID" javaType="Trip" select="com.ricex.cartracker.data.mapper.TripMapper.get" />   
-        <association property="gpsReading" column="ID" javaType="GPSReading" select="com.ricex.cartracker.data.mapper.GPSReadingMapper.getForReading" />     
-        <association property="obdReading" column="ID" javaType="OBDReading" select="com.ricex.cartracker.data.mapper.OBDReadingMapper.getForReading" />     
+        <association property="gpsReading" column="ID" javaType="GPSReading" select="com.ricex.cartracker.data.mapper.GPSReadingMapper.get" />     
+        <association property="obdReading" column="ID" javaType="OBDReading" select="com.ricex.cartracker.data.mapper.OBDReadingMapper.get" />     
     </resultMap>
     
      <select id="get" resultMap="readingResultMap" parameterType="long">
