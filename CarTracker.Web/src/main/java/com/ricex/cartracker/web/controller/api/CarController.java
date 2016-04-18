@@ -2,7 +2,6 @@ package com.ricex.cartracker.web.controller.api;
 
 import java.util.List;
 
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ricex.cartracker.common.viewmodel.BooleanResponse;
+import com.ricex.cartracker.common.viewmodel.EntityResponse;
 import com.ricex.cartracker.data.entity.Car;
 import com.ricex.cartracker.data.manager.CarManager;
-import com.ricex.cartracker.web.viewmodel.BooleanResponse;
-import com.ricex.cartracker.web.viewmodel.EntityResponse;
 
 @Controller
 @RequestMapping("/api/car")

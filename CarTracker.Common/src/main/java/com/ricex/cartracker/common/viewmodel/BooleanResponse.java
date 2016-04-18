@@ -1,4 +1,4 @@
-package com.ricex.cartracker.web.viewmodel;
+package com.ricex.cartracker.common.viewmodel;
 
 /** Boolean wrapper for Entity Response
  * 

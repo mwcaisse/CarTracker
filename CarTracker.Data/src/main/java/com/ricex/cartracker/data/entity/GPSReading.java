@@ -1,13 +1,18 @@
 package com.ricex.cartracker.data.entity;
 
-import java.util.Date;
-
 public class GPSReading extends AbstractEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private double latitude;
 	
 	private double longitude;
 
+	private long readingId;
+	
 	private Reading reading;
 
 	/**
@@ -36,6 +41,20 @@ public class GPSReading extends AbstractEntity {
 	 */
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
+	}
+	
+	/**
+	 * @return the readingId
+	 */
+	public long getReadingId() {
+		return readingId;
+	}
+
+	/**
+	 * @param readingId the readingId to set
+	 */
+	public void setReadingId(long readingId) {
+		this.readingId = readingId;
 	}
 
 	/**
