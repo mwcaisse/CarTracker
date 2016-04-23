@@ -62,3 +62,8 @@ gradlew
 gradlew.bat
 build/
 
+
+# Android Stuio Files #
+#######################
+local.properties
+*.iml
