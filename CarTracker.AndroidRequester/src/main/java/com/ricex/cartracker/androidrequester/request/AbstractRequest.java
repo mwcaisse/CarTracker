@@ -78,7 +78,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	
 	public T execute() throws RequestException {
 		RequestResponse<T> results = executeRequest();
-		return processAFTResponse(results);
+		return processResponse(results);
 	}
 	
 	/** Executes the request synchronously and calls the callback with the results or error
@@ -106,7 +106,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 			protected void onPostExecute(RequestResponse<T> results) {
 				//if results are null, then error callback has been called already
 				try {
-					T resEntity = processAFTResponse(results);
+					T resEntity = processResponse(results);
 					callback.onSuccess(resEntity);
 				}
 				catch (RequestException e) {
@@ -281,7 +281,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 		return response;
 	}
 	
-	/** Processes the AFT Response received after making a request.
+	/** Processes the Response received after making a request.
 	 * 
 	 *  If the response is valid (server returned Http OK) then the object the server responded with is returned. Otherwise an exception
 	 *  	is thrown indicating the error that occurred.
@@ -290,7 +290,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 * @return The parsed response object
 	 * @throws RequestException If response is invalid, the error returned by the server
 	 */
-	private T processAFTResponse(RequestResponse<T> response) throws RequestException {
+	private T processResponse(RequestResponse<T> response) throws RequestException {
 		if (response.isValid()) {
 			return response.getResponse();
 		}
