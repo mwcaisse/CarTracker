@@ -2,6 +2,8 @@ package com.ricex.cartracker.data.manager;
 
 import java.util.List;
 
+import com.ricex.cartracker.common.viewmodel.ReadingUpload;
+import com.ricex.cartracker.common.viewmodel.ReadingUploadResult;
 import com.ricex.cartracker.data.entity.Reading;
 import com.ricex.cartracker.data.mapper.ReadingMapper;
 import com.ricex.cartracker.data.validation.EntityValidationException;
@@ -32,6 +34,12 @@ public class ReadingManager extends AbstractEntityManager<Reading> {
 	public List<Reading> getForTrip(long tripId) {
 		return mapper.getForTrip(tripId);
 	}
+	
+	
+	public List<ReadingUploadResult> bulkUpload(long tirpId, List<ReadingUpload> readings) throws EntityValidationException {
+		return null;
+	}
+	
 
 	@Override
 	protected void createValidationLogic(Reading toCreate) throws EntityValidationException {

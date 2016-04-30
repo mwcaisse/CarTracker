@@ -10,13 +10,28 @@
     <resultMap id="readingResultMap" type="Reading">
         <id property="id" column="ID" />
         <result property="readDate" column="READ_DATE" />
-        <result property="tripId" column="TRIP_ID" />      
+        <result property="tripId" column="TRIP_ID" />   
+        
+        <!-- GPS Properties -->
+        <result property="latitude" column="LATITUDE" />
+        <result property="longitude" column="LONGITUDE" />   
+        
+        <!-- OBD Properties -->
+        <result property="airIntakeTemperature" column="AIR_INTAKE_TEMP" />
+        <result property="ambientAirTemperature" column="AMBIENT_AIR_TEMP" />
+        <result property="engineCoolantTemperature" column="ENGINE_COOLANT_TEMP" />
+        <result property="oilTemperature" column="OIL_TEMP" />
+        <result property="engineRPM" column="ENGINE_RPM" />
+        <result property="speed" column="SPEED" />
+        <result property="massAirFlow" column="MASS_AIR_FLOW" />
+        <result property="throttlePosition" column="THROTTLE_POSITION" />
+        <result property="fuelType" column="FUEL_TYPE" />
+        <result property="fuelLevel" column="FUEL_LEVEL" />
+        
         <result property="createDate" column="CREATE_DATE" />
         <result property="modifiedDate" column="MODIFIED_DATE" />
         
-        <association property="trip" column="TRIP_ID" javaType="Trip" select="com.ricex.cartracker.data.mapper.TripMapper.get" />   
-        <association property="gpsReading" column="ID" javaType="GPSReading" select="com.ricex.cartracker.data.mapper.GPSReadingMapper.get" />     
-        <association property="obdReading" column="ID" javaType="OBDReading" select="com.ricex.cartracker.data.mapper.OBDReadingMapper.get" />     
+        <association property="trip" column="TRIP_ID" javaType="Trip" select="com.ricex.cartracker.data.mapper.TripMapper.get" />    
     </resultMap>
     
      <select id="get" resultMap="readingResultMap" parameterType="long">
@@ -34,14 +49,58 @@
     </select>   
     
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO READING (READ_DATE, TRIP_ID)
-        VALUES (#{readDate}, #{tripId})
+        INSERT INTO READING (
+					        	READ_DATE, 
+					        	TRIP_ID,
+					        	LATITUDE, 
+					        	LONGITUDE,
+					        	AIR_INTAKE_TEMP,
+							  	AMBIENT_AIR_TEMP,
+							  	ENGINE_COOLANT_TEMP,
+							  	OIL_TEMP,
+							  	ENGINE_RPM,
+							  	SPEED,
+							  	MASS_AIR_FLOW,
+							  	THROTTLE_POSITION,
+							  	FUEL_TYPE,
+							  	FUEL_LEVEL)
+        VALUES (
+					        	#{readDate}, 
+					        	#{tripId},
+					        	#{latitude}, 
+					        	#{longitude},
+					        	#{airIntakeTemperature},
+							  	#{ambientAirTemperature},
+							  	#{engineCoolantTemperature},
+							  	#{oilTemperature},
+							  	#{engineRPM},
+							  	#{speed},
+							  	#[massAirFlow},
+							  	#{throttlePosition},
+							  	#{fuelType},
+							  	#{fuelLevel})
     </insert>
     
     <update id="update">
         UPDATE READING SET
-        	READ_DATE = #{readDate},
-        	TRIP_ID = #{tripId}
+        	READ_DATE = 		#{readDate},
+        	TRIP_ID = 			#{tripId},
+        	
+        	LATITUDE = 			#{latitude},
+        	LONGITUDE = 		#{longitude}, 
+        	
+        	AIR_INTAKE_TEMP = 	#{airIntakeTemperature},
+			AMBIENT_AIR_TEMP = 	#{ambientAirTemperature},
+			ENGINE_COOLANT_TEMP #{engineCoolantTemperature},
+			OIL_TEMP = 			#{oilTemperature},
+			ENGINE_RPM = 		#{engineRPM},
+			SPEED = 			#{speed},
+			MASS_AIR_FLOW = 	#{massAirFlow},
+			THROTTLE_POSITION = #{throttlePosition},
+			FUEL_TYPE = 		#{fuelType},
+			FUEL_LEVEL = 		#{fuelLeve},
+			
+        	MODIFIED_DATE = 	#{modifiedDate}
        	WHERE READING.ID = #{id}
     </update>
     
