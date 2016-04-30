@@ -25,7 +25,7 @@ public interface RequestCallback<T> {
 	 * @param response The response received from the server
 	 */
 	
-	public void onFailure(RequestException e, AFTResponse<T> response);
+	public void onFailure(RequestException e, RequestResponse<T> response);
 	
 	/** Called when an error / exception occurred while processing the request
 	 * 

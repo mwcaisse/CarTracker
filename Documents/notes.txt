@@ -3,6 +3,15 @@ Car Tracker
 	Server
 		API
 		
+			Car	
+				Endpoint to create / register cars. Does so based on the VIN 
+					of the car.
+			
+			Trip			
+				End point to create
+			
+			Reading
+		
 		Web Site
 	
 	Android Application
@@ -132,7 +141,29 @@ Notes:
 			
 			
 			
+	Android Application Process / Structure
+	
+		-Background Service
+			-Triggered by the pairing / connecting of a bluetooth device
+			-Every time it detects the ODBII reader is connected to the phone
 			
+			-Every x seconds collects ODBII data
+			
+			-Periodically uploads data to the server.
+			
+				-Know what car it is
+					-Does it? It has the VIN, can most likely create trip and upload
+						-telemtric data based on VIN..
+						
+				-Create Trip
+					-When the persister services starts,
+						we can create a new trip
+						
+					-When the persister service ends,
+						we end the trip
+						-update the server and tell it the trip is over.
+				
+				-Upload OBD + GPS data for the trip
 			
 			
 			

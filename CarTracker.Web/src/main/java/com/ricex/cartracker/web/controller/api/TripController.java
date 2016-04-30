@@ -13,6 +13,7 @@ import com.ricex.cartracker.common.viewmodel.BooleanResponse;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
 import com.ricex.cartracker.data.entity.Trip;
 import com.ricex.cartracker.data.manager.TripManager;
+import com.ricex.cartracker.data.validation.EntityValidationException;
 
 @Controller
 @RequestMapping("/api")
@@ -82,9 +83,42 @@ public class TripController extends ApiController<Trip> {
 	/** Updates the given trip
 	 * 
 	 * @param toUpdate The trip to update
-	 * @return True if sucessful false / error otherwise
+	 * @return True if successful false / error otherwise
 	 */
+	@RequestMapping(value="/trip/", method=RequestMethod.PUT, consumes={JSON}, produces={JSON})
 	public @ResponseBody BooleanResponse update(@RequestBody Trip toUpdate) {
 		return super.update(toUpdate);
+	}
+	
+	/** Starts a trip for the given car
+	 * 
+	 * @param carVin The VIN of the car to start the trip for
+	 * @return The newly created trip
+	 */
+	@RequestMapping(value="/car/{carVin}/trip/start", method=RequestMethod.POST, consumes={JSON}, produces={JSON})
+	public @ResponseBody EntityResponse<Trip> startTrip(@PathVariable String carVin) {
+		try {
+			return createEntityResponse(manager.startTripForCar(carVin));
+		} 
+		catch (EntityValidationException e) {
+			return createEntityResponseError(e);
+		}
+	}
+	
+	/** Ends the given trip
+	 * 
+	 * @param id The id of the trip to end
+	 * @return True if trip was ended, false otherwise
+	 */
+	
+	@RequestMapping(value="/trip/{id}/end", method=RequestMethod.POST, consumes={JSON}, produces={JSON})
+	public @ResponseBody BooleanResponse endTrip(@PathVariable long id) {
+		try {
+			boolean response = manager.endTrip(id);
+			return new BooleanResponse(response);			
+		} 
+		catch (EntityValidationException e) {
+			return new BooleanResponse(e.getMessage());
+		}
 	}
 }

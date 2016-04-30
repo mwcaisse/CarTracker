@@ -69,7 +69,7 @@ public abstract class ApiController<T extends AbstractEntity> {
 			return createEntityResponse(entity);
 		}
 		catch (EntityValidationException e) {
-			return new EntityResponse<T>(null, e.getMessage());
+			return createEntityResponseError(e);
 		}
 	}
 	
@@ -108,6 +108,15 @@ public abstract class ApiController<T extends AbstractEntity> {
 			return new EntityResponse<R>(data, message);
 		}
 		return createEntityResponse(data);
+	}
+	
+	/** Creates a new entity response for the given Entity Validation Exception
+	 * 
+	 * @param e The Entity Validation Exception to create the response for
+	 * @return The entity response
+	 */
+	protected <R> EntityResponse<R> createEntityResponseError(EntityValidationException e) {
+		return new EntityResponse<R>(null, e.getMessage());
 	}
 	
 }

@@ -77,7 +77,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 */
 	
 	public T execute() throws RequestException {
-		AFTResponse<T> results = executeRequest();
+		RequestResponse<T> results = executeRequest();
 		return processAFTResponse(results);
 	}
 	
@@ -88,11 +88,11 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	
 	@Override
 	public void executeAsync(final RequestCallback<T> callback) {
-		new AsyncTask<Void, Void, AFTResponse<T>>() {
+		new AsyncTask<Void, Void, RequestResponse<T>>() {
 
 			@Override
-			protected AFTResponse<T> doInBackground(Void... params) {
-				AFTResponse<T> response = null;
+			protected RequestResponse<T> doInBackground(Void... params) {
+				RequestResponse<T> response = null;
 				try {
 					response = executeRequest();
 				}
@@ -103,7 +103,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 			}			
 			
 			@Override
-			protected void onPostExecute(AFTResponse<T> results) {
+			protected void onPostExecute(RequestResponse<T> results) {
 				//if results are null, then error callback has been called already
 				try {
 					T resEntity = processAFTResponse(results);
@@ -132,7 +132,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 * @return The AFTResponse representing the results of the request
 	 * @throws RequestException If an error occurred while making the request
 	 */
-	protected abstract AFTResponse<T> executeRequest() throws RequestException;
+	protected abstract RequestResponse<T> executeRequest() throws RequestException;
 	
 	/** Performs a get to the specified url, and returns the results as the specified type
 	 * 
@@ -142,7 +142,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 * @return The results of the request, or null if there was an error
 	 * @throws RequestException If an error occurred while making the request
 	 */
-	protected AFTResponse<T> getForObject(String url, Class<T> responseType, Object... urlVariables) throws RequestException {
+	protected RequestResponse<T> getForObject(String url, Class<T> responseType, Object... urlVariables) throws RequestException {
 		return makeRequest(url, HttpMethod.GET, HttpEntity.EMPTY, responseType, urlVariables);
 	}
 	
@@ -156,7 +156,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 * @throws RequestException If an error occurred while making the request
 	 */
 	
-	protected AFTResponse<T> postForObject(String url, Object requestBody, Class<T> responseType, Object... urlVariables) throws RequestException {
+	protected RequestResponse<T> postForObject(String url, Object requestBody, Class<T> responseType, Object... urlVariables) throws RequestException {
 		return makeRequest(url, HttpMethod.POST, new HttpEntity<Object>(requestBody), responseType, urlVariables);
 	}
 	
@@ -170,7 +170,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 * @throws RequestException If an error occurred while making the request
 	 */
 	
-	protected AFTResponse<T> putForObject(String url, Object requestBody, Class<T> responseType, Object... urlVariables) throws RequestException {
+	protected RequestResponse<T> putForObject(String url, Object requestBody, Class<T> responseType, Object... urlVariables) throws RequestException {
 		return makeRequest(url, HttpMethod.PUT, new HttpEntity<Object>(requestBody), responseType, urlVariables);
 	}
 	
@@ -188,7 +188,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 * @throws RequestException If an error occurred while making the request
 	 */
 	
-	protected AFTResponse<T> makeRequest(String url, HttpMethod method, HttpEntity<?> requestEntity, Class<T> responseType, Object... urlVariables) throws RequestException {	
+	protected RequestResponse<T> makeRequest(String url, HttpMethod method, HttpEntity<?> requestEntity, Class<T> responseType, Object... urlVariables) throws RequestException {	
 		HttpEntity<?> entity = addAuthenticationHeaders(requestEntity);
 		try {
 			ResponseEntity<T> results = restTemplate.exchange(url, method, entity, responseType, urlVariables);
@@ -228,10 +228,10 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 * @param urlVariables The url variables of the request
 	 * @return The processed results of the request, the request body or null if there was an error
 	 */
-	private AFTResponse<T> processSucessfulRequestResponse(ResponseEntity<T> responseEntity, String url, HttpMethod method, HttpEntity<?> requestEntity, 
+	private RequestResponse<T> processSucessfulRequestResponse(ResponseEntity<T> responseEntity, String url, HttpMethod method, HttpEntity<?> requestEntity, 
 			Class<T> responseType, Object... urlVariables) throws RequestException {
 		
-		AFTResponse<T> response = new AFTResponse<T>(responseEntity.getBody(), responseEntity.getStatusCode());		
+		RequestResponse<T> response = new RequestResponse<T>(responseEntity.getBody(), responseEntity.getStatusCode());		
 	
 		//if the code wasn't UNAUTHORIZED, and we need a session token, extract it from the response header
 		if (sessionContext.needSessionToken()) {
@@ -255,12 +255,11 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 * @param urlVariables The url variables of the request
 	 * @return The processed results of the request, the request body or null if there was an error
 	 */
-	private AFTResponse<T> processErrorRequestResponse(String responseBody, HttpStatus status, String url, HttpMethod method, 
+	private RequestResponse<T> processErrorRequestResponse(String responseBody, HttpStatus status, String url, HttpMethod method, 
 			HttpEntity<?> requestEntity, Class<T> responseType, Object... urlVariables) throws RequestException {
 		
-		AFTResponse<T> response = new AFTResponse<T>(null, responseBody, status);
-		
-		//TODO: Revisit with updated security
+		RequestResponse<T> response = new RequestResponse<T>(null, responseBody, status);		
+
 		if (status == HttpStatus.UNAUTHORIZED) {
 			//401 was returned, prompt the user to login
 			sessionContext.invalidateSessionToken(); //invalidate the current token, if any
@@ -269,7 +268,6 @@ public abstract class AbstractRequest<T> implements Request<T> {
 				//we don't have an authtoken. raise this up
 				throw new UnauthenticationRequestException("Unable to make request, not authenticated with the server and no credentials");
 			}
-			//TODO: Add the functionality to get the stored auth token
 			boolean res = new LoginTokenRequest(applicationPreferences, authToken).execute().getData();
 			
 			if (res) {
@@ -292,7 +290,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 * @return The parsed response object
 	 * @throws RequestException If response is invalid, the error returned by the server
 	 */
-	private T processAFTResponse(AFTResponse<T> response) throws RequestException {
+	private T processAFTResponse(RequestResponse<T> response) throws RequestException {
 		if (response.isValid()) {
 			return response.getResponse();
 		}

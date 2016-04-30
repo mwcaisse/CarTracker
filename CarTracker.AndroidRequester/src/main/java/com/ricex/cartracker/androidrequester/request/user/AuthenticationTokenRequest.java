@@ -1,6 +1,6 @@
 package com.ricex.cartracker.androidrequester.request.user;
 
-import com.ricex.cartracker.androidrequester.request.AFTResponse;
+import com.ricex.cartracker.androidrequester.request.RequestResponse;
 import com.ricex.cartracker.androidrequester.request.AbstractRequest;
 import com.ricex.cartracker.androidrequester.request.ApplicationPreferences;
 import com.ricex.cartracker.androidrequester.request.exception.RequestException;
@@ -27,7 +27,7 @@ public class AuthenticationTokenRequest extends AbstractRequest<String> {
 	 * @throws RequestException If an error occurred while making the request
 	 */
 	
-	protected AFTResponse<String> executeRequest() throws RequestException {
+	protected RequestResponse<String> executeRequest() throws RequestException {
 		return postForObject(serverAddress + "user/token", getDeviceUID(), String.class);
 	}
 

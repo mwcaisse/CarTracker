@@ -2,7 +2,7 @@ package com.ricex.cartracker.androidrequester.request;
 
 import org.springframework.http.HttpStatus;
 
-public class AFTResponse<T> {
+public class RequestResponse<T> {
 	
 	/** The successful response from the server */
 	private final T response;
@@ -16,12 +16,12 @@ public class AFTResponse<T> {
 	/** Whether or not this response is valid */
 	private final boolean valid;
 	
-	/** Creates a new instance of AFTResponse, representing a successful response
+	/** Creates a new instance of RequestResponse, representing a successful response
 	 * 
 	 * @param response The parsed response received from the server
 	 * @param statusCode The status code of the response
 	 */
-	public AFTResponse(T response, HttpStatus statusCode) {
+	public RequestResponse(T response, HttpStatus statusCode) {
 		this.response = response;
 		this.statusCode = statusCode;
 		this.error = null;
@@ -29,13 +29,13 @@ public class AFTResponse<T> {
 		valid = true;
 	}
 	
-	/** Creates a new instance of AFTResponse, representing an invalid (error) response
+	/** Creates a new instance of RequestResponse, representing an invalid (error) response
 	 * 
 	 * @param response The response (if any) received from the server
 	 * @param error The error message received from the server
 	 * @param statusCode The status code of the response
 	 */
-	public AFTResponse(T response, String error, HttpStatus statusCode) {
+	public RequestResponse(T response, String error, HttpStatus statusCode) {
 		this.response = response;
 		this.error = error;
 		this.statusCode = statusCode;

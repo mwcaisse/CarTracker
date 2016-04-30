@@ -1,8 +1,10 @@
 package com.ricex.cartracker.common.viewmodel;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang3.StringUtils;
 
-public class EntityResponse<T> {
+public class EntityResponse<T> implements Serializable {
 
 	private T data;
 	

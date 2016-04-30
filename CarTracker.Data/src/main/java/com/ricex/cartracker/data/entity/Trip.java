@@ -67,7 +67,7 @@ public class Trip extends AbstractEntity {
 	 * @param carId the carId to set
 	 */
 	public void setCarId(long carId) {
-		carId = carId;
+		this.carId = carId;
 	}
 
 	/**
@@ -82,6 +82,9 @@ public class Trip extends AbstractEntity {
 	 */
 	public void setCar(Car car) {
 		this.car = car;
+		if (null != car) {
+			carId = car.getId();
+		}
 	}
 
 	

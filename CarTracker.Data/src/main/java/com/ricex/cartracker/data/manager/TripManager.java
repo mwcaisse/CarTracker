@@ -1,7 +1,9 @@
 package com.ricex.cartracker.data.manager;
 
+import java.util.Date;
 import java.util.List;
 
+import com.ricex.cartracker.data.entity.Car;
 import com.ricex.cartracker.data.entity.Trip;
 import com.ricex.cartracker.data.mapper.TripMapper;
 import com.ricex.cartracker.data.validation.EntityValidationException;
@@ -33,6 +35,46 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 	 */
 	public List<Trip> getForCar(long carId) {
 		return mapper.getForCar(carId);
+	}
+	
+	/** Creates a new trip for the car with the given VIN
+	 * 
+	 * @param carVin The VIN of the car to create the trip for
+	 * @return The created trip
+	 * @throws EntityValidationException 
+	 */
+	
+	public Trip startTripForCar(String carVin) throws EntityValidationException {
+		Trip trip = new Trip();
+		
+		Car car = carManager.getByVin(carVin);
+		if (null == car) {
+			throw new EntityValidationException("The specified car does not exist!");
+		}
+		trip.setCar(car);
+		trip.setStartDate(new Date());
+		
+		mapper.create(trip);	
+		return trip;
+	}
+	
+	/** Ends the given trip
+	 * 
+	 * @param id The Id of the trip to end
+	 * @return True
+	 * @throws EntityValidationException If a trip with given Id does not exist
+	 */
+	
+	public boolean endTrip(long id) throws EntityValidationException {
+		Trip trip = get(id);
+		if (null == trip) {
+			throw new EntityValidationException("Trip does not exist!");
+		}
+		trip.setEndDate(new Date());
+		trip.setModifiedDate(new Date());
+		mapper.update(trip);
+		
+		return true;
 	}
 	
 	

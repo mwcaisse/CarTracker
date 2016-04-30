@@ -7,6 +7,11 @@ package com.ricex.cartracker.androidrequester.request.exception;
  */
 public class UnauthenticationRequestException extends RequestException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6990806863966090697L;
+
 	public UnauthenticationRequestException(String error) {
 		super(error);
 	}

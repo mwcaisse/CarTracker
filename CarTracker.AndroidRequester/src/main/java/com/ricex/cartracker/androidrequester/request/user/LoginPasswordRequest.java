@@ -1,6 +1,6 @@
 package com.ricex.cartracker.androidrequester.request.user;
 
-import com.ricex.cartracker.androidrequester.request.AFTResponse;
+import com.ricex.cartracker.androidrequester.request.RequestResponse;
 import com.ricex.cartracker.androidrequester.request.AbstractRequest;
 import com.ricex.cartracker.androidrequester.request.ApplicationPreferences;
 import com.ricex.cartracker.androidrequester.request.exception.RequestException;
@@ -39,7 +39,7 @@ public class LoginPasswordRequest extends AbstractRequest<BooleanResponse> {
 	 * @throws RequestException If an error occurred while making the request 
 	 */
 	
-	protected AFTResponse<BooleanResponse> executeRequest() throws RequestException {
+	protected RequestResponse<BooleanResponse> executeRequest() throws RequestException {
 		AuthUser user = new AuthUser(username, password);
 		return postForObject(serverAddress + "user/login/password", user, BooleanResponse.class);
 	}

@@ -1,6 +1,6 @@
 package com.ricex.cartracker.androidrequester.request.user;
 
-import com.ricex.cartracker.androidrequester.request.AFTResponse;
+import com.ricex.cartracker.androidrequester.request.RequestResponse;
 import com.ricex.cartracker.androidrequester.request.AbstractRequest;
 import com.ricex.cartracker.androidrequester.request.ApplicationPreferences;
 import com.ricex.cartracker.androidrequester.request.exception.RequestException;
@@ -35,7 +35,7 @@ public class LoginTokenRequest extends AbstractRequest<BooleanResponse> {
 	 * @throws RequestException If an error occurred while making the request 
 	 */
 	
-	protected AFTResponse<BooleanResponse> executeRequest() throws RequestException {
+	protected RequestResponse<BooleanResponse> executeRequest() throws RequestException {
 		AuthToken authToken = new AuthToken(token, getDeviceUID());
 		return postForObject(serverAddress + "user/login/token", authToken, BooleanResponse.class);
 	}
