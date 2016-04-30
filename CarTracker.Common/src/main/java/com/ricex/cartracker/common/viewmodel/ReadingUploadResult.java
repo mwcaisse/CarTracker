@@ -6,8 +6,17 @@ public class ReadingUploadResult implements Serializable {
 
 	private String uuid;
 	
+	private long id;
+	
 	private boolean successful;
+	
+	private String errorMessage;
 
+	public ReadingUploadResult() {
+		id = -1;
+		successful = false;		
+	}
+	
 	/**
 	 * @return the uuid
 	 */
@@ -35,6 +44,35 @@ public class ReadingUploadResult implements Serializable {
 	public void setSuccessful(boolean successful) {
 		this.successful = successful;
 	}
+
+	/**
+	 * @return the id
+	 */
+	public long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the errorMessage
+	 */
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	/**
+	 * @param errorMessage the errorMessage to set
+	 */
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+	
 	
 	
 }
