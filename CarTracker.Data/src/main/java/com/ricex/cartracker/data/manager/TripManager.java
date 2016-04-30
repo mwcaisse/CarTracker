@@ -3,8 +3,8 @@ package com.ricex.cartracker.data.manager;
 import java.util.Date;
 import java.util.List;
 
-import com.ricex.cartracker.data.entity.Car;
-import com.ricex.cartracker.data.entity.Trip;
+import com.ricex.cartracker.common.entity.Car;
+import com.ricex.cartracker.common.entity.Trip;
 import com.ricex.cartracker.data.mapper.TripMapper;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 import com.ricex.cartracker.data.validation.TripValidator;

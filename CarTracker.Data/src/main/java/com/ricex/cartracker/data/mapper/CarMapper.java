@@ -2,7 +2,7 @@ package com.ricex.cartracker.data.mapper;
 
 import java.util.List;
 
-import com.ricex.cartracker.data.entity.Car;
+import com.ricex.cartracker.common.entity.Car;
 
 /** Car Mapper for fetching car data
  * 

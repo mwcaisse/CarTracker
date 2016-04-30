@@ -2,7 +2,7 @@ package com.ricex.cartracker.data.manager;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.ricex.cartracker.data.entity.Car;
+import com.ricex.cartracker.common.entity.Car;
 import com.ricex.cartracker.data.mapper.CarMapper;
 import com.ricex.cartracker.data.validation.CarValidator;
 import com.ricex.cartracker.data.validation.EntityValidationException;

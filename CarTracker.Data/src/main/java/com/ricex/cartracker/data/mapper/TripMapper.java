@@ -2,7 +2,7 @@ package com.ricex.cartracker.data.mapper;
 
 import java.util.List;
 
-import com.ricex.cartracker.data.entity.Trip;
+import com.ricex.cartracker.common.entity.Trip;
 
 /** Trip Mapper for fetching Trip data
  * 

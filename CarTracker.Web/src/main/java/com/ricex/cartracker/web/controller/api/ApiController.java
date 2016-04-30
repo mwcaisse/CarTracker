@@ -6,9 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 
+import com.ricex.cartracker.common.entity.AbstractEntity;
 import com.ricex.cartracker.common.viewmodel.BooleanResponse;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
-import com.ricex.cartracker.data.entity.AbstractEntity;
 import com.ricex.cartracker.data.manager.AbstractEntityManager;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 

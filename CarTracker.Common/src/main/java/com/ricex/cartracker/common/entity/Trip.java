@@ -1,4 +1,4 @@
-package com.ricex.cartracker.data.entity;
+package com.ricex.cartracker.common.entity;
 
 import java.util.Date;
 

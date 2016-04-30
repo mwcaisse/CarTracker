@@ -2,9 +2,9 @@ package com.ricex.cartracker.data.manager;
 
 import java.util.List;
 
+import com.ricex.cartracker.common.entity.Reading;
 import com.ricex.cartracker.common.viewmodel.ReadingUpload;
 import com.ricex.cartracker.common.viewmodel.ReadingUploadResult;
-import com.ricex.cartracker.data.entity.Reading;
 import com.ricex.cartracker.data.mapper.ReadingMapper;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 import com.ricex.cartracker.data.validation.ReadingValidator;

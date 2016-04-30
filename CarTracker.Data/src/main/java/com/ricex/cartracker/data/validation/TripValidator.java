@@ -2,7 +2,7 @@ package com.ricex.cartracker.data.validation;
 
 import java.util.Date;
 
-import com.ricex.cartracker.data.entity.Trip;
+import com.ricex.cartracker.common.entity.Trip;
 
 public class TripValidator implements EntityValidator<Trip> {
 

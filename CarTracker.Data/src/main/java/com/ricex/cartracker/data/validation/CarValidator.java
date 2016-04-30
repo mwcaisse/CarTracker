@@ -2,7 +2,7 @@ package com.ricex.cartracker.data.validation;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.ricex.cartracker.data.entity.Car;
+import com.ricex.cartracker.common.entity.Car;
 
 public class CarValidator implements EntityValidator<Car> {	
 	

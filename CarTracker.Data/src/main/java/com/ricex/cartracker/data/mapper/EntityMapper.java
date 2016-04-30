@@ -2,7 +2,7 @@ package com.ricex.cartracker.data.mapper;
 
 import java.util.List;
 
-import com.ricex.cartracker.data.entity.AbstractEntity;
+import com.ricex.cartracker.common.entity.AbstractEntity;
 
 public interface EntityMapper<T extends AbstractEntity> {
 

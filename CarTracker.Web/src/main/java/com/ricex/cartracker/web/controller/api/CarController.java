@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ricex.cartracker.common.entity.Car;
 import com.ricex.cartracker.common.viewmodel.BooleanResponse;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
-import com.ricex.cartracker.data.entity.Car;
 import com.ricex.cartracker.data.manager.CarManager;
 
 @Controller

@@ -4,7 +4,7 @@ package com.ricex.cartracker.data.validation;
 
 import java.util.Date;
 
-import com.ricex.cartracker.data.entity.Reading;
+import com.ricex.cartracker.common.entity.Reading;
 
 public class ReadingValidator implements EntityValidator<Reading> {
 

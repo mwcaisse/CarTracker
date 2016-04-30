@@ -1,6 +1,6 @@
 package com.ricex.cartracker.data.validation;
 
-import com.ricex.cartracker.data.entity.AbstractEntity;
+import com.ricex.cartracker.common.entity.AbstractEntity;
 
 public interface EntityValidator<T extends AbstractEntity> {
 

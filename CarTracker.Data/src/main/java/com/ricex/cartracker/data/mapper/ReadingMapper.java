@@ -2,7 +2,7 @@ package com.ricex.cartracker.data.mapper;
 
 import java.util.List;
 
-import com.ricex.cartracker.data.entity.Reading;
+import com.ricex.cartracker.common.entity.Reading;
 
 public interface ReadingMapper extends EntityMapper<Reading> {
 	
