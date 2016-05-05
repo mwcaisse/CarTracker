@@ -18,7 +18,7 @@ public class StartTripRequest extends AbstractRequest<Trip> {
 
 	@Override
 	protected RequestResponse<Trip> executeRequest() throws RequestException {
-		return postForObject(serverAddress + "car/" + vin + "/trip/start", null, new TripResponseType());
+		return postForObject(serverAddress + "car/{vin}/trip/start", null, new TripResponseType(), vin);
 	}
 
 }
