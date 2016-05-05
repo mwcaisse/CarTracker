@@ -1,9 +1,10 @@
 package com.ricex.cartracker.androidrequester.request.user;
 
-import com.ricex.cartracker.androidrequester.request.RequestResponse;
 import com.ricex.cartracker.androidrequester.request.AbstractRequest;
 import com.ricex.cartracker.androidrequester.request.ApplicationPreferences;
+import com.ricex.cartracker.androidrequester.request.RequestResponse;
 import com.ricex.cartracker.androidrequester.request.exception.RequestException;
+import com.ricex.cartracker.androidrequester.request.type.BooleanResponseType;
 import com.ricex.cartracker.common.auth.AuthUser;
 import com.ricex.cartracker.common.viewmodel.BooleanResponse;
 
@@ -14,7 +15,7 @@ import com.ricex.cartracker.common.viewmodel.BooleanResponse;
  * @author Mitchell Caisse
  *
  */
-public class LoginPasswordRequest extends AbstractRequest<BooleanResponse> {
+public class LoginPasswordRequest extends AbstractRequest<Boolean> {
 
 	/** The user's username */
 	private String username;
@@ -39,9 +40,9 @@ public class LoginPasswordRequest extends AbstractRequest<BooleanResponse> {
 	 * @throws RequestException If an error occurred while making the request 
 	 */
 	
-	protected RequestResponse<BooleanResponse> executeRequest() throws RequestException {
+	protected RequestResponse<Boolean> executeRequest() throws RequestException {
 		AuthUser user = new AuthUser(username, password);
-		return postForObject(serverAddress + "user/login/password", user, BooleanResponse.class);
+		return postForObject(serverAddress + "user/login/password", user, new BooleanResponseType());
 	}
 
 }

@@ -1,9 +1,10 @@
 package com.ricex.cartracker.androidrequester.request.user;
 
-import com.ricex.cartracker.androidrequester.request.RequestResponse;
 import com.ricex.cartracker.androidrequester.request.AbstractRequest;
 import com.ricex.cartracker.androidrequester.request.ApplicationPreferences;
+import com.ricex.cartracker.androidrequester.request.RequestResponse;
 import com.ricex.cartracker.androidrequester.request.exception.RequestException;
+import com.ricex.cartracker.androidrequester.request.type.StringResponseType;
 
 /** Request to fetch an Authentication Token from the server, to use for future authentication/login requests
  * 
@@ -28,7 +29,7 @@ public class AuthenticationTokenRequest extends AbstractRequest<String> {
 	 */
 	
 	protected RequestResponse<String> executeRequest() throws RequestException {
-		return postForObject(serverAddress + "user/token", getDeviceUID(), String.class);
+		return postForObject(serverAddress + "user/token", getDeviceUID(), new StringResponseType());
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -23,6 +24,7 @@ import com.ricex.cartracker.androidrequester.request.exception.UnauthenticationR
 import com.ricex.cartracker.androidrequester.request.exception.UnauthorizedRequestException;
 import com.ricex.cartracker.androidrequester.request.user.LoginTokenRequest;
 import com.ricex.cartracker.common.auth.TokenAuthentication;
+import com.ricex.cartracker.common.viewmodel.EntityResponse;
 
 import android.os.AsyncTask;
 
@@ -142,7 +144,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 * @return The results of the request, or null if there was an error
 	 * @throws RequestException If an error occurred while making the request
 	 */
-	protected RequestResponse<T> getForObject(String url, Class<T> responseType, Object... urlVariables) throws RequestException {
+	protected RequestResponse<T> getForObject(String url, ParameterizedTypeReference<EntityResponse<T>> responseType, Object... urlVariables) throws RequestException {
 		return makeRequest(url, HttpMethod.GET, HttpEntity.EMPTY, responseType, urlVariables);
 	}
 	
@@ -156,7 +158,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 * @throws RequestException If an error occurred while making the request
 	 */
 	
-	protected RequestResponse<T> postForObject(String url, Object requestBody, Class<T> responseType, Object... urlVariables) throws RequestException {
+	protected RequestResponse<T> postForObject(String url, Object requestBody, ParameterizedTypeReference<EntityResponse<T>> responseType, Object... urlVariables) throws RequestException {
 		return makeRequest(url, HttpMethod.POST, new HttpEntity<Object>(requestBody), responseType, urlVariables);
 	}
 	
@@ -170,7 +172,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 * @throws RequestException If an error occurred while making the request
 	 */
 	
-	protected RequestResponse<T> putForObject(String url, Object requestBody, Class<T> responseType, Object... urlVariables) throws RequestException {
+	protected RequestResponse<T> putForObject(String url, Object requestBody, ParameterizedTypeReference<EntityResponse<T>> responseType, Object... urlVariables) throws RequestException {
 		return makeRequest(url, HttpMethod.PUT, new HttpEntity<Object>(requestBody), responseType, urlVariables);
 	}
 	
@@ -186,12 +188,12 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 * @param urlVariables Any url parameters
 	 * @return The results from the request, or null if there were any errors
 	 * @throws RequestException If an error occurred while making the request
-	 */
+	 */	
 	
-	protected RequestResponse<T> makeRequest(String url, HttpMethod method, HttpEntity<?> requestEntity, Class<T> responseType, Object... urlVariables) throws RequestException {	
+	protected RequestResponse<T> makeRequest(String url, HttpMethod method, HttpEntity<?> requestEntity, ParameterizedTypeReference<EntityResponse<T>> responseType, Object... urlVariables) throws RequestException {	
 		HttpEntity<?> entity = addAuthenticationHeaders(requestEntity);
 		try {
-			ResponseEntity<T> results = restTemplate.exchange(url, method, entity, responseType, urlVariables);
+			ResponseEntity<EntityResponse<T>> results = restTemplate.exchange(url, method, entity, responseType, urlVariables);
 			return processSucessfulRequestResponse(results, url, method, requestEntity, responseType, urlVariables);
 		}
 		catch (HttpStatusCodeException e) {
@@ -228,9 +230,8 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 * @param urlVariables The url variables of the request
 	 * @return The processed results of the request, the request body or null if there was an error
 	 */
-	private RequestResponse<T> processSucessfulRequestResponse(ResponseEntity<T> responseEntity, String url, HttpMethod method, HttpEntity<?> requestEntity, 
-			Class<T> responseType, Object... urlVariables) throws RequestException {
-		
+	private RequestResponse<T> processSucessfulRequestResponse(ResponseEntity<EntityResponse<T>> responseEntity, String url, HttpMethod method, HttpEntity<?> requestEntity, 
+			ParameterizedTypeReference<EntityResponse<T>> responseType, Object... urlVariables) throws RequestException {		
 		RequestResponse<T> response = new RequestResponse<T>(responseEntity.getBody(), responseEntity.getStatusCode());		
 	
 		//if the code wasn't UNAUTHORIZED, and we need a session token, extract it from the response header
@@ -256,7 +257,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 * @return The processed results of the request, the request body or null if there was an error
 	 */
 	private RequestResponse<T> processErrorRequestResponse(String responseBody, HttpStatus status, String url, HttpMethod method, 
-			HttpEntity<?> requestEntity, Class<T> responseType, Object... urlVariables) throws RequestException {
+			HttpEntity<?> requestEntity, ParameterizedTypeReference<EntityResponse<T>> responseType, Object... urlVariables) throws RequestException {
 		
 		RequestResponse<T> response = new RequestResponse<T>(null, responseBody, status);		
 
@@ -268,7 +269,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 				//we don't have an authtoken. raise this up
 				throw new UnauthenticationRequestException("Unable to make request, not authenticated with the server and no credentials");
 			}
-			boolean res = new LoginTokenRequest(applicationPreferences, authToken).execute().getData();
+			boolean res = new LoginTokenRequest(applicationPreferences, authToken).execute();
 			
 			if (res) {
 				return executeRequest();
@@ -292,7 +293,10 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 */
 	private T processResponse(RequestResponse<T> response) throws RequestException {
 		if (response.isValid()) {
-			return response.getResponse();
+			return response.getData();
+		}
+		else if (response.isValidServerResponse()) {
+			throw new InvalidRequestException(response.getError());
 		}
 		else {
 			String error = response.getError();
