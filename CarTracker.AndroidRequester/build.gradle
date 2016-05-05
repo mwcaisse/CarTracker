@@ -1,13 +1,33 @@
-apply plugin: 'java'
+apply plugin: 'com.android.library'
 apply plugin: 'eclipse'
 
 sourceCompatibility = 1.6
+/*
 jar {
     manifest {
         attributes 'Implementation-Title': 'CarTracker.AndroidRequester',
                    'Implementation-Version': version
     }
 }
+*/
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
 
 repositories {
     mavenCentral()
@@ -35,19 +55,21 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-lang3', version: "3.4"
 	
 	compile group: 'com.android.support', name: 'design', version:'23.1.1'   
-    compile group: 'org.springframework.android', name: 'spring-android-rest-template', version:"$springVersion"
-    compile group: 'org.springframework.android', name: 'spring-android-auth', version:"$springVersion"
+    compile group: 'org.springframework.android', name: 'spring-android-rest-template', version:"$springVersion"    
     compile group: 'org.springframework.android', name: 'spring-android-core', version:"$springVersion"
-    compile group: 'android', name: 'android', version:"$androidVersion"
+    
+    compile (group: 'org.springframework.android', name: 'spring-android-auth', version:"$springVersion") {
+ 		exclude group: 'org.springframework', module: 'commons-logging'
+        exclude group: 'org.springframework', module: 'spring-core'
+        exclude group: 'org.springframework', module: 'spring-web'
+    }
+    
+    //compile group: 'android', name: 'android', version:"$androidVersion"
     
     //gson
     compile group: 'com.google.code.gson', name: 'gson', version: "$gsonVersion"
 	
     testCompile group: 'junit', name: 'junit', version: '4.+'
-}
-
-test {
-    systemProperties 'property': 'value'
 }
 
 uploadArchives {

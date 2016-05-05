@@ -320,7 +320,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	private String extractSessionToken(ResponseEntity<?> entity) {
 		String token = entity.getHeaders().getFirst(TokenAuthentication.SESSION_TOKEN_HEADER);
 		//set it as the authorization token, if it was found, and is not empty
-		if (token != null && !token.isEmpty()) {
+		if (StringUtils.isNotBlank(token)) {
 			return token;
 		}
 		return null;

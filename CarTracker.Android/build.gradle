@@ -20,9 +20,18 @@ android {
 	lintOptions {
 		abortOnError false
 	}
+
+    packagingOptions {
+        pickFirst  'META-INF/license.txt'
+        pickFirst  'META-INF/LICENSE.txt'
+        pickFirst  'META-INF/notice.txt'
+        pickFirst  'META-INF/NOTICE.txt'
+    }
 }
 
 dependencies {
+    compile project(':CarTracker.Common')
+    compile project(':CarTracker.AndroidRequester')
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'

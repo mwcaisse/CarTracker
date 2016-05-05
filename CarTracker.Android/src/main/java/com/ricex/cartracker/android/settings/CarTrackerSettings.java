@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.ricex.cartracker.androidrequester.request.ApplicationPreferences;
+
 /**
  * Created by Mitchell on 1/29/2016.
  */
-public class CarTrackerSettings {
+public class CarTrackerSettings implements ApplicationPreferences {
 
     private static final String SERVICE_ENABLED_KEY = "pref_serviceEnabled";
     private static final String LOCATION_ENABLED_KEY = "pref_locationEnabled";
@@ -71,6 +73,16 @@ public class CarTrackerSettings {
 
     public String getServerAddress() {
         return serverAddress;
+    }
+
+    @Override
+    public String getDeviceUID() {
+        return null;
+    }
+
+    @Override
+    public String getAuthToken() {
+        return null;
     }
 
     public String getBluetoothDeviceAddress() {
