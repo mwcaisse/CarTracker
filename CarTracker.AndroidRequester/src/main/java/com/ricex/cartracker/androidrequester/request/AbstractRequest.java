@@ -55,7 +55,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	
 	public AbstractRequest(ApplicationPreferences applicationPreferences) {
 		this.applicationPreferences = applicationPreferences;
-		this.serverAddress = applicationPreferences.getServerAddress() + "api/";		
+		this.serverAddress = processServerAddress();		
 		this.sessionContext = SessionContext.INSTANCE;	
 		restTemplate = new RestTemplate();		
 		
@@ -191,6 +191,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 */	
 	
 	protected RequestResponse<T> makeRequest(String url, HttpMethod method, HttpEntity<?> requestEntity, ParameterizedTypeReference<EntityResponse<T>> responseType, Object... urlVariables) throws RequestException {	
+		url = processUrl(url);
 		HttpEntity<?> entity = addAuthenticationHeaders(requestEntity);
 		try {
 			ResponseEntity<EntityResponse<T>> results = restTemplate.exchange(url, method, entity, responseType, urlVariables);
@@ -324,6 +325,48 @@ public abstract class AbstractRequest<T> implements Request<T> {
 			return token;
 		}
 		return null;
+	}
+	
+	
+	/** Processes the given URL
+	 * 
+	 * 		Checks if the URL given is a relative URL or an absolute URL.
+	 * 		If it is a relative URL adds prepends the server address, otherwise leaves it alone
+	 * 
+	 * @param url
+	 * @return
+	 */
+	private String processUrl(String url) {
+		if (null == url) {
+			return new String();
+		}
+		if (url.toLowerCase().startsWith("http://") ||
+							 url.toLowerCase().startsWith("https://")) {
+			return url;
+		}
+		url = StringUtils.stripStart(url,  "/");
+		return serverAddress + url;				
+	}
+	
+	/** Processes the server address to remove any potential issues also adds the api suffix
+	 * 
+	 * @return The processed server address
+	 */
+	private String processServerAddress() {
+		String serverAddress = applicationPreferences.getServerAddress();
+		
+		//if the server address doesn't start with either http or https, add in http
+		if (!(StringUtils.startsWithIgnoreCase(serverAddress, "http://") ||
+			  StringUtils.startsWithIgnoreCase(serverAddress, "https://"))) {
+			serverAddress = "http://" + serverAddress;
+		}
+		
+		//strip any /'s from the end of the url				
+		serverAddress = StringUtils.stripEnd(serverAddress, "/");
+		
+		//add the api suffix
+		serverAddress += "/api/";
+		return serverAddress;
 	}
 	
 	
