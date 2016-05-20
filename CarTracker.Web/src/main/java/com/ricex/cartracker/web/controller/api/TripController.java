@@ -95,7 +95,7 @@ public class TripController extends ApiController<Trip> {
 	 * @param carVin The VIN of the car to start the trip for
 	 * @return The newly created trip
 	 */
-	@RequestMapping(value="/car/{carVin}/trip/start", method=RequestMethod.POST, consumes={JSON}, produces={JSON})
+	@RequestMapping(value="/car/{carVin}/trip/start", method=RequestMethod.POST, produces={JSON})
 	public @ResponseBody EntityResponse<Trip> startTrip(@PathVariable String carVin) {
 		try {
 			return createEntityResponse(manager.startTripForCar(carVin));
@@ -111,7 +111,7 @@ public class TripController extends ApiController<Trip> {
 	 * @return True if trip was ended, false otherwise
 	 */
 	
-	@RequestMapping(value="/trip/{id}/end", method=RequestMethod.POST, consumes={JSON}, produces={JSON})
+	@RequestMapping(value="/trip/{id}/end", method=RequestMethod.POST, produces={JSON})
 	public @ResponseBody BooleanResponse endTrip(@PathVariable long id) {
 		try {
 			boolean response = manager.endTrip(id);
