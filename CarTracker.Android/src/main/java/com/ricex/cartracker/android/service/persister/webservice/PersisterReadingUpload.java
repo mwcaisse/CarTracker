@@ -5,7 +5,7 @@ import com.ricex.cartracker.android.model.OBDReading;
 /**
  * Created by Mitchell on 2/21/2016.
  */
-public class ReadingUpload {
+public class PersisterReadingUpload {
 
     private String uid;
 
@@ -15,7 +15,7 @@ public class ReadingUpload {
 
     private int status;
 
-    public ReadingUpload() {
+    public PersisterReadingUpload() {
 
     }
 

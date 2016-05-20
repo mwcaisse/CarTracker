@@ -72,7 +72,8 @@ public class CarTrackerSettings implements ApplicationPreferences {
     }
 
     public String getServerAddress() {
-        return serverAddress;
+        return "https://home.fourfivefire.com/cartracker/";
+        //return serverAddress;
     }
 
     @Override

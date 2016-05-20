@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.ricex.cartracker.android.model.OBDReading;
+import com.ricex.cartracker.android.service.persister.Persister;
+import com.ricex.cartracker.android.service.persister.webservice.WebServicePersister;
 import com.ricex.cartracker.android.service.task.OBDServiceTask;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
 
@@ -25,6 +27,10 @@ public class OBDService extends Service {
     private OBDServiceTask task;
     private Thread thread;
     private OBDServiceBinder binder;
+
+    private Persister persister;
+    private Thread persisterThread;
+
 
     public List<OBDServiceListener> listeners;
 
@@ -50,8 +56,12 @@ public class OBDService extends Service {
 
     protected void startService() {
         //if we haven't created the thread before, create it
+        if (persisterThread == null) {
+            persister = new WebServicePersister(settings);
+            persisterThread = new Thread(persister);
+        }
         if (thread == null) {
-            task = new OBDServiceTask(this, settings);
+            task = new OBDServiceTask(this, settings, persister);
             thread = new Thread(task);
         }
         //if the thread isn't running (stopped? or was just created)
@@ -60,10 +70,15 @@ public class OBDService extends Service {
             Log.i(LOG_TAG, "Starting the OBD Service Task!");
             thread.start();
         }
+        if (!persisterThread.isAlive()) {
+            Log.i(LOG_TAG, "Starting the Persister Task!");
+            persisterThread.start();
+        }
     }
 
     public void onDestroy() {
        task.stop();
+        persister.stop();
     }
 
     public void addListener(OBDServiceListener listener) {

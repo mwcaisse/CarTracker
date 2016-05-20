@@ -31,6 +31,8 @@ import com.ricex.cartracker.android.service.OBDCommandJob;
 import com.ricex.cartracker.android.service.OBDCommandStatus;
 import com.ricex.cartracker.android.service.OBDService;
 import com.ricex.cartracker.android.service.ServiceLogger;
+import com.ricex.cartracker.android.service.persister.Persister;
+import com.ricex.cartracker.android.service.persister.webservice.WebServicePersister;
 import com.ricex.cartracker.android.service.reader.BluetoothOBDReader;
 import com.ricex.cartracker.android.service.reader.OBDReader;
 import com.ricex.cartracker.android.service.reader.TestOBDReader;
@@ -56,15 +58,18 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
 
     private OBDReader reader;
 
+    private Persister persister;
+
     private static final String BLUETOOTH_SERIAL_CONNECTION_UUID = "00001101-0000-1000-8000-00805F9B34FB";
 
 
     private static final String LOG_TAG = "ODBSERVICETASK";
 
-    public OBDServiceTask(OBDService service, CarTrackerSettings settings) {
+    public OBDServiceTask(OBDService service, CarTrackerSettings settings, Persister persister) {
         super(settings.getODBReadingInterval());
         this.service = service;
         this.settings = settings;
+        this.persister = persister;
         createReader();
     }
 
@@ -103,6 +108,7 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
         //perform the data read
         try {
             OBDReading data = reader.read();
+            persister.persist(data);
             service.notifyListeners(data);
             info(LOG_TAG, "Recieved data from OBD device! RPM: " + data.getEngineRPM());
 
@@ -122,6 +128,7 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
     public void stop() {
         super.stop(); // call the parent stop method
 
+        persister.stop();
         service.onTaskStopped();
     }
 
