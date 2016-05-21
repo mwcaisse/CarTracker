@@ -1,7 +1,5 @@
 package com.ricex.cartracker.common.viewmodel;
 
-import java.util.Date;
-
 import com.ricex.cartracker.common.entity.Reading;
 
 public class ReadingUpload extends Reading {

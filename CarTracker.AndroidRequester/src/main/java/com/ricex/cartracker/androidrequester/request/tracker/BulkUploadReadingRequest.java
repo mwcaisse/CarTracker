@@ -51,7 +51,7 @@ public class BulkUploadReadingRequest extends AbstractRequest<List<ReadingUpload
 
 	@Override
 	protected RequestResponse<List<ReadingUploadResult>> executeRequest() throws RequestException {
-		return postForObject(serverAddress + "/trip/{id}/reading/bulk", readings, new BulkReadingUploadResponseType(), tripId);
+		return postForObject(serverAddress + "/trip/{tripId}/reading/bulk", readings, new BulkReadingUploadResponseType(), tripId);
 	}
 
 }

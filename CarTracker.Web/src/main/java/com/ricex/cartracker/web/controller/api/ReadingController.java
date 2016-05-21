@@ -1,5 +1,6 @@
 package com.ricex.cartracker.web.controller.api;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -42,9 +43,9 @@ public class ReadingController extends ApiController<Reading> {
 	 */
 	
 	@RequestMapping(value = "/trip/{tripId}/reading/bulk", method=RequestMethod.POST, produces={JSON}, consumes={JSON})
-	public @ResponseBody EntityResponse<List<ReadingUploadResult>> bulkUpload(@PathVariable long tripId, @RequestBody List<ReadingUpload> readings) {
+	public @ResponseBody EntityResponse<List<ReadingUploadResult>> bulkUpload(@PathVariable long tripId, @RequestBody ReadingUpload[] readings) {
 		try {
-			return createEntityResponse(manager.bulkUpload(tripId, readings));
+			return createEntityResponse(manager.bulkUpload(tripId, Arrays.asList(readings)));
 		} catch (EntityValidationException e) {
 			return createEntityResponseError(e);
 		}
