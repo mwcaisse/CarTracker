@@ -75,7 +75,7 @@
 							  	#{oilTemperature},
 							  	#{engineRPM},
 							  	#{speed},
-							  	#[massAirFlow},
+							  	#{massAirFlow},
 							  	#{throttlePosition},
 							  	#{fuelType},
 							  	#{fuelLevel})
