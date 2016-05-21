@@ -9,8 +9,7 @@ public class ReadingUpload extends Reading {
 	private static final long serialVersionUID = 6721122911493961107L;
 
 	private String uuid;
-	
-	private Date readDate;
+
 	/**
 	 * @return the uuid
 	 */

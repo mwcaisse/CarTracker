@@ -20,10 +20,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 import com.google.gson.Gson;
 import com.ricex.cartracker.data.manager.CarManager;
+import com.ricex.cartracker.data.manager.ReadingManager;
 import com.ricex.cartracker.data.manager.TripManager;
 import com.ricex.cartracker.data.mapper.CarMapper;
+import com.ricex.cartracker.data.mapper.ReadingMapper;
 import com.ricex.cartracker.data.mapper.TripMapper;
 import com.ricex.cartracker.web.controller.api.CarController;
+import com.ricex.cartracker.web.controller.api.ReadingController;
 import com.ricex.cartracker.web.controller.api.TripController;
 import com.ricex.cartracker.web.util.GsonFactory;
 
@@ -44,6 +47,11 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	}
 	
 	@Bean
+	public ReadingController readingController() throws Exception {
+		return new ReadingController(readingManager());
+	}
+	
+	@Bean
 	public CarManager carManager() throws Exception {
 		return new CarManager(carMapper());
 	}
@@ -51,6 +59,11 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	@Bean
 	public TripManager tripManager() throws Exception {
 		return new TripManager(tripMapper(), carManager());
+	}
+	
+	@Bean
+	public ReadingManager readingManager() throws Exception {
+		return new ReadingManager(readingMapper(), tripManager());
 	}
 	
 	@Bean
@@ -65,6 +78,14 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	public TripMapper tripMapper() throws Exception {
 		MapperFactoryBean<TripMapper> mapperFactoryBean = new MapperFactoryBean<TripMapper>();
 		mapperFactoryBean.setMapperInterface(TripMapper.class);
+		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
+		return mapperFactoryBean.getObject();
+	}
+	
+	@Bean
+	public ReadingMapper readingMapper() throws Exception {
+		MapperFactoryBean<ReadingMapper> mapperFactoryBean = new MapperFactoryBean<ReadingMapper>();
+		mapperFactoryBean.setMapperInterface(ReadingMapper.class);
 		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
 		return mapperFactoryBean.getObject();
 	}

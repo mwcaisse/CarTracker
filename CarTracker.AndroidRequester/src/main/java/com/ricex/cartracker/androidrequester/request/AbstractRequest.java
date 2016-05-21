@@ -239,7 +239,8 @@ public abstract class AbstractRequest<T> implements Request<T> {
 		if (sessionContext.needSessionToken()) {
 			String sessionToken = extractSessionToken(responseEntity);
 			if (StringUtils.isEmpty(sessionToken)) {
-				throw new RequestException("Unable to retreive the session token from our request!");
+				//ignore for now, we are not using session tokens
+				//throw new RequestException("Unable to retreive the session token from our request!");
 			}
 			sessionContext.setSessionToken(sessionToken);
 
