@@ -132,7 +132,7 @@ public class BluetoothOBDReader implements OBDReader {
             String results = "";
 
             if (job.getStatus() == OBDCommandStatus.FINISHED) {
-                results = job.getCommand().getFormattedResult();
+                results = job.getCommand().getCalculatedResult();
             }
             else {
                 results = "NO DATA";
