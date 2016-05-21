@@ -72,7 +72,8 @@ public class CarTrackerSettings implements ApplicationPreferences {
     }
 
     public String getServerAddress() {
-        return "https://home.fourfivefire.com/cartracker/";
+        //return "https://home.fourfivefire.com/cartracker/";
+        return "http://192.168.1.160:8888/cartracker/";
         //return serverAddress;
     }
 

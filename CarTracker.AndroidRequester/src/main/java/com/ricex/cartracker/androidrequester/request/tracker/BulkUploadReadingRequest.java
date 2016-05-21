@@ -1,5 +1,6 @@
 package com.ricex.cartracker.androidrequester.request.tracker;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.ricex.cartracker.androidrequester.request.AbstractRequest;
@@ -21,7 +22,7 @@ public class BulkUploadReadingRequest extends AbstractRequest<List<ReadingUpload
 
 	private final long tripId;
 	
-	private final List<ReadingUpload> readings;
+	private final ReadingUpload[] readings;
 	
 	/** Creates a new Bulk Upload Request for the given trip with the given readings
 	 * 
@@ -45,7 +46,7 @@ public class BulkUploadReadingRequest extends AbstractRequest<List<ReadingUpload
 	public BulkUploadReadingRequest(ApplicationPreferences applicationPreferences, long tripId, List<ReadingUpload> readings) {
 		super(applicationPreferences);
 		this.tripId = tripId;
-		this.readings = readings;
+		this.readings = readings.toArray(new ReadingUpload[0]);
 	}
 	
 
