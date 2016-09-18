@@ -23,6 +23,8 @@ public class OBDReading {
     private String fuelLevel;
     private String fuelType;
 
+    private GPSLocation location;
+
     private String vin;
 
     private Date readDate;
@@ -125,5 +127,13 @@ public class OBDReading {
 
     public void setReadDate(Date readDate) {
         this.readDate = readDate;
+    }
+
+    public GPSLocation getLocation() {
+        return location;
+    }
+
+    public void setLocation(GPSLocation location) {
+        this.location = location;
     }
 }

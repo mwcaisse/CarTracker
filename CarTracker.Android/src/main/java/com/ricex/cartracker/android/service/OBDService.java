@@ -9,6 +9,7 @@ import android.util.Log;
 import com.ricex.cartracker.android.model.OBDReading;
 import com.ricex.cartracker.android.service.persister.Persister;
 import com.ricex.cartracker.android.service.persister.webservice.WebServicePersister;
+import com.ricex.cartracker.android.service.reader.gps.GoogleGPSReader;
 import com.ricex.cartracker.android.service.task.OBDServiceTask;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
 
@@ -61,7 +62,7 @@ public class OBDService extends Service {
             persisterThread = new Thread(persister);
         }
         if (thread == null) {
-            task = new OBDServiceTask(this, settings, persister);
+            task = new OBDServiceTask(this, settings, persister, new GoogleGPSReader(this));
             thread = new Thread(task);
         }
         //if the thread isn't running (stopped? or was just created)

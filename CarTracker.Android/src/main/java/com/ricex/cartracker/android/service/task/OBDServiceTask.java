@@ -1,49 +1,18 @@
 package com.ricex.cartracker.android.service.task;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
-import com.github.pires.obd.commands.ObdCommand;
-import com.github.pires.obd.commands.ObdMultiCommand;
-import com.github.pires.obd.commands.SpeedCommand;
-import com.github.pires.obd.commands.control.VinCommand;
-import com.github.pires.obd.commands.engine.MassAirFlowCommand;
-import com.github.pires.obd.commands.engine.OilTempCommand;
-import com.github.pires.obd.commands.engine.RPMCommand;
-import com.github.pires.obd.commands.engine.ThrottlePositionCommand;
-import com.github.pires.obd.commands.fuel.FindFuelTypeCommand;
-import com.github.pires.obd.commands.fuel.FuelLevelCommand;
-import com.github.pires.obd.commands.protocol.EchoOffCommand;
-import com.github.pires.obd.commands.protocol.LineFeedOffCommand;
-import com.github.pires.obd.commands.protocol.ObdResetCommand;
-import com.github.pires.obd.commands.protocol.SelectProtocolCommand;
-import com.github.pires.obd.commands.protocol.TimeoutCommand;
-import com.github.pires.obd.commands.temperature.AirIntakeTemperatureCommand;
-import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand;
-import com.github.pires.obd.commands.temperature.EngineCoolantTemperatureCommand;
-import com.github.pires.obd.enums.AvailableCommandNames;
-import com.github.pires.obd.enums.ObdProtocols;
-import com.github.pires.obd.exceptions.UnsupportedCommandException;
 import com.ricex.cartracker.android.model.OBDReading;
-import com.ricex.cartracker.android.service.OBDCommandJob;
-import com.ricex.cartracker.android.service.OBDCommandStatus;
 import com.ricex.cartracker.android.service.OBDService;
 import com.ricex.cartracker.android.service.ServiceLogger;
 import com.ricex.cartracker.android.service.persister.Persister;
-import com.ricex.cartracker.android.service.persister.webservice.WebServicePersister;
 import com.ricex.cartracker.android.service.reader.BluetoothOBDReader;
 import com.ricex.cartracker.android.service.reader.OBDReader;
 import com.ricex.cartracker.android.service.reader.TestOBDReader;
+import com.ricex.cartracker.android.model.GPSLocation;
+import com.ricex.cartracker.android.service.reader.gps.GPSReader;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
-
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by Mitchell on 1/30/2016.
@@ -60,16 +29,19 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
 
     private Persister persister;
 
+    private GPSReader gpsReader;
+
     private static final String BLUETOOTH_SERIAL_CONNECTION_UUID = "00001101-0000-1000-8000-00805F9B34FB";
 
 
     private static final String LOG_TAG = "ODBSERVICETASK";
 
-    public OBDServiceTask(OBDService service, CarTrackerSettings settings, Persister persister) {
+    public OBDServiceTask(OBDService service, CarTrackerSettings settings, Persister persister, GPSReader gpsReader) {
         super(settings.getODBReadingInterval());
         this.service = service;
         this.settings = settings;
         this.persister = persister;
+        this.gpsReader = gpsReader;
         createReader();
     }
 
@@ -88,6 +60,10 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
         if (! reader.initialize()) {
             return false;
         }
+
+        //initialize the gpsReader... This method itself won't return success status
+        //it has callbacks, which we should check at some point in time
+        gpsReader.start();
         info(LOG_TAG, "OBB connection established, starting data collection loop..");
         return true;
     }
@@ -108,6 +84,8 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
         //perform the data read
         try {
             OBDReading data = reader.read();
+            GPSLocation gpsLocation = gpsReader.getCurrentLocation();
+            data.setLocation(gpsLocation);
             persister.persist(data);
             service.notifyListeners(data);
             info(LOG_TAG, "Recieved data from OBD device! RPM: " + data.getEngineRPM());
@@ -128,6 +106,7 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
     public void stop() {
         super.stop(); // call the parent stop method
 
+        gpsReader.stop();
         persister.stop();
         service.onTaskStopped();
     }

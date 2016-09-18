@@ -10,6 +10,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -36,4 +37,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.github.pires:obd-java-api:1.0-RC14'
+    compile 'com.google.android.gms:play-services:9.0.2'
+    compile 'com.android.support:multidex:1.0.1'
+
 }

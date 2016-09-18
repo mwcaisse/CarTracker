@@ -133,6 +133,12 @@ public class WebServicePersister implements Persister {
             readingUpload.setFuelType(upload.getReading().getFuelType());
             readingUpload.setFuelLevel(convertStringToDouble(upload.getReading().getFuelLevel()));
 
+            //if there is a location associated with the reading, add it to the upload
+            if (null != upload.getReading().getLocation()) {
+                readingUpload.setLatitude(upload.getReading().getLocation().getLatitude());
+                readingUpload.setLongitude(upload.getReading().getLocation().getLongitude());
+            }
+
             readingUploads.add(readingUpload);
         }
 
