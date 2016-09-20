@@ -1,17 +1,22 @@
 package com.ricex.cartracker.android.service;
 
+import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.ricex.cartracker.android.R;
 import com.ricex.cartracker.android.model.OBDReading;
 import com.ricex.cartracker.android.service.persister.Persister;
 import com.ricex.cartracker.android.service.persister.webservice.WebServicePersister;
 import com.ricex.cartracker.android.service.reader.gps.GoogleGPSReader;
 import com.ricex.cartracker.android.service.task.OBDServiceTask;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
+import com.ricex.cartracker.android.view.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +36,8 @@ public class OBDService extends Service {
 
     private Persister persister;
     private Thread persisterThread;
+
+    public static final int FOREGROUND_NOTIFICATION_ID = 15;
 
 
     public List<OBDServiceListener> listeners;
@@ -75,6 +82,23 @@ public class OBDService extends Service {
             Log.i(LOG_TAG, "Starting the Persister Task!");
             persisterThread.start();
         }
+
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_media_play)
+                .setContentTitle("Car Tracker Collecting")
+                .setContentText("Collecting car telemetrics data");
+
+        Intent resultIntent = new Intent(this, MainActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        notificationBuilder.setContentIntent(pendingIntent);
+
+        startForeground(FOREGROUND_NOTIFICATION_ID,notificationBuilder.build());
     }
 
     public void onDestroy() {

@@ -88,11 +88,9 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
             data.setLocation(gpsLocation);
             persister.persist(data);
             service.notifyListeners(data);
-            info(LOG_TAG, "Recieved data from OBD device! RPM: " + data.getEngineRPM());
-
         }
         catch (Exception e) {
-            error(LOG_TAG, "Error Occured whil trying to read data!", e);
+            error(LOG_TAG, "Error Occured while trying to read data!", e);
         }
 
         return true;

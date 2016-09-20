@@ -63,13 +63,15 @@ public class DebugFragment extends Fragment implements OBDServiceListener {
 
     private static final String LOG_TAG = "ODBDebugFragment";
 
+    private View view;
+
     public DebugFragment() {
         createHandler();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.debug_fragment_layout, container, false);
+        view = inflater.inflate(R.layout.debug_fragment_layout, container, false);
         setFields(view);
         return view;
     }
@@ -129,7 +131,7 @@ public class DebugFragment extends Fragment implements OBDServiceListener {
         updateVIN(data.getVin());
 
         //refresh the view
-        getView().invalidate();
+        view.invalidate();
     }
 
     public void updateAirIntakeTemp(String airIntakeTemp) {

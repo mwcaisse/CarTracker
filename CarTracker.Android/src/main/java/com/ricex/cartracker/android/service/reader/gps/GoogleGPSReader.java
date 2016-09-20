@@ -79,7 +79,6 @@ public class GoogleGPSReader implements GPSReader, GoogleApiClient.ConnectionCal
                 final LocationSettingsStates states = result.getLocationSettingsStates();
                 switch (status.getStatusCode()) {
                     case LocationSettingsStatusCodes.SUCCESS:
-                        Log.i("CT-GPS", "GPS Settings request was sucessful, Starting normal GPS requests");
                         try {
                             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, locationListener);
                         }
@@ -88,11 +87,11 @@ public class GoogleGPSReader implements GPSReader, GoogleApiClient.ConnectionCal
                         }
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                        Log.i("CT-GPS", "GPS Settings Request NEEDS RESOLUTION");
+                        Log.w("CT-GPS", "GPS Settings Request NEEDS RESOLUTION");
                         break;
 
                     case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                        Log.i("CT-GPS", "GPS Settings Request FAILED AND NO RESOLUTION AVAILABLE");
+                        Log.w("CT-GPS", "GPS Settings Request FAILED AND NO RESOLUTION AVAILABLE");
                         break;
                 }
 
@@ -138,7 +137,6 @@ public class GoogleGPSReader implements GPSReader, GoogleApiClient.ConnectionCal
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.i("CT-GPS","Location Changed: " + location);
         if (null != location) {
             lastLocation = location;
         }
