@@ -75,6 +75,7 @@ public class WebServicePersister implements Persister {
                 //we have been notified, most likely uploads is above the limit
 
                 if (uploads.size() > 0) {
+                    Log.i(LOG_TAG, "Starting a reading upload!");
                     List<ReadingUpload> readingUploads;
                     synchronized (monitor) {
                         readingUploads = getReadingUploads();

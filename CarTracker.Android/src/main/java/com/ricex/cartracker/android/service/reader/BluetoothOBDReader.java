@@ -53,13 +53,13 @@ public class BluetoothOBDReader implements OBDReader {
     }
 
     public boolean initialize() {
-        logger.info(LOG_TAG, "Initializing Bluetooth OBD Reader!");
         //check if we are already connected, if so there is nothing to do
         if (isConnected()) {
             return true;
         }
-        return initializeBluetoothConnection() && initiateOBDConnection();
 
+        logger.info(LOG_TAG, "Initializing Bluetooth OBD Reader!");
+        return initializeBluetoothConnection() && initiateOBDConnection();
     }
 
     public OBDReading read() {

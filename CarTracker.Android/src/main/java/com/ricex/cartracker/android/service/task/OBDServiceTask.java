@@ -31,9 +31,6 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
 
     private GPSReader gpsReader;
 
-    private static final String BLUETOOTH_SERIAL_CONNECTION_UUID = "00001101-0000-1000-8000-00805F9B34FB";
-
-
     private static final String LOG_TAG = "ODBSERVICETASK";
 
     public OBDServiceTask(OBDService service, CarTrackerSettings settings, Persister persister, GPSReader gpsReader) {
@@ -88,6 +85,8 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
             data.setLocation(gpsLocation);
             persister.persist(data);
             service.notifyListeners(data);
+
+            info(LOG_TAG, "Read some data, Engine RPM: " + data.getEngineRPM());
         }
         catch (Exception e) {
             error(LOG_TAG, "Error Occured while trying to read data!", e);
