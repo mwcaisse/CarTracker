@@ -81,6 +81,9 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
         //perform the data read
         try {
             OBDReading data = reader.read();
+            if ("-1".equals(data.getEngineRPM())) {
+                return false;
+            }
             GPSLocation gpsLocation = gpsReader.getCurrentLocation();
             data.setLocation(gpsLocation);
             persister.persist(data);
