@@ -24,6 +24,16 @@
 
         <service android:name=".service.OBDService" />
 
+        <receiver android:name=".service.receiver.BlueoothBroadcastReceiver"
+                  android:exported="true"
+                  android:enabled="true">
+            <intent-filter>
+                <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
+                <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED" />
+            </intent-filter>
+        </receiver>
+
+
     </application>
 
 </manifest>

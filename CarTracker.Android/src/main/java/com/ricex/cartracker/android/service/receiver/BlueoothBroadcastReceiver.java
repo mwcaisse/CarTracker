@@ -4,7 +4,9 @@ import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
+import com.ricex.cartracker.android.service.OBDService;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
 
 /**
@@ -14,6 +16,10 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
 
     private CarTrackerSettings settings;
 
+    private static final String LOG_TAG = "BTBR";
+
+    private Intent serviceIntent;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
@@ -21,23 +27,27 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
         if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action) ||
             BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
 
+            initializeSettings(context);
+
             if (isOurDevice(intent)) {
                 if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
-                    startService();
+                    startService(context);
                 }
                 else {
-                    stopService();
+                    stopService(context);
                 }
             }
         }
     }
 
-    protected void startService() {
-
+    protected void startService(Context context) {
+        Log.i(LOG_TAG, "Registered Bluetooth device has connected!");
+        serviceIntent = new Intent(context, OBDService.class);
+        context.startService(serviceIntent);
     }
 
-    protected void stopService() {
-
+    protected void stopService(Context context) {
+        Log.i(LOG_TAG, "Registered Bluetooth device has disconnected!");
     }
 
     protected BluetoothDevice getDeviceFromIntent(Intent intent) {
@@ -50,5 +60,11 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
 
     protected boolean isOurDevice(Intent intent) {
         return isOurDevice(getDeviceFromIntent(intent));
+    }
+
+    protected void initializeSettings(Context context) {
+        if (null == settings) {
+            settings = new CarTrackerSettings(context);
+        }
     }
 }
