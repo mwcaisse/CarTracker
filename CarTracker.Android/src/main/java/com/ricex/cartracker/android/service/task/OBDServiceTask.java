@@ -8,6 +8,7 @@ import com.ricex.cartracker.android.service.OBDService;
 import com.ricex.cartracker.android.service.ServiceLogger;
 import com.ricex.cartracker.android.service.persister.Persister;
 import com.ricex.cartracker.android.service.reader.BluetoothOBDReader;
+import com.ricex.cartracker.android.service.reader.ConnectionLostException;
 import com.ricex.cartracker.android.service.reader.OBDReader;
 import com.ricex.cartracker.android.service.reader.TestOBDReader;
 import com.ricex.cartracker.android.model.GPSLocation;
@@ -90,6 +91,10 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
             service.notifyListeners(data);
 
             info(LOG_TAG, "Read some data, Engine RPM: " + data.getEngineRPM());
+        }
+        catch (ConnectionLostException e) {
+            info(LOG_TAG, "Connection to ODB Device lost.");
+            return false; // we aren't connected anymore, don't continue
         }
         catch (Exception e) {
             error(LOG_TAG, "Error Occured while trying to read data!", e);

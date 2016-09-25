@@ -62,11 +62,15 @@ public class BluetoothOBDReader implements OBDReader {
         return initializeBluetoothConnection() && initiateOBDConnection();
     }
 
-    public OBDReading read() {
+    public OBDReading read() throws ConnectionLostException {
         List<OBDCommandJob> jobs = createJobs();
 
         for (OBDCommandJob job : jobs) {
             executeOBDJob(job);
+
+            if (OBDCommandStatus.CONNECTION_LOST.equals(job.getStatus())) {
+                throw new ConnectionLostException("Connection to the OBD device lost");
+            }
         }
         return readDataFromJobs(jobs);
     }
@@ -192,8 +196,7 @@ public class BluetoothOBDReader implements OBDReader {
                     job.getCommand().run(bluetoothSocket.getInputStream(), bluetoothSocket.getOutputStream());
                 }
                 else {
-                    job.setStatus(OBDCommandStatus.EXECUTION_ERROR);
-                    //socket is closed..
+                    job.setStatus(OBDCommandStatus.CONNECTION_LOST);
                 }
             }
             else {
@@ -202,6 +205,9 @@ public class BluetoothOBDReader implements OBDReader {
         }
         catch (UnsupportedCommandException e) {
             job.setStatus(OBDCommandStatus.NOT_SUPPORTED);
+        }
+        catch (IOException e) {
+            job.setStatus(OBDCommandStatus.CONNECTION_LOST);
         }
         catch (Exception e) {
             job.setStatus(OBDCommandStatus.EXECUTION_ERROR);

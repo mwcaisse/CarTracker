@@ -9,6 +9,8 @@ import android.util.Log;
 import com.ricex.cartracker.android.service.OBDService;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Created by Mitchell on 2016-09-21.
  */
@@ -55,7 +57,12 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
     }
 
     protected boolean isOurDevice(BluetoothDevice device) {
-        return settings.getBluetoothDeviceAddress().equals(device.getAddress());
+        String triggerDeviceAddress = settings.getTriggerBluetoothDeviceAddress();
+        if (StringUtils.isBlank(triggerDeviceAddress)) {
+            //fallback to the OBD bluetooth device if a trigger device isn't set
+            triggerDeviceAddress = settings.getBluetoothDeviceAddress();
+        }
+        return StringUtils.equals(triggerDeviceAddress, device.getAddress());
     }
 
     protected boolean isOurDevice(Intent intent) {

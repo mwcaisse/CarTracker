@@ -16,6 +16,7 @@ public class CarTrackerSettings implements ApplicationPreferences {
     private static final String SAVE_LOCALLY_ENABLED_KEY = "pref_saveLocallyEnabled";
     private static final String SERVER_ADDRESS_KEY = "pref_serverAddress";
     private static final String BLUETOOTH_DEVICE_ADDRESS_KEY = "pref_bluetoothDevice";
+    private static final String TRIGGER_BLUETOOTH_DEVICE_ADDRESS_KEY = "pref_triggerBluetoothDevice";
     private static final String OBD_READER_TYPE_KEY = "pref_obdReaderType";
     private static final String OBD_READING_INTERVAL_KEY = "pref_obdReadingInterval";
 
@@ -24,6 +25,7 @@ public class CarTrackerSettings implements ApplicationPreferences {
     private boolean savingLocallyEnabled;
     private String serverAddress;
     private String bluetoothDeviceAddress;
+    private String triggerBluetoothDeviceAddress;
     private OBDReaderType obdReaderType;
     private double obdReadingInterval;
 
@@ -49,6 +51,7 @@ public class CarTrackerSettings implements ApplicationPreferences {
         savingLocallyEnabled = preferences.getBoolean(SAVE_LOCALLY_ENABLED_KEY, true);
         serverAddress = preferences.getString(SERVER_ADDRESS_KEY, "");
         bluetoothDeviceAddress = preferences.getString(BLUETOOTH_DEVICE_ADDRESS_KEY, "");
+        triggerBluetoothDeviceAddress = preferences.getString(TRIGGER_BLUETOOTH_DEVICE_ADDRESS_KEY, "");
         obdReaderType = OBDReaderType.valueOf(preferences.getString(OBD_READER_TYPE_KEY, OBDReaderType.BLUETOOTH_READER.toString()));
         try {
             obdReadingInterval = Double.parseDouble(preferences.getString(OBD_READING_INTERVAL_KEY, "15.0"));
@@ -89,6 +92,10 @@ public class CarTrackerSettings implements ApplicationPreferences {
 
     public String getBluetoothDeviceAddress() {
         return bluetoothDeviceAddress;
+    }
+
+    public String getTriggerBluetoothDeviceAddress() {
+        return triggerBluetoothDeviceAddress;
     }
 
     public double getODBReadingInterval() {

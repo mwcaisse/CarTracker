@@ -17,6 +17,6 @@ public interface OBDReader {
      *
      * @return the OBD data read
      */
-    public OBDReading read();
+    public OBDReading read() throws ConnectionLostException;
 
 }

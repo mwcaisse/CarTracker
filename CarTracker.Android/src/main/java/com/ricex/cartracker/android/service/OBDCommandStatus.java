@@ -9,5 +9,6 @@ public enum OBDCommandStatus {
     RUNNING,
     FINISHED,
     EXECUTION_ERROR,
+    CONNECTION_LOST,
     NOT_SUPPORTED
 }

@@ -31,6 +31,12 @@
         android:summary="The ODBII bluetooth device"
         android:defaultValue="" />
 
+    <com.ricex.cartracker.android.view.BluetoothDevicePreference
+        android:key="pref_triggerBluetoothDevice"
+        android:title="Service Trigger Device"
+        android:summary="The Bluetooth Device to use as a trigger for auto starting the service"
+        android:defaultValue="" />
+
     <com.ricex.cartracker.android.view.OBDReaderTypePreference
         android:key="pref_obdReaderType"
         android:title="OBD Reader Type"
