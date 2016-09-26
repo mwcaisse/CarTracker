@@ -34,6 +34,26 @@ public class ReadingController extends ApiController<Reading> {
 		super(ENTITY_NAME, manager);
 		this.manager = manager;
 	}
+	/** Fetches the reading with the given id
+	 * 
+	 * @param id The id of the reading
+	 * @return The reading
+	 */
+	
+	@RequestMapping(value="/reading/{id}", method = RequestMethod.GET, produces={JSON})			
+	public @ResponseBody EntityResponse<Reading> get(@PathVariable long id) {
+		return super.get(id);
+	}
+	
+	/** Fetches all of the reading for a particular trip
+	 * 
+	 * @param tripId The id of the trip
+	 * @return The readings
+	 */
+	@RequestMapping(value="/trip/{tripId}/reading/", method = RequestMethod.GET, produces={JSON})
+	public @ResponseBody EntityResponse<List<Reading>> getAllForTrip(@PathVariable long tripId) {
+		return createEntityResponse(manager.getForTrip(tripId));
+	}
 	
 	/** Performs a bulk upload of readings
 	 * 

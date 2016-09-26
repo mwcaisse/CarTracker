@@ -41,11 +41,13 @@
     
     <select id="getAll" resultMap="readingResultMap">
         SELECT READING.* FROM READING
+        ORDER BY READ_DATE
     </select>
     
     <select id="getForTrip" resultMap="readingResultMap" parameterType="long">
         SELECT READING.* FROM READING
         WHERE READING.TRIP_ID = #{tripId}
+        ORDER BY READ_DATE
     </select>   
     
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
