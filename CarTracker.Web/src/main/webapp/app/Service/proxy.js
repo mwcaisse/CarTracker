@@ -57,14 +57,27 @@ define("Service/proxy", [], function () {
 		self.postAbsolute = function(url, body) {
 			return self.ajax({
 				url: url,
-				data: ko.toJSON(body),
-				contentType: "application/json"
+				data: ko.toJSON(body),	
+				method: "POST"
 			});
 		};	
 		
 		self.post = function(relativeUrl, body) {
 			return self.postAbsolute(self.baseUrl + relativeUrl, body);
 		};
+		
+		self.putAbsolute = function (url, body) {
+			return self.ajax({
+				url: url,
+				data: ko.toJSON(body),		
+				method: "PUT"
+			};
+		};
+		
+		self.put = function(relativeUrl, body) {
+			return self.putAbsolute(self.baseUrl + relativeUrl, body);
+		}
+		
 		
 	})();
 	

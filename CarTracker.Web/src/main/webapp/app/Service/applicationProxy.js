@@ -5,6 +5,25 @@ define("Service/applicationProxy", ["Service/proxy"], function (core) {
 	var appProxy = new (function() {
 		var self = this;
 		
+		self.car = {
+			get: function(id) {
+				return core.get("car/" + id
+			},
+			getByVin: function(vin) {
+				return core.get("car/vin/" + vin);
+			},
+			getAll: function() {
+				return core.get("car/");
+			},
+			create: function(car) {
+				return core.post("car/", car);
+			},
+			update: function(car) {
+				return core.put("car/", car);
+			}
+				
+		};
+		
 		self.trip = {
 			get: function(id) {
 				return core.get("trip/" + id);
