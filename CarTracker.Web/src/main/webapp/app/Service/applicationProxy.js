@@ -35,7 +35,7 @@ define("Service/applicationProxy", ["Service/proxy"], function (core) {
 				return core.get("car/" + carId + "/trip/");
 			},
 			update: function(trip) {
-				return core.post("trip/", trip);
+				return core.put("trip/", trip);
 			}
 		};
 		
