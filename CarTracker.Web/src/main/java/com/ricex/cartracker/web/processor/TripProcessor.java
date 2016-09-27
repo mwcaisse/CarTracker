@@ -80,18 +80,18 @@ public class TripProcessor {
 	}
 	
 	private double calculateDistanceBetweenReadings(Reading prev, Reading current) {
-		double radius = 3959; // radius of earth in miles
+		double radius = 3959.0; // radius of earth in miles
 		double deltaLat = Math.toRadians(current.getLatitude() - prev.getLatitude());
 		double deltaLong = Math.toRadians(current.getLongitude() - prev.getLongitude());
 		
 		double currentLat = Math.toRadians(current.getLatitude());
 		double prevLat = Math.toRadians(prev.getLatitude());
 		
-		double a = Math.pow(Math.sin(deltaLat / 2.0), 2.0) + Math.pow(Math.sin(deltaLong / 2.0), 2.0) * Math.cos(currentLat) * Math.cos(prevLat);
-		double c= 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		double a = Math.pow(Math.sin(deltaLat / 2.0), 2.0) + Math.pow(Math.sin(deltaLong / 2.0), 2.0) * Math.cos(prevLat) * Math.cos(currentLat);
+		double c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0-a));
 		double distance = radius * c;	
 		
-		return distance;
+		return Math.abs(distance);
 	}
 	
 }
