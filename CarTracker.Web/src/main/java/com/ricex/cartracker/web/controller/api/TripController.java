@@ -14,6 +14,8 @@ import com.ricex.cartracker.common.viewmodel.BooleanResponse;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
 import com.ricex.cartracker.data.manager.TripManager;
 import com.ricex.cartracker.data.validation.EntityValidationException;
+import com.ricex.cartracker.web.model.CalculatedTrip;
+import com.ricex.cartracker.web.processor.TripProcessor;
 
 @Controller
 @RequestMapping("/api")
@@ -23,9 +25,12 @@ public class TripController extends ApiController<Trip> {
 	
 	private final TripManager manager;
 	
-	public TripController(TripManager manager) {
+	private final TripProcessor tripProcessor;
+	
+	public TripController(TripManager manager,TripProcessor tripProcessor) {
 		super(ENTITY_NAME, manager);
 		this.manager = manager;
+		this.tripProcessor = tripProcessor;
 	}
 	
 	/** Fetches the trip with the given id
@@ -37,6 +42,11 @@ public class TripController extends ApiController<Trip> {
 	@RequestMapping(value="/trip/{id}", method = RequestMethod.GET, produces={JSON})
 	public @ResponseBody EntityResponse<Trip> get(@PathVariable long id) {
 		return super.get(id);
+	}
+	
+	@RequestMapping(value="/trip/{id}/calculated", method = RequestMethod.GET, produces={JSON})
+	public @ResponseBody EntityResponse<CalculatedTrip> getCalulcated(@PathVariable long id) {
+		return createEntityResponse(tripProcessor.processTrip(id));
 	}
 	
 	/** Fetches all of the Trips
