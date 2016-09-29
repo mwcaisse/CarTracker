@@ -37,4 +37,8 @@ public class EntityResponse<T> implements Serializable {
 		return errorMessage;
 	}	
 	
+	public boolean isValid() {
+		return valid;
+	}
+	
 }
