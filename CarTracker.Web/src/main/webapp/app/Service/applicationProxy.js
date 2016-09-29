@@ -7,7 +7,7 @@ define("Service/applicationProxy", ["Service/proxy"], function (core) {
 		
 		self.car = {
 			get: function(id) {
-				return core.get("car/" + id
+				return core.get("car/" + id);
 			},
 			getByVin: function(vin) {
 				return core.get("car/vin/" + vin);
@@ -20,8 +20,7 @@ define("Service/applicationProxy", ["Service/proxy"], function (core) {
 			},
 			update: function(car) {
 				return core.put("car/", car);
-			}
-				
+			}				
 		};
 		
 		self.trip = {

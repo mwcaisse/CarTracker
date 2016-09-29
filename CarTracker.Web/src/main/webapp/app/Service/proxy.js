@@ -5,7 +5,7 @@ define("Service/proxy", [], function () {
 	var proxy = new (function() {
 		var self = this;
 
-		self.baseUrl = "/cartracker/";
+		self.baseUrl = "/cartracker/api/";
 		
 		self.ajax = function(options) {
 			var def = Q.defer();
@@ -71,12 +71,12 @@ define("Service/proxy", [], function () {
 				url: url,
 				data: ko.toJSON(body),		
 				method: "PUT"
-			};
+			});
 		};
 		
 		self.put = function(relativeUrl, body) {
 			return self.putAbsolute(self.baseUrl + relativeUrl, body);
-		}
+		};
 		
 		
 	})();

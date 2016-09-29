@@ -10,17 +10,17 @@ public class EntityResponse<T> implements Serializable {
 	
 	private String errorMessage;
 	
+	private final boolean valid;
+	
 	public EntityResponse(T data) {
 		this.data = data;
+		this.valid = true;
 	}
 	
 	public EntityResponse(T data, String message) {
 		this.data = data;
 		this.errorMessage = message;
-	}
-	
-	public boolean isValid() {
-		return StringUtils.isBlank(errorMessage);
+		this.valid = StringUtils.isBlank(errorMessage);
 	}
 
 	/**

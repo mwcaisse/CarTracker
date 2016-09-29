@@ -1,0 +1,24 @@
+<div>
+
+	<h2 data-bind="text: $data.Text"></h2>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Name</th>	
+				<th>Start Date</th>
+				<th>End Date</th>
+			</tr>
+		</thead>
+		<tbody data-bind="foreach: $data.trips">
+			<tr>
+				<td data-bind="text: $data.name"></td>
+				<td data-bind="text: $data.startDateDisplay"></td>
+				<td data-bind="text: $data.endDateDisplay"></td>	
+			</tr>
+		</tbody>
+	
+	</table>
+	
+
+</div>

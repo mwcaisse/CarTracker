@@ -28,6 +28,7 @@ import com.ricex.cartracker.data.mapper.TripMapper;
 import com.ricex.cartracker.web.controller.api.CarController;
 import com.ricex.cartracker.web.controller.api.ReadingController;
 import com.ricex.cartracker.web.controller.api.TripController;
+import com.ricex.cartracker.web.controller.view.TripViewController;
 import com.ricex.cartracker.web.processor.TripProcessor;
 import com.ricex.cartracker.web.util.GsonFactory;
 
@@ -50,6 +51,11 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	@Bean
 	public ReadingController readingController() throws Exception {
 		return new ReadingController(readingManager());
+	}
+	
+	@Bean
+	public TripViewController tripViewController() {
+		return new TripViewController();
 	}
 	
 	@Bean
