@@ -88,7 +88,7 @@ public class TripProcessor {
 			//TODO: Add a more sophisticated handler for this
 		}
 		
-		double radius = 3959.0; // radius of earth in miles
+		double radius = 6371.0; // radius of earth in km
 		double deltaLat = Math.toRadians(current.getLatitude() - prev.getLatitude());
 		double deltaLong = Math.toRadians(current.getLongitude() - prev.getLongitude());		
 
