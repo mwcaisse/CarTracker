@@ -46,11 +46,15 @@ define("Modules/Trip/TripGrid", ["moment", "Service/util", "Service/applicationP
 			function (error) {
 				alert(error);
 			});
-		}
+		};
 		
 		self.load = function() {
 			self.fetchTrips();
-		};		
+		};	
+		
+		self.refresh = function () {
+			self.load();
+		}
 	};
 	
 	return vm;
