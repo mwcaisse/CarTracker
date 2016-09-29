@@ -16,8 +16,6 @@ define("Modules/Trip/TripGrid", ["moment", "Service/util", "Service/applicationP
 		
 		self.trips = ko.observableArray([]);
 		
-		self.Text = ko.observable("Hello");
-		
 		self.TripModel = function (data) {
 			var trip = this;
 			
@@ -27,11 +25,11 @@ define("Modules/Trip/TripGrid", ["moment", "Service/util", "Service/applicationP
 			trip.endDate = moment(data.endDate);
 			
 			trip.startDateDisplay = ko.computed(function () {
-				return trip.startDate.format("YYY-MM-DD HH:mm:ss");
+				return trip.startDate.format("YYYY-MM-DD HH:mm:ss");
 			});
 			
 			trip.endDateDisplay = ko.computed(function () {
-				return trip.endDate.format("YYY-MM-DD HH:mm:ss");
+				return trip.endDate.format("YYYY-MM-DD HH:mm:ss");
 			});		                                       
 			
 			return trip;
@@ -44,8 +42,6 @@ define("Modules/Trip/TripGrid", ["moment", "Service/util", "Service/applicationP
 					return new self.TripModel(elm);
 				});
 				self.trips(trips);
-				
-				self.Text("World");
 			},
 			function (error) {
 				alert(error);

@@ -11,7 +11,7 @@ define("Service/koBindingHandlers", [], function () {
 		
 		self.customTemplateUpdate = function (templateName, element, valueAccessor, allBindings, viewModel, bindingContext) {	
 			var accessor = valueAccessor();
-			var template = ko.renderTemplate(templateName, accessor, {}, element, "replaceNode");
+			var template = ko.renderTemplate(templateName, accessor, {}, element);
 		};
 		
 		/** Creates a binding handler alias for the given template
