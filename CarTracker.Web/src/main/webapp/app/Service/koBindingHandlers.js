@@ -11,7 +11,7 @@ define("Service/koBindingHandlers", [], function () {
 		
 		self.customTemplateUpdate = function (templateName, element, valueAccessor, allBindings, viewModel, bindingContext) {	
 			var accessor = valueAccessor();
-			var template = ko.renderTemplate(templateName, accessor, {}, element);
+			var template = ko.renderTemplate(templateName, accessor, {}, element, "replaceNode");
 		};
 		
 		/** Creates a binding handler alias for the given template
@@ -28,6 +28,24 @@ define("Service/koBindingHandlers", [], function () {
 		}
 		
 	})();
+	
+	
+	ko.bindingHandlers.tooltip = {
+		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+			
+		},
+		update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+			var $el = $(element);
+			var value = ko.unwrap(valueAccessor());
+			var bindingOptions = allBindings.get("tooltipOptions") || {};
+			var defaults = {
+				title: value
+			};
+			var opts = $.extend({}, defaults, bindingOptions);
+			
+			$el.tooltip(opts);
+		}
+	};
 	
 	return handlers;
 	
