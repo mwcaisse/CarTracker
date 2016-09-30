@@ -14,4 +14,9 @@ public class TripViewController extends ViewController {
 		return new ModelAndView("trip/index");
 	}
 	
+	@RequestMapping(value = "/details", method = RequestMethod.GET)
+	public ModelAndView tripDetails() {
+		return new ModelAndView("trip/details");
+	}
+	
 }

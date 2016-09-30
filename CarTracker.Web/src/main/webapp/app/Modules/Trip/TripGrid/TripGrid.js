@@ -1,6 +1,6 @@
 "use strict";
 
-define("Modules/Trip/TripGrid", ["moment", "Service/util", "Service/applicationProxy", "Modules/Trip/TripGridBinding"],
+define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/util", "Service/applicationProxy", "Modules/Trip/TripGrid/TripGridBinding"],
 		function (moment, util, proxy) {
 	
 	var vm = function(options) {

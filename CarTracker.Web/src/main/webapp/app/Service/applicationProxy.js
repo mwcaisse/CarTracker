@@ -27,6 +27,9 @@ define("Service/applicationProxy", ["Service/proxy"], function (core) {
 			get: function(id) {
 				return core.get("trip/" + id);
 			},
+			getCalculated: function (id) {
+				return core.get("trip/" + id + "/calculated");
+			},
 			getAll: function() {
 				return core.get("trip/");
 			},

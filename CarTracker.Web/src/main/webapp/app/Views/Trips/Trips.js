@@ -1,7 +1,7 @@
 "use strict";
 
 define("Views/Trips/Trips", 
-	["Modules/Trip/TripGrid",
+	["Modules/Trip/TripGrid/TripGrid",
 	 "AMD/koTemplateLoader!Views/Trips/Trips.html"], function (tripGrid) {
 	
 	var vm = function() {
