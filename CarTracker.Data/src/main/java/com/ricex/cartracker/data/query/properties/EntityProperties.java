@@ -1,6 +1,6 @@
 package com.ricex.cartracker.data.query.properties;
 
-public class Properties {
+public final class EntityProperties {
 
 	public enum Car implements EntityProperty {
 		
