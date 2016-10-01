@@ -9,7 +9,9 @@ define("Modules/Common/Pager/Pager", ["moment", "Service/util", "Service/applica
 		var defaults = {
 			itemsPerPageOptions: [5, 10, 15, 25],
 			fetchData: function (startAt, maxResults) {
-				//do nothing
+				return Q.fcall(function() {
+					return {total: 40};
+				});
 			}
 		};		
 
@@ -23,7 +25,7 @@ define("Modules/Common/Pager/Pager", ["moment", "Service/util", "Service/applica
 		
 		self.currentPage = ko.observable(1);
 		
-		self.totalItems = ko.observable(40);
+		self.totalItems = ko.observable(45);
 		
 		self.totalPages = ko.computed(function () {
 			return Math.ceil(self.totalItems() / self.itemsPerPage());
@@ -67,11 +69,11 @@ define("Modules/Common/Pager/Pager", ["moment", "Service/util", "Service/applica
 		});
 		
 		self.showFirstPageButton = ko.computed(function () {
-			return self.currentPage() !== 1;
+			return $.inArray(1, self.pages()) === -1;
 		});
 		
 		self.showLastPageButton = ko.computed(function () {
-			return self.currentPage() !== self.totalPages();
+			return $.inArray(self.totalPages(), self.pages()) === -1;
 		});
 		
 		self.itemsPerPage.subscribe(function (newValue) {
@@ -107,7 +109,9 @@ define("Modules/Common/Pager/Pager", ["moment", "Service/util", "Service/applica
 		self.fetchData = function () {
 			var itemsPerPage = self.itemsPerPage();
 			var startAt = (self.currentPage() - 1) * itemsPerPage;
-			opts.fetchData(startAt, itemsPerPage);
+			opts.fetchData(startAt, itemsPerPage).then(function (data) {
+				self.totalItems(data.total);
+			});
 		};
 		
 	};

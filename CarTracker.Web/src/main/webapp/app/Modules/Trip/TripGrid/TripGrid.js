@@ -38,16 +38,17 @@ define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/util", "Service/app
 		};	
 		
 		self.gridPager = new pager({fetchData: function (startAt, maxResults) {
-			self.fetchTrips(startAt, maxResults);
+			return self.fetchTrips(startAt, maxResults);
 		}});
 	
 		/** Fetch the trips from the server */
 		self.fetchTrips = function(startAt, maxResults) {
-			proxy.trip.getAllForCarPaged(self.carId, startAt, maxResults).then(function (data) {
+			return proxy.trip.getAllForCarPaged(self.carId, startAt, maxResults).then(function (data) {
 				var trips = $.map(data.data, function (elm, ind) {
 					return new self.TripModel(elm);
 				});
-				self.trips(trips);
+				self.trips(trips);	
+				return data;
 			},
 			function (error) {
 				alert(error);
