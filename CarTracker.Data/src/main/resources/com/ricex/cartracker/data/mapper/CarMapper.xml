@@ -22,6 +22,10 @@
         SELECT CAR.* FROM CAR
     </select>
     
+     <select id="getTotalCount" resultType="long">
+        SELECT COUNT(*) FROM CAR
+    </select>
+    
     <select id="get" resultMap="carResultMap" parameterType="long">
         SELECT CAR.* FROM CAR
         WHERE CAR.ID = #{id}

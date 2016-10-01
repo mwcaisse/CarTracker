@@ -28,6 +28,10 @@
         SELECT TRIP.* FROM TRIP
     </select>
     
+    <select id="getTotalCount" resultType="long">
+        SELECT COUNT(*) FROM TRIP
+    </select>
+    
     <select id="getForCar" resultMap="tripResultMap" parameterType="long">
         SELECT TRIP.* FROM TRIP
         WHERE TRIP.CAR_ID = #{carId}

@@ -44,6 +44,10 @@
         ORDER BY READ_DATE
     </select>
     
+    <select id="getTotalCount" resultType="long">
+        SELECT COUNT(*) FROM READING
+    </select>
+    
     <select id="getForTrip" resultMap="readingResultMap" parameterType="long">
         SELECT READING.* FROM READING
         WHERE READING.TRIP_ID = #{tripId}

@@ -40,6 +40,17 @@ public abstract class ApiController<T extends AbstractEntity> {
 		return createEntityResponse(manager.getAll());
 	}
 	
+	/** Fetches all of the entities of this type paged
+	 * 
+	 * @param startAt The start index
+	 * @param maxResults The max number of results to return
+	 * @return The entities on the page
+	 */
+	
+	public EntityResponse<List<T>> getAllPaged(int startAt, int maxResults) {
+		return createEntityResponse(manager.getAllPaged(startAt, maxResults));
+	}
+	
 	/** Fetches an entity with the specified id
 	 * 
 	 * @param id The id of the entity to fetch

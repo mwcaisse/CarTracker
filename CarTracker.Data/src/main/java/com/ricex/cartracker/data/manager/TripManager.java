@@ -3,6 +3,8 @@ package com.ricex.cartracker.data.manager;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
+
 import com.ricex.cartracker.common.entity.Car;
 import com.ricex.cartracker.common.entity.Trip;
 import com.ricex.cartracker.data.mapper.TripMapper;
@@ -35,6 +37,15 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 	 */
 	public List<Trip> getForCar(long carId) {
 		return mapper.getForCar(carId);
+	}
+	
+	/** Gets all of the trips associated with the given car
+	 * 
+	 * @param carId The car's Id
+	 * @return The trips for the car
+	 */
+	public List<Trip> getForCar(long carId, int startAt, int maxResults) {
+		return mapper.getForCar(carId, new RowBounds(startAt, maxResults));
 	}
 	
 	/** Creates a new trip for the car with the given VIN

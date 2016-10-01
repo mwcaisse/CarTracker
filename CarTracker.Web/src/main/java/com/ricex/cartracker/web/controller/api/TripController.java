@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ricex.cartracker.common.entity.Trip;
@@ -47,15 +48,19 @@ public class TripController extends ApiController<Trip> {
 	@RequestMapping(value="/trip/{id}/calculated", method = RequestMethod.GET, produces={JSON})
 	public @ResponseBody EntityResponse<CalculatedTrip> getCalulcated(@PathVariable long id) {
 		return createEntityResponse(tripProcessor.processTrip(id));
-	}
+	}	
+
 	
-	/** Fetches all of the Trips
+	/** Fetches all of the Trips. Supports paging
 	 * 
-	 * @return A list of all the trips
+	 * @param startAt the starting index, optional defaults to 0
+	 * @param maxResults  the maximum number of results, optional defaults to 25
+	 * @return The trips
 	 */
 	@RequestMapping(value="/trip/", method = RequestMethod.GET, produces={JSON})
-	public @ResponseBody EntityResponse<List<Trip>> getAll() {
-		return super.getAll();
+	public @ResponseBody EntityResponse<List<Trip>> getAll(@RequestParam(name = "startAt", required = false, defaultValue = "0") int startAt, 
+														   @RequestParam(name = "maxResults", required = false, defaultValue = "25") int maxResults) {
+		return super.getAllPaged(startAt, maxResults);
 	}
 	
 	/** Fetches all of the trips for the given car
@@ -64,8 +69,11 @@ public class TripController extends ApiController<Trip> {
 	 * @return List of trips for the car
 	 */
 	@RequestMapping(value="/car/{carId}/trip/", method = RequestMethod.GET, produces={JSON})
-	public @ResponseBody EntityResponse<List<Trip>> getAllForCar(@PathVariable long carId) {
-		return createEntityResponse(manager.getForCar(carId));
+	public @ResponseBody EntityResponse<List<Trip>> getAllForCar(@PathVariable long carId,
+			@RequestParam(name = "startAt", required = false, defaultValue = "0") int startAt, 
+			@RequestParam(name = "maxResults", required = false, defaultValue = "25") int maxResults) { 
+		
+		return createEntityResponse(manager.getForCar(carId, startAt, maxResults));
 	}
 	
 	/** Creates a new Trip for the given car

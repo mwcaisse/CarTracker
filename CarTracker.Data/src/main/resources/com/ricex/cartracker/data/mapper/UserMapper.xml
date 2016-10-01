@@ -22,6 +22,10 @@
         SELECT USER.* FROM USER
     </select>
     
+    <select id="getTotalCount" resultType="long">
+        SELECT COUNT(*) FROM USER
+    </select>
+    
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
     	INSERT INTO USER (USERNAME)
     	VALUES #{username}	

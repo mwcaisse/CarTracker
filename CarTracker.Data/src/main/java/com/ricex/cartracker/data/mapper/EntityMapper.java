@@ -2,6 +2,8 @@ package com.ricex.cartracker.data.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
+
 import com.ricex.cartracker.common.entity.AbstractEntity;
 
 public interface EntityMapper<T extends AbstractEntity> {
@@ -18,6 +20,20 @@ public interface EntityMapper<T extends AbstractEntity> {
 	 * @return All of the entities, or empty list if none exist
 	 */
 	public List<T> getAll();	
+	
+	
+	/** Gets a list of all the entities, offset and limited by the row bounds
+	 * 
+	 * @param rb The row bounds containing the limit and offset
+	 * @return The entities within the limit and offset
+	 */
+	public List<T> getAll(RowBounds rb);
+	
+	/** Gets the total count of all the entities
+	 * 
+	 * @return The total number of entities
+	 */	
+	public long getTotalCount();
 	
 	/** Creates the given entity
 	 * 
