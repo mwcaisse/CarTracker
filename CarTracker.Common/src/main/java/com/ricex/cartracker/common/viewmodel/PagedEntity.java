@@ -3,7 +3,7 @@ package com.ricex.cartracker.common.viewmodel;
 import java.io.Serializable;
 import java.util.List;
 
-public class PagedResponse<T> implements Serializable {
+public class PagedEntity<T> implements Serializable {
 	
 	/**
 	 * 
@@ -18,7 +18,7 @@ public class PagedResponse<T> implements Serializable {
 	
 	private final long total;
 	
-	public PagedResponse(List<T> data, int startAt, int maxResults, long total) {
+	public PagedEntity(List<T> data, int startAt, int maxResults, long total) {
 		this.data = data;
 		this.startAt = startAt;
 		this.maxResults = maxResults;

@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import com.ricex.cartracker.common.entity.AbstractEntity;
 import com.ricex.cartracker.common.viewmodel.BooleanResponse;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
+import com.ricex.cartracker.common.viewmodel.PagedEntity;
 import com.ricex.cartracker.data.manager.AbstractEntityManager;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 
@@ -47,8 +48,8 @@ public abstract class ApiController<T extends AbstractEntity> {
 	 * @return The entities on the page
 	 */
 	
-	public EntityResponse<List<T>> getAllPaged(int startAt, int maxResults) {
-		return createEntityResponse(manager.getAllPaged(startAt, maxResults));
+	public EntityResponse<PagedEntity<T>> getAll(int startAt, int maxResults) {
+		return createEntityResponse(manager.getAll(startAt, maxResults));
 	}
 	
 	/** Fetches an entity with the specified id

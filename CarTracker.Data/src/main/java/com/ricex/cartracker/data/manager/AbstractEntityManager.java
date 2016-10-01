@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.RowBounds;
 
 import com.ricex.cartracker.common.entity.AbstractEntity;
+import com.ricex.cartracker.common.viewmodel.PagedEntity;
 import com.ricex.cartracker.data.mapper.EntityMapper;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 import com.ricex.cartracker.data.validation.EntityValidator;
@@ -26,8 +27,10 @@ public abstract class AbstractEntityManager<T extends AbstractEntity> {
 		return entityMapper.getAll();
 	}
 	
-	public List<T> getAllPaged(int startAt, int maxResults) {
-		return entityMapper.getAll(new RowBounds(startAt, maxResults));
+	public PagedEntity<T> getAll(int startAt, int maxResults) {
+		List<T> entities = entityMapper.getAll(new RowBounds(startAt, maxResults));
+		long total = entityMapper.countAll();
+		return new PagedEntity<T>(entities, startAt, maxResults, total);		
 	}
 	
 	public T get(long id) {

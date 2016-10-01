@@ -7,7 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.ricex.cartracker.common.entity.Car;
 import com.ricex.cartracker.common.entity.Trip;
-import com.ricex.cartracker.common.viewmodel.PagedResponse;
+import com.ricex.cartracker.common.viewmodel.PagedEntity;
 import com.ricex.cartracker.data.mapper.TripMapper;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 import com.ricex.cartracker.data.validation.TripValidator;
@@ -45,10 +45,10 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 	 * @param carId The car's Id
 	 * @return The trips for the car
 	 */
-	public PagedResponse<Trip> getForCar(long carId, int startAt, int maxResults) {
+	public PagedEntity<Trip> getForCar(long carId, int startAt, int maxResults) {
 		List<Trip> trips = mapper.getForCar(carId, new RowBounds(startAt, maxResults));
 		long totalTripCount = mapper.countForCar(carId);
-		return new PagedResponse<Trip>(trips, startAt, maxResults, totalTripCount);
+		return new PagedEntity<Trip>(trips, startAt, maxResults, totalTripCount);
 	}
 	
 	/** Creates a new trip for the car with the given VIN

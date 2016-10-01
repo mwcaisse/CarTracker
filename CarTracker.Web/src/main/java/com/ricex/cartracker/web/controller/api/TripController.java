@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ricex.cartracker.common.entity.Trip;
 import com.ricex.cartracker.common.viewmodel.BooleanResponse;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
-import com.ricex.cartracker.common.viewmodel.PagedResponse;
+import com.ricex.cartracker.common.viewmodel.PagedEntity;
 import com.ricex.cartracker.data.manager.TripManager;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 import com.ricex.cartracker.web.model.CalculatedTrip;
@@ -59,9 +59,10 @@ public class TripController extends ApiController<Trip> {
 	 * @return The trips
 	 */
 	@RequestMapping(value="/trip/", method = RequestMethod.GET, produces={JSON})
-	public @ResponseBody EntityResponse<List<Trip>> getAll(@RequestParam(name = "startAt", required = false, defaultValue = "0") int startAt, 
-														   @RequestParam(name = "maxResults", required = false, defaultValue = "25") int maxResults) {
-		return super.getAllPaged(startAt, maxResults);
+	public @ResponseBody EntityResponse<PagedEntity<Trip>> getAll(
+			@RequestParam(name = "startAt", required = false, defaultValue = "0") int startAt, 
+			@RequestParam(name = "maxResults", required = false, defaultValue = "25") int maxResults) {
+		return super.getAll(startAt, maxResults);
 	}
 	
 	/** Fetches all of the trips for the given car
@@ -70,7 +71,7 @@ public class TripController extends ApiController<Trip> {
 	 * @return List of trips for the car
 	 */
 	@RequestMapping(value="/car/{carId}/trip/", method = RequestMethod.GET, produces={JSON})
-	public @ResponseBody EntityResponse<PagedResponse<Trip>> getAllForCar(@PathVariable long carId,
+	public @ResponseBody EntityResponse<PagedEntity<Trip>> getAllForCar(@PathVariable long carId,
 			@RequestParam(name = "startAt", required = false, defaultValue = "0") int startAt, 
 			@RequestParam(name = "maxResults", required = false, defaultValue = "25") int maxResults) { 
 		
