@@ -1,0 +1,27 @@
+<div class="row">
+	<div class="col-md-8">				
+		<div class="form-group">
+			<span>Showing items 1 to 5 out of <span data-bind="text: $data.totalItems"></span></span>	
+			&nbsp;
+			&nbsp;
+			<select class="form-control" style="width: inherit; display: inline" data-bind="options: $data.itemsPerPageOptions, value: $data.itemsPerPage"></select>
+			<label> items per page</label>
+		</div>	
+	</div>			
+
+	<div class="col-md-4">
+		<ul class="pagination pull-right" style="margin: 0px">
+			<li data-bind="visible: $data.showFirstPageButton">
+				<a href="#" data-bind="click: $data.firstPage"><span>&laquo;</span></a>
+			</li>
+			
+			<!-- ko foreach: $data.pages -->
+			<li data-bind="css: {active: $parent.currentPage() === $data}"><a href="#" data-bind="text: $data, click: $parent.changePage"></a></li>
+			<!-- /ko -->	
+
+			<li data-bind="visible: $data.showLastPageButton">
+				<a href="#" data-bind="click: $data.lastPage"><span>&raquo;</span></a>
+			</li>
+		</ul>
+	</div>
+</div>

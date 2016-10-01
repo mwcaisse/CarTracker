@@ -1,0 +1,117 @@
+"use strict";
+
+define("Modules/Common/Pager/Pager", ["moment", "Service/util", "Service/applicationProxy", "Modules/Common/Pager/PagerBinding"],
+		function (moment, util, proxy) {
+	
+	var vm = function(options) {
+		var self = this;
+		
+		var defaults = {
+			itemsPerPageOptions: [5, 10, 15, 25],
+			fetchData: function (startAt, maxResults) {
+				//do nothing
+			}
+		};		
+
+		var ELLIPSIS = "...";
+		
+		var opts = $.extend({}, defaults, options);
+		
+		self.itemsPerPageOptions = opts.itemsPerPageOptions;
+		
+		self.itemsPerPage = ko.observable(5);
+		
+		self.currentPage = ko.observable(1);
+		
+		self.totalItems = ko.observable(40);
+		
+		self.totalPages = ko.computed(function () {
+			return Math.ceil(self.totalItems() / self.itemsPerPage());
+		});
+		
+		self.pages = ko.computed(function () {
+			var totalPages = self.totalPages();
+			var currentPage = self.currentPage();
+			
+			var pages = [];
+			
+			if (totalPages > 6) {
+				var maxBefore = currentPage - 1;
+				var maxAfter = totalPages - currentPage;
+				var maxPages = 4;
+				
+				var pagesBefore = Math.floor(maxPages / 2);
+				var pagesAfter = Math.ceil(maxPages / 2);
+				
+				if (pagesAfter > maxAfter) {
+					pagesBefore += (pagesAfter - maxAfter);
+					pagesAfter = maxAfter;
+				}
+				else if (pagesBefore > maxBefore) {
+					pagesAfter += (pagesBefore - maxBefore);
+					pagesBefore = maxBefore;
+				}	
+				//push the pages into the array
+				for (var i=currentPage - pagesBefore; i <=currentPage + pagesAfter; i++) {
+					pages.push(i);
+				};				                                   
+				
+			}
+			else {
+				for (var i = 0; i < totalPages; i++) {
+					pages.push(i+1);
+				}
+			}
+			
+			return pages;
+		});
+		
+		self.showFirstPageButton = ko.computed(function () {
+			return self.currentPage() !== 1;
+		});
+		
+		self.showLastPageButton = ko.computed(function () {
+			return self.currentPage() !== self.totalPages();
+		});
+		
+		self.itemsPerPage.subscribe(function (newValue) {
+			var currentPage = self.currentPage();
+			self.currentPage(1);
+			if (currentPage === 1) {
+				self.fetchData();
+			}
+		});
+		
+		self.currentPage.subscribe(function (newValue) {
+			self.fetchData();
+		});
+		
+		self.changePage = function (pageNum) {
+			if (pageNum === undefined) {
+				pageNum = this;
+			}
+			if (pageNum === ELLIPSIS) {
+				return; //id it is the ELLIPSIS then do nothing
+			}
+			self.currentPage(pageNum);
+		};
+		
+		self.firstPage = function () {
+			self.currentPage(1);
+		};
+		
+		self.lastPage = function () {
+			self.currentPage(self.totalPages());
+		};
+		
+		self.fetchData = function () {
+			var itemsPerPage = self.itemsPerPage();
+			var startAt = (self.currentPage() - 1) * itemsPerPage;
+			opts.fetchData(startAt, itemsPerPage);
+		};
+		
+	};
+	
+	return vm;
+	
+});

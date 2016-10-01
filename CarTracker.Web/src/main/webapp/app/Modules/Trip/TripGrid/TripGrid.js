@@ -1,7 +1,9 @@
 "use strict";
 
-define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/util", "Service/applicationProxy", "Modules/Trip/TripGrid/TripGridBinding"],
-		function (moment, util, proxy) {
+define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/util", "Service/applicationProxy", 
+                                          "Modules/Common/Pager/Pager",
+                                          "Modules/Trip/TripGrid/TripGridBinding"],
+		function (moment, util, proxy, pager) {
 	
 	var vm = function(options) {
 		var self = this;
@@ -33,12 +35,16 @@ define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/util", "Service/app
 			});		                                       
 			
 			return trip;
-		};
+		};	
+		
+		self.gridPager = new pager({fetchData: function (startAt, maxResults) {
+			self.fetchTrips(startAt, maxResults);
+		}});
 	
 		/** Fetch the trips from the server */
-		self.fetchTrips = function() {
-			proxy.trip.getAllForCar(self.carId).then(function (data) {
-				var trips = $.map(data, function (elm, ind) {
+		self.fetchTrips = function(startAt, maxResults) {
+			proxy.trip.getAllForCarPaged(self.carId, startAt, maxResults).then(function (data) {
+				var trips = $.map(data.data, function (elm, ind) {
 					return new self.TripModel(elm);
 				});
 				self.trips(trips);
@@ -46,10 +52,11 @@ define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/util", "Service/app
 			function (error) {
 				alert(error);
 			});
-		};
+		};	
+		
 		
 		self.load = function() {
-			self.fetchTrips();
+			self.gridPager.fetchData();
 		};	
 		
 		self.refresh = function () {
