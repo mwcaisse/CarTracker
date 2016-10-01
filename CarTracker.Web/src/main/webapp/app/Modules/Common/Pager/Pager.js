@@ -8,6 +8,7 @@ define("Modules/Common/Pager/Pager", ["moment", "Service/util", "Service/applica
 		
 		var defaults = {
 			itemsPerPageOptions: [5, 10, 15, 25],
+			itemsPerPage: 15,
 			fetchData: function (startAt, maxResults) {
 				return Q.fcall(function() {
 					return {total: 40};
@@ -21,7 +22,7 @@ define("Modules/Common/Pager/Pager", ["moment", "Service/util", "Service/applica
 		
 		self.itemsPerPageOptions = opts.itemsPerPageOptions;
 		
-		self.itemsPerPage = ko.observable(5);
+		self.itemsPerPage = ko.observable(opts.itemsPerPage);
 		
 		self.currentPage = ko.observable(1);
 		

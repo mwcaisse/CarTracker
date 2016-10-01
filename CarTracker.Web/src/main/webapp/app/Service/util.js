@@ -1,6 +1,6 @@
 "use strict";
 
-define("Service/util", [], function (text) {
+define("Service/util", [], function () {
 	
 	var util = new (function() {
 		var self = this;
@@ -16,6 +16,16 @@ define("Service/util", [], function (text) {
 				places = 2;
 			}
 			return parseFloat(num).toFixed(places);
+		};
+		
+		self.getURLParameter = function(name, def) {
+			if (typeof def === undefined) {
+				def = "";
+			}
+		    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+		        results = regex.exec(location.search);
+		    return results == null ? def : decodeURIComponent(results[1].replace(/\+/g, " "));
 		};
 	
 		

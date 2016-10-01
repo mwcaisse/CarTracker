@@ -1,9 +1,9 @@
 "use strict";
 
-define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/util", "Service/applicationProxy", 
+define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/util", "Service/applicationProxy", "Service/navigation",
                                           "Modules/Common/Pager/Pager",
                                           "Modules/Trip/TripGrid/TripGridBinding"],
-		function (moment, util, proxy, pager) {
+		function (moment, util, proxy, navigation, pager) {
 	
 	var vm = function(options) {
 		var self = this;
@@ -32,7 +32,11 @@ define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/util", "Service/app
 			
 			trip.endDateDisplay = ko.computed(function () {
 				return trip.endDate.format("YYYY-MM-DD HH:mm:ss");
-			});		                                       
+			});	
+			
+			trip.viewTrip = function () {
+				navigation.navigateToViewTrip(trip.id);
+			};
 			
 			return trip;
 		};	
