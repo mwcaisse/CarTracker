@@ -28,7 +28,7 @@
         SELECT TRIP.* FROM TRIP
     </select>
     
-    <select id="getTotalCount" resultType="long">
+    <select id="countAll" resultType="long">
         SELECT COUNT(*) FROM TRIP
     </select>
     
@@ -36,6 +36,11 @@
         SELECT TRIP.* FROM TRIP
         WHERE TRIP.CAR_ID = #{carId}
     </select>   
+    
+    <select id="countForCar" resultType="long" parameterType="long">
+        SELECT COUNT(*) FROM TRIP
+        WHERE TRIP.CAR_ID = #{carId}
+    </select>
     
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO TRIP (START_DATE, END_DATE, NAME, CAR_ID)

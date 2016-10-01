@@ -22,7 +22,7 @@
         SELECT USER.* FROM USER
     </select>
     
-    <select id="getTotalCount" resultType="long">
+    <select id="countAll" resultType="long">
         SELECT COUNT(*) FROM USER
     </select>
     

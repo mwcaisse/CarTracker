@@ -29,4 +29,11 @@ public interface TripMapper extends EntityMapper<Trip> {
 	 */
 	public List<Trip> getForCar(long carId, RowBounds bounds);
 	
+	/** Counts the number of trips for the given car
+	 * 
+	 * @param carId The id of the car
+	 * @return The number of trips that exist for the car
+	 */
+	public long countForCar(long carId);
+	
 }

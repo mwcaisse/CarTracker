@@ -33,7 +33,7 @@ public interface EntityMapper<T extends AbstractEntity> {
 	 * 
 	 * @return The total number of entities
 	 */	
-	public long getTotalCount();
+	public long countAll();
 	
 	/** Creates the given entity
 	 * 
