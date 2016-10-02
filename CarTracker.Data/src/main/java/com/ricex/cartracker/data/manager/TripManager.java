@@ -9,6 +9,7 @@ import com.ricex.cartracker.common.entity.Car;
 import com.ricex.cartracker.common.entity.Trip;
 import com.ricex.cartracker.common.viewmodel.PagedEntity;
 import com.ricex.cartracker.data.mapper.TripMapper;
+import com.ricex.cartracker.data.query.properties.EntityProperties;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 import com.ricex.cartracker.data.validation.TripValidator;
 
@@ -46,7 +47,8 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 	 * @return The trips for the car
 	 */
 	public PagedEntity<Trip> getForCar(long carId, int startAt, int maxResults) {
-		List<Trip> trips = mapper.getForCar(carId, new RowBounds(startAt, maxResults));
+		String oderBy = EntityProperties.Trip.START_DATE.getPropertyField() + " DESC";
+		List<Trip> trips = mapper.getForCar(carId, oderBy, new RowBounds(startAt, maxResults));
 		long totalTripCount = mapper.countForCar(carId);
 		return new PagedEntity<Trip>(trips, startAt, maxResults, totalTripCount);
 	}

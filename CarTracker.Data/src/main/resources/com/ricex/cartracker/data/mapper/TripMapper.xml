@@ -35,6 +35,9 @@
     <select id="getForCar" resultMap="tripResultMap" parameterType="long">
         SELECT TRIP.* FROM TRIP
         WHERE TRIP.CAR_ID = #{carId}
+        <if test="orderBy != null">
+            ORDER BY ${orderBy}
+        </if>
     </select>   
     
     <select id="countForCar" resultType="long" parameterType="long">
