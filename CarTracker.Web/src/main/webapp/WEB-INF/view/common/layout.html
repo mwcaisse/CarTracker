@@ -15,10 +15,9 @@
 		<script th:src="@{/js/moment.js}" type="text/javascript"></script>
 		<script th:src="@{/js/moment-timezone.js}" type="text/javascript"></script>
 		<script th:src="@{/js/moment-duration-format.js}" type="text/javascript"></script>
-		<script th:src="@{/js/q.js}" type="text/javascript"></script>
-		
+		<script th:src="@{/js/q.js}" type="text/javascript"></script>		
 		<script th:src="@{/js/require.js}" type="text/javascript"></script>
-		<script th:src="@{/app/Common.js}" type="text/javascript"></script>		
+			
 	
 		<!-- css -->
 		<link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
@@ -30,7 +29,11 @@
 	</head>
 	
 	<body>			
-	
+		<input id="googleMapsApiKey" type="hidden" th:value="${googleMapsApiKey}"/>
+		
+		<!--  need to load up the requrie config, after the google map api key -->		
+		<script th:src="@{/app/Common.js}" type="text/javascript"></script>	
+		
 		<nav class="navbar navbar-default navbar-static-top">
 			<div class="container-fluid">
 				<div class="navbar-header">
@@ -41,5 +44,7 @@
 		
 		<!-- the body of the page -->
 		<div layout:fragment="content"></div>
+		
+		
 	</body>
 </html>

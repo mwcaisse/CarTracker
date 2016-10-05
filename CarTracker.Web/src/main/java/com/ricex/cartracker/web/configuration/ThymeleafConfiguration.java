@@ -1,5 +1,6 @@
 package com.ricex.cartracker.web.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
@@ -11,6 +12,10 @@ import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @Configuration
 public class ThymeleafConfiguration {
+	
+	@Autowired
+	public ApplicationConfiguration applicationConfiguration;
+	
 	@Bean
 	public ServletContextTemplateResolver templateResolver() {
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
@@ -33,9 +38,10 @@ public class ThymeleafConfiguration {
 	}
 	
 	@Bean
-	public ThymeleafViewResolver viewResolver() {
+	public ThymeleafViewResolver viewResolver() throws Exception {
 		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
 		viewResolver.setTemplateEngine(templateEngine());
+		viewResolver.addStaticVariable("googleMapsApiKey", applicationConfiguration.googleMapsApiKey());
 		return viewResolver;
 	}
 }

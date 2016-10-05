@@ -1,8 +1,8 @@
 "use strict";
 
-define("Modules/Trip/TripMap/TripMap", ["moment", "Service/system", "Service/util", "Service/applicationProxy", "Service/navigation",         
+define("Modules/Trip/TripMap/TripMap", ["AMD/googlemaps!", "moment", "Service/system", "Service/util", "Service/applicationProxy", "Service/navigation",         
                                           "Modules/Trip/TripMap/TripMapBinding"],
-		function (moment, system, util, proxy, navigation ) {
+		function (gmaps, moment, system, util, proxy, navigation ) {
 	
 	var vm = function(options) {
 		var self = this;
