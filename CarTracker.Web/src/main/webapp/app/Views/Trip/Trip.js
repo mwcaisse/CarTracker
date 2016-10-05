@@ -1,8 +1,10 @@
 "use strict";
 
 define("Views/Trip/Trip", 
-	["Service/util", "Modules/Trip/TripDetails/TripDetails",
-	 "AMD/koTemplateLoader!Views/Trip/Trip.html"], function (util, tripDetails) {
+	["Service/util", 
+	 "Modules/Trip/TripDetails/TripDetails",
+	 "Modules/Trip/TripMap/TripMap",
+	 "AMD/koTemplateLoader!Views/Trip/Trip.html"], function (util, tripDetails, tripMap) {
 	
 	var vm = function() {
 		var self = this;
@@ -13,7 +15,12 @@ define("Views/Trip/Trip",
 			tripId: tripId
 		});
 		
+		self.tripMap = new tripMap({
+			tripId: tripId
+		});
+		
 		self.tripDetails.load();
+		self.tripMap.load();
 		
 	};
 	

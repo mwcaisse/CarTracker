@@ -2,6 +2,7 @@ package com.ricex.cartracker.web.configuration;
 
 import java.util.List;
 
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -13,6 +14,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
+import org.springframework.jndi.JndiTemplate;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -116,6 +118,12 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 		sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
 		sqlSessionFactoryBean.setDataSource(dataSource());
 		return sqlSessionFactoryBean.getObject();
+	}
+	
+	@Bean
+	public String googleMapsApiKey() throws NamingException {
+		JndiTemplate template = new JndiTemplate();
+		return template.lookup("java:comp/env/CARTRACKER_GOOGLE_MAPS_API_KEY", String.class); 
 	}
 	
 	@Bean
