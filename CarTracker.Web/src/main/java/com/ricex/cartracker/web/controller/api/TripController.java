@@ -75,7 +75,7 @@ public class TripController extends ApiController<Trip> {
 			@RequestParam(name = "maxResults", required = false, defaultValue = "25") int maxResults,
 			SortParam sort) { 
 		
-		return createEntityResponse(manager.getForCar(carId, startAt, maxResults));
+		return createEntityResponse(manager.getForCar(carId, startAt, maxResults, sort));
 	}
 	
 	/** Creates a new Trip for the given car

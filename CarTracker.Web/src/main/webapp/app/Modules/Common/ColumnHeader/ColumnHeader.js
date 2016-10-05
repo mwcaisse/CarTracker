@@ -1,8 +1,8 @@
 "use strict";
 
-define("Modules/Common/ColumnHeader/ColumnHeader", ["moment", "Service/util", "Service/applicationProxy", 
+define("Modules/Common/ColumnHeader/ColumnHeader", ["moment", "Service/system", "Service/util", "Service/applicationProxy", 
                                                     "Modules/Common/ColumnHeader/ColumnHeaderBinding"],
-		function (moment, util, proxy) {
+		function (moment, system, util, proxy) {
 	
 	var vm = function(options) {
 		var self = this;
@@ -34,20 +34,42 @@ define("Modules/Common/ColumnHeader/ColumnHeader", ["moment", "Service/util", "S
 		});
 		
 		self.toggleSort = function() {
+			var eventName = "sort";
+			var eventData = {
+				propertyId: self.columnId,
+				ascending: false
+			};
 			if (self.sort()) {
-				if (self.sortOrder() === SORT_ORDER_ASC) {
-					self.sortOrder(SORT_ORDER_DESC);
+				if (self.sortOrder() === SORT_ORDER_ASC) {		
+					eventData.ascending = false;
 				}
-				else {
-					self.sortOrder("");
-					self.sort(false);
+				else {							
+					eventName = "clearSort";
 				}
 			}
-			else {
-				self.sort(true);
-				self.sortOrder(SORT_ORDER_ASC);
+			else {		
+				eventData.ascending = true;
 			}
+			system.events.trigger(eventName, eventData);
 		};
+		
+		system.events.on("clearSort", function (event, data) {
+			self.sortOrder("");
+			self.sort(false);
+		});
+		
+		//if we are set to sort, and this is a sort event for another column, clear our sort
+		system.events.on("sort", function (event, data) {
+			if (data.propertyId === self.columnId) {
+				self.sort(true);
+				self.sortOrder(data.ascending ? SORT_ORDER_ASC : SORT_ORDER_DESC);
+			}
+			else if(self.sort()) {
+				//clear the sort if this isn't our column
+				self.sortOrder("");
+				self.sort(false);
+			}
+		});
 		
 	};
 	

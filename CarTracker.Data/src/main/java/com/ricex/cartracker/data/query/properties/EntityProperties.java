@@ -1,5 +1,7 @@
 package com.ricex.cartracker.data.query.properties;
 
+import org.apache.commons.lang3.StringUtils;
+
 public final class EntityProperties {
 
 	public enum Car implements EntityProperty {
@@ -83,6 +85,15 @@ public final class EntityProperties {
 
 		public String getPropertyField() {
 			return propertyField;
+		}
+		
+		public static Trip parseFromPropertyField(String propertyField) {
+			for (Trip trip : values()) {
+				if (StringUtils.equalsIgnoreCase(propertyField, trip.getPropertyField())) {
+					return trip;
+				}
+			}
+			return null;
 		}
 	}
 	

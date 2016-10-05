@@ -1,10 +1,10 @@
 "use strict";
 
-define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/util", "Service/applicationProxy", "Service/navigation",
+define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/system", "Service/util", "Service/applicationProxy", "Service/navigation",
                                           "Modules/Common/Pager/Pager",
                                           "Modules/Common/ColumnHeader/ColumnHeader",
                                           "Modules/Trip/TripGrid/TripGridBinding"],
-		function (moment, util, proxy, navigation, pager, columnHeader) {
+		function (moment, system, util, proxy, navigation, pager, columnHeader) {
 	
 	var vm = function(options) {
 		var self = this;
@@ -18,6 +18,8 @@ define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/util", "Service/app
 		self.carId = opts.carId;
 		
 		self.trips = ko.observableArray([]);
+		
+		self.sort = null;
 		
 		self.TripModel = function (data) {
 			var trip = this;
@@ -54,7 +56,7 @@ define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/util", "Service/app
 	
 		/** Fetch the trips from the server */
 		self.fetchTrips = function(startAt, maxResults) {
-			return proxy.trip.getAllForCarPaged(self.carId, startAt, maxResults).then(function (data) {
+			return proxy.trip.getAllForCarPaged(self.carId, startAt, maxResults, self.sort).then(function (data) {
 				var trips = $.map(data.data, function (elm, ind) {
 					return new self.TripModel(elm);
 				});
@@ -73,7 +75,20 @@ define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/util", "Service/app
 		
 		self.refresh = function () {
 			self.load();
-		}
+		};
+		
+		system.events.on("clearSort", function (event, data) {
+			self.sort = null;
+			self.refresh();
+		});		
+
+		system.events.on("sort", function (event, data) {
+			self.sort = data;
+			self.refresh();
+		});
+		
+		system.events.trigger("sort", {propertyId: "START_DATE", ascending: false});
+		
 	};
 	
 	return vm;

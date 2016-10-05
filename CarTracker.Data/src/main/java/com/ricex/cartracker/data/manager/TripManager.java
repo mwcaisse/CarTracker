@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import com.ricex.cartracker.common.entity.Car;
 import com.ricex.cartracker.common.entity.Trip;
 import com.ricex.cartracker.common.viewmodel.PagedEntity;
+import com.ricex.cartracker.common.viewmodel.SortParam;
 import com.ricex.cartracker.data.mapper.TripMapper;
 import com.ricex.cartracker.data.query.properties.EntityProperties;
 import com.ricex.cartracker.data.validation.EntityValidationException;
@@ -46,11 +47,28 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 	 * @param carId The car's Id
 	 * @return The trips for the car
 	 */
-	public PagedEntity<Trip> getForCar(long carId, int startAt, int maxResults) {
-		String oderBy = EntityProperties.Trip.START_DATE.getPropertyField() + " DESC";
+	public PagedEntity<Trip> getForCar(long carId, int startAt, int maxResults, SortParam sort) {
+		String oderBy = parseSortBy(sort);
 		List<Trip> trips = mapper.getForCar(carId, oderBy, new RowBounds(startAt, maxResults));
 		long totalTripCount = mapper.countForCar(carId);
 		return new PagedEntity<Trip>(trips, startAt, maxResults, totalTripCount);
+	}
+	
+	/** Transforms the Sort Param into an order by string, If the sort param property doesn't match
+	 * 		any properties on trip, null is returned
+	 * 
+	 * @param sort The sort param to parse
+	 * @return The resulting sort query
+	 */
+	protected String parseSortBy(SortParam sort) {
+		if (null == sort) {
+			return null;
+		}
+		EntityProperties.Trip sortField = EntityProperties.Trip.parseFromPropertyField(sort.getPropertyId());
+		if (null != sortField) {
+			return sortField.getPropertyField() + (sort.isAscending() ? " ASC" : " DESC");
+		}
+		return null;
 	}
 	
 	/** Creates a new trip for the car with the given VIN

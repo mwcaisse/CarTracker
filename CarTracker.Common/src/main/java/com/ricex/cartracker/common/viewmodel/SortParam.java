@@ -9,7 +9,7 @@ public class SortParam implements Serializable {
 	private boolean ascending;
 
 	public SortParam() {
-		
+		ascending = true;
 	}
 	
 	/**
