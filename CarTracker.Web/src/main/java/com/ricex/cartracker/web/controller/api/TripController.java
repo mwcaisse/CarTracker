@@ -1,7 +1,5 @@
 package com.ricex.cartracker.web.controller.api;
 
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +12,7 @@ import com.ricex.cartracker.common.entity.Trip;
 import com.ricex.cartracker.common.viewmodel.BooleanResponse;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
 import com.ricex.cartracker.common.viewmodel.PagedEntity;
+import com.ricex.cartracker.common.viewmodel.SortParam;
 import com.ricex.cartracker.data.manager.TripManager;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 import com.ricex.cartracker.web.model.CalculatedTrip;
@@ -73,7 +72,8 @@ public class TripController extends ApiController<Trip> {
 	@RequestMapping(value="/car/{carId}/trip/", method = RequestMethod.GET, produces={JSON})
 	public @ResponseBody EntityResponse<PagedEntity<Trip>> getAllForCar(@PathVariable long carId,
 			@RequestParam(name = "startAt", required = false, defaultValue = "0") int startAt, 
-			@RequestParam(name = "maxResults", required = false, defaultValue = "25") int maxResults) { 
+			@RequestParam(name = "maxResults", required = false, defaultValue = "25") int maxResults,
+			SortParam sort) { 
 		
 		return createEntityResponse(manager.getForCar(carId, startAt, maxResults));
 	}

@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="col-md-8">				
 		<div class="form-group">
-			<span>Showing items 1 to 5 out of <span data-bind="text: $data.totalItems"></span></span>	
+			<span>Showing items <span data-bind="text: $data.itemStart"></span> to <span data-bind="text: $data.itemEnd"></span> out of <span data-bind="text: $data.totalItems"></span></span>	
 			&nbsp;
 			&nbsp;
 			<select class="form-control" style="width: inherit; display: inline" data-bind="options: $data.itemsPerPageOptions, value: $data.itemsPerPage"></select>

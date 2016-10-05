@@ -69,6 +69,14 @@ define("Modules/Common/Pager/Pager", ["moment", "Service/util", "Service/applica
 			return pages;
 		});
 		
+		self.itemStart = ko.computed(function () {
+			return (self.currentPage() - 1) * self.itemsPerPage() + 1;
+		});
+		
+		self.itemEnd = ko.computed(function () {
+			return Math.min(self.totalItems(), self.itemStart() + self.itemsPerPage() - 1);
+		});
+		
 		self.showFirstPageButton = ko.computed(function () {
 			return $.inArray(1, self.pages()) === -1;
 		});

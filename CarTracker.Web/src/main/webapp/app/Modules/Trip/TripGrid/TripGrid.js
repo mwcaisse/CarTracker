@@ -2,8 +2,9 @@
 
 define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/util", "Service/applicationProxy", "Service/navigation",
                                           "Modules/Common/Pager/Pager",
+                                          "Modules/Common/ColumnHeader/ColumnHeader",
                                           "Modules/Trip/TripGrid/TripGridBinding"],
-		function (moment, util, proxy, navigation, pager) {
+		function (moment, util, proxy, navigation, pager, columnHeader) {
 	
 	var vm = function(options) {
 		var self = this;
@@ -44,6 +45,12 @@ define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/util", "Service/app
 		self.gridPager = new pager({fetchData: function (startAt, maxResults) {
 			return self.fetchTrips(startAt, maxResults);
 		}});
+		
+		self.columns = ko.observableArray([]);
+		
+		self.columns.push(new columnHeader({columnId: "NAME", columnName: "Name"}));
+		self.columns.push(new columnHeader({columnId: "START_DATE", columnName: "Start Date"}));
+		self.columns.push(new columnHeader({columnId: "END_DATE", columnName: "End Date"}));
 	
 		/** Fetch the trips from the server */
 		self.fetchTrips = function(startAt, maxResults) {

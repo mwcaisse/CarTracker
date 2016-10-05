@@ -10,9 +10,9 @@
 		<thead>
 			<tr>
 				<th></th>
-				<th>Name</th>	
-				<th>Start Date</th>
-				<th>End Date</th>
+				<!-- ko foreach: $data.columns -->
+				<th><div data-bind="columnHeader: $data"></div></th>
+				<!-- /ko -->
 			</tr>
 		</thead>
 		<tbody data-bind="foreach: $data.trips">
