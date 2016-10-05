@@ -33,25 +33,26 @@ define("Modules/Common/ColumnHeader/ColumnHeader", ["moment", "Service/system", 
 			return "";
 		});
 		
-		self.toggleSort = function() {
-			var eventName = "sort";
+		self.SortAscendingClick = function () {
+			var eventData = {
+				propertyId: self.columnId,
+				ascending: true
+			};
+			system.events.trigger("sort", eventData);
+		};		
+		
+		self.SortDescendingClick = function () {
 			var eventData = {
 				propertyId: self.columnId,
 				ascending: false
 			};
-			if (self.sort()) {
-				if (self.sortOrder() === SORT_ORDER_ASC) {		
-					eventData.ascending = false;
-				}
-				else {							
-					eventName = "clearSort";
-				}
-			}
-			else {		
-				eventData.ascending = true;
-			}
-			system.events.trigger(eventName, eventData);
+			system.events.trigger("sort", eventData);
 		};
+		
+		self.ClearSortClick = function () {
+			system.events.trigger("clearSort", {});
+		};
+		
 		
 		system.events.on("clearSort", function (event, data) {
 			self.sortOrder("");

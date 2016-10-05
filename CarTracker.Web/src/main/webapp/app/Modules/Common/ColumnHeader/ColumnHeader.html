@@ -1,4 +1,11 @@
-<a href="#" data-bind="click: $data.toggleSort">
-	<span data-bind="text: $data.columnName"></span>
-	<span class="glyphicon pull-right" data-bind="css: $data.sortIconCss"></span>
-</a>
+<div class="btn-group">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<span data-bind="text: $data.columnName"></span>
+		<span class="glyphicon pull-right" data-bind="css: $data.sortIconCss"></span>
+	</a>
+	<ul class="dropdown-menu">
+		<li><a class="dropdown-item" href="#" data-bind="click: $data.SortAscendingClick"><span class="glyphicon glyphicon-sort-by-attributes"></span>&nbsp;Sort Ascending</a></li>
+		<li><a class="dropdown-item" href="#" data-bind="click: $data.SortDescendingClick"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span>&nbsp;Sort Descending</a></li>
+		<li><a class="dropdown-item" href="#" data-bind="click: $data.ClearSortClick"><span class="glyphicon glyphicon-remove"></span>&nbsp;Clear Sort</a></li>
+	</ul>
+</div>
