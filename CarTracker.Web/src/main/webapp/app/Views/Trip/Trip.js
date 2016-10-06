@@ -20,7 +20,6 @@ define("Views/Trip/Trip",
 		});
 		
 		self.tripDetails.load();
-		self.tripMap.load();
 		
 	};
 	
