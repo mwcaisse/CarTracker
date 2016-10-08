@@ -48,7 +48,9 @@ define("Modules/Trip/TripDetails/TripDetails",
 			return self.idleTime().format("hh:mm:ss");
 		});
 		
-		self.useImperial = ko.observable(false);
+		self.useImperial = ko.observable(true);
+		
+		
 		
 		self.averageSpeedDisplay = ko.computed(function () {
 			var units = self.useImperial() ? "mph" : "kmph";

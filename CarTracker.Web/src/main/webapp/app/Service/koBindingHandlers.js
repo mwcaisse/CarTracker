@@ -47,6 +47,42 @@ define("Service/koBindingHandlers", [], function () {
 		}
 	};
 	
+	/** Binding for Bootstrap toggle library
+	 * 	http://www.bootstraptoggle.com/
+	 */
+	ko.bindingHandlers.toggle = {
+		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+			var $el = $(element);
+			var value = valueAccessor();	
+			var bindingOptions = allBindings.get("toggleOptions") || {};
+			var defaults = {
+				on: "On",
+				off: "Off",
+				onstyle: "primary",
+				offstyle: "default"
+			};
+			var opts = $.extend({}, defaults, bindingOptions);
+			
+			$el.bootstrapToggle(opts);
+			
+			$el.change(function () {
+				var checked = $el.prop('checked');
+				value(checked);
+			});
+		},
+		update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+			var $el = $(element);
+			var value = ko.unwrap(valueAccessor());	
+			var checked = $el.prop('checked');
+			
+			if (value !== checked) {
+				$el.bootstrapToggle(value ? "on" : "off");
+			}
+		}
+	};
+	
+	
+	
 	return handlers;
 	
 });
