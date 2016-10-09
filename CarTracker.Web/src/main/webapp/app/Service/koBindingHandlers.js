@@ -81,6 +81,25 @@ define("Service/koBindingHandlers", [], function () {
 		}
 	};
 	
+	/** Binding for Bootstrap toggle library
+	 * 	http://www.bootstraptoggle.com/
+	 */
+	ko.bindingHandlers.highchart = {
+		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+	
+		},
+		update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+			var $el = $(element);
+			var options = ko.unwrap(valueAccessor());		
+			var defaults = {
+		
+			};
+			var opts = $.extend({}, defaults, options);
+			
+			$el.highcharts(opts);
+		}
+	};
+	
 	
 	
 	return handlers;

@@ -1,10 +1,10 @@
 "use strict";
 
 define("Modules/Trip/TripDetails/TripDetails", 
-		["moment", "Service/util", "Service/applicationProxy", 
+		["moment", "Service/system", "Service/util", "Service/applicationProxy", 
 		 "moment-duration-format",
          "Modules/Trip/TripDetails/TripDetailsBinding"],
-	function (moment, util, proxy) {
+	function (moment, system, util, proxy) {
 	
 	var vm = function(options) {
 		var self = this;
@@ -50,6 +50,9 @@ define("Modules/Trip/TripDetails/TripDetails",
 		
 		self.useImperial = ko.observable(true);
 		
+		self.useImperial.subscribe(function (newValue) {
+			system.events.trigger("trip:useImperialChanged", {useImperial: newValue});
+		});
 		
 		
 		self.averageSpeedDisplay = ko.computed(function () {
