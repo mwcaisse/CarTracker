@@ -7,8 +7,9 @@ define("Views/Trip/Trip",
 	 "Modules/Trip/TripSpeedChart/TripSpeedChart",
 	 "Modules/Trip/TripEngineChart/TripEngineChart",
 	 "Modules/Trip/TripTemperatureChart/TripTemperatureChart",
+	 "Modules/Trip/TripThrottleChart/TripThrottleChart",
 	 "AMD/koTemplateLoader!Views/Trip/Trip.html"], function (util, tripDetails, tripMap, tripSpeedChart, tripEngineChart, 
-			 tripTemperatureChart) {
+			 tripTemperatureChart, tripThrottleChart) {
 	
 	var vm = function() {
 		var self = this;
@@ -35,10 +36,15 @@ define("Views/Trip/Trip",
 			tripId: tripId
 		});
 		
+		self.tripThrottleChart = new tripThrottleChart({
+			tripId: tripId
+		});
+		
 		self.tripDetails.load();
 		self.tripSpeedChart.load();
 		self.tripEngineChart.load();
 		self.tripTemperatureChart.load();
+		self.tripThrottleChart.load();
 		
 	};
 	

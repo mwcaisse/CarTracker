@@ -1,8 +1,8 @@
 "use strict";
 
-define("Modules/Trip/TripEngineChart/TripEngineChart", 
+define("Modules/Trip/TripThrottleChart/TripThrottleChart", 
 		["moment", "Service/system", "Service/util", "Service/applicationProxy", 	
-         "Modules/Trip/TripEngineChart/TripEngineChartBinding"],
+         "Modules/Trip/TripThrottleChart/TripThrottleChartBinding"],
 	function (moment, system, util, proxy) {
 	
 	var vm = function(options) {
@@ -18,21 +18,29 @@ define("Modules/Trip/TripEngineChart/TripEngineChart",
 		
 		self.readings = ko.observableArray([]);
 		
+		self.useImperial = ko.observable(true);		
+		
+		//listen for updates for the use imperial slider from event details
+		system.events.on("trip:useImperialChanged", function (event, data) {
+			self.useImperial(data.useImperial);
+		});
+		
 		self.chartOptions = ko.computed(function () {
 			var opts = {};	
+			var units = "%";
 			
 			opts.title = {
-				text: "Trip Engine Speed"
+				text: "Trip Throttle Position"
 			};
 			
-			
 			var data = $.map(self.readings(), function (elm, ind) {
-				return {x: elm.readDate, y: elm.engineRPM };
+				var throttlePosition = Math.round(elm.throttlePosition);
+				return {x: elm.readDate, y: throttlePosition };
 			});
 			
 			opts.yAxis = {
 				title: {
-					text: "Engine Speed (RPM)"
+					text: "Throttle Position (" + units + ")"
 				}
 			};
 			
@@ -42,11 +50,11 @@ define("Modules/Trip/TripEngineChart/TripEngineChart",
 			};
 			
 			opts.tooltip = {
-				valueSuffix: " RPM"
+				valueSuffix: " " + units
 			};
 			
 			opts.series = [{
-				name: "Engine Speed",
+				name: "Throttle Position",
 				data: data
 			}];
 			
