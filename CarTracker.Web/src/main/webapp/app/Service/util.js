@@ -7,9 +7,15 @@ define("Service/util", [], function () {
 
 		self.KM_IN_MI = 0.621371;
 		
+		self.DEGREE_SYMBOL = String.fromCharCode(176);
+		
 		self.convertKmToMi = function (km) {
 			return km * self.KM_IN_MI;
-		};		
+		};	
+		
+		self.convertCelsiusToFah = function (c) {
+			return c * 1.8 + 32
+		};
 		
 		self.round = function (num, places) {
 			if (!places) {
