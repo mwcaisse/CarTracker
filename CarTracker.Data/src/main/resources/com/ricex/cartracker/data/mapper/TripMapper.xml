@@ -13,8 +13,15 @@
         <result property="endDate" column="END_DATE" />
         <result property="name" column="NAME" />
         <result property="carId" column="CAR_ID" />
+        <result property="averageSpeed" column="AVERAGE_SPEED" />
+        <result property="maximumSpeed" column="MAX_SPEED" />
+        <result property="averageEngineRPM" column="AVERAGE_ENGINE_RPM" />
+        <result property="maxEngineRPM" column="MAX_ENGINE_RPM" />
+        <result property="distanceTraveled" column="DISTANCE_TRAVELED" />
+        <result property="idleTime" column="IDLE_TIME" />
+        <result property="status" column="STATUS" />        
         <result property="createDate" column="CREATE_DATE" />
-        <result property="modifiedDate" column="MODIFIED_DATE" />
+        <result property="modifiedDate" column="MODIFIED_DATE" />   
         
         <association property="car" column="CAR_ID" javaType="Car" select="com.ricex.cartracker.data.mapper.CarMapper.get" />        
     </resultMap>
@@ -46,8 +53,11 @@
     </select>
     
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO TRIP (START_DATE, END_DATE, NAME, CAR_ID)
-        VALUES (#{startDate}, #{endDate}, #{name}, #{carId})
+        INSERT INTO TRIP (START_DATE, END_DATE, NAME, CAR_ID, AVERAGE_SPEED, MAX_SPEED, AVERAGE_ENGINE_RPM, 
+        	MAX_ENGINE_RPM, DISTANCE_TRAVELED, IDLE_TIME,  STATUS)
+        	
+        VALUES (#{startDate}, #{endDate}, #{name}, #{carId}, #{averageSpeed}, #{maximumSpeed}, #{averageEngineRPM},
+        	#{maxEngineRPM}, #{distanceTraveled}, #{idleTime}, #{status})
     </insert>
     
     <update id="update">
@@ -55,7 +65,14 @@
         	START_DATE = #{startDate},
         	END_DATE = #{endDate},
         	NAME = #{name},
-        	CAR_ID = #{carId}
+        	CAR_ID = #{carId},
+        	AVERAGE_SPEED = #{averageSpeed},
+        	MAX_SPEED = #{maximumSpeed},
+        	AVERAGE_ENGINE_RPM = #{averageEngineRPM},
+        	MAX_ENGINE_RPM = #{maxEngineRPM},
+        	DISTANCE_TRAVELED = #{distanceTraveled},
+        	IDLE_TIME = #{idleTime},
+        	STATUS = #{status}
        	WHERE TRIP.ID = #{id}
     </update>
     

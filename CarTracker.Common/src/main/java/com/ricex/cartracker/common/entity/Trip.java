@@ -14,6 +14,18 @@ public class Trip extends AbstractEntity {
 	
 	private Car car;
 	
+	private double averageSpeed;
+	
+	private double maximumSpeed;
+	
+	private double averageEngineRPM;
+	
+	private double maxEngineRPM;
+	
+	private double distanceTraveled;
+	
+	private long idleTime;
+	
 	private TripStatus status;
 
 	/**
@@ -77,6 +89,104 @@ public class Trip extends AbstractEntity {
 	 */
 	public Car getCar() {
 		return car;
+	}
+	
+	/**
+	 * @return the averageSpeed
+	 */
+	public double getAverageSpeed() {
+		return averageSpeed;
+	}
+
+	/**
+	 * @param averageSpeed the averageSpeed to set
+	 */
+	public void setAverageSpeed(double averageSpeed) {
+		this.averageSpeed = averageSpeed;
+	}
+
+	/**
+	 * @return the maximumSpeed
+	 */
+	public double getMaximumSpeed() {
+		return maximumSpeed;
+	}
+
+	/**
+	 * @param maximumSpeed the maximumSpeed to set
+	 */
+	public void setMaximumSpeed(double maximumSpeed) {
+		this.maximumSpeed = maximumSpeed;
+	}
+
+	/**
+	 * @return the averageEngineRPM
+	 */
+	public double getAverageEngineRPM() {
+		return averageEngineRPM;
+	}
+
+	/**
+	 * @param averageEngineRPM the averageEngineRPM to set
+	 */
+	public void setAverageEngineRPM(double averageEngineRPM) {
+		this.averageEngineRPM = averageEngineRPM;
+	}
+
+	/**
+	 * @return the maxEngineRPM
+	 */
+	public double getMaxEngineRPM() {
+		return maxEngineRPM;
+	}
+
+	/**
+	 * @param maxEngineRPM the maxEngineRPM to set
+	 */
+	public void setMaxEngineRPM(double maxEngineRPM) {
+		this.maxEngineRPM = maxEngineRPM;
+	}
+
+	/**
+	 * @return the distanceTraveled
+	 */
+	public double getDistanceTraveled() {
+		return distanceTraveled;
+	}
+
+	/**
+	 * @param distanceTraveled the distanceTraveled to set
+	 */
+	public void setDistanceTraveled(double distanceTraveled) {
+		this.distanceTraveled = distanceTraveled;
+	}
+
+	/**
+	 * @return the idleTime
+	 */
+	public long getIdleTime() {
+		return idleTime;
+	}
+
+	/**
+	 * @param idleTime the idleTime to set
+	 */
+	public void setIdleTime(long idleTime) {
+		this.idleTime = idleTime;
+	}
+
+	/**
+	 * @return the status
+	 */
+	public TripStatus getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(TripStatus status) {
+		this.status = status;
 	}
 
 	/**

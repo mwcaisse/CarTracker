@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.ricex.cartracker.common.entity.Car;
 import com.ricex.cartracker.common.entity.Trip;
+import com.ricex.cartracker.common.entity.TripStatus;
 import com.ricex.cartracker.common.viewmodel.PagedEntity;
 import com.ricex.cartracker.common.viewmodel.SortParam;
 import com.ricex.cartracker.data.mapper.TripMapper;
@@ -87,6 +88,7 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 		}
 		trip.setCar(car);
 		trip.setStartDate(new Date());
+		trip.setStatus(TripStatus.STARTED);
 		
 		mapper.create(trip);	
 		return trip;
@@ -106,6 +108,7 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 		}
 		trip.setEndDate(new Date());
 		trip.setModifiedDate(new Date());
+		trip.setStatus(TripStatus.FINISHED);
 		mapper.update(trip);
 		
 		return true;
