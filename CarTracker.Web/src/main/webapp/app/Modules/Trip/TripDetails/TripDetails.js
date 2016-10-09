@@ -117,7 +117,7 @@ define("Modules/Trip/TripDetails/TripDetails",
 	
 		/** Fetch the trips from the server */
 		self.fetchTrip = function() {
-			proxy.trip.getCalculated(self.tripId).then(function (data) {
+			proxy.trip.get(self.tripId).then(function (data) {
 				self.update(data);
 			},
 			function (error) {

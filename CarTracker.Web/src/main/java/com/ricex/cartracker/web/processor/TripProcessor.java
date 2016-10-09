@@ -1,12 +1,14 @@
 package com.ricex.cartracker.web.processor;
 
+import java.util.Date;
 import java.util.List;
 
 import com.ricex.cartracker.common.entity.Reading;
 import com.ricex.cartracker.common.entity.Trip;
+import com.ricex.cartracker.common.entity.TripStatus;
 import com.ricex.cartracker.data.manager.ReadingManager;
 import com.ricex.cartracker.data.manager.TripManager;
-import com.ricex.cartracker.web.model.CalculatedTrip;
+import com.ricex.cartracker.data.validation.EntityValidationException;
 
 public class TripProcessor {
 
@@ -19,16 +21,12 @@ public class TripProcessor {
 		this.readingManager = readingManager;
 	}
 	
-	public CalculatedTrip processTrip(long tripId) {
-		Trip trip = tripManager.get(tripId);
-		List<Reading> readings = readingManager.getForTrip(tripId);
-		
-		CalculatedTrip calculatedTrip = new CalculatedTrip();
-		
-		calculatedTrip.setTripId(trip.getId());
-		calculatedTrip.setName(trip.getName());
-		calculatedTrip.setStartDate(trip.getStartDate());
-		calculatedTrip.setEndDate(trip.getEndDate());
+	public Trip processTrip(long tripId) throws EntityValidationException {
+		return processTrip(tripManager.get(tripId));
+	}
+	
+	public Trip processTrip(Trip trip) throws EntityValidationException {	
+		List<Reading> readings = readingManager.getForTrip(trip.getId());
 		
 		if (!readings.isEmpty()) {
 			
@@ -67,17 +65,28 @@ public class TripProcessor {
 			double averageSpeed = totalSpeed / (readings.size() * 1.0);
 			double averageEngineRPM = totalEngineRPM / (readings.size() * 1.0);
 			
-			calculatedTrip.setAverageSpeed(averageSpeed);
-			calculatedTrip.setAverageEngineRPM(averageEngineRPM);
-			calculatedTrip.setMaxEngineRPM(maxEngineRPM);
-			calculatedTrip.setMaximumSpeed(maxSpeed);
-			calculatedTrip.setDistanceTraveled(totalDistance);
-			calculatedTrip.setIdleTime(idleTime);
-		}			
+			trip.setAverageSpeed(averageSpeed);
+			trip.setAverageEngineRPM(averageEngineRPM);
+			trip.setMaxEngineRPM(maxEngineRPM);
+			trip.setMaximumSpeed(maxSpeed);
+			trip.setDistanceTraveled(totalDistance);
+			trip.setIdleTime(idleTime);
+			
+			//if the end date of the trip is null, set it to the date of the last reading
+			if (null == trip.getEndDate()) {
+				Date endDate = readings.get(readings.size() - 1).getReadDate();
+				trip.setEndDate(endDate);
+			}
+		}		
+		
+		trip.setStatus(TripStatus.PROCESSED);
+		
+		tripManager.update(trip);;
 	
 		
-		return calculatedTrip;
+		return trip;
 	}
+	
 	
 	private double calculateDistanceBetweenReadings(Reading prev, Reading current) {
 		double currentLat = Math.toRadians(current.getLatitude());

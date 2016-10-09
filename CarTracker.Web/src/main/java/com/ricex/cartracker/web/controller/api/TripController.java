@@ -15,7 +15,6 @@ import com.ricex.cartracker.common.viewmodel.PagedEntity;
 import com.ricex.cartracker.common.viewmodel.SortParam;
 import com.ricex.cartracker.data.manager.TripManager;
 import com.ricex.cartracker.data.validation.EntityValidationException;
-import com.ricex.cartracker.web.model.CalculatedTrip;
 import com.ricex.cartracker.web.processor.TripProcessor;
 
 @Controller
@@ -44,12 +43,6 @@ public class TripController extends ApiController<Trip> {
 	public @ResponseBody EntityResponse<Trip> get(@PathVariable long id) {
 		return super.get(id);
 	}
-	
-	@RequestMapping(value="/trip/{id}/calculated", method = RequestMethod.GET, produces={JSON})
-	public @ResponseBody EntityResponse<CalculatedTrip> getCalulcated(@PathVariable long id) {
-		return createEntityResponse(tripProcessor.processTrip(id));
-	}	
-
 	
 	/** Fetches all of the Trips. Supports paging
 	 * 
@@ -139,6 +132,21 @@ public class TripController extends ApiController<Trip> {
 		} 
 		catch (EntityValidationException e) {
 			return new BooleanResponse(e.getMessage());
+		}
+	}
+	
+	/** Processes the trip with the given id
+	 * 
+	 * @param id The id of the trip to process
+	 * @return The processed trip
+	 */
+	@RequestMapping(value ="/trip/{id}/process", method=RequestMethod.POST, produces={JSON})
+	public @ResponseBody EntityResponse<Trip> processTrip(@PathVariable long id) {
+		try {
+			return createEntityResponse(tripProcessor.processTrip(id));
+		}
+		catch (EntityValidationException e) {
+			return createEntityResponseError(e);
 		}
 	}
 }

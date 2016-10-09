@@ -16,11 +16,18 @@
 			</tr>
 		</thead>
 		<tbody data-bind="foreach: $data.trips">
-			<tr>
-				<td><a href="#"><span class="glyphicon glyphicon-new-window" data-bind="tooltip: 'View Trip', click: $data.viewTrip"></span></a></td>
+			<tr data-bind="css: $data.rowCss">
+				<td>
+					<a href="#"><span class="glyphicon glyphicon-new-window" data-bind="tooltip: 'View Trip', click: $data.viewTrip"></span></a>
+					<!-- ko if: $data.canCalculate -->
+					<a href="#"><span class="glyphicon glyphicon-tasks" data-bind="tooltip: 'Process Trip', click: $data.processTrip"></span></a>
+					<!-- /ko  -->
+				</td>
 				<td data-bind="text: $data.name"></td>
 				<td data-bind="text: $data.startDateDisplay"></td>
 				<td data-bind="text: $data.endDateDisplay"></td>	
+				<td data-bind="text: $data.status"></td>
+				<td data-bind="text: $data.distanceTraveledDisplay"></td>
 			</tr>
 		</tbody>	
 	</table>

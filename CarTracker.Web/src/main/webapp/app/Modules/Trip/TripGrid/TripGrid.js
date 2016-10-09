@@ -24,21 +24,64 @@ define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/system", "Service/u
 		self.TripModel = function (data) {
 			var trip = this;
 			
-			trip.id = data.id;
-			trip.name = data.name;
-			trip.startDate = moment(data.startDate);
-			trip.endDate = moment(data.endDate);
+			trip.id = ko.observable(data.id);
+			trip.name = ko.observable(data.name);
+			trip.startDate = ko.observable(moment(data.startDate));
+			trip.endDate = ko.observable(moment(data.endDate));
+			trip.status = ko.observable(data.status);
+			trip.distanceTraveled = ko.observable(data.distanceTraveled);
 			
 			trip.startDateDisplay = ko.computed(function () {
-				return trip.startDate.format("YYYY-MM-DD HH:mm:ss");
+				return trip.startDate().format("YYYY-MM-DD HH:mm:ss");
 			});
 			
 			trip.endDateDisplay = ko.computed(function () {
-				return trip.endDate.format("YYYY-MM-DD HH:mm:ss");
+				return trip.endDate().format("YYYY-MM-DD HH:mm:ss");
 			});	
 			
+			trip.distanceTraveledDisplay = ko.computed(function() {
+				if (trip.distanceTraveled()) {
+					return util.round(util.convertKmToMi(trip.distanceTraveled()), 2) + " mi";
+				}
+				return "";				
+			});	
+						
+			trip.rowCss = ko.computed(function () {
+				switch (trip.status()) {
+					case util.TRIP_STATUS_NEW:
+						return "danger";
+					case util.TRIP_STATUS_STARTED:
+						return "warning"
+					case util.TRIP_STATUS_FINISHED:
+						return "info";
+					case util.TRIP_STATUS_PROCESSED:
+						return "";
+					default:
+						return "danger";						
+				};
+			});   
+			
+			trip.canCalculate = ko.computed(function () {
+				return trip.status() !== util.TRIP_STATUS_PROCESSED;
+			});
+			
+			trip.update = function (data) {
+				trip.id(data.id);
+				trip.name(data.name);
+				trip.startDate(moment(data.startDate));
+				trip.endDate(moment(data.endDate));
+				trip.status(data.status);
+				trip.distanceTraveled(data.distanceTraveled);
+			};
+			
 			trip.viewTrip = function () {
-				navigation.navigateToViewTrip(trip.id);
+				navigation.navigateToViewTrip(trip.id());
+			};
+			
+			trip.processTrip = function () {
+				proxy.trip.process(trip.id()).then(function (processedTrip) {
+					trip.update(processedTrip);
+				});
 			};
 			
 			return trip;
@@ -53,6 +96,8 @@ define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/system", "Service/u
 		self.columns.push(new columnHeader({columnId: "NAME", columnName: "Name"}));
 		self.columns.push(new columnHeader({columnId: "START_DATE", columnName: "Start Date"}));
 		self.columns.push(new columnHeader({columnId: "END_DATE", columnName: "End Date"}));
+		self.columns.push(new columnHeader({columnId: "STATUS", columnName: "Status"}));
+		self.columns.push(new columnHeader({columnId: "DISTANCE_TRAVELED", columnName: "Distance Traveled"}));
 	
 		/** Fetch the trips from the server */
 		self.fetchTrips = function(startAt, maxResults) {
@@ -75,7 +120,7 @@ define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/system", "Service/u
 		
 		self.refresh = function () {
 			self.load();
-		};
+		};		
 		
 		system.events.on("clearSort", function (event, data) {
 			self.sort = null;

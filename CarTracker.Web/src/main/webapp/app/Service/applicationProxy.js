@@ -26,10 +26,7 @@ define("Service/applicationProxy", ["Service/proxy"], function (core) {
 		self.trip = {
 			get: function(id) {
 				return core.get("trip/" + id);
-			},
-			getCalculated: function (id) {
-				return core.get("trip/" + id + "/calculated");
-			},
+			},			
 			getAll: function() {
 				return core.get("trip/");
 			},
@@ -45,6 +42,9 @@ define("Service/applicationProxy", ["Service/proxy"], function (core) {
 			},
 			update: function(trip) {
 				return core.put("trip/", trip);
+			},
+			process: function (id) {
+				return core.post("trip/" + id + "/process"); 
 			}
 		};
 		

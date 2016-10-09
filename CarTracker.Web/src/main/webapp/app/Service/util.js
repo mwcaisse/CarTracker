@@ -9,6 +9,11 @@ define("Service/util", [], function () {
 		
 		self.DEGREE_SYMBOL = String.fromCharCode(176);
 		
+		self.TRIP_STATUS_NEW = "New";
+		self.TRIP_STATUS_STARTED = "Started";
+		self.TRIP_STATUS_FINISHED = "Finished";
+		self.TRIP_STATUS_PROCESSED = "Processed";
+		
 		self.convertKmToMi = function (km) {
 			return km * self.KM_IN_MI;
 		};	
