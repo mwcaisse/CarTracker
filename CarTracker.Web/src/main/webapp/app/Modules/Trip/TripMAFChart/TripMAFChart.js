@@ -37,6 +37,12 @@ define("Modules/Trip/TripMAFChart/TripMAFChart",
 				return {x: elm.readDate, y: elm.massAirFlow };
 			});
 			
+			opts.plotOptions = {
+				series: {
+					turboThreshold: 0
+				}
+			};
+			
 			opts.yAxis = {
 				title: {
 					text: "MAF " + units

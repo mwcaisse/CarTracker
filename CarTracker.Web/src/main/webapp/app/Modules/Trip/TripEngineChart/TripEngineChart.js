@@ -30,6 +30,13 @@ define("Modules/Trip/TripEngineChart/TripEngineChart",
 				return {x: elm.readDate, y: elm.engineRPM };
 			});
 			
+			opts.plotOptions = {
+				series: {
+					turboThreshold: 0
+				}
+			};
+				
+			
 			opts.yAxis = {
 				title: {
 					text: "Engine Speed (RPM)"

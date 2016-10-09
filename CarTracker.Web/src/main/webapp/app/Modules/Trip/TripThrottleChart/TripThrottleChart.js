@@ -38,6 +38,12 @@ define("Modules/Trip/TripThrottleChart/TripThrottleChart",
 				return {x: elm.readDate, y: throttlePosition };
 			});
 			
+			opts.plotOptions = {
+				series: {
+					turboThreshold: 0
+				}
+			};
+			
 			opts.yAxis = {
 				title: {
 					text: "Throttle Position (" + units + ")"

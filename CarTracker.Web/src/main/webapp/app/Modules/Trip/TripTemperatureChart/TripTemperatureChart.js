@@ -55,6 +55,12 @@ define("Modules/Trip/TripTemperatureChart/TripTemperatureChart",
 				return self.createDataElement(elm, "oilTemperature", useImperial);
 			});
 			
+			opts.plotOptions = {
+				series: {
+					turboThreshold: 0
+				}
+			};
+			
 			opts.yAxis = {
 				title: {
 					text: "Temperature " + units

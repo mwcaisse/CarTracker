@@ -44,6 +44,12 @@ define("Modules/Trip/TripSpeedChart/TripSpeedChart",
 				return {x: elm.readDate, y: speed };
 			});
 			
+			opts.plotOptions = {
+				series: {
+					turboThreshold: 0
+				}
+			};
+			
 			opts.yAxis = {
 				title: {
 					text: "Speed " + units
