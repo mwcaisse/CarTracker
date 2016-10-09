@@ -51,7 +51,8 @@ define("Modules/Trip/TripSpeedChart/TripSpeedChart",
 			};
 			
 			opts.xAxis = {
-				type: "datetime"
+				type: "datetime",
+				startOfWeek: 0
 			};
 			
 			opts.tooltip = {

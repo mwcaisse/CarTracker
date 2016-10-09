@@ -16,3 +16,10 @@ require.config({
 		}
 	}
 });
+
+//Highcharts options
+Highcharts.setOptions({
+	global: {
+		useUTC: false
+	}
+});
