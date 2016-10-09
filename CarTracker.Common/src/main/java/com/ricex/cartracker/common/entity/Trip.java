@@ -13,6 +13,8 @@ public class Trip extends AbstractEntity {
 	private long carId;
 	
 	private Car car;
+	
+	private TripStatus status;
 
 	/**
 	 * @return the startDate
@@ -85,6 +87,11 @@ public class Trip extends AbstractEntity {
 		if (null != car) {
 			carId = car.getId();
 		}
+	}	
+
+	public void setNew() {
+		super.setNew();
+		status = TripStatus.NEW;
 	}
 
 	

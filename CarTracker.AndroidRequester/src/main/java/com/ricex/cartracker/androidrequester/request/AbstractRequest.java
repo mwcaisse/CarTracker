@@ -25,7 +25,9 @@ import com.ricex.cartracker.androidrequester.request.exception.UnauthenticationR
 import com.ricex.cartracker.androidrequester.request.exception.UnauthorizedRequestException;
 import com.ricex.cartracker.androidrequester.request.user.LoginTokenRequest;
 import com.ricex.cartracker.common.auth.TokenAuthentication;
+import com.ricex.cartracker.common.entity.TripStatus;
 import com.ricex.cartracker.common.util.JsonDateMillisecondsEpochDeserializer;
+import com.ricex.cartracker.common.util.JsonTripStatusSerializer;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
 
 import android.os.AsyncTask;
@@ -64,7 +66,8 @@ public abstract class AbstractRequest<T> implements Request<T> {
 		//Create the gson object to decode Json messages
 		Gson gson = new GsonBuilder().setDateFormat(DateFormat.LONG)
 				.registerTypeAdapter(Date.class, new JsonDateMillisecondsEpochDeserializer())
-						.create();
+				.registerTypeAdapter(TripStatus.class, new JsonTripStatusSerializer())
+				.create();
 		
 		//create the Gson message converter for spring, and set its Gson
 		GsonHttpMessageConverter converter = new GsonHttpMessageConverter();
