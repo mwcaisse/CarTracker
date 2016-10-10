@@ -14,6 +14,14 @@ define("Service/util", [], function () {
 		self.TRIP_STATUS_FINISHED = "Finished";
 		self.TRIP_STATUS_PROCESSED = "Processed";
 		
+		self.TRIP_STATUSES = [
+		                      self.TRIP_STATUS_NEW,
+		                      self.TRIP_STATUS_STARTED,
+		                      self.TRIP_STATUS_FINISHED,
+		                      self.TRIP_STATUS_PROCESSED
+		                      ];
+	
+		
 		self.convertKmToMi = function (km) {
 			return km * self.KM_IN_MI;
 		};	
@@ -37,6 +45,10 @@ define("Service/util", [], function () {
 		    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
 		        results = regex.exec(location.search);
 		    return results == null ? def : decodeURIComponent(results[1].replace(/\+/g, " "));
+		};
+		
+		self.scrollToTop = function () {
+			window.scrollTo(0,0);
 		};
 	
 		

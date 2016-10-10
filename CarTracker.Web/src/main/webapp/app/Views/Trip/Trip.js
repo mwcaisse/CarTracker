@@ -2,6 +2,7 @@
 
 define("Views/Trip/Trip", 
 	["Service/util", 
+	 "Modules/Common/PageAlert/PageAlert",
 	 "Modules/Trip/TripDetails/TripDetails",
 	 "Modules/Trip/TripMap/TripMap",
 	 "Modules/Trip/TripSpeedChart/TripSpeedChart",
@@ -9,13 +10,15 @@ define("Views/Trip/Trip",
 	 "Modules/Trip/TripTemperatureChart/TripTemperatureChart",
 	 "Modules/Trip/TripThrottleChart/TripThrottleChart",
 	 "Modules/Trip/TripMAFChart/TripMAFChart",
-	 "AMD/koTemplateLoader!Views/Trip/Trip.html"], function (util, tripDetails, tripMap, tripSpeedChart, tripEngineChart, 
+	 "AMD/koTemplateLoader!Views/Trip/Trip.html"], function (util, pageAlert, tripDetails, tripMap, tripSpeedChart, tripEngineChart, 
 			 tripTemperatureChart, tripThrottleChart, tripMAFChart) {
 	
 	var vm = function() {
 		var self = this;
 
 		var tripId = util.getURLParameter("tripId", 92);
+		
+		self.pageAlert = new pageAlert();
 		
 		self.tripDetails = new tripDetails({
 			tripId: tripId

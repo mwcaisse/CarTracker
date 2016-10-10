@@ -8,11 +8,11 @@ define("Modules/Common/Map/MapBinding",
 	handlers.createBindingHandler("map", templateName);
 	
 	ko.bindingHandlers.mapModule = {
-			init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-				var value = ko.unwrap(valueAccessor());
-				
-				value.initializeMapElement(element);
-			}
-		};
+		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+			var value = ko.unwrap(valueAccessor());
+			
+			value.initializeMapElement(element);
+		}
+	};
 	
 });

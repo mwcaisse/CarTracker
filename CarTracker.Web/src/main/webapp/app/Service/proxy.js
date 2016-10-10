@@ -32,10 +32,10 @@ define("Service/proxy", ["Service/system"], function (system) {
 				deferred.resolve(data.data);
 			}
 			else if (data) {
-				deferred.resolve(data.errorMessage);		
+				deferred.reject(data.errorMessage);		
 			}
 			else {
-				deferred.resolve("Error reading the results from the server!");
+				deferred.reject("Error reading the results from the server!");
 			}
 		};
 		

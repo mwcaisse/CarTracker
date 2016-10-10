@@ -1,0 +1,6 @@
+<!-- ko if: $data.display -->
+<div class="alert" role="alert" data-bind="css: $data.alertCss">
+	<button type="button" class="close" data-bind="click: $data.clear"><span>&times;</span></button>
+	<strong data-bind="text: $data.alertHeader"></strong><span data-bind="text: $data.alertMessage"></span>
+</div>
+<!-- /ko -->
