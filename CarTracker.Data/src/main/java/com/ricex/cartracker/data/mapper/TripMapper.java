@@ -38,6 +38,12 @@ public interface TripMapper extends EntityMapper<Trip> {
 	 */
 	public long countForCar(long carId);
 	
+	/** Returns a list of all the trips that are unprocessed
+	 * 
+	 * @return The unprocessed trips
+	 */
+	public List<Trip> getUnprocessedTrips();
+	
 	/** Deletes all the trips for the given car
 	 * 
 	 * @param carId The id of the car

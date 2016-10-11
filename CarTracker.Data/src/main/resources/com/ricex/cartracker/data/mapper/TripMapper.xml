@@ -45,7 +45,23 @@
         <if test="orderBy != null">
             ORDER BY ${orderBy}
         </if>
-    </select>   
+    </select>  
+    
+    <select id="getUnprocessedTrips" resultMap="tripResultMap">
+        <![CDATA[
+	        SELECT T.* 
+			FROM TRIP T
+			LEFT JOIN ( 
+			            SELECT TRIP_ID, MAX(READ_DATE) AS READ_DATE FROM READING
+			            GROUP BY TRIP_ID
+			          ) R ON T.ID = R.TRIP_ID
+			WHERE T.STATUS <> 'PROCESSED' 
+			AND 
+			  (T.STATUS = 'FINISHED'
+			  OR R.READ_DATE IS NULL
+			  OR R.READ_DATE < NOW() - INTERVAL 30 MINUTE)
+  		]]>
+    </select>
     
     <select id="countForCar" resultType="long" parameterType="long">
         SELECT COUNT(*) FROM TRIP
