@@ -72,6 +72,14 @@ public abstract class AbstractEntityManager<T extends AbstractEntity> {
 		return null != get(id);
 	}	
 	
+	/** Deletes the given entity
+	 * 
+	 * @param id The id of the entity to delete
+	 */
+	public void delete(long id) {
+		entityMapper.delete(id);
+	}
+	
 	/** Performs any required logic for validating that creating this entity is allowed.
 	 * 
 	 *  Performed after/if the entity passes validation

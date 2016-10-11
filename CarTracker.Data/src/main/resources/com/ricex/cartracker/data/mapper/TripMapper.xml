@@ -76,5 +76,15 @@
        	WHERE TRIP.ID = #{id}
     </update>
     
+    <delete id="delete" parameterType="long">
+        DELETE FROM TRIP
+        WHERE TRIP.ID = #{id}
+    </delete>
+    
+    <delete id="deleteForCar" parameterType="long">
+        DELETE FROM TRIP
+        WHERE TRIP.CAR_ID = #{carId}
+    </delete>
+    
     
 </mapper>

@@ -110,5 +110,15 @@
        	WHERE READING.ID = #{id}
     </update>
     
+    <delete id="delete" parameterType="long">
+        DELETE FROM READING
+        WHERE READING.ID = #{readingId}
+    </delete>
+    
+    <delete id="deleteForTrip" parameterType="long">
+        DELETE FROM READING
+        WHERE READING.TRIP_ID = #{tripId}
+    </delete>
+    
     
 </mapper>

@@ -12,5 +12,11 @@ public interface ReadingMapper extends EntityMapper<Reading> {
 	 * @return The list of trips for the reading
 	 */
 	public List<Reading> getForTrip(long tripId);
+	
+	/** Deletes all of the readings for the given trip
+	 * 
+	 * @param tripId The trip id
+	 */
+	public void deleteForTrip(long tripId);
 
 }

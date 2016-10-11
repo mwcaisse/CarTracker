@@ -48,5 +48,10 @@
        	WHERE ID = #{id}
     </update>
     
+    <delete id="delete">
+        DELETE FROM CAR
+        WHERE ID = #{id}
+    </delete>
+    
     
 </mapper>

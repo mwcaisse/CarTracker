@@ -47,4 +47,10 @@ public interface EntityMapper<T extends AbstractEntity> {
 	 */
 	public void update(T e);
 	
+	/** Deletes the entity with the given id
+	 * 
+	 * @param id The id of the entity to delete
+	 */
+	public void delete(long id);
+	
 }
