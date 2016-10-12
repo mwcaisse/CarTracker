@@ -7,7 +7,8 @@ public enum TripStatus {
 	NEW ("New"),
 	STARTED ("Started"),
 	FINISHED ("Finished"),
-	PROCESSED ("Processed");
+	PROCESSED ("Processed"),
+	FAILED ("FAILED");
 	
 	/** Converts a string to its corresponding Trip Status based upon name
 	 * 

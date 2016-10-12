@@ -72,6 +72,14 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 		return null;
 	}
 	
+	/** Gets all of the unprocessed trips
+	 * 
+	 * @return All of the unprocessed trips
+	 */
+	public List<Trip> getUnprocessedTrips() {
+		return mapper.getUnprocessedTrips();
+	}
+	
 	/** Creates a new trip for the car with the given VIN
 	 * 
 	 * @param carVin The VIN of the car to create the trip for

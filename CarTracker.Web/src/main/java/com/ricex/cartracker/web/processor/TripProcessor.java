@@ -1,5 +1,6 @@
 package com.ricex.cartracker.web.processor;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +26,31 @@ public class TripProcessor {
 		return processTrip(tripManager.get(tripId));
 	}
 	
-	public Trip processTrip(Trip trip) throws EntityValidationException {	
+	/** Processes all trips of the given trips
+	 * 
+	 * @param tripsToProcess The trips to p rocess
+	 */
+	
+	public void processTrips(List<Trip> tripsToProcess)  {	
+		for (Trip trip : tripsToProcess) {
+			processTrip(trip);	
+		}
+	}
+	
+	/** Processes all unprocessed trips
+	 * 
+	 */
+	public void processUnprocessedTrips() {
+		processTrips(tripManager.getUnprocessedTrips());
+	}
+	
+	/** Processes the given trip
+	 * 
+	 * @param trip The trip to process
+	 * @return The processed trip
+	 */
+	
+	public Trip processTrip(Trip trip) {	
 		List<Reading> readings = readingManager.getForTrip(trip.getId());
 		
 		if (!readings.isEmpty()) {
@@ -81,8 +106,22 @@ public class TripProcessor {
 		
 		trip.setStatus(TripStatus.PROCESSED);
 		
-		tripManager.update(trip);;
-	
+		try {
+			tripManager.update(trip);
+		}
+		catch (EntityValidationException e) {
+			Trip originalTrip = tripManager.get(trip.getId());
+			
+			originalTrip.setStatus(TripStatus.FAILED);
+			try {
+				tripManager.update(originalTrip);
+				return originalTrip;
+			}
+			catch (EntityValidationException ex) {
+				//if we get an error here, then we have a bigger issue.
+				throw new RuntimeException("TODO: Change this into a logger or better exception", ex);
+			}
+		}	
 		
 		return trip;
 	}
