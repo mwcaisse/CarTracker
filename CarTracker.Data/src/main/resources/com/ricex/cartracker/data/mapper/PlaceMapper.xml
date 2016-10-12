@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.cartracker.data.mapper.PlaceMapper">
+    
+    <cache />
+    
+    <resultMap id="placeResultMap" type="Place">
+        <id property="id" column="ID" />
+        <result property="name" column="NAME" />
+        <result property="latitude" column="LATITUDE" />
+        <result property="longitude" column="LONGITUDE" />
+        <result property="active" column="ACTIVE" />
+        <result property="createDate" column="CREATE_DATE" />
+        <result property="modifiedDate" column="MODIFIED_DATE" />             
+    </resultMap>
+    
+    <select id="getAll" resultMap="placeResultMap">
+        SELECT PLACE.* FROM PLACE
+    </select>
+    
+     <select id="countAll" resultType="long">
+        SELECT COUNT(*) FROM PLACE
+    </select>
+    
+    <select id="get" resultMap="placeResultMap" parameterType="long">
+        SELECT PLACE.* FROM PLACE
+        WHERE PLACE.ID = #{id}
+    </select>
+    
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO PLACE (NAME, LATITUDE, LONGITUDE, ACTIVE)
+        VALUES (#{name}, #{latitude}, #{longitude}, #{active})
+    </insert>
+    
+    <update id="update">
+        UPDATE PLACE SET 
+        	NAME = #{name},
+        	LATITUDE = #{latitude},
+        	LONGITUDE = #{longitude},
+        	ACTIVE = #{active}
+       	WHERE ID = #{id}
+    </update>
+    
+    <delete id="delete">
+        DELETE FROM PLACE
+        WHERE ID = #{id}
+    </delete>
+    
+    
+</mapper>
