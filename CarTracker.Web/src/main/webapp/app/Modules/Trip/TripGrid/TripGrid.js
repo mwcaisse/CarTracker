@@ -30,6 +30,8 @@ define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/system", "Service/u
 			trip.endDate = ko.observable(moment(data.endDate));
 			trip.status = ko.observable(data.status);
 			trip.distanceTraveled = ko.observable(data.distanceTraveled);
+			trip.start = ko.observable(data.start);
+			trip.destination = ko.observable(data.destination);
 			
 			trip.startDateDisplay = ko.computed(function () {
 				return trip.startDate().format("YYYY-MM-DD HH:mm:ss");
@@ -45,6 +47,14 @@ define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/system", "Service/u
 				}
 				return "";				
 			});	
+			
+			trip.destination = ko.computed(function() {
+				var destination = trip.destination();
+				if (destination) {
+					return destination.name;
+				}
+				return "";
+			});
 						
 			trip.rowCss = ko.computed(function () {
 				switch (trip.status()) {
@@ -72,6 +82,8 @@ define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/system", "Service/u
 				trip.endDate(moment(data.endDate));
 				trip.status(data.status);
 				trip.distanceTraveled(data.distanceTraveled);
+				trip.start(data.start);
+				trip.destination(data.destination);
 			};
 			
 			trip.viewTrip = function () {
@@ -98,6 +110,7 @@ define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/system", "Service/u
 		self.columns.push(new columnHeader({columnId: "END_DATE", columnName: "End Date"}));
 		self.columns.push(new columnHeader({columnId: "STATUS", columnName: "Status"}));
 		self.columns.push(new columnHeader({columnId: "DISTANCE_TRAVELED", columnName: "Distance Traveled"}));
+		self.columns.push(new columnHeader({columnId: "DESTINATION", columnName: "Destination", enableSort: false}));
 	
 		/** Fetch the trips from the server */
 		self.fetchTrips = function(startAt, maxResults) {

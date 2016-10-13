@@ -1,3 +1,4 @@
+<!-- ko if: $data.enableSort -->
 <div class="btn-group" style="display: block">
 	<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		<span data-bind="text: $data.columnName"></span>		
@@ -9,3 +10,8 @@
 		<li><a class="dropdown-item" href="#" data-bind="click: $data.ClearSortClick"><span class="glyphicon glyphicon-remove"></span>&nbsp;Clear Sort</a></li>
 	</ul>
 </div>
+<!-- /ko -->
+
+<!-- ko ifnot: $data.enableSort -->
+<span data-bind="text: $data.columnName"></span>	
+<!-- /ko -->

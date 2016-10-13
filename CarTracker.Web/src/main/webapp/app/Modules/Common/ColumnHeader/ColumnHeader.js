@@ -13,7 +13,8 @@ define("Modules/Common/ColumnHeader/ColumnHeader", ["moment", "Service/system", 
 		
 		var defaults = {
 			columnId: "", 
-			columnName: ""
+			columnName: "",
+			enableSort: true
 		};	
 		
 		var opts = $.extend({}, defaults, options);
@@ -21,6 +22,8 @@ define("Modules/Common/ColumnHeader/ColumnHeader", ["moment", "Service/system", 
 		self.columnId = opts.columnId;
 		
 		self.columnName = ko.observable(opts.columnName);
+
+		self.enableSort = ko.observable(opts.enableSort);
 		
 		self.sort = ko.observable(false);
 		
