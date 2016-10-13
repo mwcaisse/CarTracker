@@ -76,12 +76,14 @@ public class TripProcessor {
 				totalSpeed += reading.getSpeed();
 				totalEngineRPM += reading.getEngineRPM();
 				
-				if (null != previousReading) {
+				if (null != previousReading) {				
 					double distance = calculateDistanceBetweenReadings(previousReading, reading);
-					totalDistance += distance;
-					if (distance == 0) {
+					totalDistance += distance;					
+					
+					if (previousReading.getSpeed() == 0 &&
+							reading.getSpeed() == 0) {
 						idleTime += reading.getReadDate().getTime() - previousReading.getReadDate().getTime();
-					}
+					}	
 				}
 				
 				previousReading = reading;
