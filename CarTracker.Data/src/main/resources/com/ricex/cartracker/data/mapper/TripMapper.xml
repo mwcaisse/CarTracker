@@ -20,10 +20,14 @@
         <result property="distanceTraveled" column="DISTANCE_TRAVELED" />
         <result property="idleTime" column="IDLE_TIME" />
         <result property="status" column="STATUS" />        
+        <result property="startPlaceId" column="START_PLACE" />
+        <result property="destinationPlaceId" column="DESTINATION_PLACE" />
         <result property="createDate" column="CREATE_DATE" />
         <result property="modifiedDate" column="MODIFIED_DATE" />   
         
-        <association property="car" column="CAR_ID" javaType="Car" select="com.ricex.cartracker.data.mapper.CarMapper.get" />        
+        <association property="car" column="CAR_ID" javaType="Car" select="com.ricex.cartracker.data.mapper.CarMapper.get" />    
+        <association property="start" column="START_PLACE" javaType="Place" select="com.ricex.cartracker.data.mapper.PlaceMapper.get" />    
+        <association property="destination" column="DESTINATION_PLACE" javaType="Place" select="com.ricex.cartracker.data.mapper.PlaceMapper.get" />    
     </resultMap>
     
      <select id="get" resultMap="tripResultMap" parameterType="long">
@@ -70,10 +74,10 @@
     
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO TRIP (START_DATE, END_DATE, NAME, CAR_ID, AVERAGE_SPEED, MAX_SPEED, AVERAGE_ENGINE_RPM, 
-        	MAX_ENGINE_RPM, DISTANCE_TRAVELED, IDLE_TIME,  STATUS)
+        	MAX_ENGINE_RPM, DISTANCE_TRAVELED, IDLE_TIME, START_PLACE, DESTINATION_PLACE, STATUS)
         	
         VALUES (#{startDate}, #{endDate}, #{name}, #{carId}, #{averageSpeed}, #{maximumSpeed}, #{averageEngineRPM},
-        	#{maxEngineRPM}, #{distanceTraveled}, #{idleTime}, #{status})
+        	#{maxEngineRPM}, #{distanceTraveled}, #{idleTime}, #{startPlaceId}, #{destinationPlaceId}, #{status})
     </insert>
     
     <update id="update">
@@ -88,6 +92,8 @@
         	MAX_ENGINE_RPM = #{maxEngineRPM},
         	DISTANCE_TRAVELED = #{distanceTraveled},
         	IDLE_TIME = #{idleTime},
+        	START_PLACE = #{startPlaceId},
+        	DESTINATION_PLACE = #{destinationPlaceId},
         	STATUS = #{status}
        	WHERE TRIP.ID = #{id}
     </update>

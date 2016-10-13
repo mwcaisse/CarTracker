@@ -26,6 +26,14 @@ public class Trip extends AbstractEntity {
 	
 	private long idleTime;
 	
+	private Long startPlaceId;
+	
+	private Long destinationPlaceId;
+	
+	private Place start;
+	
+	private Place destination;
+	
 	private TripStatus status;
 
 	/**
@@ -187,6 +195,76 @@ public class Trip extends AbstractEntity {
 	 */
 	public void setStatus(TripStatus status) {
 		this.status = status;
+	}
+	
+	
+
+	/**
+	 * @return the startPlaceId
+	 */
+	public long getStartPlaceId() {
+		return startPlaceId;
+	}
+
+	/**
+	 * @param startPlaceId the startPlaceId to set
+	 */
+	public void setStartPlaceId(Long startPlaceId) {
+		this.startPlaceId = startPlaceId;
+	}
+
+	/**
+	 * @return the destinationPlaceId
+	 */
+	public long getDestinationPlaceId() {
+		return destinationPlaceId;
+	}
+
+	/**
+	 * @param destinationPlaceId the destinationPlaceId to set
+	 */
+	public void setDestinationPlaceId(Long destinationPlaceId) {
+		this.destinationPlaceId = destinationPlaceId;
+	}
+
+	/**
+	 * @return the start
+	 */
+	public Place getStart() {
+		return start;
+	}
+
+	/**
+	 * @param start the start to set
+	 */
+	public void setStart(Place start) {
+		this.start = start;
+		if (null != start) {
+			this.startPlaceId = start.getId();
+		}
+		else {
+			this.startPlaceId = null;
+		}
+	}
+
+	/**
+	 * @return the destination
+	 */
+	public Place getDestination() {
+		return destination;
+	}
+
+	/**
+	 * @param destination the destination to set
+	 */
+	public void setDestination(Place destination) {
+		this.destination = destination;
+		if (null != destination) {
+			this.destinationPlaceId = destination.getId();
+		}
+		else {
+			this.destinationPlaceId = null;
+		}
 	}
 
 	/**
