@@ -202,7 +202,7 @@ public class Trip extends AbstractEntity {
 	/**
 	 * @return the startPlaceId
 	 */
-	public long getStartPlaceId() {
+	public Long getStartPlaceId() {
 		return startPlaceId;
 	}
 
@@ -216,7 +216,7 @@ public class Trip extends AbstractEntity {
 	/**
 	 * @return the destinationPlaceId
 	 */
-	public long getDestinationPlaceId() {
+	public Long getDestinationPlaceId() {
 		return destinationPlaceId;
 	}
 
