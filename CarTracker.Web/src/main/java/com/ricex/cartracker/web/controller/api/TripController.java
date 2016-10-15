@@ -53,8 +53,9 @@ public class TripController extends ApiController<Trip> {
 	@RequestMapping(value="/trip/", method = RequestMethod.GET, produces={JSON})
 	public @ResponseBody EntityResponse<PagedEntity<Trip>> getAll(
 			@RequestParam(name = "startAt", required = false, defaultValue = "0") int startAt, 
-			@RequestParam(name = "maxResults", required = false, defaultValue = "25") int maxResults) {
-		return super.getAll(startAt, maxResults);
+			@RequestParam(name = "maxResults", required = false, defaultValue = "25") int maxResults,
+			SortParam sort) {
+		return super.getAll(startAt, maxResults, sort);
 	}
 	
 	/** Fetches all of the trips for the given car

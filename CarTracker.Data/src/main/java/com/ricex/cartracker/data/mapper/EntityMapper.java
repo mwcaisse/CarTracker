@@ -2,6 +2,7 @@ package com.ricex.cartracker.data.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import com.ricex.cartracker.common.entity.AbstractEntity;
@@ -24,10 +25,11 @@ public interface EntityMapper<T extends AbstractEntity> {
 	
 	/** Gets a list of all the entities, offset and limited by the row bounds
 	 * 
+	 * @param orderBy The order by string
 	 * @param rb The row bounds containing the limit and offset
 	 * @return The entities within the limit and offset
 	 */
-	public List<T> getAll(RowBounds rb);
+	public List<T> getAll(@Param("orderBy")  String orderBy, RowBounds rb);
 	
 	/** Gets the total count of all the entities
 	 * 

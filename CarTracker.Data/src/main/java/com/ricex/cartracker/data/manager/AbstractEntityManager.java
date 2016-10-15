@@ -34,8 +34,8 @@ public abstract class AbstractEntityManager<T extends AbstractEntity> {
 		return entityMapper.getAll();
 	}
 	
-	public PagedEntity<T> getAll(int startAt, int maxResults) {
-		List<T> entities = entityMapper.getAll(new RowBounds(startAt, maxResults));
+	public PagedEntity<T> getAll(int startAt, int maxResults, SortParam sort) {
+		List<T> entities = entityMapper.getAll(parseSortBy(sort), new RowBounds(startAt, maxResults));
 		long total = entityMapper.countAll();
 		return new PagedEntity<T>(entities, startAt, maxResults, total);		
 	}

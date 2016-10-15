@@ -37,6 +37,9 @@
     
     <select id="getAll" resultMap="tripResultMap">
         SELECT TRIP.* FROM TRIP
+          <if test="orderBy != null">
+            ORDER BY ${orderBy}
+        </if>
     </select>
     
     <select id="countAll" resultType="long">

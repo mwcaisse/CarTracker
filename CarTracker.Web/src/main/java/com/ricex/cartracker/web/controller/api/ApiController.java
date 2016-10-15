@@ -10,6 +10,7 @@ import com.ricex.cartracker.common.entity.AbstractEntity;
 import com.ricex.cartracker.common.viewmodel.BooleanResponse;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
 import com.ricex.cartracker.common.viewmodel.PagedEntity;
+import com.ricex.cartracker.common.viewmodel.SortParam;
 import com.ricex.cartracker.data.manager.AbstractEntityManager;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 
@@ -51,8 +52,8 @@ public abstract class ApiController<T extends AbstractEntity> {
 	 * @return The entities on the page
 	 */
 	
-	public EntityResponse<PagedEntity<T>> getAll(int startAt, int maxResults) {
-		return createEntityResponse(manager.getAll(startAt, maxResults));
+	public EntityResponse<PagedEntity<T>> getAll(int startAt, int maxResults, SortParam sort) {
+		return createEntityResponse(manager.getAll(startAt, maxResults, sort));
 	}
 	
 	/** Fetches an entity with the specified id
