@@ -39,8 +39,8 @@ define("Modules/Car/CarGrid/CarGrid", ["moment", "Service/system", "Service/util
 		
 		self.columns = ko.observableArray([]);
 		
-		self.columns.push(new columnHeader({columnId: "NAME", columnName: "Name", enableSort: false}));
-		self.columns.push(new columnHeader({columnId: "VIN", columnName: "VIN", enableSort: false}));
+		self.columns.push(new columnHeader({columnId: "NAME", columnName: "Name" }));
+		self.columns.push(new columnHeader({columnId: "VIN", columnName: "VIN" }));
 	
 		/** Fetch the cars from the server */
 		self.fetchCars = function(startAt, maxResults) {
