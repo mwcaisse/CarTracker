@@ -7,7 +7,11 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.ricex.cartracker.common.entity.AbstractEntity;
 import com.ricex.cartracker.common.viewmodel.PagedEntity;
+import com.ricex.cartracker.common.viewmodel.SortParam;
 import com.ricex.cartracker.data.mapper.EntityMapper;
+import com.ricex.cartracker.data.query.properties.EntityProperties;
+import com.ricex.cartracker.data.query.properties.EntityProperty;
+import com.ricex.cartracker.data.query.properties.EntityType;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 import com.ricex.cartracker.data.validation.EntityValidator;
 
@@ -18,9 +22,12 @@ public abstract class AbstractEntityManager<T extends AbstractEntity> {
 	
 	protected EntityValidator<T> entityValidator;
 	
-	protected AbstractEntityManager(EntityMapper<T> entityMapper, EntityValidator<T> entityValidator) {
+	protected EntityType entityType;
+	
+	protected AbstractEntityManager(EntityMapper<T> entityMapper, EntityValidator<T> entityValidator, EntityType entityType) {
 		this.entityMapper = entityMapper;
 		this.entityValidator = entityValidator;
+		this.entityType = entityType;
 	}		
 	
 	public List<T> getAll() {
@@ -103,6 +110,25 @@ public abstract class AbstractEntityManager<T extends AbstractEntity> {
 	 * 
 	 * @return The entity name
 	 */
-	protected abstract String getEntityName();
+	protected String getEntityName() {
+		return entityType.getName();
+	}	
+	
+	/** Transforms the Sort Param into an order by string, If the sort param property doesn't match
+	 * 		any properties on the entity type, null is returned
+	 * 
+	 * @param sort The sort param to parse
+	 * @return The resulting sort query
+	 */
+	protected String parseSortBy(SortParam sort) {
+		if (null == sort) {
+			return null;
+		}
+		EntityProperty sortField = EntityProperties.parseFromPropertyField(entityType, sort.getPropertyId());
+		if (null != sortField) {
+			return sortField.getPropertyField() + (sort.isAscending() ? " ASC" : " DESC");
+		}
+		return null;
+	}
 
 }

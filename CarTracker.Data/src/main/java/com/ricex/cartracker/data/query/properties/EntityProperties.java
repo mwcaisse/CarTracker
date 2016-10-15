@@ -1,5 +1,9 @@
 package com.ricex.cartracker.data.query.properties;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 
 public final class EntityProperties {
@@ -61,6 +65,7 @@ public final class EntityProperties {
 		public String getPropertyField() {
 			return propertyField;
 		}		
+		
 	}
 	
 	public enum Trip implements EntityProperty {
@@ -85,15 +90,6 @@ public final class EntityProperties {
 
 		public String getPropertyField() {
 			return propertyField;
-		}
-		
-		public static Trip parseFromPropertyField(String propertyField) {
-			for (Trip trip : values()) {
-				if (StringUtils.equalsIgnoreCase(propertyField, trip.getPropertyField())) {
-					return trip;
-				}
-			}
-			return null;
 		}
 	}
 	
@@ -122,6 +118,31 @@ public final class EntityProperties {
 
 		public String getPropertyField() {
 			return propertyField;
+		}
+	}
+	
+	public static EntityProperty parseFromPropertyField(EntityType type, String propertyField) {
+		List<EntityProperty> properties = Arrays.asList(getPropertiesForEntity(type));
+		for (EntityProperty property : properties) {
+			if (StringUtils.equalsIgnoreCase(propertyField, property.getPropertyField())) {
+				return property;
+			}
+		}
+		return null;
+	}
+	
+	public static EntityProperty[] getPropertiesForEntity(EntityType entityType) {
+		switch (entityType) {
+		case CAR:
+			return Car.values();
+		case READING:
+			return Reading.values();
+		case TRIP:
+			return Trip.values();
+		case USER:
+			return User.values();
+		default:
+			return new EntityProperty[0];
 		}
 	}
 	

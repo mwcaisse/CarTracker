@@ -1,5 +1,6 @@
 package com.ricex.cartracker.data.manager;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,13 +9,12 @@ import com.ricex.cartracker.common.entity.Trip;
 import com.ricex.cartracker.common.viewmodel.ReadingUpload;
 import com.ricex.cartracker.common.viewmodel.ReadingUploadResult;
 import com.ricex.cartracker.data.mapper.ReadingMapper;
+import com.ricex.cartracker.data.query.properties.EntityType;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 import com.ricex.cartracker.data.validation.ReadingValidator;
 
 public class ReadingManager extends AbstractEntityManager<Reading> {
 
-	public static final String ENTITY_NAME = "Reading";
-	
 	private ReadingMapper mapper;
 	
 	private ReadingValidator validator;
@@ -26,7 +26,7 @@ public class ReadingManager extends AbstractEntityManager<Reading> {
 	}
 	
 	protected ReadingManager(ReadingMapper mapper, TripManager tripManager, ReadingValidator validator) {
-		super(mapper, validator);
+		super(mapper, validator, EntityType.READING);
 		
 		this.mapper = mapper;
 		this.validator = validator;
@@ -50,7 +50,7 @@ public class ReadingManager extends AbstractEntityManager<Reading> {
 		
 		Trip trip = tripManager.get(tripId);
 		if (null == trip) {
-			throw new EntityValidationException("The specified trip does not exist!");
+			throw new EntityValidationException(MessageFormat.format("The specified {0} does not exist!", EntityType.TRIP.getName()));
 		}
 		
 		for (ReadingUpload upload : readings) {
@@ -76,18 +76,13 @@ public class ReadingManager extends AbstractEntityManager<Reading> {
 	@Override
 	protected void createValidationLogic(Reading toCreate) throws EntityValidationException {
 		if (!tripManager.exists(toCreate.getTripId())) {
-			throw new EntityValidationException(String.format("The specified {0} does not exist!", tripManager.ENTITY_NAME));
+			throw new EntityValidationException(MessageFormat.format("The specified {0} does not exist!", EntityType.TRIP.getName()));
 		}
 	}
 
 	@Override
 	protected void updateValidationLogic(Reading toUpdate) throws EntityValidationException {
 		createValidationLogic(toUpdate);
-	}
-
-	@Override
-	protected String getEntityName() {
-		return ENTITY_NAME;
 	}
 
 }

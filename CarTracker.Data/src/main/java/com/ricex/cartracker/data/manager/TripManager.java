@@ -1,5 +1,6 @@
 package com.ricex.cartracker.data.manager;
 
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -12,12 +13,11 @@ import com.ricex.cartracker.common.viewmodel.PagedEntity;
 import com.ricex.cartracker.common.viewmodel.SortParam;
 import com.ricex.cartracker.data.mapper.TripMapper;
 import com.ricex.cartracker.data.query.properties.EntityProperties;
+import com.ricex.cartracker.data.query.properties.EntityType;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 import com.ricex.cartracker.data.validation.TripValidator;
 
-public class TripManager extends AbstractEntityManager<Trip>  {
-
-	public static final String ENTITY_NAME = "Trip";
+public class TripManager extends AbstractEntityManager<Trip>  {	
 	
 	protected TripMapper mapper;
 	protected TripValidator validator;
@@ -28,7 +28,7 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 	}
 	
 	public TripManager(TripMapper mapper, CarManager carManager, TripValidator validator) {
-		super(mapper, validator);
+		super(mapper, validator, EntityType.TRIP);
 		this.mapper = mapper;
 		this.validator = validator;
 		this.carManager = carManager;
@@ -55,23 +55,6 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 		return new PagedEntity<Trip>(trips, startAt, maxResults, totalTripCount);
 	}
 	
-	/** Transforms the Sort Param into an order by string, If the sort param property doesn't match
-	 * 		any properties on trip, null is returned
-	 * 
-	 * @param sort The sort param to parse
-	 * @return The resulting sort query
-	 */
-	protected String parseSortBy(SortParam sort) {
-		if (null == sort) {
-			return null;
-		}
-		EntityProperties.Trip sortField = EntityProperties.Trip.parseFromPropertyField(sort.getPropertyId());
-		if (null != sortField) {
-			return sortField.getPropertyField() + (sort.isAscending() ? " ASC" : " DESC");
-		}
-		return null;
-	}
-	
 	/** Gets all of the unprocessed trips
 	 * 
 	 * @return All of the unprocessed trips
@@ -92,7 +75,7 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 		
 		Car car = carManager.getByVin(carVin);
 		if (null == car) {
-			throw new EntityValidationException("The specified car does not exist!");
+			throw new EntityValidationException(MessageFormat.format("The specified {0} does not exist!", EntityType.CAR.getName()));
 		}
 		trip.setCar(car);
 		trip.setStartDate(new Date());
@@ -112,7 +95,7 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 	public boolean endTrip(long id) throws EntityValidationException {
 		Trip trip = get(id);
 		if (null == trip) {
-			throw new EntityValidationException("Trip does not exist!");
+			throw new EntityValidationException(MessageFormat.format("{0} does not exist!", getEntityName()));
 		}
 		trip.setEndDate(new Date());
 		trip.setModifiedDate(new Date());
@@ -125,15 +108,11 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 	
 	protected void createValidationLogic(Trip toCreate) throws EntityValidationException {
 		if (!carManager.exists(toCreate.getCarId())) {
-			throw new EntityValidationException("The specified car does not exist!");
+			throw new EntityValidationException(MessageFormat.format("The specified {0} does not exist!", EntityType.CAR.getName()));
 		}
 	}
 	
 	protected void updateValidationLogic(Trip toUpdate) throws EntityValidationException {
 		createValidationLogic(toUpdate);
 	}
-	
-	protected String getEntityName() {
-		return ENTITY_NAME;
-	}	
 }

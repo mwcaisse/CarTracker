@@ -4,12 +4,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.ricex.cartracker.common.entity.Car;
 import com.ricex.cartracker.data.mapper.CarMapper;
+import com.ricex.cartracker.data.query.properties.EntityType;
 import com.ricex.cartracker.data.validation.CarValidator;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 
 public class CarManager extends AbstractEntityManager<Car> {
-
-	public static final String ENTITY_NAME = "Car";
 	
 	protected CarMapper mapper;
 	protected CarValidator validator;
@@ -28,7 +27,7 @@ public class CarManager extends AbstractEntityManager<Car> {
 	 * @param validator The validator to use
 	 */
 	public CarManager(CarMapper mapper, CarValidator validator) {
-		super(mapper, validator);
+		super(mapper, validator, EntityType.CAR);
 		this.mapper = mapper;
 		this.validator = validator;
 	}
@@ -54,7 +53,7 @@ public class CarManager extends AbstractEntityManager<Car> {
 	@Override
 	protected void createValidationLogic(Car toCreate) throws EntityValidationException {
 		if (existsByVin(toCreate.getVin())) {
-			throw new EntityValidationException("A Car with this VIN already exists!");
+			throw new EntityValidationException("A " + getEntityName() + " with this VIN already exists!");
 		}
 		
 	}
@@ -63,13 +62,8 @@ public class CarManager extends AbstractEntityManager<Car> {
 	protected void updateValidationLogic(Car toUpdate) throws EntityValidationException {
 		Car existing = get(toUpdate.getId());
 		if (!StringUtils.equalsIgnoreCase(existing.getVin(), toUpdate.getVin())) {
-			throw new EntityValidationException("You cannot modify a Car's VIN!");
+			throw new EntityValidationException("You cannot modify a " + getEntityName() + "'s VIN!");
 		}
 		
-	}
-	
-	protected String getEntityName() {
-		return ENTITY_NAME;
 	}	
-	
 }
