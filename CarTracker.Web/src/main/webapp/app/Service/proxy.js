@@ -54,6 +54,14 @@ define("Service/proxy", ["Service/system"], function (system) {
 			return self.getAsbsolute(self.baseUrl + relativeUrl);
 		};
 		
+		self.getPaged = function (relativeUrl, startAt, maxResults, sort) {
+			var sortString = "";
+			if (sort) {
+				sortString = "&propertyId=" + sort.propertyId +"&ascending=" + (sort.ascending ? "true" : "false");
+			}
+			return self.get(relativeUrl + "?startAt=" + startAt + "&maxResults=" + maxResults + sortString);
+		};
+		
 		self.postAbsolute = function(url, body) {
 			return self.ajax({
 				url: url,

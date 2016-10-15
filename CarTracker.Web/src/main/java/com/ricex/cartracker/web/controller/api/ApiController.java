@@ -19,6 +19,9 @@ public abstract class ApiController<T extends AbstractEntity> {
 
 	protected static final String JSON = MediaType.APPLICATION_JSON_VALUE;
 	
+	protected static final String DEFAULT_START_AT = "0";
+	protected static final String DEFAULT_MAX_RESULTS = "25";
+	
 	private AbstractEntityManager<T> manager;
 	
 	/** The name of the entity that this controller will be working with  */

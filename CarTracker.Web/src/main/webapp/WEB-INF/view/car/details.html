@@ -1,0 +1,22 @@
+<html layout:decorator="common/layout">
+
+	<body>	
+		<div layout:fragment="content">
+		
+			<div class="container">				
+		
+				<div id="pagevm" data-bind="template: { name: 'Views/Car/Car.html', data: $data}"></div>
+				
+				<script type="text/javascript">
+					require(["Views/Car/Car"], function(vm) {
+						ko.applyBindings(new vm(), $("#pagevm")[0]);
+					});
+				</script>
+
+								
+			</div>	
+								
+		</div>
+	</body>
+	
+</html>

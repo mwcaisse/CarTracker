@@ -15,6 +15,9 @@ define("Service/applicationProxy", ["Service/proxy"], function (core) {
 			getAll: function() {
 				return core.get("car/");
 			},
+			getAllPaged: function (startAt, maxResults, sort) {				
+				return core.getPaged("car/", startAt, maxResults, sort);
+			},
 			create: function(car) {
 				return core.post("car/", car);
 			},
@@ -33,12 +36,8 @@ define("Service/applicationProxy", ["Service/proxy"], function (core) {
 			getAllForCar: function(carId) {
 				return core.get("car/" + carId + "/trip/");
 			},
-			getAllForCarPaged: function(carId, startAt, maxResults, sort) {
-				var sortString = "";
-				if (sort) {
-					sortString = "&propertyId=" + sort.propertyId +"&ascending=" + (sort.ascending ? "true" : "false");
-				}
-				return core.get("car/" + carId + "/trip/?startAt=" + startAt + "&maxResults=" + maxResults + sortString);
+			getAllForCarPaged: function(carId, startAt, maxResults, sort) {				
+				return core.getPaged("car/" + carId + "/trip/", startAt, maxResults, sort);
 			},
 			update: function(trip) {
 				return core.put("trip/", trip);

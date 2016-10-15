@@ -64,8 +64,8 @@ public class TripController extends ApiController<Trip> {
 	 */
 	@RequestMapping(value="/car/{carId}/trip/", method = RequestMethod.GET, produces={JSON})
 	public @ResponseBody EntityResponse<PagedEntity<Trip>> getAllForCar(@PathVariable long carId,
-			@RequestParam(name = "startAt", required = false, defaultValue = "0") int startAt, 
-			@RequestParam(name = "maxResults", required = false, defaultValue = "25") int maxResults,
+			@RequestParam(name = "startAt", required = false, defaultValue = DEFAULT_START_AT) int startAt, 
+			@RequestParam(name = "maxResults", required = false, defaultValue = DEFAULT_MAX_RESULTS) int maxResults,
 			SortParam sort) { 
 		
 		return createEntityResponse(manager.getForCar(carId, startAt, maxResults, sort));

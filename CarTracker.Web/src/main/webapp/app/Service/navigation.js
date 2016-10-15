@@ -13,12 +13,20 @@ define("Service/navigation", ["Service/system"], function (system) {
 			return system.baseUrl + "trip/details?tripId=" + tripId;
 		};
 		
+		self.viewCarLink = function (carId) {
+			return system.baseUrl + "car/details?carId=" + carId;
+		};
+		
 		self.tripGridLink = function () {
 			return system.baseUrl + "trip/";
 		};
 		
 		self.navigateToViewTrip = function (tripId) {
 			self.navigateTo(self.viewTripLink(tripId));
+		};
+		
+		self.navigateToViewCar = function (carId) {
+			self.navigateTo(self.viewCarLink(carId));
 		};
 	
 		

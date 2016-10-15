@@ -7,11 +7,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ricex.cartracker.common.entity.Car;
 import com.ricex.cartracker.common.viewmodel.BooleanResponse;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
+import com.ricex.cartracker.common.viewmodel.PagedEntity;
 import com.ricex.cartracker.data.manager.CarManager;
 
 @Controller
@@ -53,8 +55,10 @@ public class CarController extends ApiController<Car> {
 	 * @return All of the cars
 	 */
 	@RequestMapping(value="/", method=RequestMethod.GET, produces={JSON})
-	public @ResponseBody EntityResponse<List<Car>> getAll() {
-		return super.getAll();
+	public @ResponseBody EntityResponse<PagedEntity<Car>> getAll(
+			@RequestParam(name = "startAt", required = false, defaultValue = DEFAULT_START_AT) int startAt,
+			@RequestParam(name = "maxResults", required = false, defaultValue = DEFAULT_MAX_RESULTS) int maxResults) {				
+		return super.getAll(startAt, maxResults);
 	}
 	
 	/** Checks if a car with the given VIN is registered or not

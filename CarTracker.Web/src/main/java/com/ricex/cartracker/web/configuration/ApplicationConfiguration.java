@@ -30,6 +30,7 @@ import com.ricex.cartracker.data.mapper.TripMapper;
 import com.ricex.cartracker.web.controller.api.CarController;
 import com.ricex.cartracker.web.controller.api.ReadingController;
 import com.ricex.cartracker.web.controller.api.TripController;
+import com.ricex.cartracker.web.controller.view.CarViewController;
 import com.ricex.cartracker.web.controller.view.HomeController;
 import com.ricex.cartracker.web.controller.view.TripViewController;
 import com.ricex.cartracker.web.processor.TripProcessor;
@@ -54,6 +55,11 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	@Bean
 	public ReadingController readingController() throws Exception {
 		return new ReadingController(readingManager());
+	}
+	
+	@Bean
+	public CarViewController carViewController() {
+		return new CarViewController();
 	}
 	
 	@Bean
