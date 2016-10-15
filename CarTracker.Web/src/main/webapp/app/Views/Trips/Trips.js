@@ -1,8 +1,9 @@
 "use strict";
 
 define("Views/Trips/Trips", 
-	["Modules/Trip/TripGrid/TripGrid",
-	 "AMD/koTemplateLoader!Views/Trips/Trips.html"], function (tripGrid) {
+	["Service/navigation",
+	 "Modules/Trip/TripGrid/TripGrid",
+	 "AMD/koTemplateLoader!Views/Trips/Trips.html"], function (navigation, tripGrid) {
 	
 	var vm = function() {
 		var self = this;
@@ -12,6 +13,8 @@ define("Views/Trips/Trips",
 		});
 		
 		self.tripGrid.load();
+		
+		navigation.setActiveNavigation("Trip");
 		
 	};
 	

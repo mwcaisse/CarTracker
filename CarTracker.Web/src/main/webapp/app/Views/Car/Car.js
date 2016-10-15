@@ -2,10 +2,11 @@
 
 define("Views/Car/Car", 
 	["Service/util", 
+	 "Service/navigation", 
 	 "Modules/Common/PageAlert/PageAlert",
 	 "Modules/Car/CarDetails/CarDetails",
 	 "Modules/Trip/TripGrid/TripGrid",
-	 "AMD/koTemplateLoader!Views/Car/Car.html"], function (util, pageAlert, carDetails, tripGrid) {
+	 "AMD/koTemplateLoader!Views/Car/Car.html"], function (util, navigation, pageAlert, carDetails, tripGrid) {
 	
 	var vm = function() {
 		var self = this;
@@ -24,6 +25,8 @@ define("Views/Car/Car",
 			
 		self.carDetails.load();
 		self.tripGrid.load();
+		
+		navigation.setActiveNavigation("Car");
 		
 	};
 	

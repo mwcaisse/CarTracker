@@ -1,0 +1,5 @@
+<!-- ko ifnot: $data.hasSubNavigation --> 
+	<li data-bind="css: {active: $data.active}">
+		<a data-bind="text: $data.name, attr: {href: $data.link} "></a>
+	</li>
+<!-- /ko -->

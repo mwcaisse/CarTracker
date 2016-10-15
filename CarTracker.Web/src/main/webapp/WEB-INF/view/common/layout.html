@@ -40,6 +40,8 @@
 		
 		<nav class="navbar navbar-default navbar-static-top">
 			<div class="container-fluid">
+				<div id="navigationvm" data-bind="template: { name: 'Views/Navigation/Navigation.html', data: $data}"></div>			
+			<!-- 
 				<div class="navbar-header">
 					<a class="navbar-brand" href="/cartracker/">Car Tracker</a>
 				</div>
@@ -50,8 +52,15 @@
 						<li><a href="/cartracker/trip/">Trip</a></li>						
 					</ul>
 				</div>
+				-->
 			</div>
 		</nav>
+		
+		<script type="text/javascript">
+			require(["Views/Navigation/Navigation"], function(vm) {
+				ko.applyBindings(new vm(), $("#navigationvm")[0]);
+			});
+		</script>
 		
 		<!-- the body of the page -->
 		<div layout:fragment="content"></div>

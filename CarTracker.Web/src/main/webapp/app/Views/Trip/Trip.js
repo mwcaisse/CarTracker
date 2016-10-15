@@ -2,6 +2,7 @@
 
 define("Views/Trip/Trip", 
 	["Service/util", 
+	 "Service/navigation", 
 	 "Modules/Common/PageAlert/PageAlert",
 	 "Modules/Trip/TripDetails/TripDetails",
 	 "Modules/Trip/TripMap/TripMap",
@@ -10,7 +11,7 @@ define("Views/Trip/Trip",
 	 "Modules/Trip/TripTemperatureChart/TripTemperatureChart",
 	 "Modules/Trip/TripThrottleChart/TripThrottleChart",
 	 "Modules/Trip/TripMAFChart/TripMAFChart",
-	 "AMD/koTemplateLoader!Views/Trip/Trip.html"], function (util, pageAlert, tripDetails, tripMap, tripSpeedChart, tripEngineChart, 
+	 "AMD/koTemplateLoader!Views/Trip/Trip.html"], function (util, navigation, pageAlert, tripDetails, tripMap, tripSpeedChart, tripEngineChart, 
 			 tripTemperatureChart, tripThrottleChart, tripMAFChart) {
 	
 	var vm = function() {
@@ -54,6 +55,8 @@ define("Views/Trip/Trip",
 		self.tripTemperatureChart.load();
 		self.tripThrottleChart.load();
 		self.tripMAFChart.load();
+		
+		navigation.setActiveNavigation("Trip");
 		
 	};
 	

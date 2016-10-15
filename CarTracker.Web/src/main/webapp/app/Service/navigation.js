@@ -9,6 +9,18 @@ define("Service/navigation", ["Service/system"], function (system) {
 			window.location = url;
 		};		
 		
+		self.homeLink = function() {
+			return system.baseUrl;
+		};
+		
+		self.carsLink = function() {
+			return system.baseUrl + "car/";
+		};
+		
+		self.tripsLink = function() {
+			return system.baseUrl + "trip/";
+		};
+		
 		self.viewTripLink = function (tripId) {
 			return system.baseUrl + "trip/details?tripId=" + tripId;
 		};
@@ -28,6 +40,12 @@ define("Service/navigation", ["Service/system"], function (system) {
 		self.navigateToViewCar = function (carId) {
 			self.navigateTo(self.viewCarLink(carId));
 		};
+		
+		self.EVENT_NAVIGATION_ACTIVE_CHANGED = "navigation:activeChanged";
+		
+		self.setActiveNavigation = function (navigationId) {
+			system.events.trigger(self.EVENT_NAVIGATION_ACTIVE_CHANGED, {id: navigationId});
+		}
 	
 		
 	})();

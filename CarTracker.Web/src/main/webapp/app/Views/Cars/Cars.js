@@ -1,8 +1,9 @@
 "use strict";
 
 define("Views/Cars/Cars", 
-	["Modules/Car/CarGrid/CarGrid",
-	 "AMD/koTemplateLoader!Views/Cars/Cars.html"], function (carGrid) {
+	["Service/navigation",
+	 "Modules/Car/CarGrid/CarGrid",
+	 "AMD/koTemplateLoader!Views/Cars/Cars.html"], function (navigation, carGrid) {
 	
 	var vm = function() {
 		var self = this;
@@ -11,6 +12,8 @@ define("Views/Cars/Cars",
 		});
 		
 		self.carGrid.load();
+		
+		navigation.setActiveNavigation("Car");
 		
 	};
 	
