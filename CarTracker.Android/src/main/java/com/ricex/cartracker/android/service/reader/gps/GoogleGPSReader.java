@@ -60,10 +60,10 @@ public class GoogleGPSReader implements GPSReader, GoogleApiClient.ConnectionCal
 
     protected LocationRequest createLocationRequest() {
         LocationRequest request = new LocationRequest();
-        request.setInterval(5000);
-        request.setFastestInterval(1000);
+        request.setInterval(500);
+        request.setFastestInterval(200);
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        request.setMaxWaitTime(10000);
+        request.setMaxWaitTime(2000);
         return request;
     }
 
