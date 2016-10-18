@@ -65,10 +65,8 @@ public abstract class AbstractEntityManager<T extends AbstractEntity> {
 	 */
 	public void update(T toUpdate) throws EntityValidationException {
 		//check to make sure that the entity exists
-		T existing = get(toUpdate.getId());
-		if (null == existing) {
-			throw new EntityValidationException(String.format("This %s does not exist!", getEntityName()));
-		}
+		entityValidator.exists(toUpdate.getId());
+		
 		entityValidator.validate(toUpdate);
 		updateValidationLogic(toUpdate);
 		toUpdate.setModifiedDate(new Date());

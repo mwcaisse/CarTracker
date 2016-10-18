@@ -3,9 +3,18 @@ package com.ricex.cartracker.data.validation;
 import java.util.Date;
 
 import com.ricex.cartracker.common.entity.Trip;
+import com.ricex.cartracker.data.mapper.TripMapper;
+import com.ricex.cartracker.data.query.properties.EntityType;
 
-public class TripValidator implements EntityValidator<Trip> {
+public class TripValidator extends AbstractEntityValidator<Trip> {
 
+	private final TripMapper mapper;
+	
+	public TripValidator(TripMapper mapper) {
+		super(mapper, EntityType.TRIP);
+		this.mapper = mapper;
+	}
+	
 	/**
 	 * Checks that the given trip is Valid
 	 * 

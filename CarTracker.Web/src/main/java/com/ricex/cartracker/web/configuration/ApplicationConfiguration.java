@@ -27,6 +27,9 @@ import com.ricex.cartracker.data.manager.TripManager;
 import com.ricex.cartracker.data.mapper.CarMapper;
 import com.ricex.cartracker.data.mapper.ReadingMapper;
 import com.ricex.cartracker.data.mapper.TripMapper;
+import com.ricex.cartracker.data.validation.CarValidator;
+import com.ricex.cartracker.data.validation.ReadingValidator;
+import com.ricex.cartracker.data.validation.TripValidator;
 import com.ricex.cartracker.web.controller.api.CarController;
 import com.ricex.cartracker.web.controller.api.ReadingController;
 import com.ricex.cartracker.web.controller.api.TripController;
@@ -77,20 +80,38 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 		return new TripProcessor(tripManager(), readingManager());
 	}
 	
+	/// ---- Define the Managers ---- ///
+	
 	@Bean
 	public CarManager carManager() throws Exception {
-		return new CarManager(carMapper());
+		return new CarManager(carMapper(), carValidator(), tripManager());
 	}
 	
 	@Bean
 	public TripManager tripManager() throws Exception {
-		return new TripManager(tripMapper(), carManager());
+		return new TripManager(tripMapper(), tripValidator(), carValidator());
 	}
 	
 	@Bean
 	public ReadingManager readingManager() throws Exception {
-		return new ReadingManager(readingMapper(), tripManager());
+		return new ReadingManager(readingMapper(), readingValidator(), tripValidator());
 	}
+	
+	/// ---- Define the Validators ---- ///
+	
+	public CarValidator carValidator() throws Exception { 
+		return new CarValidator(carMapper());
+	}
+	
+	public TripValidator tripValidator() throws Exception {
+		return new TripValidator(tripMapper());
+	}
+	
+	public ReadingValidator readingValidator() throws Exception {
+		return new ReadingValidator(readingMapper());
+	}
+	
+	/// ---- Define the Mappers ---- ///
 	
 	@Bean
 	public CarMapper carMapper() throws Exception { 

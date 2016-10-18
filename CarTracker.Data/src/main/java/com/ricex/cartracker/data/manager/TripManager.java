@@ -12,8 +12,8 @@ import com.ricex.cartracker.common.entity.TripStatus;
 import com.ricex.cartracker.common.viewmodel.PagedEntity;
 import com.ricex.cartracker.common.viewmodel.SortParam;
 import com.ricex.cartracker.data.mapper.TripMapper;
-import com.ricex.cartracker.data.query.properties.EntityProperties;
 import com.ricex.cartracker.data.query.properties.EntityType;
+import com.ricex.cartracker.data.validation.CarValidator;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 import com.ricex.cartracker.data.validation.TripValidator;
 
@@ -21,17 +21,13 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 	
 	protected TripMapper mapper;
 	protected TripValidator validator;
-	protected CarManager carManager;
+	protected CarValidator carValidator;
 	
-	public TripManager(TripMapper mapper, CarManager carManager) {
-		this(mapper, carManager, new TripValidator());
-	}
-	
-	public TripManager(TripMapper mapper, CarManager carManager, TripValidator validator) {
+	public TripManager(TripMapper mapper, TripValidator validator, CarValidator carValidator) {
 		super(mapper, validator, EntityType.TRIP);
 		this.mapper = mapper;
 		this.validator = validator;
-		this.carManager = carManager;
+		this.carValidator = carValidator;
 	}
 	
 	/** Gets all of the trips associated with the given car
@@ -70,13 +66,10 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 	 * @throws EntityValidationException 
 	 */
 	
-	public Trip startTripForCar(String carVin) throws EntityValidationException {
-		Trip trip = new Trip();
+	public Trip startTripForCar(Car car) throws EntityValidationException {		
+		carValidator.exists(car.getId()); //validate that the car exists
 		
-		Car car = carManager.getByVin(carVin);
-		if (null == car) {
-			throw new EntityValidationException(MessageFormat.format("The specified {0} does not exist!", EntityType.CAR.getName()));
-		}
+		Trip trip = new Trip();		
 		trip.setCar(car);
 		trip.setStartDate(new Date());
 		trip.setStatus(TripStatus.STARTED);
@@ -93,10 +86,8 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 	 */
 	
 	public boolean endTrip(long id) throws EntityValidationException {
+		validator.exists(id); //validate that the trip exists
 		Trip trip = get(id);
-		if (null == trip) {
-			throw new EntityValidationException(MessageFormat.format("{0} does not exist!", getEntityName()));
-		}
 		trip.setEndDate(new Date());
 		trip.setModifiedDate(new Date());
 		trip.setStatus(TripStatus.FINISHED);
@@ -107,9 +98,7 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 	
 	
 	protected void createValidationLogic(Trip toCreate) throws EntityValidationException {
-		if (!carManager.exists(toCreate.getCarId())) {
-			throw new EntityValidationException(MessageFormat.format("The specified {0} does not exist!", EntityType.CAR.getName()));
-		}
+		carValidator.exists(toCreate.getCarId());
 	}
 	
 	protected void updateValidationLogic(Trip toUpdate) throws EntityValidationException {

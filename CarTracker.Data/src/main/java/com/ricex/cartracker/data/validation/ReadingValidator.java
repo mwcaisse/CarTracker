@@ -5,9 +5,18 @@ package com.ricex.cartracker.data.validation;
 import java.util.Date;
 
 import com.ricex.cartracker.common.entity.Reading;
+import com.ricex.cartracker.data.mapper.ReadingMapper;
+import com.ricex.cartracker.data.query.properties.EntityType;
 
-public class ReadingValidator implements EntityValidator<Reading> {
+public class ReadingValidator extends AbstractEntityValidator<Reading> {
 
+	private final ReadingMapper mapper;
+	
+	public ReadingValidator(ReadingMapper mapper) {
+		super(mapper, EntityType.READING);
+		this.mapper = mapper;
+	}
+	
 	/** Checks that the given Reading is valid
 	 * 
 	 * 		1) Read Date must be set

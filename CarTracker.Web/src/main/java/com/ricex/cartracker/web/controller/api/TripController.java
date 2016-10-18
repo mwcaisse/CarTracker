@@ -103,22 +103,7 @@ public class TripController extends ApiController<Trip> {
 	public @ResponseBody BooleanResponse update(@RequestBody Trip toUpdate) {
 		return super.update(toUpdate);
 	}
-	
-	/** Starts a trip for the given car
-	 * 
-	 * @param carVin The VIN of the car to start the trip for
-	 * @return The newly created trip
-	 */
-	@RequestMapping(value="/car/{carVin}/trip/start", method=RequestMethod.POST, produces={JSON})
-	public @ResponseBody EntityResponse<Trip> startTrip(@PathVariable String carVin) {
-		try {
-			return createEntityResponse(manager.startTripForCar(carVin));
-		} 
-		catch (EntityValidationException e) {
-			return createEntityResponseError(e);
-		}
-	}
-	
+		
 	/** Ends the given trip
 	 * 
 	 * @param id The id of the trip to end

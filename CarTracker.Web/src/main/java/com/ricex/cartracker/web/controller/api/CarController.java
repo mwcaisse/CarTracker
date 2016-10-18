@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ricex.cartracker.common.entity.Car;
+import com.ricex.cartracker.common.entity.Trip;
 import com.ricex.cartracker.common.viewmodel.BooleanResponse;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
 import com.ricex.cartracker.common.viewmodel.PagedEntity;
 import com.ricex.cartracker.common.viewmodel.SortParam;
 import com.ricex.cartracker.data.manager.CarManager;
+import com.ricex.cartracker.data.validation.EntityValidationException;
 
 @Controller
 @RequestMapping("/api/car")
@@ -89,6 +91,21 @@ public class CarController extends ApiController<Car> {
 	@RequestMapping(value ="/", method=RequestMethod.PUT, produces={JSON}, consumes={JSON})
 	public @ResponseBody BooleanResponse update(@RequestBody Car car) {
 		return super.update(car);
+	}
+	
+	/** Starts a trip for the given car
+	 * 
+	 * @param carVin The VIN of the car to start the trip for
+	 * @return The newly created trip
+	 */
+	@RequestMapping(value="/car/{carVin}/trip/start", method=RequestMethod.POST, produces={JSON})
+	public @ResponseBody EntityResponse<Trip> startTrip(@PathVariable String carVin) {
+		try {
+			return createEntityResponse(manager.startTripForCar(carVin));
+		} 
+		catch (EntityValidationException e) {
+			return createEntityResponseError(e);
+		}
 	}
 	
 

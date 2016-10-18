@@ -12,25 +12,21 @@ import com.ricex.cartracker.data.mapper.ReadingMapper;
 import com.ricex.cartracker.data.query.properties.EntityType;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 import com.ricex.cartracker.data.validation.ReadingValidator;
+import com.ricex.cartracker.data.validation.TripValidator;
 
 public class ReadingManager extends AbstractEntityManager<Reading> {
 
-	private ReadingMapper mapper;
+	private final ReadingMapper mapper;
 	
-	private ReadingValidator validator;
+	private final ReadingValidator validator;
+
+	private final TripValidator tripValidator;
 	
-	private TripManager tripManager;
-	
-	public ReadingManager(ReadingMapper mapper, TripManager tripManager) {
-		this (mapper, tripManager, new ReadingValidator());
-	}
-	
-	protected ReadingManager(ReadingMapper mapper, TripManager tripManager, ReadingValidator validator) {
-		super(mapper, validator, EntityType.READING);
-		
+	public ReadingManager(ReadingMapper mapper, ReadingValidator validator, TripValidator tripValidator) {
+		super(mapper, validator, EntityType.READING);		
 		this.mapper = mapper;
 		this.validator = validator;
-		this.tripManager = tripManager;
+		this.tripValidator = tripValidator;
 	}
 	
 	public List<Reading> getForTrip(long tripId) {
@@ -48,10 +44,7 @@ public class ReadingManager extends AbstractEntityManager<Reading> {
 	public List<ReadingUploadResult> bulkUpload(long tripId, List<ReadingUpload> readings) throws EntityValidationException {
 		List<ReadingUploadResult> results = new ArrayList<ReadingUploadResult>();
 		
-		Trip trip = tripManager.get(tripId);
-		if (null == trip) {
-			throw new EntityValidationException(MessageFormat.format("The specified {0} does not exist!", EntityType.TRIP.getName()));
-		}
+		tripValidator.exists(tripId);
 		
 		for (ReadingUpload upload : readings) {
 			ReadingUploadResult result = new ReadingUploadResult();
@@ -75,9 +68,7 @@ public class ReadingManager extends AbstractEntityManager<Reading> {
 
 	@Override
 	protected void createValidationLogic(Reading toCreate) throws EntityValidationException {
-		if (!tripManager.exists(toCreate.getTripId())) {
-			throw new EntityValidationException(MessageFormat.format("The specified {0} does not exist!", EntityType.TRIP.getName()));
-		}
+		tripValidator.exists(toCreate.getTripId());
 	}
 
 	@Override
