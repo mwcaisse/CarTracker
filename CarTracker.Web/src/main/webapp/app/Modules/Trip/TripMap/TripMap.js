@@ -45,6 +45,11 @@ define("Modules/Trip/TripMap/TripMap", ["AMD/googlemaps!", "moment",
 					};
 				});	
 				
+				var mapBounds = new gmaps.LatLngBounds();
+				$.each(coords, function(ind, elm) {
+					mapBounds.extend(elm);
+				});
+				
 				self.routePath = new gmaps.Polyline({
 					path: coords,
 					geodesic: true,
@@ -54,6 +59,8 @@ define("Modules/Trip/TripMap/TripMap", ["AMD/googlemaps!", "moment",
 				});
 				
 				self.routePath.setMap(self.map.map);
+				
+				self.map.map.fitBounds(mapBounds);
 				
 			});			                                                                
 		};	
