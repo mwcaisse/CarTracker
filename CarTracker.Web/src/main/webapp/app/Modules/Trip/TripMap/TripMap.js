@@ -62,6 +62,14 @@ define("Modules/Trip/TripMap/TripMap", ["AMD/googlemaps!", "moment",
 				
 				self.map.map.fitBounds(mapBounds);
 				
+				if (coords.length > 1) {	
+					var endMarker = new gmaps.Marker( {
+						position: coords[coords.length - 1],
+						map: self.map.map,
+						title: "End"			
+					});		
+				}
+				
 			});			                                                                
 		};	
 		
