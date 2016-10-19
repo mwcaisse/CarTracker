@@ -1,0 +1,6 @@
+INSERT INTO LOG_TYPE (ID) VALUES 
+	('DEBUG'),
+	('INFO'),
+	('WARN'),
+	('ERROR')
+	
