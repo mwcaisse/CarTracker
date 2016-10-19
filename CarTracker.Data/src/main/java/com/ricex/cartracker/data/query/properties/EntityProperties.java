@@ -1,6 +1,5 @@
 package com.ricex.cartracker.data.query.properties;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

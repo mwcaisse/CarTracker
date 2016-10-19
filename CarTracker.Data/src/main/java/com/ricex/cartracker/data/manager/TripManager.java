@@ -1,6 +1,5 @@
 package com.ricex.cartracker.data.manager;
 
-import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 

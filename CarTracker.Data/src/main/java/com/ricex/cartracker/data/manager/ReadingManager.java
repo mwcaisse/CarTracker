@@ -1,11 +1,9 @@
 package com.ricex.cartracker.data.manager;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.ricex.cartracker.common.entity.Reading;
-import com.ricex.cartracker.common.entity.Trip;
 import com.ricex.cartracker.common.viewmodel.ReadingUpload;
 import com.ricex.cartracker.common.viewmodel.ReadingUploadResult;
 import com.ricex.cartracker.data.mapper.ReadingMapper;
