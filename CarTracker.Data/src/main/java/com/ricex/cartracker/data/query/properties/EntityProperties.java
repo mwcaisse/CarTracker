@@ -32,6 +32,30 @@ public final class EntityProperties {
 		}		
 	}
 	
+	public enum ReaderLog implements EntityProperty {
+		ID,
+		TYPE,
+		MESSAGE,
+		DATE,
+		CREATE_DATE,
+		MODIFIED_DATE;
+		
+		private final String propertyField;
+		
+		private ReaderLog() {
+			this.propertyField = this.name();
+		}
+		
+		private ReaderLog(String propertyField) {
+			this.propertyField = propertyField;
+		}
+		
+		public String getPropertyField() {
+			return propertyField;
+		}
+		
+	}
+	
 	public enum Reading implements EntityProperty {
 		
 		ID,
@@ -135,6 +159,8 @@ public final class EntityProperties {
 		switch (entityType) {
 		case CAR:
 			return Car.values();
+		case READER_LOG:
+			return ReaderLog.values();
 		case READING:
 			return Reading.values();
 		case TRIP:

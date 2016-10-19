@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.cartracker.data.mapper.ReaderLogMapper">
+    
+    <cache />
+    
+    <resultMap id="readerLogResultMap" type="ReaderLog">
+        <id property="id" column="ID" />
+        <result property="type" column="TYPE" />      
+        <result property="message" column="MESSAGE" />
+        <result property="date" column="DATE" />
+        <result property="createDate" column="CREATE_DATE" />
+        <result property="modifiedDate" column="MODIFIED_DATE" />             
+    </resultMap>
+    
+    <select id="getAll" resultMap="readerLogResultMap">
+        SELECT READER_LOG.* FROM READER_LOG
+        <if test="orderBy != null">
+            ORDER BY ${orderBy}
+        </if>
+    </select>
+    
+     <select id="countAll" resultType="long">
+        SELECT COUNT(*) FROM READER_LOG
+    </select>
+    
+    <select id="get" resultMap="readerLogResultMap" parameterType="long">
+        SELECT READER_LOG.* FROM READER_LOG
+        WHERE READER_LOG.ID = #{id}
+    </select>
+    
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO READER_LOG (TYPE, MESSAGE, DATE)
+        VALUES (#{type}, #{message}, #{date})
+    </insert>
+    
+    <update id="update">
+        UPDATE READER_LOG SET 
+        	TYPE = 		#{type},
+        	MESSAGE = 	#{message},
+        	DATE = 		#{date}
+       	WHERE ID = #{id}
+    </update>
+    
+    <delete id="delete">
+        DELETE FROM READER_LOG
+        WHERE ID = #{id}
+    </delete>
+    
+    
+</mapper>

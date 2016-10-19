@@ -12,6 +12,7 @@
 	<typeAliases>
 		<typeAlias alias="Car" type="com.ricex.cartracker.common.entity.Car"/>
 		<typeAlias alias="Place" type="com.ricex.cartracker.common.entity.Place"/>
+		<typeAlias alias="Reading" type="com.ricex.cartracker.common.entity.ReaderLog"/>
 		<typeAlias alias="Reading" type="com.ricex.cartracker.common.entity.Reading"/>
 		<typeAlias alias="Trip" type="com.ricex.cartracker.common.entity.Trip"/>
 		<typeAlias alias="User" type="com.ricex.cartracker.common.entity.User"/>
@@ -22,9 +23,9 @@
 		<mapper resource="com/ricex/cartracker/data/mapper/CarMapper.xml" />
 		<mapper resource="com/ricex/cartracker/data/mapper/PlaceMapper.xml" />
 		<mapper resource="com/ricex/cartracker/data/mapper/ReadingMapper.xml" />
+		<mapper resource="com/ricex/cartracker/data/mapper/ReaderLogMapper.xml" />
 		<mapper resource="com/ricex/cartracker/data/mapper/TripMapper.xml" />
 		<mapper resource="com/ricex/cartracker/data/mapper/UserMapper.xml" />
-
 	</mappers>
 
 </configuration>
