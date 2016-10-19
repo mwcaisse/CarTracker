@@ -98,7 +98,7 @@ public class CarController extends ApiController<Car> {
 	 * @param carVin The VIN of the car to start the trip for
 	 * @return The newly created trip
 	 */
-	@RequestMapping(value="/car/{carVin}/trip/start", method=RequestMethod.POST, produces={JSON})
+	@RequestMapping(value="/{carVin}/trip/start", method=RequestMethod.POST, produces={JSON})
 	public @ResponseBody EntityResponse<Trip> startTrip(@PathVariable String carVin) {
 		try {
 			return createEntityResponse(manager.startTripForCar(carVin));
