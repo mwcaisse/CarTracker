@@ -22,15 +22,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 import com.google.gson.Gson;
 import com.ricex.cartracker.data.manager.CarManager;
+import com.ricex.cartracker.data.manager.ReaderLogManager;
 import com.ricex.cartracker.data.manager.ReadingManager;
 import com.ricex.cartracker.data.manager.TripManager;
 import com.ricex.cartracker.data.mapper.CarMapper;
+import com.ricex.cartracker.data.mapper.ReaderLogMapper;
 import com.ricex.cartracker.data.mapper.ReadingMapper;
 import com.ricex.cartracker.data.mapper.TripMapper;
 import com.ricex.cartracker.data.validation.CarValidator;
+import com.ricex.cartracker.data.validation.ReaderLogValidator;
 import com.ricex.cartracker.data.validation.ReadingValidator;
 import com.ricex.cartracker.data.validation.TripValidator;
 import com.ricex.cartracker.web.controller.api.CarController;
+import com.ricex.cartracker.web.controller.api.ReaderLogController;
 import com.ricex.cartracker.web.controller.api.ReadingController;
 import com.ricex.cartracker.web.controller.api.TripController;
 import com.ricex.cartracker.web.controller.view.CarViewController;
@@ -53,6 +57,11 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	@Bean
 	public TripController tripController() throws Exception {
 		return new TripController(tripManager(), tripProcessor());
+	}
+	
+	@Bean
+	public ReaderLogController readerLogController() throws Exception {
+		return new ReaderLogController(readerLogManager());
 	}
 	
 	@Bean
@@ -93,6 +102,11 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	}
 	
 	@Bean
+	public ReaderLogManager readerLogManager() throws Exception {
+		return new ReaderLogManager(readerLogMapper(), readerLogValidator());
+	}	
+	
+	@Bean
 	public ReadingManager readingManager() throws Exception {
 		return new ReadingManager(readingMapper(), readingValidator(), tripValidator());
 	}
@@ -105,6 +119,10 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	
 	public TripValidator tripValidator() throws Exception {
 		return new TripValidator(tripMapper());
+	}
+	
+	public ReaderLogValidator readerLogValidator() throws Exception {
+		return new ReaderLogValidator(readerLogMapper());
 	}
 	
 	public ReadingValidator readingValidator() throws Exception {
@@ -129,6 +147,14 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 		return mapperFactoryBean.getObject();
 	}
 	
+	
+	@Bean
+	public ReaderLogMapper readerLogMapper() throws Exception {
+		MapperFactoryBean<ReaderLogMapper> mapperFactoryBean = new MapperFactoryBean<ReaderLogMapper>();
+		mapperFactoryBean.setMapperInterface(ReaderLogMapper.class);
+		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
+		return mapperFactoryBean.getObject();
+	}
 	@Bean
 	public ReadingMapper readingMapper() throws Exception {
 		MapperFactoryBean<ReadingMapper> mapperFactoryBean = new MapperFactoryBean<ReadingMapper>();
