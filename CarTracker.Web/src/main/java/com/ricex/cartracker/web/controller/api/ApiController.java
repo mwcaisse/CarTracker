@@ -13,6 +13,7 @@ import com.ricex.cartracker.common.viewmodel.EntityResponse;
 import com.ricex.cartracker.common.viewmodel.PagedEntity;
 import com.ricex.cartracker.common.viewmodel.SortParam;
 import com.ricex.cartracker.data.manager.AbstractEntityManager;
+import com.ricex.cartracker.data.query.properties.EntityType;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 
 public abstract class ApiController<T extends AbstractEntity> {
@@ -26,15 +27,15 @@ public abstract class ApiController<T extends AbstractEntity> {
 	
 	private AbstractEntityManager<T> manager;
 	
-	/** The name of the entity that this controller will be working with  */
-	private String entityName;
+	/** The entity type that this controller will be working with  */
+	private EntityType entityType;
 	
 	/** Creates a new API Controller
 	 * 
 	 */
 	
-	public ApiController(String entityName, AbstractEntityManager<T> manager) {
-		this.entityName = entityName;
+	public ApiController(EntityType entityType, AbstractEntityManager<T> manager) {
+		this.entityType = entityType;
 		this.manager = manager;
 	}
 	
@@ -63,7 +64,7 @@ public abstract class ApiController<T extends AbstractEntity> {
 	 * @return All of the entities or an appropriate error message
 	 */
 	public EntityResponse<T> get(long id) {	
-		return createEntityResponseErrorIfNull(manager.get(id), MessageFormat.format("No {0} with that id exists!", entityName));
+		return createEntityResponseErrorIfNull(manager.get(id), MessageFormat.format("No {0} with that id exists!", entityType.getName()));
 	}
 	
 	/** Determines if an entity with the given id exists

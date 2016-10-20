@@ -14,21 +14,20 @@ import com.ricex.cartracker.common.viewmodel.EntityResponse;
 import com.ricex.cartracker.common.viewmodel.PagedEntity;
 import com.ricex.cartracker.common.viewmodel.SortParam;
 import com.ricex.cartracker.data.manager.TripManager;
+import com.ricex.cartracker.data.query.properties.EntityType;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 import com.ricex.cartracker.web.processor.TripProcessor;
 
 @Controller
 @RequestMapping("/api")
 public class TripController extends ApiController<Trip> {
-
-	private static final String ENTITY_NAME = "Car";
 	
 	private final TripManager manager;
 	
 	private final TripProcessor tripProcessor;
 	
 	public TripController(TripManager manager,TripProcessor tripProcessor) {
-		super(ENTITY_NAME, manager);
+		super(EntityType.TRIP, manager);
 		this.manager = manager;
 		this.tripProcessor = tripProcessor;
 	}

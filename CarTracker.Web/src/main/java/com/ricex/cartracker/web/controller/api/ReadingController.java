@@ -15,13 +15,12 @@ import com.ricex.cartracker.common.viewmodel.EntityResponse;
 import com.ricex.cartracker.common.viewmodel.ReadingUpload;
 import com.ricex.cartracker.common.viewmodel.ReadingUploadResult;
 import com.ricex.cartracker.data.manager.ReadingManager;
+import com.ricex.cartracker.data.query.properties.EntityType;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 
 @Controller
 @RequestMapping("/api")
 public class ReadingController extends ApiController<Reading> {
-
-	private static final String ENTITY_NAME = "Reading";
 	
 	private final ReadingManager manager;
 	
@@ -31,7 +30,7 @@ public class ReadingController extends ApiController<Reading> {
 	 */
 	
 	public ReadingController(ReadingManager manager) {
-		super(ENTITY_NAME, manager);
+		super(EntityType.READING, manager);
 		this.manager = manager;
 	}
 	/** Fetches the reading with the given id

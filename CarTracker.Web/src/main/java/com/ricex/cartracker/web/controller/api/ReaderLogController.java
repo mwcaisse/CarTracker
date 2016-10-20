@@ -23,7 +23,7 @@ public class ReaderLogController extends ApiController<ReaderLog> {
 	private ReaderLogManager manager;
 	
 	public ReaderLogController(ReaderLogManager manager) {
-		super(EntityType.READER_LOG.getName(), manager);	
+		super(EntityType.READER_LOG, manager);	
 		this.manager = manager;		
 	}
 	

@@ -15,18 +15,17 @@ import com.ricex.cartracker.common.viewmodel.EntityResponse;
 import com.ricex.cartracker.common.viewmodel.PagedEntity;
 import com.ricex.cartracker.common.viewmodel.SortParam;
 import com.ricex.cartracker.data.manager.CarManager;
+import com.ricex.cartracker.data.query.properties.EntityType;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 
 @Controller
 @RequestMapping("/api/car")
 public class CarController extends ApiController<Car> {
-
-	private static final String ENTITY_NAME = "Car";
 	
 	private final CarManager manager;
 	
 	public CarController(CarManager manager) {
-		super(ENTITY_NAME, manager);
+		super(EntityType.CAR, manager);
 		this.manager = manager;
 	}
 	
