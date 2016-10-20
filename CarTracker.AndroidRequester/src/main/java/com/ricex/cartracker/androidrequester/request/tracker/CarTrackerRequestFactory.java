@@ -5,6 +5,7 @@ import java.util.List;
 import com.ricex.cartracker.androidrequester.request.AbstractRequestFactory;
 import com.ricex.cartracker.androidrequester.request.ApplicationPreferences;
 import com.ricex.cartracker.common.entity.Car;
+import com.ricex.cartracker.common.entity.ReaderLog;
 import com.ricex.cartracker.common.entity.Trip;
 import com.ricex.cartracker.common.viewmodel.ReadingUpload;
 
@@ -86,6 +87,15 @@ public class CarTrackerRequestFactory extends AbstractRequestFactory {
 	 */
 	public StartTripRequest createStartTripRequest(String vin) {
 		return new StartTripRequest(applicationPreferences, vin);				
+	}
+
+	/** Creates a new Create Reader Log Request
+	 *
+	 * @param readerLog The reader log to create
+	 * @return The request
+     */
+	public CreateReaderLogRequest createReaderLogRequest(ReaderLog readerLog) {
+		return new CreateReaderLogRequest(applicationPreferences, readerLog);
 	}
 	
 }
