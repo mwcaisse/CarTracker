@@ -1,5 +1,6 @@
 package com.ricex.cartracker.web.controller.api;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -62,7 +63,7 @@ public abstract class ApiController<T extends AbstractEntity> {
 	 * @return All of the entities or an appropriate error message
 	 */
 	public EntityResponse<T> get(long id) {	
-		return createEntityResponseErrorIfNull(manager.get(id), String.format("No {0} with that id exists!", entityName));
+		return createEntityResponseErrorIfNull(manager.get(id), MessageFormat.format("No {0} with that id exists!", entityName));
 	}
 	
 	/** Determines if an entity with the given id exists
