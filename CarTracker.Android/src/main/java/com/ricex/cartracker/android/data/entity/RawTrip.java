@@ -3,6 +3,7 @@ package com.ricex.cartracker.android.data.entity;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.ricex.cartracker.android.data.dao.impl.RawReadingDaoImpl;
+import com.ricex.cartracker.android.data.dao.impl.RawTripDaoImpl;
 
 import java.util.Date;
 
