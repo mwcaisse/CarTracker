@@ -16,6 +16,7 @@ public class RawTrip extends ServerEntity {
     @DatabaseField(canBeNull = false)
     private Date startDate;
 
+    @DatabaseField
     private Date endDate;
 
     public Date getStartDate() {
