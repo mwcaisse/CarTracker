@@ -11,7 +11,7 @@ public class RawReadingManager extends EntityManager<RawReading> {
 
     private RawReadingDao readingDao;
 
-    protected RawReadingManager(RawReadingDao readingDao) {
+    public RawReadingManager(RawReadingDao readingDao) {
         super(readingDao);
 
         this.readingDao = readingDao;

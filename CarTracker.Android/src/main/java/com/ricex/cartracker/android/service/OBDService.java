@@ -9,7 +9,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.j256.ormlite.android.apptools.OrmLiteBaseService;
 import com.ricex.cartracker.android.R;
+import com.ricex.cartracker.android.data.util.DatabaseHelper;
 import com.ricex.cartracker.android.model.OBDReading;
 import com.ricex.cartracker.android.service.persister.Persister;
 import com.ricex.cartracker.android.service.persister.webservice.WebServicePersister;
@@ -18,13 +20,14 @@ import com.ricex.cartracker.android.service.task.OBDServiceTask;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
 import com.ricex.cartracker.android.view.MainActivity;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Mitchell on 1/30/2016.
  */
-public class OBDService extends Service {
+public class OBDService extends OrmLiteBaseService<DatabaseHelper> {
 
     private CarTrackerSettings settings;
 
@@ -44,8 +47,7 @@ public class OBDService extends Service {
 
     public OBDService() {
         listeners = new ArrayList<OBDServiceListener>();
-        binder = new OBDServiceBinder(this);
-    }
+        binder = new OBDServiceBinder(this);    }
 
     @Nullable
     @Override
@@ -54,7 +56,15 @@ public class OBDService extends Service {
     }
 
     public void onCreate() {
+        super.onCreate();
         initializeSettings();
+
+        try {
+            getHelper().initializeDaosManagers();
+        }
+        catch (SQLException e) {
+            Log.e(LOG_TAG, "Couldn't initialize daos + managers!", e);
+        }
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -102,7 +112,8 @@ public class OBDService extends Service {
     }
 
     public void onDestroy() {
-       task.stop();
+        super.onDestroy();
+        task.stop();
         persister.stop();
     }
 

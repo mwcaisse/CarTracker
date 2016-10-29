@@ -11,7 +11,7 @@ public class LogManager extends EntityManager<Log> {
 
     private LogDao logDao;
 
-    protected LogManager(LogDao logDao) {
+    public LogManager(LogDao logDao) {
         super(logDao);
 
         this.logDao = logDao;
