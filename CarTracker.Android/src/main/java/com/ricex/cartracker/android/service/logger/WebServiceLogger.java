@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * Created by Mitchell on 2016-10-19.
  */
-public class WebServiceLogger implements ServiceLogger, RequestCallback<ReaderLog> {
+public class WebServiceLogger extends AbstractServiceLogger implements  RequestCallback<ReaderLog> {
 
     private CarTrackerRequestFactory requestFactory;
 
@@ -26,41 +26,8 @@ public class WebServiceLogger implements ServiceLogger, RequestCallback<ReaderLo
         this.requestFactory = requestFactory;
     }
 
-    @Override
-    public void debug(String tag, String message) {
-        log(LogType.DEBUG, tag, message);
-    }
-
-    @Override
-    public void info(String tag, String message) {
-        log(LogType.INFO, tag, message);
-    }
-
-    @Override
-    public void warn(String tag, String message) {
-        log(LogType.WARN, tag, message);
-    }
-
-    @Override
-    public void warn(String tag, String message, Throwable ex) {
-        log(LogType.WARN, tag, message, ex);
-    }
-
-    @Override
-    public void error(String tag, String message) {
-        log(LogType.ERROR, tag, message);
-    }
-
-    @Override
-    public void error(String tag, String message, Throwable ex) {
-        log(LogType.ERROR, tag, message, ex);
-    }
-
-    public void log(LogType type, String  tag, String message, Throwable ex) {
-        String msg = message = "\n" + ex.getMessage() + "\n" + ex.getStackTrace();
-    }
-
     public void log(LogType type, String tag, String message) {
+
         ReaderLog log = new ReaderLog();
 
         log.setMessage(message);

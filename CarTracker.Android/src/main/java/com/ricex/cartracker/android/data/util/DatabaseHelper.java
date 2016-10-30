@@ -7,12 +7,13 @@ import android.util.Log;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.ricex.cartracker.android.data.dao.LogDao;
+import com.ricex.cartracker.android.data.dao.ReaderLogDao;
 import com.ricex.cartracker.android.data.dao.RawReadingDao;
 import com.ricex.cartracker.android.data.dao.RawTripDao;
 import com.ricex.cartracker.android.data.entity.RawReading;
 import com.ricex.cartracker.android.data.entity.RawTrip;
-import com.ricex.cartracker.android.data.manager.LogManager;
+import com.ricex.cartracker.android.data.entity.ReaderLog;
+import com.ricex.cartracker.android.data.manager.ReaderLogManager;
 import com.ricex.cartracker.android.data.manager.RawReadingManager;
 import com.ricex.cartracker.android.data.manager.RawTripManager;
 
@@ -30,13 +31,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
 
-    private LogDao logDao;
+    private ReaderLogDao readerLogDao;
 
     private RawReadingDao rawReadingDao;
 
     private RawTripDao rawTripDao;
 
-    private LogManager logManager;
+    private ReaderLogManager readerLogManager;
 
     private RawReadingManager readingManager;
 
@@ -71,11 +72,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void initializeDaosManagers() throws SQLException {
         rawReadingDao = getDao(RawReading.class);
         rawTripDao = getDao(RawTrip.class);
-        logDao = getDao(com.ricex.cartracker.android.data.entity.Log.class);
+        readerLogDao = getDao(ReaderLog.class);
 
         readingManager = new RawReadingManager(rawReadingDao);
         tripManager = new RawTripManager(rawTripDao);
-        logManager = new LogManager(logDao);
+        readerLogManager = new ReaderLogManager(readerLogDao);
     }
 
     public RawTripManager getTripManager() {
@@ -86,8 +87,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return readingManager;
     }
 
-    public LogManager getLogManager() {
-        return logManager;
+    public ReaderLogManager getReaderLogManager() {
+        return readerLogManager;
     }
 
     public void close() {
@@ -95,11 +96,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
         rawReadingDao = null;
         rawTripDao = null;
-        logDao = null;
+        readerLogDao = null;
 
         readingManager = null;
         tripManager = null;
-        logManager = null;
+        readerLogManager = null;
     }
 
     private void createTables(SQLiteDatabase database, ConnectionSource connection) throws SQLException {
