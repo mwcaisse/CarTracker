@@ -7,8 +7,9 @@ import com.ricex.cartracker.androidrequester.request.AbstractRequest;
 import com.ricex.cartracker.androidrequester.request.ApplicationPreferences;
 import com.ricex.cartracker.androidrequester.request.RequestResponse;
 import com.ricex.cartracker.androidrequester.request.exception.RequestException;
-import com.ricex.cartracker.androidrequester.request.type.BulkReadingUploadResponseType;
+import com.ricex.cartracker.androidrequester.request.type.BulkUploadResponseType;
 import com.ricex.cartracker.common.entity.Trip;
+import com.ricex.cartracker.common.viewmodel.BulkUploadResult;
 import com.ricex.cartracker.common.viewmodel.ReadingUpload;
 import com.ricex.cartracker.common.viewmodel.ReadingUploadResult;
 
@@ -18,7 +19,7 @@ import com.ricex.cartracker.common.viewmodel.ReadingUploadResult;
  *
  */
 
-public class BulkUploadReadingRequest extends AbstractRequest<List<ReadingUploadResult>> {
+public class BulkUploadReadingRequest extends AbstractRequest<List<BulkUploadResult>> {
 
 	private final long tripId;
 	
@@ -39,7 +40,7 @@ public class BulkUploadReadingRequest extends AbstractRequest<List<ReadingUpload
 	/** Creates a new Bulk Upload Request for the given trip with the given readings
 	 * 
 	 * @param applicationPreferences
-	 * @param trip
+	 * @param tripId
 	 * @param readings
 	 */
 	
@@ -51,8 +52,8 @@ public class BulkUploadReadingRequest extends AbstractRequest<List<ReadingUpload
 	
 
 	@Override
-	protected RequestResponse<List<ReadingUploadResult>> executeRequest() throws RequestException {
-		return postForObject(serverAddress + "/trip/{tripId}/reading/bulk", readings, new BulkReadingUploadResponseType(), tripId);
+	protected RequestResponse<List<BulkUploadResult>> executeRequest() throws RequestException {
+		return postForObject(serverAddress + "/trip/{tripId}/reading/bulk", readings, new BulkUploadResponseType(), tripId);
 	}
 
 }

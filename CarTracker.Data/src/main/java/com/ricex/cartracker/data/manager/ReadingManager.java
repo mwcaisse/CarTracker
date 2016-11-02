@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.ricex.cartracker.common.entity.Reading;
 import com.ricex.cartracker.common.viewmodel.ReadingUpload;
-import com.ricex.cartracker.common.viewmodel.ReadingUploadResult;
+import com.ricex.cartracker.common.viewmodel.BulkUploadResult;
 import com.ricex.cartracker.data.mapper.ReadingMapper;
 import com.ricex.cartracker.data.query.properties.EntityType;
 import com.ricex.cartracker.data.validation.EntityValidationException;
@@ -39,13 +39,13 @@ public class ReadingManager extends AbstractEntityManager<Reading> {
 	 * @return The results of the reading uploads
 	 * @throws EntityValidationException If the given trip doesn't exist
 	 */
-	public List<ReadingUploadResult> bulkUpload(long tripId, List<ReadingUpload> readings) throws EntityValidationException {
-		List<ReadingUploadResult> results = new ArrayList<ReadingUploadResult>();
+	public List<BulkUploadResult> bulkUpload(long tripId, List<ReadingUpload> readings) throws EntityValidationException {
+		List<BulkUploadResult> results = new ArrayList<BulkUploadResult>();
 		
 		tripValidator.exists(tripId);
 		
 		for (ReadingUpload upload : readings) {
-			ReadingUploadResult result = new ReadingUploadResult();
+			BulkUploadResult result = new BulkUploadResult();
 			result.setUuid(upload.getUuid());
 			try {
 				create(upload);

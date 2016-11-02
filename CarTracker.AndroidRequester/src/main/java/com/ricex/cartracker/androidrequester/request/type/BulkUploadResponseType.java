@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.springframework.core.ParameterizedTypeReference;
 
+import com.ricex.cartracker.common.viewmodel.BulkUploadResult;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
 import com.ricex.cartracker.common.viewmodel.ReadingUploadResult;
 
-public class BulkReadingUploadResponseType extends ParameterizedTypeReference<EntityResponse<List<ReadingUploadResult>>> {
+public class BulkUploadResponseType extends ParameterizedTypeReference<EntityResponse<List<BulkUploadResult>>> {
 
 }

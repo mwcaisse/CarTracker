@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ricex.cartracker.common.entity.Reading;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
 import com.ricex.cartracker.common.viewmodel.ReadingUpload;
-import com.ricex.cartracker.common.viewmodel.ReadingUploadResult;
+import com.ricex.cartracker.common.viewmodel.BulkUploadResult;
 import com.ricex.cartracker.data.manager.ReadingManager;
 import com.ricex.cartracker.data.query.properties.EntityType;
 import com.ricex.cartracker.data.validation.EntityValidationException;
@@ -62,7 +62,7 @@ public class ReadingController extends ApiController<Reading> {
 	 */
 	
 	@RequestMapping(value = "/trip/{tripId}/reading/bulk", method=RequestMethod.POST, produces={JSON}, consumes={JSON})
-	public @ResponseBody EntityResponse<List<ReadingUploadResult>> bulkUpload(@PathVariable long tripId, @RequestBody ReadingUpload[] readings) {
+	public @ResponseBody EntityResponse<List<BulkUploadResult>> bulkUpload(@PathVariable long tripId, @RequestBody ReadingUpload[] readings) {
 		try {
 			return createEntityResponse(manager.bulkUpload(tripId, Arrays.asList(readings)));
 		} catch (EntityValidationException e) {

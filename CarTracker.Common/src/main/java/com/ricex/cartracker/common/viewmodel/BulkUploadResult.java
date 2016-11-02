@@ -2,7 +2,7 @@ package com.ricex.cartracker.common.viewmodel;
 
 import java.io.Serializable;
 
-public class ReadingUploadResult implements Serializable {
+public class BulkUploadResult implements Serializable {
 
 	private String uuid;
 	
@@ -12,7 +12,7 @@ public class ReadingUploadResult implements Serializable {
 	
 	private String errorMessage;
 
-	public ReadingUploadResult() {
+	public BulkUploadResult() {
 		id = -1;
 		successful = false;		
 	}

@@ -10,6 +10,7 @@ import com.ricex.cartracker.androidrequester.request.tracker.BulkUploadReadingRe
 import com.ricex.cartracker.androidrequester.request.tracker.EndTripRequest;
 import com.ricex.cartracker.androidrequester.request.tracker.StartTripRequest;
 import com.ricex.cartracker.common.entity.Trip;
+import com.ricex.cartracker.common.viewmodel.BulkUploadResult;
 import com.ricex.cartracker.common.viewmodel.ReadingUpload;
 import com.ricex.cartracker.common.viewmodel.ReadingUploadResult;
 
@@ -82,10 +83,10 @@ public class WebServicePersister implements Persister {
                     }
 
                     try {
-                        List<ReadingUploadResult> results = new BulkUploadReadingRequest(settings, trip, readingUploads).execute();
+                        List<BulkUploadResult> results = new BulkUploadReadingRequest(settings, trip, readingUploads).execute();
 
                         synchronized (monitor) {
-                            for (ReadingUploadResult result : results) {
+                            for (BulkUploadResult result : results) {
                                 if (result.isSuccessful()) {
                                     uploads.remove(result.getUuid());
                                 }
