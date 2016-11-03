@@ -13,9 +13,12 @@ import java.util.Date;
 @DatabaseTable(tableName = "trip", daoClass = RawTripDaoImpl.class)
 public class RawTrip extends ServerEntity {
 
+
+    public static final String PROPERTY_START_DATE = "startDate";
     @DatabaseField(canBeNull = false)
     private Date startDate;
 
+    public static final String PROPERTY_END_DATE = "endDate";
     @DatabaseField
     private Date endDate;
 

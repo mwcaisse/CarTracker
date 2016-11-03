@@ -9,12 +9,15 @@ import java.util.Date;
  */
 public abstract class Entity {
 
+    public static final String PROPERTY_ID = "id";
     @DatabaseField(id = true, generatedId = true)
     private long id;
 
+    public static final String PROPERTY_CREATE_DATE = "createDate";
     @DatabaseField(canBeNull = false)
     private Date createDate;
 
+    public static final String PROPERTY_UPDATE_DATE = "updateDate";
     @DatabaseField(canBeNull = false)
     private Date updateDate;
 

@@ -8,9 +8,11 @@ import com.j256.ormlite.field.DatabaseField;
 public abstract class ServerEntity extends Entity {
 
 
+    public static final String PROPERTY_SERVER_ID = "serverId";
     @DatabaseField
     private long serverId;
 
+    public static final String PROPERTY_SYNCED_WITH_SERVER = "syncedWithServer";
     @DatabaseField
     private boolean syncedWithServer;
 

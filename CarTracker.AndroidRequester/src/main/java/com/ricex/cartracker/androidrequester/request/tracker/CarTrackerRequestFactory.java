@@ -7,6 +7,7 @@ import com.ricex.cartracker.androidrequester.request.ApplicationPreferences;
 import com.ricex.cartracker.common.entity.Car;
 import com.ricex.cartracker.common.entity.ReaderLog;
 import com.ricex.cartracker.common.entity.Trip;
+import com.ricex.cartracker.common.viewmodel.ReaderLogUpload;
 import com.ricex.cartracker.common.viewmodel.ReadingUpload;
 
 public class CarTrackerRequestFactory extends AbstractRequestFactory {
@@ -33,6 +34,15 @@ public class CarTrackerRequestFactory extends AbstractRequestFactory {
 	 */
 	public BulkUploadReadingRequest createBulkUploadReadingRequest(Trip trip, List<ReadingUpload> readings) {
 		return new BulkUploadReadingRequest(applicationPreferences, trip, readings);
+	}
+
+	/** Creates a new Bulk Upload Reader Log Request
+	 *
+	 * @param logs The logs to upload
+	 * @return The request
+     */
+	public BulkUploadReaderLogRequest createBulkUploadReaderLogRequest(List<ReaderLogUpload> logs) {
+		return new BulkUploadReaderLogRequest(applicationPreferences, logs);
 	}
 	
 	/** Creates a new Create Car Request

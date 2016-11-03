@@ -3,11 +3,14 @@ package com.ricex.cartracker.android.data.manager;
 import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.ricex.cartracker.android.data.entity.Entity;
 
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Mitchell on 2016-10-28.
@@ -109,6 +112,36 @@ public abstract class EntityManager<T extends Entity> {
             logException("Failed to delete entity.", e);
             return false;
         }
+    }
+
+    /** Helper method to get the query builder
+     *
+     * @return
+     */
+    protected QueryBuilder<T, Long> getQueryBuilder() {
+        return entityDao.queryBuilder();
+    }
+
+    /** Executes a query for a list of results
+     *
+     * @param query The query to execute
+     * @return The results
+     * @throws SQLException If an error occured while executing the query
+     */
+    protected List<T> executeQuery(QueryBuilder<T, Long> query) throws SQLException {
+        PreparedQuery<T> preparedQuery = query.prepare();
+        return entityDao.query(preparedQuery);
+    }
+
+    /** Executes a query and returns the first result
+     *
+     * @param query The query to execute
+     * @return The first result of the query
+     * @throws SQLException If an error occured while executing the query
+     */
+    protected T queryForFirst(QueryBuilder<T, Long> query) throws SQLException {
+        PreparedQuery<T> preparedQuery = query.prepare();
+        return entityDao.queryForFirst(preparedQuery);
     }
 
     protected void logException(String message, Exception e) {

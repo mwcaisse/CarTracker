@@ -13,15 +13,19 @@ import java.util.Date;
 @DatabaseTable(tableName = "reader_log", daoClass = ReaderLogDaoImpl.class)
 public class ReaderLog extends ServerEntity {
 
+    public static final String PROPERTY_TYPE = "type";
     @DatabaseField
     private LogType type;
 
+    public static final String PROPERTY_TAG = "tag";
     @DatabaseField
     private String tag;
 
+    public static final String PROPERTY_MESSAGE = "message";
     @DatabaseField
     private String message;
 
+    public static final String PROPERTY_DATE = "date";
     @DatabaseField
     private Date date;
 
@@ -57,4 +61,5 @@ public class ReaderLog extends ServerEntity {
     public void setDate(Date date) {
         this.date = date;
     }
+
 }

@@ -13,45 +13,59 @@ import java.util.Date;
 @DatabaseTable(tableName = "reading", daoClass = RawReadingDaoImpl.class)
 public class RawReading extends ServerEntity {
 
+    public static final String PROPERTY_READ_DATE = "readDate";
     @DatabaseField(canBeNull = false)
     private Date readDate;
 
+    public static final String PROPERTY_TRIP_ID = "tripId";
     @DatabaseField(canBeNull = false)
     private long tripId;
 
+    public static final String PROPERTY_LATITUDE = "latitude";
     @DatabaseField
     private double latitude;
 
+    public static final String PROPERTY_LONGITUDE = "longitude";
     @DatabaseField
     private double longitude;
 
+    public static final String PROPERTY_AIR_INTAKE_TEMPERATURE = "airIntakeTemperature";
     @DatabaseField
     private double airIntakeTemperature;
 
+    public static final String PROPERTY_AMBIENT_AIR_TEMPERATURE = "ambientAirTemperature";
     @DatabaseField
     private double ambientAirTemperature;
 
+    public static final String PROPERTY_ENGINE_COOLAND_TEMPERATURE = "engineCoolantTemperature";
     @DatabaseField
     private double engineCoolantTemperature;
 
+    public static final String PROPERTY_OIL_TEMPERATURE = "oilTemperature";
     @DatabaseField
     private double oilTemperature;
 
+    public static final String PROPERTY_ENGINE_RPM = "engineRPM";
     @DatabaseField
     private double engineRPM;
 
+    public static final String PROPERTY_SPEED = "speed";
     @DatabaseField
     private double speed;
 
+    public static final String PROPERTY_MASS_AIR_FLOW = "massAirFlow";
     @DatabaseField
     private double massAirFlow;
 
+    public static final String PROPERTY_THROTTLE_POSITION = "throttlePosition";
     @DatabaseField
     private double throttlePosition;
 
+    public static final String PROPERTY_FUEL_TYPE = "fuelType";
     @DatabaseField
     private String fuelType;
 
+    public static final String PROPERTY_FUEL_LEVEL = "fuelLevel";
     @DatabaseField
     private double fuelLevel;
 
