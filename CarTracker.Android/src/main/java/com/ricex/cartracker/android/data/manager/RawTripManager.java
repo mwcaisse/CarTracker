@@ -6,7 +6,7 @@ import com.ricex.cartracker.android.data.entity.RawTrip;
 /**
  * Created by Mitchell on 2016-10-28.
  */
-public class RawTripManager extends EntityManager<RawTrip> {
+public class RawTripManager extends ServerEntityManager<RawTrip> {
 
     private RawTripDao tripDao;
 

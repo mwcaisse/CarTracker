@@ -8,6 +8,7 @@ import com.ricex.cartracker.android.data.manager.RawReadingManager;
 import com.ricex.cartracker.android.data.manager.RawTripManager;
 import com.ricex.cartracker.android.data.util.DatabaseHelper;
 import com.ricex.cartracker.android.model.OBDReading;
+import com.ricex.cartracker.android.service.WebServiceSyncer;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
 import com.ricex.cartracker.common.entity.Trip;
 
@@ -44,9 +45,12 @@ public class DatabasePersister implements Persister {
 
     private RawTrip trip;
 
+    private WebServiceSyncer webServiceSyncer;
+
     public DatabasePersister(CarTrackerSettings settings, DatabaseHelper databaseHelper) {
         this.settings = settings;
         this.databaseHelper = databaseHelper;
+        this.webServiceSyncer = new WebServiceSyncer(databaseHelper, settings);
     }
 
     @Override
@@ -95,6 +99,8 @@ public class DatabasePersister implements Persister {
         }
 
         endTrip();
+
+        webServiceSyncer.fullSync();
 
     }
 

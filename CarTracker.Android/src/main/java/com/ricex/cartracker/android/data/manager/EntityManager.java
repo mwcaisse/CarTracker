@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Created by Mitchell on 2016-10-28.
@@ -93,6 +94,31 @@ public abstract class EntityManager<T extends Entity> {
         }
         catch (SQLException e) {
             logException("Failed to update entity.", e);
+            return false;
+        }
+    }
+
+    /** Bulk updates a list of entities
+     *
+     * @param entities The entities to update
+     * @return True if successful, false otherwise
+     */
+
+    public boolean update(final List<T> entities) {
+        try {
+            entityDao.callBatchTasks(new Callable<Void>() {
+                public Void call() throws SQLException {
+                    for (T entity : entities) {
+                        entityDao.update(entity);
+                    }
+                    return null;
+                }
+            });
+
+            return true;
+        }
+        catch (Exception e) {
+            logException("Failed to update entities.", e);
             return false;
         }
     }

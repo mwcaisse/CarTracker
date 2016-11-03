@@ -112,6 +112,8 @@ public class WebServicePersister implements Persister {
         }
 
         endTrip();
+
+
     }
 
     public List<ReadingUpload> getReadingUploads() {

@@ -53,6 +53,15 @@ public class CarTrackerRequestFactory extends AbstractRequestFactory {
 	public CreateCarRequest createCreateCarRequest(Car car) {
 		return new CreateCarRequest(applicationPreferences, car);
 	}
+
+	/** Creates a new Create Trip Request
+	 *
+	 * @param trip The trip to create
+	 * @return The request
+     */
+	public CreateTripRequest createCreateTripRequest(Trip trip) {
+		return new CreateTripRequest(applicationPreferences, trip);
+	}
 	
 	/** Creates a new End Trip Request
 	 * 
