@@ -11,7 +11,6 @@ import com.ricex.cartracker.androidrequester.request.type.BulkUploadResponseType
 import com.ricex.cartracker.common.entity.Trip;
 import com.ricex.cartracker.common.viewmodel.BulkUploadResult;
 import com.ricex.cartracker.common.viewmodel.ReadingUpload;
-import com.ricex.cartracker.common.viewmodel.ReadingUploadResult;
 
 /** Performs a Bulk Upload of Readings
  * 

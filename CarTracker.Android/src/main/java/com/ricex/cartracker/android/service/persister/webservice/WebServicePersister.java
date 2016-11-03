@@ -12,7 +12,6 @@ import com.ricex.cartracker.androidrequester.request.tracker.StartTripRequest;
 import com.ricex.cartracker.common.entity.Trip;
 import com.ricex.cartracker.common.viewmodel.BulkUploadResult;
 import com.ricex.cartracker.common.viewmodel.ReadingUpload;
-import com.ricex.cartracker.common.viewmodel.ReadingUploadResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
