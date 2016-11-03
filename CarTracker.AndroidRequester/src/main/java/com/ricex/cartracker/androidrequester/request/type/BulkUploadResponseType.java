@@ -6,7 +6,6 @@ import org.springframework.core.ParameterizedTypeReference;
 
 import com.ricex.cartracker.common.viewmodel.BulkUploadResult;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
-import com.ricex.cartracker.common.viewmodel.ReadingUploadResult;
 
 public class BulkUploadResponseType extends ParameterizedTypeReference<EntityResponse<List<BulkUploadResult>>> {
 
