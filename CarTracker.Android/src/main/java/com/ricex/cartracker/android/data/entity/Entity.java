@@ -10,7 +10,7 @@ import java.util.Date;
 public abstract class Entity {
 
     public static final String PROPERTY_ID = "id";
-    @DatabaseField(id = true, generatedId = true)
+    @DatabaseField(generatedId = true)
     private long id;
 
     public static final String PROPERTY_CREATE_DATE = "createDate";

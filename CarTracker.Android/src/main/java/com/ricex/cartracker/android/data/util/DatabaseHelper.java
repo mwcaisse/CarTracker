@@ -104,7 +104,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     private void createTables(SQLiteDatabase database, ConnectionSource connection) throws SQLException {
-        TableUtils.createTable(connectionSource, Log.class);
+        TableUtils.createTable(connectionSource, ReaderLog.class);
         TableUtils.createTable(connectionSource, RawReading.class);
         TableUtils.createTable(connectionSource, RawTrip.class);
     }

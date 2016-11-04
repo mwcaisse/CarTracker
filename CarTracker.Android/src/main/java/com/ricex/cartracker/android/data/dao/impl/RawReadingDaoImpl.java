@@ -12,7 +12,7 @@ import java.sql.SQLException;
  */
 public class RawReadingDaoImpl extends BaseDaoImpl<RawReading, Long> implements RawReadingDao {
 
-    protected RawReadingDaoImpl(ConnectionSource connectionSource) throws SQLException {
+    public RawReadingDaoImpl(ConnectionSource connectionSource) throws SQLException {
         super(connectionSource, RawReading.class);
     }
 }

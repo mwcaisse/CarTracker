@@ -12,7 +12,7 @@ import java.sql.SQLException;
  */
 public class ReaderLogDaoImpl extends BaseDaoImpl<ReaderLog, Long> implements ReaderLogDao {
 
-    protected ReaderLogDaoImpl(ConnectionSource connectionSource) throws SQLException {
+    public ReaderLogDaoImpl(ConnectionSource connectionSource) throws SQLException {
         super(connectionSource, ReaderLog.class);
     }
 }

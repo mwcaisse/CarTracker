@@ -51,6 +51,9 @@ public class DatabasePersister implements Persister {
         this.settings = settings;
         this.databaseHelper = databaseHelper;
         this.webServiceSyncer = new WebServiceSyncer(databaseHelper, settings);
+
+        monitor = new Object();
+        waitMonitor = new Object();
     }
 
     @Override
@@ -60,6 +63,8 @@ public class DatabasePersister implements Persister {
 
         readingManager = databaseHelper.getReadingManager();
         tripManager = databaseHelper.getTripManager();
+
+        readings = new ArrayList<OBDReading>();
 
         startTrip();
 

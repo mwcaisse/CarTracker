@@ -13,6 +13,7 @@ import com.j256.ormlite.android.apptools.OrmLiteBaseService;
 import com.ricex.cartracker.android.R;
 import com.ricex.cartracker.android.data.util.DatabaseHelper;
 import com.ricex.cartracker.android.model.OBDReading;
+import com.ricex.cartracker.android.service.persister.DatabasePersister;
 import com.ricex.cartracker.android.service.persister.Persister;
 import com.ricex.cartracker.android.service.persister.webservice.WebServicePersister;
 import com.ricex.cartracker.android.service.reader.gps.GoogleGPSReader;
@@ -75,7 +76,8 @@ public class OBDService extends OrmLiteBaseService<DatabaseHelper> {
     protected void startService() {
         //if we haven't created the thread before, create it
         if (persisterThread == null) {
-            persister = new WebServicePersister(settings);
+            //persister = new WebServicePersister(settings);
+            persister = new DatabasePersister(settings, getHelper());
             persisterThread = new Thread(persister);
         }
         if (thread == null) {
@@ -112,9 +114,9 @@ public class OBDService extends OrmLiteBaseService<DatabaseHelper> {
     }
 
     public void onDestroy() {
-        super.onDestroy();
         task.stop();
         persister.stop();
+        super.onDestroy();
     }
 
     public void addListener(OBDServiceListener listener) {
