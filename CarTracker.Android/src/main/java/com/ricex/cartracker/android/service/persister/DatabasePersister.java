@@ -39,6 +39,8 @@ public class DatabasePersister implements Persister {
 
     private Object waitMonitor;
 
+    private Object stopMonitor;
+
     private boolean running;
 
     private List<OBDReading> readings;
@@ -54,6 +56,7 @@ public class DatabasePersister implements Persister {
 
         monitor = new Object();
         waitMonitor = new Object();
+        stopMonitor = new Object();
     }
 
     @Override
@@ -79,22 +82,12 @@ public class DatabasePersister implements Persister {
                 }
 
                 if (readings.size() > BUFFER_SIZE) {
-
-                    synchronized (monitor) {
-                        List<RawReading> toCreate = getRawReadings();
-                        if (readingManager.create(toCreate)) {
-                            readings.clear();
-                        }
-                        else {
-                            //woop woop, error here
-                            Log.w(LOG_TAG, "Couldn't persist readings to database!");
-                        }
-                    }
-
+                    persistReadings();
                 }
 
                 //do this check at the end, that way it still finishes the upload / exist gracefully.
                 if (!running) {
+                    Log.i(LOG_TAG, "Database Persister run we aren't running, breaking loop");
                     break;
                 }
             }
@@ -103,10 +96,38 @@ public class DatabasePersister implements Persister {
             }
         }
 
+        Log.i(LOG_TAG, "Database Persister run calling endTrip");
+        //emd tje trip
         endTrip();
 
+        Log.i(LOG_TAG, "Database Persister run calling persistReadings");
+        //persist any readings remaining in the buffer
+        persistReadings();
+
+        Log.i(LOG_TAG, "Database Persister run calling webService.fullSync");
         webServiceSyncer.fullSync();
 
+
+        Log.i(LOG_TAG, "Database Persister run notifying stopMonitor");
+        synchronized (stopMonitor) {
+            stopMonitor.notifyAll();
+        }
+
+        Log.i(LOG_TAG, "Database Persister run returning.");
+
+    }
+
+    protected void persistReadings() {
+        synchronized (monitor) {
+            List<RawReading> toCreate = getRawReadings();
+            if (readingManager.create(toCreate)) {
+                readings.clear();
+            }
+            else {
+                //woop woop, error here
+                Log.w(LOG_TAG, "Couldn't persist readings to database!");
+            }
+        }
     }
 
     List<RawReading> getRawReadings() {
@@ -184,9 +205,23 @@ public class DatabasePersister implements Persister {
 
     @Override
     public void stop() {
-        running = false;
-        synchronized (waitMonitor) {
-            waitMonitor.notify();
+        if (running) {
+            running = false;
+            synchronized (waitMonitor) {
+                waitMonitor.notify();
+            }
+
+            Log.i(LOG_TAG, "Database Persister stop waiting on stopMonitor");
+            try {
+                synchronized (stopMonitor)  {
+                    stopMonitor.wait();
+                }
+            }
+            catch (InterruptedException e) {
+
+            }
+
+            Log.i(LOG_TAG, "Database Persister stop, no longer waiting on stopMonitor");
         }
     }
 

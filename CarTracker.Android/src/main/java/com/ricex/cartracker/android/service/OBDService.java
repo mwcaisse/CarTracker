@@ -114,8 +114,11 @@ public class OBDService extends OrmLiteBaseService<DatabaseHelper> {
     }
 
     public void onDestroy() {
+        Log.i(LOG_TAG, "OBDService onDestroy calling task.stop");
         task.stop();
+        Log.i(LOG_TAG, "OBDService onDestroy calling persister.stop");
         persister.stop();
+        Log.i(LOG_TAG, "OBDService onDestroy calling super.onDestroy");
         super.onDestroy();
     }
 
