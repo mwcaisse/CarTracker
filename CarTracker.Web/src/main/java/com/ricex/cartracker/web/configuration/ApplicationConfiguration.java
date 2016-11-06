@@ -39,6 +39,7 @@ import com.ricex.cartracker.web.controller.api.ReadingController;
 import com.ricex.cartracker.web.controller.api.TripController;
 import com.ricex.cartracker.web.controller.view.CarViewController;
 import com.ricex.cartracker.web.controller.view.HomeController;
+import com.ricex.cartracker.web.controller.view.LoginViewController;
 import com.ricex.cartracker.web.controller.view.TripViewController;
 import com.ricex.cartracker.web.processor.TripProcessor;
 import com.ricex.cartracker.web.util.GsonFactory;
@@ -87,6 +88,11 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	@Bean
 	public TripProcessor tripProcessor() throws Exception {
 		return new TripProcessor(tripManager(), readingManager());
+	}
+	
+	@Bean 
+	public LoginViewController loginViewController() {
+		return new LoginViewController();
 	}
 	
 	/// ---- Define the Managers ---- ///
