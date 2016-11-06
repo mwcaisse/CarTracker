@@ -66,7 +66,7 @@ public class WebServiceSyncer {
             unsyncedLogsMap.put(log.getId(), log);
         }
 
-        for (int startIndex = 0; startIndex < unsyncedLogs.size(); startIndex += BULK_UPLOAD_SIZE + 1) {
+        for (int startIndex = 0; startIndex < unsyncedLogs.size(); startIndex += BULK_UPLOAD_SIZE) {
             List<ReaderLog> toUpload = unsyncedLogs.subList(startIndex, Math.min(startIndex + BULK_UPLOAD_SIZE, unsyncedLogs.size() - 1));
             List<ReaderLogUpload> uploads = new ArrayList<ReaderLogUpload>();
 
@@ -136,7 +136,7 @@ public class WebServiceSyncer {
             unsyncedReadingsMap.put(reading.getId(), reading);
         }
 
-        for (int startIndex = 0; startIndex < unsyncedReadings.size(); startIndex += BULK_UPLOAD_SIZE + 1) {
+        for (int startIndex = 0; startIndex < unsyncedReadings.size(); startIndex += BULK_UPLOAD_SIZE) {
             List<RawReading> toUpload = unsyncedReadings.subList(startIndex, Math.min(startIndex + BULK_UPLOAD_SIZE, unsyncedReadings.size() - 1));
             List<ReadingUpload> uploads = new ArrayList<ReadingUpload>();
 
