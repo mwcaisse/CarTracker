@@ -75,7 +75,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         readerLogDao = getDao(ReaderLog.class);
 
         readingManager = new RawReadingManager(rawReadingDao);
-        tripManager = new RawTripManager(rawTripDao);
+        tripManager = new RawTripManager(rawTripDao, rawReadingDao);
         readerLogManager = new ReaderLogManager(readerLogDao);
     }
 

@@ -53,6 +53,7 @@ public class WebServiceSyncer {
     public void fullSync() {
         syncLogs();
         syncTrips();
+        syncReadings();
     }
 
     /** Synchronize all of the un-synchronized logs
@@ -128,6 +129,21 @@ public class WebServiceSyncer {
         }
     }
 
+    /** Syncs any unsynced readings for synced trips
+     *
+     */
+    public void syncReadings() {
+        List<RawTrip> tripsWithUnscynedReadings = tripManager.getTripsWithUnsyncedReadings();
+
+        for (RawTrip trip : tripsWithUnscynedReadings) {
+            syncReadings(trip);
+        }
+    }
+
+    /** Syncs the unsynced readings for the given trip
+     *
+     * @param trip
+     */
     protected void syncReadings(RawTrip trip) {
         List<RawReading> unsyncedReadings = readingManager.getUnsyncedForTrip(trip.getId());
         Map<Long, RawReading> unsyncedReadingsMap = new HashMap<Long, RawReading>();
