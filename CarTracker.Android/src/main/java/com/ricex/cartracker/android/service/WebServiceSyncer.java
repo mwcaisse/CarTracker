@@ -63,70 +63,73 @@ public class WebServiceSyncer {
         List<ReaderLog> unsyncedLogs = logManager.getUnsynced();
         Map<Long, ReaderLog> unsyncedLogsMap = new HashMap<Long, ReaderLog>();
 
-        for (ReaderLog log : unsyncedLogs) {
-            unsyncedLogsMap.put(log.getId(), log);
-        }
-
-        for (int startIndex = 0; startIndex < unsyncedLogs.size(); startIndex += BULK_UPLOAD_SIZE) {
-            List<ReaderLog> toUpload = unsyncedLogs.subList(startIndex, Math.min(startIndex + BULK_UPLOAD_SIZE, unsyncedLogs.size()));
-            List<ReaderLogUpload> uploads = new ArrayList<ReaderLogUpload>();
-
-            for (ReaderLog log : toUpload) {
-                ReaderLogUpload upload = new ReaderLogUpload();
-
-                upload.setType(log.getType());
-                upload.setMessage(log.getMessage());
-                upload.setDate(log.getDate());
-                upload.setUuid(Long.toString(log.getId()));
-
-                uploads.add(upload);
-
+        if (null != unsyncedLogs && !unsyncedLogs.isEmpty()) {
+            for (ReaderLog log : unsyncedLogs) {
+                unsyncedLogsMap.put(log.getId(), log);
             }
-            try {
-                List<BulkUploadResult> results = requestFactory.createBulkUploadReaderLogRequest(uploads).execute();
-                for (BulkUploadResult result : results) {
-                    if (result.isSuccessful()) {
-                        ReaderLog readerLog = unsyncedLogsMap.get(Long.parseLong(result.getUuid()));
-                        if (null != readerLog) {
-                            readerLog.setServerId(result.getId());
-                            readerLog.setSyncedWithServer(true);
+
+            for (int startIndex = 0; startIndex < unsyncedLogs.size(); startIndex += BULK_UPLOAD_SIZE) {
+                List<ReaderLog> toUpload = unsyncedLogs.subList(startIndex, Math.min(startIndex + BULK_UPLOAD_SIZE, unsyncedLogs.size()));
+                List<ReaderLogUpload> uploads = new ArrayList<ReaderLogUpload>();
+
+                for (ReaderLog log : toUpload) {
+                    ReaderLogUpload upload = new ReaderLogUpload();
+
+                    upload.setType(log.getType());
+                    upload.setMessage(log.getMessage());
+                    upload.setDate(log.getDate());
+                    upload.setUuid(Long.toString(log.getId()));
+
+                    uploads.add(upload);
+
+                }
+                try {
+                    List<BulkUploadResult> results = requestFactory.createBulkUploadReaderLogRequest(uploads).execute();
+                    for (BulkUploadResult result : results) {
+                        if (result.isSuccessful()) {
+                            ReaderLog readerLog = unsyncedLogsMap.get(Long.parseLong(result.getUuid()));
+                            if (null != readerLog) {
+                                readerLog.setServerId(result.getId());
+                                readerLog.setSyncedWithServer(true);
+                            }
                         }
                     }
+                    //update the logs
+                    logManager.update(toUpload);
                 }
-                //update the logs
-                logManager.update(toUpload);
+                catch (RequestException e) {
+                    Log.w(LOG_TAG, "Error occured while creating reader logs on the server!", e);
+                }
             }
-            catch (RequestException e) {
-                Log.w(LOG_TAG, "Error occured while creating reader logs on the server!", e);
-            }
-
         }
     }
 
     public void syncTrips() {
         List<RawTrip> unsyncedTrips = tripManager.getUnsynced();
 
-        for (RawTrip unsyncedTrip : unsyncedTrips) {
+        if (null != unsyncedTrips && !unsyncedTrips.isEmpty()) {
+            for (RawTrip unsyncedTrip : unsyncedTrips) {
 
-            Trip trip = new Trip();
-            trip.setStartDate(unsyncedTrip.getStartDate());
-            trip.setEndDate(unsyncedTrip.getEndDate());
-            trip.setCarId(7);
-            trip.setStatus(unsyncedTrip.getStatus());
+                Trip trip = new Trip();
+                trip.setStartDate(unsyncedTrip.getStartDate());
+                trip.setEndDate(unsyncedTrip.getEndDate());
+                trip.setCarId(7);
+                trip.setStatus(unsyncedTrip.getStatus());
 
-            try {
-                trip = requestFactory.createCreateTripRequest(trip).execute();
+                try {
+                    trip = requestFactory.createCreateTripRequest(trip).execute();
 
-                unsyncedTrip.setServerId(trip.getId());
-                unsyncedTrip.setSyncedWithServer(true);
-                tripManager.update(unsyncedTrip);
+                    unsyncedTrip.setServerId(trip.getId());
+                    unsyncedTrip.setSyncedWithServer(true);
+                    tripManager.update(unsyncedTrip);
 
-                syncReadings(unsyncedTrip);
+                    syncReadings(unsyncedTrip);
+                }
+                catch (RequestException e) {
+                    Log.w(LOG_TAG, "Error occured while creating a trip on the server!", e);
+                }
+
             }
-            catch (RequestException e) {
-                Log.w(LOG_TAG, "Error occured while creating a trip on the server!", e);
-            }
-
         }
     }
 
@@ -136,8 +139,10 @@ public class WebServiceSyncer {
     public void syncReadings() {
         List<RawTrip> tripsWithUnscynedReadings = tripManager.getTripsWithUnsyncedReadings();
 
-        for (RawTrip trip : tripsWithUnscynedReadings) {
-            syncReadings(trip);
+        if (null != tripsWithUnscynedReadings && !tripsWithUnscynedReadings.isEmpty()) {
+            for (RawTrip trip : tripsWithUnscynedReadings) {
+                syncReadings(trip);
+            }
         }
     }
 
