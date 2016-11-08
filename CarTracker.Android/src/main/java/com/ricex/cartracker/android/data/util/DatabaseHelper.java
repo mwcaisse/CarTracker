@@ -29,7 +29,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "cartracker.db";
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private ReaderLogDao readerLogDao;
 
@@ -54,7 +54,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             createTables(database, connectionSource);
         }
         catch (SQLException e) {
-            android.util.Log.e(LOG_TAG, "Couldn't create database", e);
+            Log.e(LOG_TAG, "Couldn't create database", e);
         }
     }
 
@@ -65,7 +65,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             createTables(database, connectionSource);
         }
         catch (SQLException e) {
-            android.util.Log.e(LOG_TAG, "Couldn't update database!", e);
+            Log.e(LOG_TAG, "Couldn't update database!", e);
         }
     }
 
@@ -110,7 +110,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     private void deleteTables(SQLiteDatabase database, ConnectionSource connection) throws SQLException {
-        TableUtils.dropTable(connectionSource, Log.class, true);
+        TableUtils.dropTable(connectionSource, ReaderLog.class, true);
         TableUtils.dropTable(connectionSource, RawReading.class, true);
         TableUtils.dropTable(connectionSource, RawTrip.class, true);
     }
