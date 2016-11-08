@@ -276,12 +276,5 @@ public class Trip extends AbstractEntity {
 			carId = car.getId();
 		}
 	}	
-
-	public void setNew() {
-		super.setNew();
-		status = TripStatus.NEW;
-	}
-
-	
 	
 }
