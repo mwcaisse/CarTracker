@@ -4,6 +4,10 @@
 
     <item android:id="@+id/action_settings"
           android:title="Settings"
-          app:showAsAction="never" />>
+          app:showAsAction="never" />
+
+    <item android:id="@+id/action_sync"
+          android:title="Sync with Server"
+          app:showAsAction="never" />
 
 </menu>

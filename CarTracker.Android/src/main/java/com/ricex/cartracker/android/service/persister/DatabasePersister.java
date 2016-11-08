@@ -138,7 +138,7 @@ public class DatabasePersister implements Persister {
             RawReading rawReading = new RawReading();
 
             rawReading.setReadDate(reading.getReadDate());
-            rawReading.setTripId(trip.getId());
+            rawReading.setTrip(trip);
             rawReading.setAirIntakeTemperature(convertStringToDouble(reading.getAirIntakeTemp()));
             rawReading.setAmbientAirTemperature(convertStringToDouble(reading.getAmbientAirTemp()));
             rawReading.setEngineCoolantTemperature(convertStringToDouble(reading.getEngineCoolantTemp()));

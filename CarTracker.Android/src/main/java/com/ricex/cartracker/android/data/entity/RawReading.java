@@ -17,9 +17,14 @@ public class RawReading extends ServerEntity {
     @DatabaseField(canBeNull = false)
     private Date readDate;
 
+    /*
     public static final String PROPERTY_TRIP_ID = "tripId";
     @DatabaseField(canBeNull = false)
-    private long tripId;
+    private long tripId;*/
+
+    public static final String PROPERTY_TRIP = "trip_id";
+    @DatabaseField(foreign = true, canBeNull = false, columnName = "trip_id")
+    private RawTrip trip;
 
     public static final String PROPERTY_LATITUDE = "latitude";
     @DatabaseField
@@ -79,14 +84,6 @@ public class RawReading extends ServerEntity {
 
     public void setReadDate(Date readDate) {
         this.readDate = readDate;
-    }
-
-    public long getTripId() {
-        return tripId;
-    }
-
-    public void setTripId(long tripId) {
-        this.tripId = tripId;
     }
 
     public double getLatitude() {
@@ -183,5 +180,14 @@ public class RawReading extends ServerEntity {
 
     public void setFuelLevel(double fuelLevel) {
         this.fuelLevel = fuelLevel;
+    }
+
+
+    public RawTrip getTrip() {
+        return trip;
+    }
+
+    public void setTrip(RawTrip trip) {
+        this.trip = trip;
     }
 }

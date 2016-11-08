@@ -4,6 +4,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.ricex.cartracker.android.data.dao.RawReadingDao;
 import com.ricex.cartracker.android.data.entity.RawReading;
+import com.ricex.cartracker.android.data.entity.RawTrip;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -29,7 +30,7 @@ public class RawReadingManager extends ServerEntityManager<RawReading> {
     public List<RawReading> getUnsyncedForTrip(long tripId) {
         try {
             QueryBuilder<RawReading , Long> queryBuilder = getQueryBuilder();
-            queryBuilder.where().eq(RawReading.PROPERTY_SYNCED_WITH_SERVER, false).and().eq(RawReading.PROPERTY_TRIP_ID, tripId);
+            queryBuilder.where().eq(RawReading.PROPERTY_SYNCED_WITH_SERVER, false).and().eq(RawReading.PROPERTY_TRIP, tripId);
             return executeQuery(queryBuilder);
         }
         catch (SQLException e) {
