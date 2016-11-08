@@ -4,6 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.ricex.cartracker.android.data.dao.impl.RawReadingDaoImpl;
 import com.ricex.cartracker.android.data.dao.impl.RawTripDaoImpl;
+import com.ricex.cartracker.common.entity.TripStatus;
 
 import java.util.Date;
 
@@ -22,6 +23,10 @@ public class RawTrip extends ServerEntity {
     @DatabaseField
     private Date endDate;
 
+    public static final String PROPERTY_STATUS = "status";
+    @DatabaseField
+    private TripStatus status;
+
     public Date getStartDate() {
         return startDate;
     }
@@ -36,5 +41,13 @@ public class RawTrip extends ServerEntity {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public TripStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TripStatus status) {
+        this.status = status;
     }
 }

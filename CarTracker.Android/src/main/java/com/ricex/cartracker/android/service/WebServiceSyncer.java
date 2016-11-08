@@ -112,6 +112,7 @@ public class WebServiceSyncer {
             trip.setStartDate(unsyncedTrip.getStartDate());
             trip.setEndDate(unsyncedTrip.getEndDate());
             trip.setCarId(7);
+            trip.setStatus(unsyncedTrip.getStatus());
 
             try {
                 trip = requestFactory.createCreateTripRequest(trip).execute();

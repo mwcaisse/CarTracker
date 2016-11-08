@@ -11,6 +11,7 @@ import com.ricex.cartracker.android.model.OBDReading;
 import com.ricex.cartracker.android.service.WebServiceSyncer;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
 import com.ricex.cartracker.common.entity.Trip;
+import com.ricex.cartracker.common.entity.TripStatus;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -173,6 +174,7 @@ public class DatabasePersister implements Persister {
     public void startTrip() {
         trip = new RawTrip();
         trip.setStartDate(new Date());
+        trip.setStatus(TripStatus.STARTED);
 
         if (!tripManager.create(trip)) {
             Log.w(LOG_TAG, "Could not start trip!");
@@ -183,6 +185,7 @@ public class DatabasePersister implements Persister {
     public void endTrip() {
         if (null != trip) {
             trip.setEndDate(new Date());
+            trip.setStatus(TripStatus.FINISHED);
 
             if (!tripManager.update(trip)) {
                 Log.w(LOG_TAG, "Could not end trip!");
