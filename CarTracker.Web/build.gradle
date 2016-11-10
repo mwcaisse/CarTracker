@@ -33,6 +33,11 @@ ext {
 	slf4jVersion = '1.7.13'
 	log4jVersion = '2.5'
 	apacheCommonsVersion = '3.4'
+	
+	gitRevision = 'git rev-list --count HEAD'.execute().text.trim()
+	gitShortHash = 'git rev-parse --short HEAD'.execute().text.trim()
+	gitLongHash = 'git rev-parse HEAD'.execute().text.trim()
+	gitBranch = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
 }
 
 dependencies {
@@ -91,11 +96,22 @@ uploadArchives {
     }
 }
 
+/*
+	gitRevision = 'git rev-list --count HEAD'.execute().text.trim()
+	gitShortHash = 'git rev-parse --short HEAD'.execute().text.trim()
+	gitLongHash = 'git rev-parse --long HEAD'.execute().text.trim()
+	gitBranch = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
+	*/
+
 task createProperties(dependsOn: 'processResources') << {
 	new File("$buildDir/resources/main/build.properties").withWriter { w ->
 		Properties p = new Properties()
 		p['version'] = project.version.toString()
 		p['buildDate'] = buildTime()
+		p['gitRevision'] = "${gitRevision}".toString()
+		p['gitShortHash'] = "${gitShortHash}".toString()
+		p['gitLongHash'] = "${gitLongHash}".toString()
+		p['gitBranch'] = "${gitBranch}".toString()
 		p.store w, null
 	}
 }

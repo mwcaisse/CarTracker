@@ -23,4 +23,20 @@ public abstract class ViewController {
 	public String getBuildDate() {
 		return BuildProperties.getBuildDate();
 	}
+	
+	@ModelAttribute("gitInformation")
+	public String getGitInformation() {
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append(BuildProperties.getGitBranch())
+			   .append(" ")
+			   .append(BuildProperties.getGitShortHash());		
+		
+		return builder.toString();
+	}
+	
+	@ModelAttribute("gitUrl")
+	public String getGiturl() {
+		return "https://github.com/mwcaisse/CarTracker/commit/" + BuildProperties.getGitLongHash();
+	}
 }

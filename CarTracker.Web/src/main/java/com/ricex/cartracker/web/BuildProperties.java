@@ -24,6 +24,18 @@ public class BuildProperties {
 	/** The key for the build date property */
 	private static final String KEY_BUILD_DATE = "buildDate";
 	
+	/** The key for the git branch property */
+	private static final String KEY_GIT_BRANCH = "gitBranch";
+	
+	/** The key for the git revision property */
+	private static final String KEY_GIT_REVISION = "gitRevision";
+	
+	/** The key for the git short has property */
+	private static final String KEY_GIT_SHORT_HASH = "gitShortHash";
+	
+	/** The key for the git long hash property */
+	private static final String KEY_GIT_LONG_HASH = "gitLongHash";
+	
 	/** The properties to use */
 	private static Properties properties;
 	
@@ -61,6 +73,22 @@ public class BuildProperties {
 	 */
 	public static String getBuildDate() {
 		return getProperty(KEY_BUILD_DATE);
+	}
+	
+	public static String getGitBranch() {
+		return getProperty(KEY_GIT_BRANCH);
+	}
+	
+	public static String getGitRevision() {
+		return getProperty(KEY_GIT_REVISION);
+	}
+	
+	public static String getGitShortHash() {
+		return getProperty(KEY_GIT_SHORT_HASH);
+	}
+	
+	public static String getGitLongHash() {
+		return getProperty(KEY_GIT_LONG_HASH);
 	}
 	
 	private static String getProperty(String key) {

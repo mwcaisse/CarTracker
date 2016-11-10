@@ -3,6 +3,9 @@
 	<div class="clearfix pull-right" style="padding-right:15px">
 		<div th:text="${version}" class="text-right"></div>
 		<div th:text="${buildDate}" class="text-right"></div>
+		<div class="text-right">
+			<a th:href="${gitUrl}" th:text="${gitInformation}" target="_blank"></a>
+		</div>
 	</div>
 
 </div>
