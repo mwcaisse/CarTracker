@@ -1,4 +1,5 @@
 import org.gradle.plugins.ide.eclipse.model.ProjectDependency
+import java.text.SimpleDateFormat;
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -88,4 +89,24 @@ uploadArchives {
            dirs 'repos'
        }
     }
+}
+
+task createProperties(dependsOn: 'processResources') << {
+	new File("$buildDir/resources/main/build.properties").withWriter { w ->
+		Properties p = new Properties()
+		p['version'] = project.version.toString()
+		p['buildDate'] = buildTime()
+		p.store w, null
+	}
+}
+
+def buildTime() {
+	def df = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss' UTC'")
+	df.setTimeZone(TimeZone.getTimeZone("UTC"))
+	return df.format(new Date())
+}
+
+
+classes {
+	dependsOn createProperties
 }
