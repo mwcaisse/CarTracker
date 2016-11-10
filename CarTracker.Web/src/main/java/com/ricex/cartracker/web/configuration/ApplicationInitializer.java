@@ -12,7 +12,7 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
 	 */
 	
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] { ApplicationConfiguration.class, ThymeleafConfiguration.class };
+		return new Class[] { ApplicationConfiguration.class, ThymeleafConfiguration.class, SecurityConfiguration.class };
 	}
 
 	/** Defines the web config classes
