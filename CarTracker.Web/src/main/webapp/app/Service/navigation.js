@@ -33,6 +33,10 @@ define("Service/navigation", ["Service/system"], function (system) {
 			return system.baseUrl + "trip/";
 		};
 		
+		self.logoutLink = function () {
+			return system.baseUrl + "logout";
+		}
+		
 		self.navigateToViewTrip = function (tripId) {
 			self.navigateTo(self.viewTripLink(tripId));
 		};
@@ -41,11 +45,15 @@ define("Service/navigation", ["Service/system"], function (system) {
 			self.navigateTo(self.viewCarLink(carId));
 		};
 		
+		self.navigateToLogout = function () {
+			return self.navigateTo(self.logoutLink());
+		};
+		
 		self.EVENT_NAVIGATION_ACTIVE_CHANGED = "navigation:activeChanged";
 		
 		self.setActiveNavigation = function (navigationId) {
 			system.events.trigger(self.EVENT_NAVIGATION_ACTIVE_CHANGED, {id: navigationId});
-		}
+		};
 	
 		
 	})();

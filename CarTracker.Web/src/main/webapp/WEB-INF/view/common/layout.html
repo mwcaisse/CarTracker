@@ -32,7 +32,9 @@
 		
 	</head>
 	
-	<body>			
+	<body>		
+	
+		<input id="isAuthenticated" sec:authorize="isAuthenticated()" type="hidden" value="true" />
 		<input id="googleMapsApiKey" type="hidden" th:value="${googleMapsApiKey}"/>
 		
 		<!--  need to load up the requrie config, after the google map api key -->		

@@ -17,6 +17,8 @@ define("Service/system", [], function (text) {
 		self.EVENT_ALERT_DISPLAY = "alert:display";
 		self.EVENT_ALERT_CLEAR = "alert:clear";
 		
+		self.isAuthenticated = $("#isAuthenticated").val() === "true";
+		
 		
 	})();
 	

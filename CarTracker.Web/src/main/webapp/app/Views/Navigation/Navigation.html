@@ -5,4 +5,9 @@
 	<ul class="nav navbar-nav" data-bind="foreach: $data.navigationLinks">
 		<div data-bind="navigationLink: $data"></div>					
 	</ul>
+	<!--  ko if: $data.isAuthenticated -->
+	<ul class="nav navbar-nav navbar-right">
+		<li><a href="#" data-bind="click: $data.logoutClick">Logout</a></li>
+	</ul>
+	<!-- /ko -->
 </div>
