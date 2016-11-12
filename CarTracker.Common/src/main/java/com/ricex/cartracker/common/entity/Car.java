@@ -8,8 +8,6 @@ public class Car extends AbstractEntity {
 
 	private long ownerId;
 	
-	private User owner;
-	
 	/**
 	 * @return the vin
 	 */
@@ -50,21 +48,6 @@ public class Car extends AbstractEntity {
 	 */
 	public void setOwnerId(long ownerId) {
 		this.ownerId = ownerId;
-	}
-
-	/**
-	 * @return the owner
-	 */
-	public User getOwner() {
-		return owner;
-	}
-
-	/**
-	 * @param owner the owner to set
-	 */
-	public void setOwner(User owner) {
-		this.owner = owner;
-	}
-	
+	}	
 
 }

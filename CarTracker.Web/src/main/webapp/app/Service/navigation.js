@@ -37,6 +37,10 @@ define("Service/navigation", ["Service/system"], function (system) {
 			return system.baseUrl + "logout";
 		}
 		
+		self.navigateToHome = function () {
+			self.navigateTo(self.homeLink());
+		};
+		
 		self.navigateToViewTrip = function (tripId) {
 			self.navigateTo(self.viewTripLink(tripId));
 		};

@@ -1,0 +1,53 @@
+<div class="form" >
+
+	<div class="form-group">
+		<label>Username</label>		
+		<input type="text" class="form-control" placeholder="Username" data-bind="textInput: $data.username"/>
+	</div>	
+	
+	<div class="alert alert-danger" data-bind="visible: $data.hasUsernameError">
+		<span data-bind="text: $data.usernameError"></span>
+	</div>	
+		
+	<div class="form-group">
+		<label>Password</label>		
+		<input type="password" class="form-control" placeholder="Password" data-bind="textInput: $data.password" />
+	</div>
+		
+	<div class="form-group">
+		<label>Confirm Password</label>		
+		<input type="password" class="form-control" placeholder="Confirm Password" data-bind="textInput: $data.passwordConfirm" />
+	</div>
+	
+	<div class="alert alert-danger" data-bind="visible: $data.hasPasswordError">
+		<span data-bind="text: $data.passwordError"></span>
+	</div>	
+	
+	<div class="form-group">
+		<label>Email</label>		
+		<input type="email" class="form-control" placeholder="Email" data-bind="textInput: $data.email" />
+	</div>
+	
+	<div class="form-group">
+		<label>Confirm Email</label>		
+		<input type="email" class="form-control" placeholder="Confirm Email" data-bind="textInput: $data.emailConfirm"/>
+	</div>
+	
+	<div class="alert alert-danger" data-bind="visible: $data.hasEmailError">
+		<span data-bind="text: $data.emailError"></span>
+	</div>	
+		
+	<div class="form-group">
+		<label>Registration Key</label>		
+		<input type="text" class="form-control" placeholder="Registration Key" data-bind="textInput: $data.registrationKey" />
+	</div>
+	
+	<div class="alert alert-danger" data-bind="visible: $data.hasRegistrationKeyError">
+		<span data-bind="text: $data.registrationKeyError"></span>
+	</div>	
+	
+	<div class="pull-right">
+		<button type="button" class="btn btn-primary" data-bind="click: $data.registerClick">Register</button>
+		<button type="button" class="btn btn-default" data-bind="click: $data.cancelClick">Cancel</button>
+	</div>
+</div>

@@ -10,12 +10,24 @@
     <resultMap id="userResultMap" type="User">
         <id property="id" column="ID" />
         <result property="username" column="USERNAME" />
-        <result property="name" column="USERNAME" />          
+        <result property="password" column="PASSWORD" />          
+        <result property="email" column="USER_EMAIL" />          
+        <result property="active" column="ACTIVE" />          
+        <result property="locked" column="LOCKED" />          
+        <result property="expirationDate" column="EXPIRATION_DATE" />          
+        <result property="passwordExpirationDate" column="PASSWORD_EXPIRATION_DATE" />          
+        <result property="createDate" column="CREATE_DATE" />          
+        <result property="modifiedDate" column="MODIFIED_DATE" />          
     </resultMap>
     
-     <select id="get" resultMap="userResultMap" parameterType="long">
+    <select id="get" resultMap="userResultMap" parameterType="long">
         SELECT USER.* FROM USER
         WHERE USER.ID = #{id}
+   	</select>
+    
+    <select id="getByUsername" resultMap="userResultMap" parameterType="string">
+        SELECT USER.* FROM USER
+        WHERE USER.USERNAME = ${username}
     </select>
     
     <select id="getAll" resultMap="userResultMap">
@@ -30,13 +42,20 @@
     </select>
     
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-    	INSERT INTO USER (USERNAME)
-    	VALUES #{username}	
+    	INSERT INTO USER (USERNAME, PASSWORD, USER_EMAIL, ACTIVE, LOCKED, EXPIRATION_DATE, PASSWORD_EXPIRATION_DATE)
+    	VALUES (#{username}, #{password}, #{email}, #{active}, #{locked}, #{expirationDate}, #{passwordExpirationDate})
     </insert>
     
     <update id="update">
   		UPDATE USER SET
   			USERNAME = #{username}
+  			PASSWORD = #{password}
+  			USER_EMAIL = #{username}
+  			ACTIVE = #{active}
+  			LOCKED = #{locked}
+  			EXPIRATION_DATE = #{expirationDate}
+  			PASSWORD_EXPIRATION_DATE = #{passwordExpirationDate}
+  			MODIFIED_DATE = #{modifiedDate}
 		WHERE USER.ID = #{id}        
     </update>
     

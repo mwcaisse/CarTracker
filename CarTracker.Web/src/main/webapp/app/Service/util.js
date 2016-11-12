@@ -50,6 +50,14 @@ define("Service/util", [], function () {
 		self.scrollToTop = function () {
 			window.scrollTo(0,0);
 		};
+		
+		self.isStringNullOrBlank = function (string) {
+			return (typeof string === undefined ||
+					string === null ||
+					typeof string !== "string" ||
+					string.length === 0 ||
+					string.trim().length === 0);
+		};
 	
 		
 	})();
