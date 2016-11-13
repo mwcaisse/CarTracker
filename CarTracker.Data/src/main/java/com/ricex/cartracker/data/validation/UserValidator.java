@@ -20,11 +20,17 @@ public class UserValidator extends AbstractEntityValidator<User> {
 		if (StringUtils.isBlank(entity.getUsername())) {
 			throw new EntityValidationException("Username cannot be blank!");
 		}
+		if (StringUtils.contains(entity.getUsername(), " ")) {
+			throw new EntityValidationException("Username cannot contain spaces!");
+		}
 		if (StringUtils.isBlank(entity.getPassword())) {
 			throw new EntityValidationException("Password cannot be blank!");
 		}
 		if (StringUtils.isBlank(entity.getEmail())) {
 			throw new EntityValidationException("Email cannot be blank!");
+		}
+		if (StringUtils.contains(entity.getEmail(), " ")) {
+			throw new EntityValidationException("Email cannot contain spaces!");
 		}
 	}
 
