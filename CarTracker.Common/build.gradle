@@ -9,6 +9,13 @@ jar {
     }
 }
 
+eclipse {
+	classpath {
+		downloadJavadoc = true
+		downloadSources = true
+	}
+}
+
 repositories {
     mavenCentral()
 }

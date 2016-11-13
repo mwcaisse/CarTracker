@@ -15,10 +15,16 @@ jar {
     }
 }
 
+eclipse {
+	classpath {
+		downloadJavadoc = true
+		downloadSources = true
+	}
+}
+
 repositories {
     mavenCentral()
 }
-
 
 ext {
 	springVersion = '4.2.4.RELEASE'
@@ -96,13 +102,6 @@ uploadArchives {
     }
 }
 
-/*
-	gitRevision = 'git rev-list --count HEAD'.execute().text.trim()
-	gitShortHash = 'git rev-parse --short HEAD'.execute().text.trim()
-	gitLongHash = 'git rev-parse --long HEAD'.execute().text.trim()
-	gitBranch = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
-	*/
-
 task createProperties(dependsOn: 'processResources') << {
 	new File("$buildDir/resources/main/build.properties").withWriter { w ->
 		Properties p = new Properties()
@@ -121,7 +120,6 @@ def buildTime() {
 	df.setTimeZone(TimeZone.getTimeZone("UTC"))
 	return df.format(new Date())
 }
-
 
 classes {
 	dependsOn createProperties
