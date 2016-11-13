@@ -16,7 +16,7 @@ public class UserManager extends AbstractEntityManager<User> {
 	
 	private PasswordHasher passwordHasher;
 	
-	protected UserManager(UserMapper mapper, UserValidator validator, PasswordHasher passwordHasher) {
+	public UserManager(UserMapper mapper, UserValidator validator, PasswordHasher passwordHasher) {
 		super(mapper, validator, EntityType.USER);
 		
 		this.mapper = mapper;

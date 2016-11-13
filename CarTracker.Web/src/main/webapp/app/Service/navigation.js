@@ -37,6 +37,10 @@ define("Service/navigation", ["Service/system"], function (system) {
 			return system.baseUrl + "logout";
 		}
 		
+		self.loginLink = function (param) {
+			return system.baseUrl + "login" + (param ? ("?" + param) : "");
+		};
+		
 		self.navigateToHome = function () {
 			self.navigateTo(self.homeLink());
 		};
@@ -52,6 +56,10 @@ define("Service/navigation", ["Service/system"], function (system) {
 		self.navigateToLogout = function () {
 			return self.navigateTo(self.logoutLink());
 		};
+		
+		self.navigateToLogin = function (param) {
+			return self.navigateTo(self.loginLink(param));
+		}
 		
 		self.EVENT_NAVIGATION_ACTIVE_CHANGED = "navigation:activeChanged";
 		

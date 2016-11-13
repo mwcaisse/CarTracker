@@ -26,6 +26,8 @@ define("Modules/Auth/Registration/Registration",
 		self.emailError = ko.observable("");
 		self.registrationKeyError = ko.observable("");
 		
+		self.pageError = ko.observable("");
+		
 		self.hasUsernameError = ko.computed(function () {
 			return !util.isStringNullOrBlank(self.usernameError());
 		});
@@ -42,6 +44,10 @@ define("Modules/Auth/Registration/Registration",
 			return !util.isStringNullOrBlank(self.registrationKeyError());
 		});
 		
+		self.hasPageError = ko.computed(function () {
+			return !util.isStringNullOrBlank(self.pageError());
+		});
+		
 		self.hasClickedRegister = ko.observable(false);
 		
 		self.cancelClick = function () {
@@ -51,8 +57,33 @@ define("Modules/Auth/Registration/Registration",
 		self.registerClick = function () {
 			self.hasClickedRegister(true);
 			if (self.isValid()) {
-				alert("Wow you are valid. proceed");
+				self.register();
 			}		
+		};
+		
+		self.dismissPageError = function () {
+			self.pageError("");
+		};
+		
+		self.register = function () {
+			var registration = {
+				username: self.username(),
+				password: self.password(),
+				email: self.email(),
+				registrationKey: self.registrationKey()
+			};
+			
+			proxy.user.register(registration).then(function (res) {
+				if (res) {
+					navigation.navigateToLogin("registered");
+				}
+				else {
+					self.pageError("Failed to Register. An unexpected error occured.");
+				}
+			}, function (error) {
+				var errorText = error ? error : "An unexpected error occured.";
+				self.pageError("Failed to Register. " + errorText);
+			});
 		};
 		
 		self.isValid = ko.computed(function () {

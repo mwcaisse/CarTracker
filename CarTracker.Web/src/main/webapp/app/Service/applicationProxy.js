@@ -55,6 +55,15 @@ define("Service/applicationProxy", ["Service/proxy"], function (core) {
 				return core.get("trip/" + tripId + "/reading/");
 			}
 		};	
+		
+		self.user = {
+			register: function (registration) {
+				return core.post("user/register", registration);
+			},
+			available: function (username) {
+				return core.get("user/available?username=" + username);
+			}
+		};
 				 
 		
 	})();

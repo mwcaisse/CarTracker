@@ -1,5 +1,12 @@
 <div class="form" >
 
+	<!-- ko if: $data.hasPageError -->
+	<div class="alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="close" aria-label="Close" data-bind="click: $data.dismissPageError"><span aria-hidden="true">&times;</span></button>
+		<span data-bind="text: $data.pageError"></span>
+	</div>	
+	<!-- /ko -->
+
 	<div class="form-group">
 		<label>Username</label>		
 		<input type="text" class="form-control" placeholder="Username" data-bind="textInput: $data.username"/>

@@ -25,18 +25,24 @@ import com.ricex.cartracker.data.manager.CarManager;
 import com.ricex.cartracker.data.manager.ReaderLogManager;
 import com.ricex.cartracker.data.manager.ReadingManager;
 import com.ricex.cartracker.data.manager.TripManager;
+import com.ricex.cartracker.data.manager.UserManager;
 import com.ricex.cartracker.data.mapper.CarMapper;
 import com.ricex.cartracker.data.mapper.ReaderLogMapper;
 import com.ricex.cartracker.data.mapper.ReadingMapper;
 import com.ricex.cartracker.data.mapper.TripMapper;
+import com.ricex.cartracker.data.mapper.UserMapper;
+import com.ricex.cartracker.data.util.PasswordHasher;
 import com.ricex.cartracker.data.validation.CarValidator;
 import com.ricex.cartracker.data.validation.ReaderLogValidator;
 import com.ricex.cartracker.data.validation.ReadingValidator;
 import com.ricex.cartracker.data.validation.TripValidator;
+import com.ricex.cartracker.data.validation.UserValidator;
+import com.ricex.cartracker.web.auth.ProxyPasswordEncoder;
 import com.ricex.cartracker.web.controller.api.CarController;
 import com.ricex.cartracker.web.controller.api.ReaderLogController;
 import com.ricex.cartracker.web.controller.api.ReadingController;
 import com.ricex.cartracker.web.controller.api.TripController;
+import com.ricex.cartracker.web.controller.api.UserController;
 import com.ricex.cartracker.web.controller.view.CarViewController;
 import com.ricex.cartracker.web.controller.view.HomeController;
 import com.ricex.cartracker.web.controller.view.LoginViewController;
@@ -68,6 +74,11 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	@Bean
 	public ReadingController readingController() throws Exception {
 		return new ReadingController(readingManager());
+	}
+	
+	@Bean
+	public UserController userController() throws Exception {
+		return new UserController(userManager());
 	}
 	
 	@Bean
@@ -117,22 +128,35 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 		return new ReadingManager(readingMapper(), readingValidator(), tripValidator());
 	}
 	
-	/// ---- Define the Validators ---- ///
+	@Bean
+	public UserManager userManager() throws Exception {
+		return new UserManager(userMapper(), userValidator(), passwordHasher());
+	}
 	
+	/// ---- Define the Validators ---- ///
+	@Bean
 	public CarValidator carValidator() throws Exception { 
 		return new CarValidator(carMapper());
 	}
 	
+	@Bean
 	public TripValidator tripValidator() throws Exception {
 		return new TripValidator(tripMapper());
 	}
 	
+	@Bean
 	public ReaderLogValidator readerLogValidator() throws Exception {
 		return new ReaderLogValidator(readerLogMapper());
 	}
 	
+	@Bean
 	public ReadingValidator readingValidator() throws Exception {
 		return new ReadingValidator(readingMapper());
+	}
+	
+	@Bean
+	public UserValidator userValidator() throws Exception {
+		return new UserValidator(userMapper());
 	}
 	
 	/// ---- Define the Mappers ---- ///
@@ -151,8 +175,7 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 		mapperFactoryBean.setMapperInterface(TripMapper.class);
 		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
 		return mapperFactoryBean.getObject();
-	}
-	
+	}	
 	
 	@Bean
 	public ReaderLogMapper readerLogMapper() throws Exception {
@@ -161,6 +184,7 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
 		return mapperFactoryBean.getObject();
 	}
+	
 	@Bean
 	public ReadingMapper readingMapper() throws Exception {
 		MapperFactoryBean<ReadingMapper> mapperFactoryBean = new MapperFactoryBean<ReadingMapper>();
@@ -169,6 +193,13 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 		return mapperFactoryBean.getObject();
 	}
 	
+	@Bean
+	public UserMapper userMapper() throws Exception {
+		MapperFactoryBean<UserMapper> mapperFactoryBean = new MapperFactoryBean<UserMapper>();
+		mapperFactoryBean.setMapperInterface(UserMapper.class);
+		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
+		return mapperFactoryBean.getObject();
+	}	
 	
 	@Bean(destroyMethod="")
 	public DataSource dataSource() {
@@ -204,6 +235,11 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	@Bean
 	public GsonHttpMessageConverter gsonMessageConverter() {
 		return new GsonHttpMessageConverter(gsonBean());
+	}
+	
+	@Bean
+	public PasswordHasher passwordHasher() {
+		return new ProxyPasswordEncoder();
 	}
 	
 	@Override

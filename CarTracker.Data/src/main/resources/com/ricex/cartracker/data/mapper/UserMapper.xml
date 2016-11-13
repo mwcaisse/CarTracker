@@ -27,7 +27,7 @@
     
     <select id="getByUsername" resultMap="userResultMap" parameterType="string">
         SELECT USER.* FROM USER
-        WHERE USER.USERNAME = ${username}
+        WHERE USER.USERNAME = #{username}
     </select>
     
     <select id="getAll" resultMap="userResultMap">
