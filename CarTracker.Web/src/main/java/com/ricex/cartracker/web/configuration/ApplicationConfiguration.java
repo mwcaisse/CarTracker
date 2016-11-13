@@ -130,7 +130,7 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	
 	@Bean
 	public UserManager userManager() throws Exception {
-		return new UserManager(userMapper(), userValidator(), passwordHasher());
+		return new UserManager(userMapper(), userValidator(), proxyPasswordEncoder());
 	}
 	
 	/// ---- Define the Validators ---- ///
@@ -237,8 +237,7 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 		return new GsonHttpMessageConverter(gsonBean());
 	}
 	
-	@Bean
-	public PasswordHasher passwordHasher() {
+	public ProxyPasswordEncoder proxyPasswordEncoder() {
 		return new ProxyPasswordEncoder();
 	}
 	
