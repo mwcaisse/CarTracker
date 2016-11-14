@@ -8,6 +8,15 @@
 	<!-- /ko -->
 
 	<div class="form-group">
+		<label>Name</label>		
+		<input type="text" class="form-control" placeholder="Name" data-bind="textInput: $data.name"/>
+	</div>
+	
+	<div class="alert alert-danger" data-bind="visible: $data.hasNameError">
+		<span data-bind="text: $data.nameError"></span>
+	</div>	
+
+	<div class="form-group">
 		<label>Username</label>		
 		<input type="text" class="form-control" placeholder="Username" data-bind="textInput: $data.username"/>
 	</div>	

@@ -17,6 +17,9 @@ public class UserValidator extends AbstractEntityValidator<User> {
 	}
 
 	public void validate(User entity) throws EntityValidationException {		
+		if (StringUtils.isBlank(entity.getName())) {
+			throw new EntityValidationException("Name cannot be blank!");
+		}
 		if (StringUtils.isBlank(entity.getUsername())) {
 			throw new EntityValidationException("Username cannot be blank!");
 		}

@@ -14,6 +14,7 @@ define("Modules/Auth/Registration/Registration",
 		
 		var opts = $.extend({}, defaults, options);		
 		
+		self.name = ko.observable("");
 		self.username = ko.observable("");
 		self.password = ko.observable("");
 		self.passwordConfirm = ko.observable("");
@@ -21,12 +22,17 @@ define("Modules/Auth/Registration/Registration",
 		self.emailConfirm = ko.observable("");
 		self.registrationKey = ko.observable("");
 
+		self.nameError = ko.observable("");
 		self.usernameError = ko.observable("");
 		self.passwordError = ko.observable("");
 		self.emailError = ko.observable("");
 		self.registrationKeyError = ko.observable("");
 		
 		self.pageError = ko.observable("");
+		
+		self.hasNameError = ko.computed(function () {
+			return !util.isStringNullOrBlank(self.nameError());
+		});
 		
 		self.hasUsernameError = ko.computed(function () {
 			return !util.isStringNullOrBlank(self.usernameError());
@@ -67,6 +73,7 @@ define("Modules/Auth/Registration/Registration",
 		
 		self.register = function () {
 			var registration = {
+				name: self.name(),
 				username: self.username(),
 				password: self.password(),
 				email: self.email(),
@@ -87,10 +94,15 @@ define("Modules/Auth/Registration/Registration",
 		};
 		
 		self.isValid = ko.computed(function () {
+			var nameError = "";
 			var usernameError = "";
 			var passwordError = "";
 			var emailError = "";
-			var registrationKeyError = "";
+			var registrationKeyError = "";			
+			
+			if (self.hasClickedRegister() && util.isStringNullOrBlank(self.name())) {
+				nameError = "Name cannot be blank!";
+			}
 			
 			if (self.hasClickedRegister() && util.isStringNullOrBlank(self.username())) {
 				usernameError = "Username cannot be blank!";
@@ -114,12 +126,14 @@ define("Modules/Auth/Registration/Registration",
 				registrationKeyError = "Registration Key cannot be blank!";
 			}
 			
+			self.nameError(nameError);
 			self.usernameError(usernameError);
 			self.passwordError(passwordError);
 			self.emailError(emailError);
 			self.registrationKeyError(registrationKeyError);
 			
-			return (util.isStringNullOrBlank(usernameError) &&
+			return (util.isStringNullOrBlank(nameError) &&
+					util.isStringNullOrBlank(usernameError) &&
 					util.isStringNullOrBlank(passwordError) &&
 					util.isStringNullOrBlank(emailError) &&
 					util.isStringNullOrBlank(registrationKeyError));				

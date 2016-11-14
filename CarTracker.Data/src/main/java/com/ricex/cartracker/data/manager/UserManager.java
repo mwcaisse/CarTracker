@@ -55,6 +55,7 @@ public class UserManager extends AbstractEntityManager<User> {
 		user.setUsername(registration.getUsername());
 		user.setEmail(registration.getEmail());
 		user.setPassword(passwordHasher.hashPassword(registration.getPassword()));
+		user.setName(registration.getName());
 		
 		user.setActive(true);
 		user.setLocked(false);

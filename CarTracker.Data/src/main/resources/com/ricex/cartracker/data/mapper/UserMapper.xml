@@ -11,6 +11,7 @@
         <id property="id" column="ID" />
         <result property="username" column="USERNAME" />
         <result property="password" column="PASSWORD" />          
+        <result property="name" column="NAME" />          
         <result property="email" column="USER_EMAIL" />          
         <result property="active" column="ACTIVE" />          
         <result property="locked" column="LOCKED" />          
@@ -42,19 +43,20 @@
     </select>
     
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-    	INSERT INTO USER (USERNAME, PASSWORD, USER_EMAIL, ACTIVE, LOCKED, EXPIRATION_DATE, PASSWORD_EXPIRATION_DATE)
-    	VALUES (#{username}, #{password}, #{email}, #{active}, #{locked}, #{expirationDate}, #{passwordExpirationDate})
+    	INSERT INTO USER (USERNAME, PASSWORD, NAME, USER_EMAIL, ACTIVE, LOCKED, EXPIRATION_DATE, PASSWORD_EXPIRATION_DATE)
+    	VALUES (#{username}, #{password}, #{email}, #{name}, #{active}, #{locked}, #{expirationDate}, #{passwordExpirationDate})
     </insert>
     
     <update id="update">
   		UPDATE USER SET
-  			USERNAME = #{username}
-  			PASSWORD = #{password}
-  			USER_EMAIL = #{username}
-  			ACTIVE = #{active}
-  			LOCKED = #{locked}
-  			EXPIRATION_DATE = #{expirationDate}
-  			PASSWORD_EXPIRATION_DATE = #{passwordExpirationDate}
+  			USERNAME = #{username},
+  			PASSWORD = #{password},
+  			NAME = #{name},
+  			USER_EMAIL = #{username},
+  			ACTIVE = #{active},
+  			LOCKED = #{locked},
+  			EXPIRATION_DATE = #{expirationDate},
+  			PASSWORD_EXPIRATION_DATE = #{passwordExpirationDate},
   			MODIFIED_DATE = #{modifiedDate}
 		WHERE USER.ID = #{id}        
     </update>

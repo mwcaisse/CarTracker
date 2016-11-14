@@ -8,6 +8,8 @@ public class User extends AbstractEntity {
 	
 	private String password;
 	
+	private String name;
+	
 	private String email;
 	
 	private boolean active;
@@ -114,6 +116,20 @@ public class User extends AbstractEntity {
 	 */
 	public void setPasswordExpirationDate(Date passwordExpirationDate) {
 		this.passwordExpirationDate = passwordExpirationDate;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	
