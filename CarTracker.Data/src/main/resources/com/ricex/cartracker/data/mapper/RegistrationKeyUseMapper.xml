@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.cartracker.data.mapper.RegistrationKeyUseMapper">
+    
+    <cache />
+    
+    <resultMap id="registrationKeyUseResultMap" type="RegistrationKeyUse">
+        <id property="id" column="ID" />
+        <result property="keyId" column="KEY_ID" />
+        <result property="userId" column="USER_ID" /> 
+        
+        <association property="user" column="USER_ID" javaType="User" select="com.ricex.cartracker.data.mapper.UserMapper.get" />   
+    </resultMap>
+    
+    <select id="get" resultMap="registrationKeyUseResultMap" parameterType="long">
+        SELECT USER_REGISTRATION_KEY_USE.* 
+        FROM USER_REGISTRATION_KEY_USE
+        WHERE ID = #{id}
+    </select>
+    
+    <select id="getAll" resultMap="registrationKeyUseResultMap" parameterType="long">
+        SELECT USER_REGISTRATION_KEY_USE.* 
+        FROM USER_REGISTRATION_KEY_USE
+          <if test="orderBy != null">
+            ORDER BY ${orderBy}
+        </if>
+    </select>
+    
+    <select id="countAll" resultType="long">
+        SELECT COUNT(*) FROM USER_REGISTRATION_KEY_USE
+    </select>   
+    
+    <select id="getAllForKey" resultMap="registrationKeyUseResultMap" parameterType="long">
+        SELECT USER_REGISTRATION_KEY_USE.* 
+        FROM USER_REGISTRATION_KEY_USE
+        WHERE KEY_ID = #{keyId}
+    </select>
+    
+    <select id="countAllForKey" resultType="long">
+        SELECT COUNT(*) 
+        FROM USER_REGISTRATION_KEY_USE
+        WHERE KEY_ID = #{keyId}
+    </select>
+    
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO USER_REGISTRATION_KEY_USE (KEY_ID, USER_ID)        	
+        VALUES (#{keyId}, #{userId})
+    </insert>
+    
+    <update id="update">
+        UPDATE USER_REGISTRATION_KEY_USE SET
+        	KEY_ID = #{keyId},
+        	USER_ID = #{userId}   	
+       	WHERE ID = #{id}
+    </update>
+    
+    <delete id="delete" parameterType="long">
+        DELETE FROM USER_REGISTRATION_KEY_USE
+        WHERE ID = #{id}
+    </delete>
+    
+</mapper>

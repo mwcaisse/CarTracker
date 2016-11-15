@@ -14,14 +14,18 @@ public class UserManager extends AbstractEntityManager<User> {
 	
 	private final UserValidator validator;
 	
-	private PasswordHasher passwordHasher;
+	private final PasswordHasher passwordHasher;
 	
-	public UserManager(UserMapper mapper, UserValidator validator, PasswordHasher passwordHasher) {
+	private final RegistrationKeyManager registrationKeyManager;
+	
+	public UserManager(UserMapper mapper, UserValidator validator, PasswordHasher passwordHasher, 
+			RegistrationKeyManager registrationKeyManager) {
 		super(mapper, validator, EntityType.USER);
 		
 		this.mapper = mapper;
 		this.validator = validator;
 		this.passwordHasher = passwordHasher;
+		this.registrationKeyManager = registrationKeyManager;
 	}
 	
 	/** Gets a user by their username
@@ -50,22 +54,36 @@ public class UserManager extends AbstractEntityManager<User> {
 	 */
 	
 	public User register(UserRegistration registration) throws EntityValidationException {
-		User user = new User();	
+		if (!registrationKeyManager.isValidRegistrationKey(registration.getRegistrationKey())) {
+			throw new EntityValidationException("Registration key provided is not valid!");
+		}
 		
+		User user = new User();			
 		user.setUsername(registration.getUsername());
 		user.setEmail(registration.getEmail());
 		user.setPassword(passwordHasher.hashPassword(registration.getPassword()));
-		user.setName(registration.getName());
-		
+		user.setName(registration.getName());		
 		user.setActive(true);
-		user.setLocked(false);
+		user.setLocked(false);		
+		user = create(user);
 		
-		return create(user);
+		try {
+			registrationKeyManager.useRegistrationKey(registration.getRegistrationKey(), user);
+		}
+		catch (EntityValidationException e) {
+			//error occurred while consuming the registration key
+			//delete our user
+			delete(user.getId());
+			
+			throw new EntityValidationException("Could not consume the registration key! User not registered.", e);
+		}
+		
+		return user;
 	}
 
 	@Override
 	protected void createValidationLogic(User toCreate) throws EntityValidationException {
-		if (null != getByUsername(toCreate.getUsername())) {
+		if (!isUsernameAvailable(toCreate.getUsername())) {
 			throw new EntityValidationException("A user with this username already exists!");
 		}
 	}

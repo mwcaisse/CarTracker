@@ -119,6 +119,7 @@ public final class EntityProperties {
 	public enum User implements EntityProperty {
 		
 		ID,
+		NAME,
 		USERNAME,
 		PASSWORD,
 		USER_EMAIL,
@@ -136,6 +137,53 @@ public final class EntityProperties {
 		}
 		
 		private User(String propertyField) {
+			this.propertyField = propertyField;
+		}
+
+		public String getPropertyField() {
+			return propertyField;
+		}
+	}
+	
+	public enum RegistrationKey implements EntityProperty {
+		
+		ID,
+		KEY_VAL,
+		USES_REMAINING,
+		ACTIVE,
+		CREATE_DATE,
+		MODIFIED_DATE;
+		
+		private final String propertyField;
+		
+		private RegistrationKey() {
+			this.propertyField = this.name();
+		}
+		
+		private RegistrationKey(String propertyField) {
+			this.propertyField = propertyField;
+		}
+
+		public String getPropertyField() {
+			return propertyField;
+		}
+	}
+	
+	public enum RegistrationKeyUse implements EntityProperty {
+		
+		ID,
+		KEY_ID,
+		USER_ID,
+		CREATE_DATE,
+		MODIFIED_DATE;
+		
+		private final String propertyField;
+		
+		private RegistrationKeyUse() {
+			this.propertyField = this.name();
+		}
+		
+		private RegistrationKeyUse(String propertyField) {
 			this.propertyField = propertyField;
 		}
 
@@ -166,6 +214,10 @@ public final class EntityProperties {
 			return Trip.values();
 		case USER:
 			return User.values();
+		case REGISTRATION_KEY:
+			return RegistrationKey.values();
+		case REGISTRATION_KEY_USE:
+			return RegistrationKeyUse.values();
 		default:
 			return new EntityProperty[0];
 		}

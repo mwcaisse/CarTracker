@@ -44,7 +44,7 @@
     
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
     	INSERT INTO USER (USERNAME, PASSWORD, NAME, USER_EMAIL, ACTIVE, LOCKED, EXPIRATION_DATE, PASSWORD_EXPIRATION_DATE)
-    	VALUES (#{username}, #{password}, #{email}, #{name}, #{active}, #{locked}, #{expirationDate}, #{passwordExpirationDate})
+    	VALUES (#{username}, #{password}, #{name}, #{email}, #{active}, #{locked}, #{expirationDate}, #{passwordExpirationDate})
     </insert>
     
     <update id="update">

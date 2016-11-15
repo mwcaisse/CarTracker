@@ -6,7 +6,9 @@ public enum EntityType {
 	READER_LOG ("Reader Log"),
 	READING ("Reading"),
 	TRIP ("Trip"),
-	USER ("User");
+	USER ("User"),
+	REGISTRATION_KEY("Registration Key"),
+	REGISTRATION_KEY_USE("Registration Key Use");
 	
 	private final String name;
 	

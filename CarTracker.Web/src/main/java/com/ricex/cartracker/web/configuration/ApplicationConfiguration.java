@@ -24,17 +24,22 @@ import com.google.gson.Gson;
 import com.ricex.cartracker.data.manager.CarManager;
 import com.ricex.cartracker.data.manager.ReaderLogManager;
 import com.ricex.cartracker.data.manager.ReadingManager;
+import com.ricex.cartracker.data.manager.RegistrationKeyManager;
+import com.ricex.cartracker.data.manager.RegistrationKeyUseManager;
 import com.ricex.cartracker.data.manager.TripManager;
 import com.ricex.cartracker.data.manager.UserManager;
 import com.ricex.cartracker.data.mapper.CarMapper;
 import com.ricex.cartracker.data.mapper.ReaderLogMapper;
 import com.ricex.cartracker.data.mapper.ReadingMapper;
+import com.ricex.cartracker.data.mapper.RegistrationKeyMapper;
+import com.ricex.cartracker.data.mapper.RegistrationKeyUseMapper;
 import com.ricex.cartracker.data.mapper.TripMapper;
 import com.ricex.cartracker.data.mapper.UserMapper;
-import com.ricex.cartracker.data.util.PasswordHasher;
 import com.ricex.cartracker.data.validation.CarValidator;
 import com.ricex.cartracker.data.validation.ReaderLogValidator;
 import com.ricex.cartracker.data.validation.ReadingValidator;
+import com.ricex.cartracker.data.validation.RegistrationKeyUseValidator;
+import com.ricex.cartracker.data.validation.RegistrationKeyValidator;
 import com.ricex.cartracker.data.validation.TripValidator;
 import com.ricex.cartracker.data.validation.UserValidator;
 import com.ricex.cartracker.web.auth.ProxyPasswordEncoder;
@@ -130,8 +135,19 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	
 	@Bean
 	public UserManager userManager() throws Exception {
-		return new UserManager(userMapper(), userValidator(), proxyPasswordEncoder());
+		return new UserManager(userMapper(), userValidator(), proxyPasswordEncoder(), registrationKeyManager());
 	}
+	
+	@Bean
+	public RegistrationKeyManager registrationKeyManager() throws Exception {
+		return new RegistrationKeyManager(registrationKeyMapper(), registrationKeyValidator(), registrationKeyUseManager());
+	}
+	
+	@Bean 
+	public RegistrationKeyUseManager registrationKeyUseManager() throws Exception {
+		return new RegistrationKeyUseManager(registrationKeyUseMapper(), registrationKeyUseValidator());
+	}
+	
 	
 	/// ---- Define the Validators ---- ///
 	@Bean
@@ -157,6 +173,16 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	@Bean
 	public UserValidator userValidator() throws Exception {
 		return new UserValidator(userMapper());
+	}
+	
+	@Bean
+	public RegistrationKeyValidator registrationKeyValidator() throws Exception {
+		return new RegistrationKeyValidator(registrationKeyMapper());
+	}
+	
+	@Bean
+	public RegistrationKeyUseValidator registrationKeyUseValidator() throws Exception {
+		return new RegistrationKeyUseValidator(registrationKeyUseMapper());
 	}
 	
 	/// ---- Define the Mappers ---- ///
@@ -197,6 +223,22 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	public UserMapper userMapper() throws Exception {
 		MapperFactoryBean<UserMapper> mapperFactoryBean = new MapperFactoryBean<UserMapper>();
 		mapperFactoryBean.setMapperInterface(UserMapper.class);
+		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
+		return mapperFactoryBean.getObject();
+	}	
+	
+	@Bean
+	public RegistrationKeyMapper registrationKeyMapper() throws Exception {
+		MapperFactoryBean<RegistrationKeyMapper> mapperFactoryBean = new MapperFactoryBean<RegistrationKeyMapper>();
+		mapperFactoryBean.setMapperInterface(RegistrationKeyMapper.class);
+		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
+		return mapperFactoryBean.getObject();
+	}	
+	
+	@Bean
+	public RegistrationKeyUseMapper registrationKeyUseMapper() throws Exception {
+		MapperFactoryBean<RegistrationKeyUseMapper> mapperFactoryBean = new MapperFactoryBean<RegistrationKeyUseMapper>();
+		mapperFactoryBean.setMapperInterface(RegistrationKeyUseMapper.class);
 		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
 		return mapperFactoryBean.getObject();
 	}	

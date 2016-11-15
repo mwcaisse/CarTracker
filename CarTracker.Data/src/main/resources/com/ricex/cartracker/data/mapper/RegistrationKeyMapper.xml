@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.cartracker.data.mapper.RegistrationKeyMapper">
+    
+    <cache />
+    
+    <resultMap id="registrationKeyResultMap" type="RegistrationKey">
+        <id property="id" column="ID" />
+        <result property="key" column="KEY_VAL" />
+        <result property="usesRemaining" column="USES_REMAINING" />
+        <result property="active" column="ACTIVE" />
+        <result property="createDate" column="CREATE_DATE" />
+        <result property="modifiedDate" column="MODIFIED_DATE" />        
+        
+        <collection property="keyUses" javaType="ArrayList" ofType="RegistrationKeyUse" 
+            select="com.ricex.cartracker.data.mapper.RegistrationKeyUseMapper.getAllForKey" column="ID" />
+        
+    </resultMap>
+    
+     <select id="get" resultMap="registrationKeyResultMap" parameterType="long">
+        SELECT USER_REGISTRATION_KEY.* 
+        FROM USER_REGISTRATION_KEY
+        WHERE USER_REGISTRATION_KEY.ID = #{id}
+    </select>
+    
+     <select id="getByKey" resultMap="registrationKeyResultMap" parameterType="string">
+        SELECT USER_REGISTRATION_KEY.* 
+        FROM USER_REGISTRATION_KEY
+        WHERE USER_REGISTRATION_KEY.KEY_VAL = #{key}
+     </select>
+    
+    <select id="getAll" resultMap="registrationKeyResultMap" parameterType="long">
+        SELECT USER_REGISTRATION_KEY.* 
+        FROM USER_REGISTRATION_KEY
+          <if test="orderBy != null">
+            ORDER BY ${orderBy}
+        </if>
+    </select>
+    
+    <select id="countAll" resultType="long">
+        SELECT COUNT(*) FROM USER_REGISTRATION_KEY
+    </select>   
+    
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO USER_REGISTRATION_KEY (KEY_VAL, USES_REMAINING, ACTIVE)        	
+        VALUES (#{key}, #{usesRemaining}, #{active})
+    </insert>
+    
+    <update id="update">
+        UPDATE USER_REGISTRATION_KEY SET
+        	KEY_VAL = #{key},
+        	USES_REMAINING = #{usesRemaining},
+        	ACTIVE = #{active}        	
+       	WHERE USER_REGISTRATION_KEY.ID = #{id}
+    </update>
+    
+    <delete id="delete" parameterType="long">
+        DELETE FROM USER_REGISTRATION_KEY
+        WHERE USER_REGISTRATION_KEY.ID = #{id}
+    </delete>
+    
+</mapper>

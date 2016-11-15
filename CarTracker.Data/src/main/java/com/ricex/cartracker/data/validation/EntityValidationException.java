@@ -7,5 +7,9 @@ public class EntityValidationException extends Exception {
 	public EntityValidationException(String message) {
 		super(message);
 	}
+	
+	public EntityValidationException(String message, Throwable parent) {
+		super(message, parent);
+	}
 
 }

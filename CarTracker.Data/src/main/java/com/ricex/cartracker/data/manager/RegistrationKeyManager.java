@@ -1,0 +1,85 @@
+package com.ricex.cartracker.data.manager;
+
+import com.ricex.cartracker.common.entity.RegistrationKey;
+import com.ricex.cartracker.common.entity.RegistrationKeyUse;
+import com.ricex.cartracker.common.entity.User;
+import com.ricex.cartracker.data.mapper.RegistrationKeyMapper;
+import com.ricex.cartracker.data.query.properties.EntityType;
+import com.ricex.cartracker.data.validation.EntityValidationException;
+import com.ricex.cartracker.data.validation.RegistrationKeyValidator;
+
+public class RegistrationKeyManager extends AbstractEntityManager<RegistrationKey> {
+
+	private final RegistrationKeyMapper mapper;
+	
+	private final RegistrationKeyValidator validator;
+	
+	private final RegistrationKeyUseManager keyUseManager;
+	
+	public RegistrationKeyManager(RegistrationKeyMapper mapper, RegistrationKeyValidator validator, 
+			RegistrationKeyUseManager keyUseManager) {
+		super(mapper, validator, EntityType.REGISTRATION_KEY);
+
+		this.mapper = mapper;
+		this.validator = validator;
+		this.keyUseManager = keyUseManager;
+	}
+	
+	/** Checks if the Registration Key with the given key is valid
+	 * 
+	 * @param key The key to check
+	 * @return True if the key is valid and able to be used, false otherwise
+	 */
+	public boolean isValidRegistrationKey(String key) {
+		RegistrationKey regKey = getByKey(key);
+		if (null != regKey) {
+			return regKey.getUsesRemaining() > 0 && regKey.isActive();
+		}
+		return false;
+	}
+	
+	/** Uses the given registration key
+	 * 
+	 * @param keyValue The key value of the key to use
+	 * @param user The user to use the key for
+	 */
+	public void useRegistrationKey(String keyValue, User user) throws EntityValidationException {
+		RegistrationKey key = getByKey(keyValue);
+		if (null == key) {
+			throw new EntityValidationException("Key doesn't exist!");
+		}
+		if (!isValidRegistrationKey(keyValue)) {
+			throw new EntityValidationException("Key cannot be used to register a user!");
+		}
+
+		//decrement the keys remaining uses
+		key.setUsesRemaining(key.getUsesRemaining() - 1);		
+		update(key);
+		
+		//add the key use record
+		RegistrationKeyUse keyUse = new RegistrationKeyUse();
+		keyUse.setKeyId(key.getId());
+		keyUse.setUserId(user.getId());
+		keyUseManager.create(keyUse);
+	}
+	
+	/** Gets the registration key by its key value
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public RegistrationKey getByKey(String key) {
+		return mapper.getByKey(key);
+	}
+
+	@Override
+	protected void createValidationLogic(RegistrationKey toCreate) throws EntityValidationException {
+		
+	}
+
+	@Override
+	protected void updateValidationLogic(RegistrationKey toUpdate) throws EntityValidationException {
+		
+	}
+
+}
