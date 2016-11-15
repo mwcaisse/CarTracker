@@ -1,0 +1,21 @@
+<html layout:decorator="common/layout">
+
+	<body>	
+		<div layout:fragment="content">
+		
+			<div class="container">	
+			
+				<div id="pagevm" data-bind="template: { name: 'Views/Admin/RegistrationKeys/RegistrationKeys.html', data: $data}"></div>
+				
+				<script type="text/javascript">
+					require(["Views/Admin/RegistrationKeys/RegistrationKeys"], function(vm) {
+						ko.applyBindings(new vm(), $("#pagevm")[0]);
+					});
+				</script>			
+								
+			</div>	
+								
+		</div>
+	</body>
+	
+</html>

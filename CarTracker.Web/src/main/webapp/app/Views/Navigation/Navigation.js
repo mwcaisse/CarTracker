@@ -24,6 +24,10 @@ define("Views/Navigation/Navigation",
 			self.navigationLinks.push(new navigationLink({
 				id: "Trip", name: "Trip", link: navigation.tripsLink()
 			}));
+			
+			self.navigationLinks.push(new navigationLink({
+				id: "Admin", name: "Admin", link: navigation.adminRegistrationKeyLink()
+			}));
 		}
 		
 		self.logoutClick = function () {

@@ -35,7 +35,11 @@ define("Service/navigation", ["Service/system"], function (system) {
 		
 		self.logoutLink = function () {
 			return system.baseUrl + "logout";
-		}
+		};
+		
+		self.adminRegistrationKeyLink = function () {
+			return system.baseUrl + "admin/registrationKeys";
+		};
 		
 		self.loginLink = function (param) {
 			return system.baseUrl + "login" + (param ? ("?" + param) : "");
@@ -59,7 +63,11 @@ define("Service/navigation", ["Service/system"], function (system) {
 		
 		self.navigateToLogin = function (param) {
 			return self.navigateTo(self.loginLink(param));
-		}
+		};
+		
+		self.navigateToAdminRegistrationKey = function () {
+			return self.navigateTo(self.adminRegistrationKeyLink());
+		};
 		
 		self.EVENT_NAVIGATION_ACTIVE_CHANGED = "navigation:activeChanged";
 		
