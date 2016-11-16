@@ -11,7 +11,7 @@ define("Modules/Admin/RegistrationKeyGrid/RegistrationKeyGrid",
 		var self = this;
 		
 		var defaults = {
-
+			displayKeyDetails: function (keyId) { }
 		};
 		
 		var opts = $.extend({}, defaults, options);	
@@ -81,7 +81,11 @@ define("Modules/Admin/RegistrationKeyGrid/RegistrationKeyGrid",
 			
 			key.toggleShowUses = function () {
 				key.showUses(!key.showUses());
-			}
+			};
+			
+			key.viewKey = function () {
+				opts.displayKeyDetails(key.id);
+			};
 			
 			return key;
 		};

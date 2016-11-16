@@ -94,15 +94,15 @@ public abstract class ApiController<T extends AbstractEntity> {
 	/** Updates the given entity
 	 * 
 	 * @param entity The entity to update
-	 * @return True if the entity saved without issue. False + Error message otherwise
+	 * @return The updated entity if saved without issue, error message if it failed
 	 */
-	public BooleanResponse update(T entity) {
+	public EntityResponse<T>  update(T entity) {
 		try {
 			manager.update(entity);
-			return new BooleanResponse(true);
+			return createEntityResponse(entity);
 		}
 		catch (EntityValidationException e) {
-			return new BooleanResponse(e.getMessage());
+			return createEntityResponseError(e);
 		}
 	}
 	

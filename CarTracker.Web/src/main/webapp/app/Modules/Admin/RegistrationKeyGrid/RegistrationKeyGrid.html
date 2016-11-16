@@ -19,6 +19,7 @@
 			<tr data-bind="css: $data.rowCss">			
 				<td>
 					<a href="#"><span class="glyphicon glyphicon-th-list" data-bind="click: $data.toggleShowUses, tooltip: 'Show Key Uses'"></span></a>
+					<a href="#"><span class="glyphicon glyphicon-new-window" data-bind="tooltip: 'View Key', click: $data.viewKey"></span></a>
 				</td>
 				<td data-bind="text: $data.key"></td>
 				<td data-bind="text: $data.usesRemaining"></td>

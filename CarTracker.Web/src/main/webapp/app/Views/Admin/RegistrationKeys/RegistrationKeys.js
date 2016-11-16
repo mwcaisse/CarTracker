@@ -10,12 +10,24 @@ define("Views/Admin/RegistrationKeys/RegistrationKeys",
 	 function (util, navigation, registrationKeyGrid, registrationKeyDetails) {
 	
 	var vm = function() {
-		var self = this;
+		var self = this;		
 		
-		self.registrationKeyGrid = new registrationKeyGrid();
 		self.registrationKeyDetails = new registrationKeyDetails();
+		self.registrationKeyGrid = new registrationKeyGrid({
+			displayKeyDetails: function (keyId) {
+				self.displayKey(keyId);
+			}
+		});
 		
 		self.registrationKeyGrid.load();
+		
+		self.createKey = function () {
+			self.registrationKeyDetails.display();
+		};
+		
+		self.displayKey = function (keyId) {
+			self.registrationKeyDetails.display(keyId);
+		}
 				
 		navigation.setActiveNavigation("Admin");	
 	};

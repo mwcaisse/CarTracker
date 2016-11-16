@@ -69,7 +69,7 @@ public class ReaderLogController extends ApiController<ReaderLog> {
 	 * @return true if update was successful, false otherwise
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.PUT, produces = {JSON}, consumes = {JSON})
-	public @ResponseBody BooleanResponse update(@RequestBody ReaderLog readerLog) {
+	public @ResponseBody EntityResponse<ReaderLog>  update(@RequestBody ReaderLog readerLog) {
 		return super.update(readerLog);
 	}
 	

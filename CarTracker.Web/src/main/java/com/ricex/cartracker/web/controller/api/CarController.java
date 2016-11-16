@@ -88,7 +88,7 @@ public class CarController extends ApiController<Car> {
 	 * @return The updated car, or an error message stating why it couldn't be updated
 	 */
 	@RequestMapping(value ="/", method=RequestMethod.PUT, produces={JSON}, consumes={JSON})
-	public @ResponseBody BooleanResponse update(@RequestBody Car car) {
+	public @ResponseBody EntityResponse<Car> update(@RequestBody Car car) {
 		return super.update(car);
 	}
 	

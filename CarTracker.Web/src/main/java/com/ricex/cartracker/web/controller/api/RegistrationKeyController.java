@@ -70,7 +70,7 @@ public class RegistrationKeyController extends ApiController <RegistrationKey> {
 	 * @return True if successful or an error message stating why it couldn't be updated
 	 */
 	@RequestMapping(value = "/", method=RequestMethod.PUT, produces={JSON}, consumes = {JSON})
-	public @ResponseBody BooleanResponse update(@RequestBody RegistrationKey toUpdate) {
+	public @ResponseBody EntityResponse<RegistrationKey> update(@RequestBody RegistrationKey toUpdate) {
 		return super.update(toUpdate);
 	}
 

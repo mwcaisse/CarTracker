@@ -99,7 +99,7 @@ public class TripController extends ApiController<Trip> {
 	 * @return True if successful false / error otherwise
 	 */
 	@RequestMapping(value="/trip/", method=RequestMethod.PUT, consumes={JSON}, produces={JSON})
-	public @ResponseBody BooleanResponse update(@RequestBody Trip toUpdate) {
+	public @ResponseBody EntityResponse<Trip> update(@RequestBody Trip toUpdate) {
 		return super.update(toUpdate);
 	}
 		
