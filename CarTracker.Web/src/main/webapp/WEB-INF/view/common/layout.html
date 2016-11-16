@@ -47,8 +47,13 @@
 		</nav>
 		
 		<script type="text/javascript">
+			var navigationDeferred = Q.defer();
+			var navigationPromise = navigationDeferred.promise;
+		
 			require(["Views/Navigation/Navigation"], function(vm) {
 				ko.applyBindings(new vm(), $("#navigationvm")[0]);
+				
+				navigationDeferred.resolve();
 			});
 		</script>
 		

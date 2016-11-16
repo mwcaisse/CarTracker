@@ -33,6 +33,7 @@ define("Views/Navigation/Navigation",
 		self.logoutClick = function () {
 			navigation.navigateToLogout();
 		};
+
 	};
 	
 	return vm;

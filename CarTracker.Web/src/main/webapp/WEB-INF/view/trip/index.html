@@ -8,8 +8,10 @@
 				<div id="pagevm" data-bind="template: { name: 'Views/Trips/Trips.html', data: $data}"></div>
 				
 				<script type="text/javascript">
-					require(["Views/Trips/Trips"], function(vm) {
-						ko.applyBindings(new vm(), $("#pagevm")[0]);
+					navigationPromise.then(function () {	
+						require(["Views/Trips/Trips"], function(vm) {
+							ko.applyBindings(new vm(), $("#pagevm")[0]);
+						});
 					});
 				</script>
 
