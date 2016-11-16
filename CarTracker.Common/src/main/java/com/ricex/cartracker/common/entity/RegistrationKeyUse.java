@@ -1,12 +1,14 @@
 package com.ricex.cartracker.common.entity;
 
+import com.ricex.cartracker.common.viewmodel.UserViewModel;
+
 public class RegistrationKeyUse extends AbstractEntity {
 
 	private long keyId;
 	
 	private long userId;
 	
-	private User user;
+	private UserViewModel user;
 
 	public RegistrationKeyUse() {
 		keyId = INVALID_ID;
@@ -44,14 +46,14 @@ public class RegistrationKeyUse extends AbstractEntity {
 	/**
 	 * @return the user
 	 */
-	public User getUser() {
+	public UserViewModel getUser() {
 		return user;
 	}
 
 	/**
 	 * @param user the user to set
 	 */
-	public void setUser(User user) {
+	public void setUser(UserViewModel user) {
 		if (null != user) {
 			userId = user.getId();
 		}

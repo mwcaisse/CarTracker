@@ -1,5 +1,9 @@
 package com.ricex.cartracker.data.manager;
 
+import java.text.MessageFormat;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.ricex.cartracker.common.entity.RegistrationKey;
 import com.ricex.cartracker.common.entity.RegistrationKeyUse;
 import com.ricex.cartracker.common.entity.User;
@@ -74,12 +78,17 @@ public class RegistrationKeyManager extends AbstractEntityManager<RegistrationKe
 
 	@Override
 	protected void createValidationLogic(RegistrationKey toCreate) throws EntityValidationException {
-		
+		if (null != getByKey(toCreate.getKey())) {
+			throw new EntityValidationException(MessageFormat.format("A {0} already exists with the given key value!", entityType.getName())); 
+		}
 	}
 
 	@Override
 	protected void updateValidationLogic(RegistrationKey toUpdate) throws EntityValidationException {
-		
+		RegistrationKey oldKey = get(toUpdate.getId());
+		if (!StringUtils.equalsIgnoreCase(toUpdate.getKey(), oldKey.getKey())) {
+			throw new EntityValidationException("You cannot change the key value!");
+		}
 	}
 
 }

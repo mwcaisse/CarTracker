@@ -2,7 +2,12 @@ package com.ricex.cartracker.common.entity;
 
 import java.util.Date;
 
-public class User extends AbstractEntity {
+import com.ricex.cartracker.common.viewmodel.UserViewModel;
+import com.ricex.cartracker.common.viewmodel.UserViewModelImpl;
+
+public class User extends AbstractEntity implements UserViewModel {
+
+	private static final long serialVersionUID = 1L;
 
 	private String username;	
 	
@@ -130,6 +135,16 @@ public class User extends AbstractEntity {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public UserViewModelImpl toViewModel() {
+		UserViewModelImpl viewModel = new UserViewModelImpl();	
+		
+		viewModel.setId(getId());
+		viewModel.setName(getName());
+		viewModel.setUsername(getUsername());
+		
+		return viewModel;
 	}
 
 	

@@ -46,6 +46,7 @@ import com.ricex.cartracker.web.auth.ProxyPasswordEncoder;
 import com.ricex.cartracker.web.controller.api.CarController;
 import com.ricex.cartracker.web.controller.api.ReaderLogController;
 import com.ricex.cartracker.web.controller.api.ReadingController;
+import com.ricex.cartracker.web.controller.api.RegistrationKeyController;
 import com.ricex.cartracker.web.controller.api.TripController;
 import com.ricex.cartracker.web.controller.api.UserController;
 import com.ricex.cartracker.web.controller.view.AdminViewController;
@@ -85,6 +86,11 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	@Bean
 	public UserController userController() throws Exception {
 		return new UserController(userManager());
+	}
+	
+	@Bean
+	public RegistrationKeyController registrationKeyController() throws Exception {
+		return new RegistrationKeyController(registrationKeyManager());
 	}
 	
 	@Bean
