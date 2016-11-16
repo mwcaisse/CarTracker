@@ -8,7 +8,8 @@
 	</div>		
 	<table class="table table-striped">
 		<thead>
-			<tr>			
+			<tr>
+				<th></th>		
 				<!-- ko foreach: $data.columns -->
 				<th><div data-bind="columnHeader: $data"></div></th>
 				<!-- /ko -->
@@ -16,10 +17,33 @@
 		</thead>
 		<tbody data-bind="foreach: $data.registrationKeys">
 			<tr data-bind="css: $data.rowCss">			
+				<td>
+					<a href="#"><span class="glyphicon glyphicon-th-list" data-bind="click: $data.toggleShowUses, tooltip: 'Show Key Uses'"></span></a>
+				</td>
 				<td data-bind="text: $data.key"></td>
 				<td data-bind="text: $data.usesRemaining"></td>
 				<td data-bind="text: $data.activeDisplay"></td>	
 				<td data-bind="text: $data.createDateDisplay"></td>
+			</tr>
+			<tr data-bind="visible: $data.showUses">
+				<td colspan="5">	
+					<table class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Username</th>								
+								<th>Use Date</th>
+							</tr>
+						</thead>
+						<tbody data-bind="foreach: $data.keyUses">
+							<tr>
+								<td data-bind="text: $data.name"></td>
+								<td data-bind="text: $data.username"></td>
+								<td data-bind="text: $data.createDateDispaly"></td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
 			</tr>
 		</tbody>	
 	</table>

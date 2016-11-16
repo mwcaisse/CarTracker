@@ -20,10 +20,17 @@ define("Modules/Admin/RegistrationKeyGrid/RegistrationKeyGrid",
 			var rku = this;
 			
 			rku.id = data.id;
-			rku.userId = data.userId;
-			rku.createDate = moment(data.createDate);
-			rku.createDateDispaly = rku.createDate.format("YYYY-MM-DD HH:mm:ss");
-			rku.username = data.user.name;
+			rku.userId = ko.observable(data.userId);
+			rku.createDate = ko.observable(moment(data.createDate));			
+			rku.username = ko.observable(data.user.username);
+			rku.name = ko.observable(data.user.name);
+			
+			rku.createDateDispaly = ko.computed(function () {
+				if (rku.createDate()) {
+					return rku.createDate().format("YYYY-MM-DD HH:mm:ss");
+				}
+				return "";
+			});
 			
 			return rku;
 		};
@@ -31,7 +38,7 @@ define("Modules/Admin/RegistrationKeyGrid/RegistrationKeyGrid",
 		self.RegistrationKeyModel = function (data) {
 			var key = this;
 			
-			key.id = ko.observable(data.id);
+			key.id = data.id;
 			key.key = ko.observable(data.key);
 			key.active = ko.observable(data.active);
 			key.usesRemaining = ko.observable(data.usesRemaining);
@@ -69,6 +76,12 @@ define("Modules/Admin/RegistrationKeyGrid/RegistrationKeyGrid",
 				}			
 				return "danger";			
 			});
+			
+			key.showUses = ko.observable(false);
+			
+			key.toggleShowUses = function () {
+				key.showUses(!key.showUses());
+			}
 			
 			return key;
 		};
