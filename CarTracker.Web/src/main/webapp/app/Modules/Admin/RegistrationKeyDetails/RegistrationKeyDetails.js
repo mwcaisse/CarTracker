@@ -9,7 +9,7 @@ define("Modules/Admin/RegistrationKeyDetails/RegistrationKeyDetails",
 		var self = this;
 		
 		var defaults = {
-
+			onSave: function () {}
 		};
 		
 		var opts = $.extend({}, defaults, options);	
@@ -66,6 +66,8 @@ define("Modules/Admin/RegistrationKeyDetails/RegistrationKeyDetails",
 			
 			promise.then(function(registrationKey) {
 				self.update(registrationKey);
+				
+				opts.onSave();
 			},
 			function (error) {
 				alert(error)

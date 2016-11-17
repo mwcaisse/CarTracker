@@ -12,7 +12,11 @@ define("Views/Admin/RegistrationKeys/RegistrationKeys",
 	var vm = function() {
 		var self = this;		
 		
-		self.registrationKeyDetails = new registrationKeyDetails();
+		self.registrationKeyDetails = new registrationKeyDetails({
+			onSave: function () {
+				self.registrationKeyGrid.refresh();
+			}
+		});
 		self.registrationKeyGrid = new registrationKeyGrid({
 			displayKeyDetails: function (keyId) {
 				self.displayKey(keyId);
