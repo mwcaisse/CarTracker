@@ -138,4 +138,9 @@ public class UserAuthenticationToken extends AbstractEntity {
 		this.expirationDate = expirationDate;
 	}	
 	
+	public boolean isValid() {
+		return isActive() &&
+				(null == expirationDate || new Date().before(expirationDate));
+	}
+	
 }

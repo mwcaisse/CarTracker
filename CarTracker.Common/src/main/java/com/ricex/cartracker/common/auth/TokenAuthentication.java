@@ -10,5 +10,5 @@ package com.ricex.cartracker.common.auth;
 public class TokenAuthentication {	
 	
 	/** The Request Header containing the Authentication Token */
-	public static final String SESSION_TOKEN_HEADER = "SESSION_TOKEN";
+	public static final String SESSION_TOKEN_HEADER = "CT_SESSION";
 }
