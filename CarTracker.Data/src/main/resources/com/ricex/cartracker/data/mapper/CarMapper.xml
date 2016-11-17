@@ -15,7 +15,7 @@
         <result property="createDate" column="CREATE_DATE" />
         <result property="modifiedDate" column="MODIFIED_DATE" />
         
-        <association property="owner" column="OWNER_ID" javaType="User" select="com.ricex.cartracker.data.mapper.UserMapper.get" />        
+        <association property="owner" column="OWNER_ID" javaType="User" select="com.ricex.cartracker.data.mapper.auth.UserMapper.get" />        
     </resultMap>
     
     <select id="getAll" resultMap="carResultMap">

@@ -1,5 +1,7 @@
 package com.ricex.cartracker.common.entity;
 
+import com.ricex.cartracker.common.entity.auth.User;
+
 public class Car extends AbstractEntity {
 	
 	private String vin;
@@ -7,6 +9,8 @@ public class Car extends AbstractEntity {
 	private String name;
 
 	private long ownerId;
+	
+	private User owner;
 	
 	/**
 	 * @return the vin
@@ -48,6 +52,19 @@ public class Car extends AbstractEntity {
 	 */
 	public void setOwnerId(long ownerId) {
 		this.ownerId = ownerId;
-	}	
+	}
 
+	/**
+	 * @return the owner
+	 */
+	public User getOwner() {
+		return owner;
+	}
+
+	/**
+	 * @param owner the owner to set
+	 */
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}	
 }
