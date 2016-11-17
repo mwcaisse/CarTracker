@@ -3,7 +3,7 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
-<mapper namespace="com.ricex.cartracker.data.mapper.RegistrationKeyMapper">
+<mapper namespace="com.ricex.cartracker.data.mapper.auth.RegistrationKeyMapper">
     
     <cache />
     
@@ -16,7 +16,7 @@
         <result property="modifiedDate" column="MODIFIED_DATE" />        
         
         <collection property="keyUses" javaType="ArrayList" ofType="RegistrationKeyUse" 
-            select="com.ricex.cartracker.data.mapper.RegistrationKeyUseMapper.getAllForKey" column="ID" />
+            select="com.ricex.cartracker.data.mapper.auth.RegistrationKeyUseMapper.getAllForKey" column="ID" />
         
     </resultMap>
     

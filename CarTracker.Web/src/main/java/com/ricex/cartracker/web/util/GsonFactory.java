@@ -6,7 +6,7 @@ import java.util.Date;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ricex.cartracker.common.entity.TripStatus;
-import com.ricex.cartracker.common.entity.User;
+import com.ricex.cartracker.common.entity.auth.User;
 import com.ricex.cartracker.common.util.JsonDateMillisecondsEpochDeserializer;
 import com.ricex.cartracker.common.util.JsonTripStatusSerializer;
 import com.ricex.cartracker.common.util.JsonUserAdapter;

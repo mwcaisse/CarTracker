@@ -6,7 +6,7 @@ import java.util.Date;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.ricex.cartracker.common.entity.User;
+import com.ricex.cartracker.common.entity.auth.User;
 
 public class UserDetailsProxy implements UserDetails {
 

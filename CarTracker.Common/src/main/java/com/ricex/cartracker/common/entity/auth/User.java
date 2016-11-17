@@ -1,7 +1,8 @@
-package com.ricex.cartracker.common.entity;
+package com.ricex.cartracker.common.entity.auth;
 
 import java.util.Date;
 
+import com.ricex.cartracker.common.entity.AbstractEntity;
 import com.ricex.cartracker.common.viewmodel.UserViewModel;
 import com.ricex.cartracker.common.viewmodel.UserViewModelImpl;
 

@@ -2,8 +2,8 @@ package com.ricex.cartracker.data.validation;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.ricex.cartracker.common.entity.User;
-import com.ricex.cartracker.data.mapper.UserMapper;
+import com.ricex.cartracker.common.entity.auth.User;
+import com.ricex.cartracker.data.mapper.auth.UserMapper;
 import com.ricex.cartracker.data.query.properties.EntityType;
 
 public class UserValidator extends AbstractEntityValidator<User> {

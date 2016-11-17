@@ -1,6 +1,7 @@
-package com.ricex.cartracker.data.mapper;
+package com.ricex.cartracker.data.mapper.auth;
 
-import com.ricex.cartracker.common.entity.User;
+import com.ricex.cartracker.common.entity.auth.User;
+import com.ricex.cartracker.data.mapper.EntityMapper;
 
 public interface UserMapper extends EntityMapper<User> {
 

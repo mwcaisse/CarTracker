@@ -1,7 +1,7 @@
 package com.ricex.cartracker.data.validation;
 
-import com.ricex.cartracker.common.entity.RegistrationKeyUse;
-import com.ricex.cartracker.data.mapper.RegistrationKeyUseMapper;
+import com.ricex.cartracker.common.entity.auth.RegistrationKeyUse;
+import com.ricex.cartracker.data.mapper.auth.RegistrationKeyUseMapper;
 import com.ricex.cartracker.data.query.properties.EntityType;
 
 public class RegistrationKeyUseValidator extends AbstractEntityValidator<RegistrationKeyUse> {

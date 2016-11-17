@@ -1,6 +1,8 @@
-package com.ricex.cartracker.common.entity;
+package com.ricex.cartracker.common.entity.auth;
 
 import java.util.List;
+
+import com.ricex.cartracker.common.entity.AbstractEntity;
 
 public class RegistrationKey extends AbstractEntity {
 

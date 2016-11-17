@@ -13,11 +13,14 @@
 		<typeAlias alias="Car" type="com.ricex.cartracker.common.entity.Car"/>
 		<typeAlias alias="Place" type="com.ricex.cartracker.common.entity.Place"/>
 		<typeAlias alias="ReaderLog" type="com.ricex.cartracker.common.entity.ReaderLog"/>
-		<typeAlias alias="Reading" type="com.ricex.cartracker.common.entity.Reading"/>
-		<typeAlias alias="RegistrationKey" type="com.ricex.cartracker.common.entity.RegistrationKey"/>
-		<typeAlias alias="RegistrationKeyUse" type="com.ricex.cartracker.common.entity.RegistrationKeyUse"/>
+		<typeAlias alias="Reading" type="com.ricex.cartracker.common.entity.Reading"/>	
 		<typeAlias alias="Trip" type="com.ricex.cartracker.common.entity.Trip"/>
-		<typeAlias alias="User" type="com.ricex.cartracker.common.entity.User"/>
+		
+		<!-- Authentication Entities -->
+		<typeAlias alias="UserAuthenticationToken" type="com.ricex.cartracker.common.entity.auth.UserAuthenticationToken"/>
+		<typeAlias alias="RegistrationKey" type="com.ricex.cartracker.common.entity.auth.RegistrationKey"/>
+		<typeAlias alias="RegistrationKeyUse" type="com.ricex.cartracker.common.entity.auth.RegistrationKeyUse"/>
+		<typeAlias alias="User" type="com.ricex.cartracker.common.entity.auth.User"/>
 
 	</typeAliases>	
 	
@@ -26,10 +29,13 @@
 		<mapper resource="com/ricex/cartracker/data/mapper/PlaceMapper.xml" />
 		<mapper resource="com/ricex/cartracker/data/mapper/ReadingMapper.xml" />
 		<mapper resource="com/ricex/cartracker/data/mapper/ReaderLogMapper.xml" />
-		<mapper resource="com/ricex/cartracker/data/mapper/RegistrationKeyMapper.xml" />
-		<mapper resource="com/ricex/cartracker/data/mapper/RegistrationKeyUseMapper.xml" />
 		<mapper resource="com/ricex/cartracker/data/mapper/TripMapper.xml" />
-		<mapper resource="com/ricex/cartracker/data/mapper/UserMapper.xml" />
+		
+		<!-- Authentication Mappers -->
+		<mapper resource="com/ricex/cartracker/data/mapper/auth/UserAuthenticationTokenMapper.xml" />
+		<mapper resource="com/ricex/cartracker/data/mapper/auth/RegistrationKeyMapper.xml" />
+		<mapper resource="com/ricex/cartracker/data/mapper/auth/RegistrationKeyUseMapper.xml" />
+		<mapper resource="com/ricex/cartracker/data/mapper/auth/UserMapper.xml" />
 	</mappers>
 
 </configuration>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.cartracker.data.mapper.auth.UserAuthenticationTokenMapper">
+    
+    <cache />
+    
+    <resultMap id="userAuthenticationTokenResultMap" type="UserAuthenticationToken">
+        <id property="id" column="ID" />
+        
+        <result property="userId" column="USER_ID" />
+        <result property="token" column="TOKEN" />
+        <result property="deviceUuid" column="DEVICE_UUID" />
+        <result property="active" column="ACTIVE" />
+        <result property="lastLogin" column="LAST_LOGIN" />
+        <result property="lastLoginAddress" column="LAST_LOGIN_ADDRESS" />
+        <result property="expirationDate" column="EXPIRATION_DATE" />
+        <result property="createDate" column="CREATE_DATE" />          
+        <result property="modifiedDate" column="MODIFIED_DATE" />
+        
+        <association property="user" column="USER_ID" javaType="User" select="com.ricex.cartracker.data.mapper.auth.UserMapper.get" />  
+    </resultMap>
+    
+    <select id="get" resultMap="userAuthenticationTokenResultMap" parameterType="long">
+        SELECT * FROM USER_AUTHENTICATION_TOKEN
+        WHERE ID = #{id}
+   	</select>
+    
+    <select id="getByToken" resultMap="userAuthenticationTokenResultMap" parameterType="string">
+        SELECT * FROM USER_AUTHENTICATION_TOKEN
+        WHERE TOKEN = #{token}
+    </select>
+    
+    <select id="getAll" resultMap="userAuthenticationTokenResultMap">
+        SELECT * FROM USER_AUTHENTICATION_TOKEN
+          <if test="orderBy != null">
+            ORDER BY ${orderBy}
+        </if>
+    </select>
+    
+    <select id="countAll" resultType="long">
+        SELECT COUNT(*) FROM USER_AUTHENTICATION_TOKEN
+    </select>
+    
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+        
+        INSERT INTO USER_AUTHENTICATION_TOKEN (
+        	USER_ID,
+        	TOKEN,
+        	DEVICE_UUID,
+        	ACTIVE,
+        	LAST_LOGIN,
+        	LAST_LOGIN_ADDRESS,
+        	EXPIRATION_DATE
+       	)
+       	VALUES (
+      		#{userId},
+      		#{token},
+      		#{deviceUuid},
+      		#{active},
+      		#{lastLogin},
+      		#{lastLoginAddress},
+      		#{expirationDate}
+    	)
+   
+    </insert>
+    
+    <update id="update">
+  		UPDATE USER_AUTHENTICATION_TOKEN SET
+  			USER_ID = #{user},
+  			TOKEN = #{token},
+  			DEVICE_UUID = #{deviceUuid},
+  			ACTIVE = #{active},
+  			LAST_LOGIN = #{lastLogin},
+  			LAST_LOGIN_ADDRESS = #{lastLoginAddress},
+  			EXPIRATION_DATE = #{expirationDate}
+		WHERE ID = #{id}        
+    </update>
+    
+    <delete id="delete">
+        DELETE FROM USER_AUTHENTICATION_TOKEN
+        WHERE ID = #{id}
+    </delete>
+    
+    
+</mapper>

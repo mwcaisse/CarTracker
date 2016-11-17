@@ -3,7 +3,7 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
-<mapper namespace="com.ricex.cartracker.data.mapper.RegistrationKeyUseMapper">
+<mapper namespace="com.ricex.cartracker.data.mapper.auth.RegistrationKeyUseMapper">
     
     <cache />
     
@@ -12,7 +12,7 @@
         <result property="keyId" column="KEY_ID" />
         <result property="userId" column="USER_ID" /> 
         
-        <association property="user" column="USER_ID" javaType="User" select="com.ricex.cartracker.data.mapper.UserMapper.get" />   
+        <association property="user" column="USER_ID" javaType="User" select="com.ricex.cartracker.data.mapper.auth.UserMapper.get" />   
     </resultMap>
     
     <select id="get" resultMap="registrationKeyUseResultMap" parameterType="long">
