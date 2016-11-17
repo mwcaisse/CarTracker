@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperFactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -27,6 +28,7 @@ import com.ricex.cartracker.data.manager.ReadingManager;
 import com.ricex.cartracker.data.manager.TripManager;
 import com.ricex.cartracker.data.manager.auth.RegistrationKeyManager;
 import com.ricex.cartracker.data.manager.auth.RegistrationKeyUseManager;
+import com.ricex.cartracker.data.manager.auth.UserAuthenticationTokenManager;
 import com.ricex.cartracker.data.manager.auth.UserManager;
 import com.ricex.cartracker.data.mapper.CarMapper;
 import com.ricex.cartracker.data.mapper.ReaderLogMapper;
@@ -34,6 +36,7 @@ import com.ricex.cartracker.data.mapper.ReadingMapper;
 import com.ricex.cartracker.data.mapper.TripMapper;
 import com.ricex.cartracker.data.mapper.auth.RegistrationKeyMapper;
 import com.ricex.cartracker.data.mapper.auth.RegistrationKeyUseMapper;
+import com.ricex.cartracker.data.mapper.auth.UserAuthenticationTokenMapper;
 import com.ricex.cartracker.data.mapper.auth.UserMapper;
 import com.ricex.cartracker.data.validation.CarValidator;
 import com.ricex.cartracker.data.validation.ReaderLogValidator;
@@ -41,6 +44,7 @@ import com.ricex.cartracker.data.validation.ReadingValidator;
 import com.ricex.cartracker.data.validation.TripValidator;
 import com.ricex.cartracker.data.validation.auth.RegistrationKeyUseValidator;
 import com.ricex.cartracker.data.validation.auth.RegistrationKeyValidator;
+import com.ricex.cartracker.data.validation.auth.UserAuthenticationTokenValidator;
 import com.ricex.cartracker.data.validation.auth.UserValidator;
 import com.ricex.cartracker.web.auth.ProxyPasswordEncoder;
 import com.ricex.cartracker.web.controller.api.CarController;
@@ -60,6 +64,8 @@ import com.ricex.cartracker.web.util.GsonFactory;
 @Configuration
 public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 
+	@Autowired(required = true)
+	public SecurityConfiguration securityConfiguration;
 	
 	/// ---- Define the Controllers ---- ///
 	
@@ -85,7 +91,9 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	
 	@Bean
 	public UserController userController() throws Exception {
-		return new UserController(userManager());
+		return new UserController(userManager(),
+					userAuthenticationTokenManager(),
+					securityConfiguration.apiUserAuthenticator());
 	}
 	
 	@Bean
@@ -160,6 +168,14 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 		return new RegistrationKeyUseManager(registrationKeyUseMapper(), registrationKeyUseValidator());
 	}
 	
+	@Bean
+	public UserAuthenticationTokenManager userAuthenticationTokenManager() throws Exception {
+		return new UserAuthenticationTokenManager(userAuthenticationTokenMapper(),
+				userAuthenticationTokenValidator(),
+				userValidator());
+				
+	}
+	
 	
 	/// ---- Define the Validators ---- ///
 	@Bean
@@ -195,6 +211,11 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	@Bean
 	public RegistrationKeyUseValidator registrationKeyUseValidator() throws Exception {
 		return new RegistrationKeyUseValidator(registrationKeyUseMapper());
+	}
+	
+	@Bean
+	public UserAuthenticationTokenValidator userAuthenticationTokenValidator() throws Exception {
+		return new UserAuthenticationTokenValidator(userAuthenticationTokenMapper());
 	}
 	
 	/// ---- Define the Mappers ---- ///
@@ -254,6 +275,14 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
 		return mapperFactoryBean.getObject();
 	}	
+	
+	@Bean
+	public UserAuthenticationTokenMapper userAuthenticationTokenMapper() throws Exception {
+		MapperFactoryBean<UserAuthenticationTokenMapper> mapperFactoryBean = new MapperFactoryBean<UserAuthenticationTokenMapper>();
+		mapperFactoryBean.setMapperInterface(UserAuthenticationTokenMapper.class);
+		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
+		return mapperFactoryBean.getObject();
+	}
 	
 	@Bean(destroyMethod="")
 	public DataSource dataSource() {

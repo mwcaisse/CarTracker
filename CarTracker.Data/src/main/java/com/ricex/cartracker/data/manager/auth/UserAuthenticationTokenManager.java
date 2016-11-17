@@ -18,7 +18,7 @@ public class UserAuthenticationTokenManager extends AbstractEntityManager<UserAu
 	
 	private final UserValidator userValidator;
 	
-	protected UserAuthenticationTokenManager(UserAuthenticationTokenMapper mapper,
+	public UserAuthenticationTokenManager(UserAuthenticationTokenMapper mapper,
 			UserAuthenticationTokenValidator validator, UserValidator userValidator) {
 		super(mapper, validator, EntityType.USER_AUTHENTICATION_TOKEN);
 

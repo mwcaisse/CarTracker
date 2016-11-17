@@ -15,8 +15,9 @@ import com.ricex.cartracker.common.viewmodel.SortParam;
 import com.ricex.cartracker.data.manager.AbstractEntityManager;
 import com.ricex.cartracker.data.query.properties.EntityType;
 import com.ricex.cartracker.data.validation.EntityValidationException;
+import com.ricex.cartracker.web.controller.BaseController;
 
-public abstract class ApiController<T extends AbstractEntity> {
+public abstract class ApiController<T extends AbstractEntity> extends BaseController {
 
 	private static Logger log = LoggerFactory.getLogger(ApiController.class);
 

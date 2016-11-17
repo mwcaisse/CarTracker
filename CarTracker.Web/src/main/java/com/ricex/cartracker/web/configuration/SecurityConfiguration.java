@@ -12,7 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.ricex.cartracker.web.auth.ApiUserAuthenticator;
 import com.ricex.cartracker.web.auth.ProxyUserDetailsService;
+import com.ricex.cartracker.web.auth.token.TokenManager;
 
 @Configuration
 @EnableWebSecurity
@@ -58,6 +60,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
 			log.error("Error loading User Details Service.", e);
 			return super.userDetailsService();
 		}
+	}
+	
+	@Bean
+	public TokenManager tokenManager() {
+		return new TokenManager();
+	}
+	
+	public ApiUserAuthenticator apiUserAuthenticator() throws Exception {
+		return new ApiUserAuthenticator(
+				authenticationManagerBean(),
+				applicationConfig.userAuthenticationTokenManager(),
+				tokenManager());
 	}
 
 }
