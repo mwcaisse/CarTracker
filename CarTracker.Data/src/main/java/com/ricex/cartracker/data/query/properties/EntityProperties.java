@@ -1,7 +1,9 @@
 package com.ricex.cartracker.data.query.properties;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -192,6 +194,34 @@ public final class EntityProperties {
 		}
 	}
 	
+	public enum UserAuthenticationToken implements EntityProperty {
+		
+		ID,
+		USER_ID,
+		TOKEN,
+		DEVICE_UUID,
+		ACTIVE,
+		LAST_LOGIN,
+		LAST_LOGIN_ADDRESS,
+		EXPIRATION_DATE,
+		CREATE_DATE,
+		MODIFIED_DATE;
+		
+		private final String propertyField;
+		
+		private UserAuthenticationToken() {
+			this.propertyField = this.name();
+		}
+		
+		private UserAuthenticationToken(String propertyField) {
+			this.propertyField = propertyField;
+		}
+
+		public String getPropertyField() {
+			return propertyField;
+		}
+	}
+	
 	public static EntityProperty parseFromPropertyField(EntityType type, String propertyField) {
 		List<EntityProperty> properties = Arrays.asList(getPropertiesForEntity(type));
 		for (EntityProperty property : properties) {
@@ -202,25 +232,23 @@ public final class EntityProperties {
 		return null;
 	}
 	
+	private static Map<EntityType, EntityProperty[]> entityTypeProperties;
+	
+	static {
+		entityTypeProperties = new HashMap<EntityType, EntityProperty[]>();
+		
+		entityTypeProperties.put(EntityType.CAR, Car.values());
+		entityTypeProperties.put(EntityType.READER_LOG, ReaderLog.values());
+		entityTypeProperties.put(EntityType.READING, Reading.values());
+		entityTypeProperties.put(EntityType.TRIP, Trip.values());
+		entityTypeProperties.put(EntityType.USER, User.values());
+		entityTypeProperties.put(EntityType.REGISTRATION_KEY, RegistrationKey.values());
+		entityTypeProperties.put(EntityType.REGISTRATION_KEY_USE, RegistrationKeyUse.values());
+		entityTypeProperties.put(EntityType.USER_AUTHENTICATION_TOKEN, UserAuthenticationToken.values());
+	}
+	
 	public static EntityProperty[] getPropertiesForEntity(EntityType entityType) {
-		switch (entityType) {
-		case CAR:
-			return Car.values();
-		case READER_LOG:
-			return ReaderLog.values();
-		case READING:
-			return Reading.values();
-		case TRIP:
-			return Trip.values();
-		case USER:
-			return User.values();
-		case REGISTRATION_KEY:
-			return RegistrationKey.values();
-		case REGISTRATION_KEY_USE:
-			return RegistrationKeyUse.values();
-		default:
-			return new EntityProperty[0];
-		}
+		return entityTypeProperties.get(entityType);
 	}
 	
 }

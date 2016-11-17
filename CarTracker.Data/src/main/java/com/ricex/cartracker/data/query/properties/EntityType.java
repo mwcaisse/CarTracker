@@ -8,7 +8,8 @@ public enum EntityType {
 	TRIP ("Trip"),
 	USER ("User"),
 	REGISTRATION_KEY("Registration Key"),
-	REGISTRATION_KEY_USE("Registration Key Use");
+	REGISTRATION_KEY_USE("Registration Key Use"),
+	USER_AUTHENTICATION_TOKEN ("User Authentication Token");
 	
 	private final String name;
 	
