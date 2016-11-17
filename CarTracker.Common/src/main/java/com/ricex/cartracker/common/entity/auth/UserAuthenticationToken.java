@@ -22,6 +22,10 @@ public class UserAuthenticationToken extends AbstractEntity {
 	
 	private Date expirationDate;
 
+	public UserAuthenticationToken() {
+		userId = INVALID_ID;
+	}
+	
 	/**
 	 * @return the userId
 	 */
