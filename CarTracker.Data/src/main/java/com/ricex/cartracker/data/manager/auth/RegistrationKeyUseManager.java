@@ -1,10 +1,11 @@
-package com.ricex.cartracker.data.manager;
+package com.ricex.cartracker.data.manager.auth;
 
 import com.ricex.cartracker.common.entity.auth.RegistrationKeyUse;
+import com.ricex.cartracker.data.manager.AbstractEntityManager;
 import com.ricex.cartracker.data.mapper.auth.RegistrationKeyUseMapper;
 import com.ricex.cartracker.data.query.properties.EntityType;
 import com.ricex.cartracker.data.validation.EntityValidationException;
-import com.ricex.cartracker.data.validation.RegistrationKeyUseValidator;
+import com.ricex.cartracker.data.validation.auth.RegistrationKeyUseValidator;
 
 public class RegistrationKeyUseManager extends AbstractEntityManager<RegistrationKeyUse> {
 

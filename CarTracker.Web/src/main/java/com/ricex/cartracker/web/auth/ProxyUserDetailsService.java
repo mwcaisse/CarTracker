@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.ricex.cartracker.common.entity.auth.User;
-import com.ricex.cartracker.data.manager.UserManager;
+import com.ricex.cartracker.data.manager.auth.UserManager;
 
 public class ProxyUserDetailsService implements UserDetailsService {
 

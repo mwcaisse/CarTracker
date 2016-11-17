@@ -1,4 +1,4 @@
-package com.ricex.cartracker.data.manager;
+package com.ricex.cartracker.data.manager.auth;
 
 import java.text.MessageFormat;
 
@@ -7,10 +7,11 @@ import org.apache.commons.lang3.StringUtils;
 import com.ricex.cartracker.common.entity.auth.RegistrationKey;
 import com.ricex.cartracker.common.entity.auth.RegistrationKeyUse;
 import com.ricex.cartracker.common.entity.auth.User;
+import com.ricex.cartracker.data.manager.AbstractEntityManager;
 import com.ricex.cartracker.data.mapper.auth.RegistrationKeyMapper;
 import com.ricex.cartracker.data.query.properties.EntityType;
 import com.ricex.cartracker.data.validation.EntityValidationException;
-import com.ricex.cartracker.data.validation.RegistrationKeyValidator;
+import com.ricex.cartracker.data.validation.auth.RegistrationKeyValidator;
 
 public class RegistrationKeyManager extends AbstractEntityManager<RegistrationKey> {
 

@@ -13,7 +13,7 @@ import com.ricex.cartracker.common.viewmodel.BooleanResponse;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
 import com.ricex.cartracker.common.viewmodel.PagedEntity;
 import com.ricex.cartracker.common.viewmodel.SortParam;
-import com.ricex.cartracker.data.manager.RegistrationKeyManager;
+import com.ricex.cartracker.data.manager.auth.RegistrationKeyManager;
 import com.ricex.cartracker.data.query.properties.EntityType;
 
 @Controller
