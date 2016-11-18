@@ -43,7 +43,7 @@ ext {
 	gitRevision = 'git rev-list --count HEAD'.execute().text.trim()
 	gitShortHash = 'git rev-parse --short HEAD'.execute().text.trim()
 	gitLongHash = 'git rev-parse HEAD'.execute().text.trim()
-	gitBranch = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
+	gitBranch = 'git symbolic-ref --short HEAD'.execute().text.trim()
 }
 
 dependencies {
