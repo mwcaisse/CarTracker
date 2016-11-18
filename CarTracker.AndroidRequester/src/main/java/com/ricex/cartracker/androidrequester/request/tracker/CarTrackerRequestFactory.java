@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.ricex.cartracker.androidrequester.request.AbstractRequestFactory;
 import com.ricex.cartracker.androidrequester.request.ApplicationPreferences;
+import com.ricex.cartracker.androidrequester.request.user.AuthenticationTokenRequest;
+import com.ricex.cartracker.androidrequester.request.user.LoginPasswordRequest;
+import com.ricex.cartracker.androidrequester.request.user.LoginTokenRequest;
 import com.ricex.cartracker.common.entity.Car;
 import com.ricex.cartracker.common.entity.ReaderLog;
 import com.ricex.cartracker.common.entity.Trip;
@@ -115,6 +118,34 @@ public class CarTrackerRequestFactory extends AbstractRequestFactory {
      */
 	public CreateReaderLogRequest createReaderLogRequest(ReaderLog readerLog) {
 		return new CreateReaderLogRequest(applicationPreferences, readerLog);
+	}
+
+	/** Creates a Login Password Request
+	 *
+	 * @param username The username
+	 * @param password The password
+     * @return
+     */
+	public LoginPasswordRequest createLoginPasswordRequest(String username, String password) {
+		return new LoginPasswordRequest(applicationPreferences, username, password);
+	}
+
+	/** Creates a new Login Token Request
+	 *
+	 * @param username
+	 * @param token
+     * @return
+     */
+	public LoginTokenRequest createLoginTokenRequest(String username, String token) {
+		return new LoginTokenRequest(applicationPreferences, username, token);
+	}
+
+	/** Creates a new Authentication Token Request
+	 *
+	 * @return
+     */
+	public AuthenticationTokenRequest createAuthenticationTokenRequest() {
+		return new AuthenticationTokenRequest(applicationPreferences);
 	}
 	
 }

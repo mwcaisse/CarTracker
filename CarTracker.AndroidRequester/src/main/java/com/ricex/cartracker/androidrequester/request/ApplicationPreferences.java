@@ -13,7 +13,13 @@ public interface ApplicationPreferences {
 	 * @return The Device's UID
 	 */
 	public String getDeviceUID();
-	
+
+	/** Returns the username for the user
+	 *
+	 * @return The user's username
+     */
+	public String getUsername();
+
 	
 	/** Returns the saved authentication token
 	 * 

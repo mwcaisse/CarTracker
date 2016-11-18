@@ -20,6 +20,9 @@ public class CarTrackerSettings implements ApplicationPreferences {
     private static final String OBD_READER_TYPE_KEY = "pref_obdReaderType";
     private static final String OBD_READING_INTERVAL_KEY = "pref_obdReadingInterval";
 
+    private static final String USERNAME_KEY = "pref_username";
+    private static final String AUTHENTICATION_TOKEN_KEY = "pref_auth_token";
+
     private boolean serviceEnabled;
     private boolean locationEnabled;
     private boolean savingLocallyEnabled;
@@ -28,14 +31,16 @@ public class CarTrackerSettings implements ApplicationPreferences {
     private String triggerBluetoothDeviceAddress;
     private OBDReaderType obdReaderType;
     private double obdReadingInterval;
+    private String username;
+    private String authenticationToken;
 
     /** The context the settings were created om */
     private Context context;
 
+    private SharedPreferences preferences;
 
     public CarTrackerSettings(Context context) {
         this.context = context;
-
         updateSettings();
     }
 
@@ -44,7 +49,7 @@ public class CarTrackerSettings implements ApplicationPreferences {
      */
 
     public void updateSettings() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        loadPreferences();
 
         serviceEnabled = preferences.getBoolean(SERVICE_ENABLED_KEY, true);
         locationEnabled = preferences.getBoolean(LOCATION_ENABLED_KEY, true);
@@ -59,6 +64,9 @@ public class CarTrackerSettings implements ApplicationPreferences {
         catch (NumberFormatException e) {
             obdReadingInterval = 15.0;
         }
+
+        username = preferences.getString(USERNAME_KEY, "");
+        authenticationToken = preferences.getString(AUTHENTICATION_TOKEN_KEY, "");
 
     }
 
@@ -104,5 +112,32 @@ public class CarTrackerSettings implements ApplicationPreferences {
 
     public OBDReaderType getOBDReaderType() {
         return obdReaderType;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getAuthenticationToken() {
+        return authenticationToken;
+    }
+
+    public boolean setUsername(String username) {
+        return setStringValue(USERNAME_KEY, username);
+    }
+
+    public boolean setAuthenticationToken(String authenticationToken) {
+        return setStringValue(AUTHENTICATION_TOKEN_KEY, authenticationToken);
+    }
+
+    private boolean setStringValue(String key, String value) {
+        if (null == preferences) {
+            loadPreferences();
+        }
+        return preferences.edit().putString(key, value).commit();
+    }
+
+    private void loadPreferences() {
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 }

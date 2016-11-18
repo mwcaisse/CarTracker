@@ -17,16 +17,29 @@ import com.ricex.cartracker.common.viewmodel.BooleanResponse;
  */
 
 public class LoginTokenRequest extends AbstractRequest<Boolean> {
-	
+
+	/** The user's username */
+	private final String username;
+
 	/** The user's authentication token */
-	private String token;
-	
-	/** Creates a new Instance of Password Request
+	private final String token;
+
+	/** Creates a new instance of Login Token Request
+	 *
+	 * @param applicationPreferences
+	 * @param token
+     */
+	public LoginTokenRequest(ApplicationPreferences applicationPreferences, String token) {
+		this(applicationPreferences, applicationPreferences.getUsername(), token);
+	}
+
+	/** Creates a new instance of Login Token Request
 	 * 
 	 * @param token The authorization token to use to login
 	 */
-	public LoginTokenRequest(ApplicationPreferences applicationPreferences, String token) {		
+	public LoginTokenRequest(ApplicationPreferences applicationPreferences, String username, String token) {
 		super(applicationPreferences);
+		this.username = username;
 		this.token  = token;
 	}
 
@@ -37,7 +50,7 @@ public class LoginTokenRequest extends AbstractRequest<Boolean> {
 	 */
 	
 	protected RequestResponse<Boolean> executeRequest() throws RequestException {
-		AuthToken authToken = new AuthToken(token, getDeviceUID());
+		AuthToken authToken = new AuthToken(username, token, getDeviceUID());
 		return postForObject(serverAddress + "user/login/token", authToken, new BooleanResponseType());
 	}
 	

@@ -18,10 +18,10 @@ import com.ricex.cartracker.common.viewmodel.BooleanResponse;
 public class LoginPasswordRequest extends AbstractRequest<Boolean> {
 
 	/** The user's username */
-	private String username;
+	private final String username;
 	
 	/** The user's password */
-	private String password;
+	private final String password;
 	
 	/** Creates a new Instance of Password Request
 	 * 

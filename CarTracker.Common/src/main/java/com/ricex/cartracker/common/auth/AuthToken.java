@@ -26,9 +26,10 @@ public class AuthToken implements Serializable {
 	 * @param deviceUid The deviceUid
 	 */
 	
-	public AuthToken(String authenticationToken, String deviceUuid) {
+	public AuthToken(String username, String authenticationToken, String deviceUuid) {
 		this.authenticationToken = authenticationToken;
 		this.deviceUuid = deviceUuid;
+		this.username = username;
 	}
 
 	/**
