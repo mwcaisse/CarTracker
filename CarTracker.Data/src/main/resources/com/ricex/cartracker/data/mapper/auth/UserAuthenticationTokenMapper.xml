@@ -69,7 +69,7 @@
     
     <update id="update">
   		UPDATE USER_AUTHENTICATION_TOKEN SET
-  			USER_ID = #{user},
+  			USER_ID = #{userId},
   			TOKEN = #{token},
   			DEVICE_UUID = #{deviceUuid},
   			ACTIVE = #{active},

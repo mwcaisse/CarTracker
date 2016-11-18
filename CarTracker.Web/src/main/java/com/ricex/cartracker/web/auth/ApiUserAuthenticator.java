@@ -97,7 +97,7 @@ public class ApiUserAuthenticator {
 		}
 		
 		//check that the authentication token is for the correct device and user
-		if (!StringUtils.equals(authToken.getDeviceUuid(), token.getDeviceUid()) ||
+		if (!StringUtils.equals(authToken.getDeviceUuid(), token.getDeviceUuid()) ||
 				authToken.getUserId() == UserAuthenticationToken.INVALID_ID ||
 				!StringUtils.equalsIgnoreCase(authToken.getUser().getUsername(), token.getUsername())) {
 			throw new BadCredentialsException("The provided Authentication Token is not valid.");

@@ -3,6 +3,7 @@ package com.ricex.cartracker.web.controller.api;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,16 +79,26 @@ public class UserController extends ApiController<User> {
 	
 	@RequestMapping(value = "/login/password", method = RequestMethod.POST, produces = {JSON})
 	public @ResponseBody BooleanResponse loginPassword(@RequestBody AuthUser user, HttpServletRequest request, 
-			HttpServletResponse response) {		
-		Token token = userAuthenticator.authenticateUser(user);
-		return handleLoginResult(token, response);
+			HttpServletResponse response) {	
+		try {
+			Token token = userAuthenticator.authenticateUser(user);
+			return handleLoginResult(token, response);
+		}
+		catch (AuthenticationException e) {
+			return new BooleanResponse(false);
+		}
 	}
 	
 	@RequestMapping(value = "/login/token", method = RequestMethod.POST, produces = {JSON})
 	public @ResponseBody BooleanResponse loginToken(@RequestBody AuthToken auth, HttpServletRequest request,
 			HttpServletResponse response) {
-		Token token = userAuthenticator.authenticateUser(auth, request.getRemoteAddr());
-		return handleLoginResult(token, response);		
+		try {
+			Token token = userAuthenticator.authenticateUser(auth, request.getRemoteAddr());
+			return handleLoginResult(token, response);
+		}
+		catch (AuthenticationException e) {
+			return new BooleanResponse(false);
+		}	
 	}
 	
 	/** Handles the result of a user login.

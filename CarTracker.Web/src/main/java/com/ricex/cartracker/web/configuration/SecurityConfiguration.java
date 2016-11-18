@@ -10,10 +10,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.ricex.cartracker.web.auth.ApiUserAuthenticator;
 import com.ricex.cartracker.web.auth.ProxyUserDetailsService;
+import com.ricex.cartracker.web.auth.token.TokenAuthenticationFilter;
 import com.ricex.cartracker.web.auth.token.TokenManager;
 
 @Configuration
@@ -28,16 +30,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.csrf().disable() // just for now
+			.csrf().disable() // just for now			
 			.authorizeRequests()
 				.antMatchers("/app/**", "/css/**", "/images/**", "/js/**").permitAll()
 				.antMatchers("/login", "/register").permitAll()
-				.antMatchers("/api/user/register", "/api/user/available", "/api/user/login/password", "/api/user/login/token").permitAll()
-				.anyRequest().authenticated()				
+				.antMatchers("/api/user/register", "/api/user/available", "/api/user/login/*").permitAll()
+				.anyRequest().authenticated()
 				.and()
+			.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.formLogin()
-				.loginPage("/login")
-				.permitAll()
+				.loginPage("/login")				
+				.permitAll()			
 				.and()
 			.logout()
 				.invalidateHttpSession(true)
@@ -73,6 +76,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
 				authenticationManagerBean(),
 				applicationConfig.userAuthenticationTokenManager(),
 				tokenManager());
+	}
+	
+	@Bean
+	public TokenAuthenticationFilter tokenAuthenticationFilter() throws Exception {
+		return new TokenAuthenticationFilter(tokenManager(), authenticationManagerBean());
 	}
 
 }

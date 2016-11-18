@@ -8,7 +8,7 @@ public class AuthToken implements Serializable {
 	private String authenticationToken;
 	
 	/** The uid of the device the authentication request is from */
-	private String deviceUid;
+	private String deviceUuid;
 	
 	/** The username of the user */
 	private String username;
@@ -26,9 +26,9 @@ public class AuthToken implements Serializable {
 	 * @param deviceUid The deviceUid
 	 */
 	
-	public AuthToken(String authenticationToken, String deviceUid) {
+	public AuthToken(String authenticationToken, String deviceUuid) {
 		this.authenticationToken = authenticationToken;
-		this.deviceUid = deviceUid;
+		this.deviceUuid = deviceUuid;
 	}
 
 	/**
@@ -46,17 +46,17 @@ public class AuthToken implements Serializable {
 	}
 
 	/**
-	 * @return the deviceUid
+	 * @return the deviceUuid
 	 */
-	public String getDeviceUid() {
-		return deviceUid;
+	public String getDeviceUuid() {
+		return deviceUuid;
 	}
 
 	/**
 	 * @param deviceUid the deviceUid to set
 	 */
-	public void setDeviceUid(String deviceUid) {
-		this.deviceUid = deviceUid;
+	public void setDeviceUuid(String deviceUuid) {
+		this.deviceUuid = deviceUuid;
 	}
 
 	/**

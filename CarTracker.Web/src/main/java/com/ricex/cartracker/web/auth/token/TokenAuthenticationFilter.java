@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,12 +23,13 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationProcessingF
 
 	private static Logger log = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
 	
-	private final TokenManager tokenManager;
+	private final TokenManager tokenManager;	
 	
-	public TokenAuthenticationFilter(TokenManager tokenManager) {
+	public TokenAuthenticationFilter(TokenManager tokenManager, AuthenticationManager authenticationManager) {
 		super(new RequestHeaderRequestMatcher(TokenAuthentication.SESSION_TOKEN_HEADER));
 		
-		this.tokenManager = tokenManager;
+		this.tokenManager = tokenManager;		
+		super.setAuthenticationManager(authenticationManager);
 	}
 
 	/** Pull the authentication token from the header and authenticate the user if it is valid
