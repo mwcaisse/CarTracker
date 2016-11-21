@@ -1,5 +1,7 @@
 package com.ricex.cartracker.androidrequester.request.user;
 
+import android.util.Log;
+
 import com.ricex.cartracker.androidrequester.request.AbstractRequest;
 import com.ricex.cartracker.androidrequester.request.ApplicationPreferences;
 import com.ricex.cartracker.androidrequester.request.RequestResponse;
@@ -29,6 +31,7 @@ public class AuthenticationTokenRequest extends AbstractRequest<String> {
 	 */
 	
 	protected RequestResponse<String> executeRequest() throws RequestException {
+		Log.w("CT_ATR", "Requesting Authentication token from server. Device UID: " + getDeviceUID());
 		return postForObject(serverAddress + "user/token", getDeviceUID(), new StringResponseType());
 	}
 

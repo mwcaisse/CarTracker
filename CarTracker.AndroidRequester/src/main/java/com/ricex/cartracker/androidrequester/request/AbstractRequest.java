@@ -31,6 +31,7 @@ import com.ricex.cartracker.common.util.JsonTripStatusSerializer;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 /** Abstract Request implementing the Request interface. 
  * 
@@ -270,6 +271,8 @@ public abstract class AbstractRequest<T> implements Request<T> {
 		
 		RequestResponse<T> response = new RequestResponse<T>(null, responseBody, status);		
 
+
+
 		if (status == HttpStatus.UNAUTHORIZED) {
 			//401 was returned, prompt the user to login
 			sessionContext.invalidateSessionToken(); //invalidate the current token, if any
@@ -309,6 +312,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 		}
 		else {
 			String error = response.getError();
+			Log.w("CT_AR", "process response, error occured: " + error);
 			switch (response.getStatusCode()) {
 			case BAD_REQUEST:
 				throw new InvalidRequestException(error);			

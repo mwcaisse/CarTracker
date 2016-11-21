@@ -25,6 +25,13 @@
         android:summary="The address of the server containing the api"
         android:defaultValue="localhost:8080" />
 
+    <PreferenceScreen
+        android:title="Login"
+        android:summary="Login to the server">
+
+        <intent android:action="com.ricex.cartracker.android.view.login.LoginActivity" />
+    </PreferenceScreen>
+
     <com.ricex.cartracker.android.view.BluetoothDevicePreference
         android:key="pref_bluetoothDevice"
         android:title="Bluetooth Device"

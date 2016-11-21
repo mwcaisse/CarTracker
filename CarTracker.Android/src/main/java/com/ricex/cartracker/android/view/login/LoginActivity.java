@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -60,6 +61,12 @@ public class LoginActivity extends Activity {
         textPassword = (EditText) findViewById(R.id.loginPasswordText);
         butLogin = (Button) findViewById(R.id.loginButton);
 
+        butLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    login();
+                }
+            });
 
         String accountName = getIntent().getStringExtra(ARG_ACCOUNT_NAME);
         if (!TextUtils.isEmpty(accountName)) {
@@ -88,7 +95,9 @@ public class LoginActivity extends Activity {
                     }
                     @Override
                     public void onError(Exception e) {
-                        Looper.prepare();
+                        if (null == Looper.myLooper()) {
+                            Looper.prepare();
+                        }
                         if (e instanceof InvalidCredentialsException) {
                             Toast.makeText(getApplicationContext(), "Invalid username / password", Toast.LENGTH_LONG).show();
                         }
@@ -113,7 +122,9 @@ public class LoginActivity extends Activity {
 
                     @Override
                     public void onError(Exception e) {
-                        Looper.prepare();
+                        if (null == Looper.myLooper()) {
+                            Looper.prepare();
+                        }
                         Toast.makeText(getApplicationContext(), "Couldn't get authentication Token!", Toast.LENGTH_LONG).show();
                         Looper.loop();
                     }

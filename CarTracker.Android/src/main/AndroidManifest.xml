@@ -22,6 +22,14 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".view.login.LoginActivity">
+            <intent-filter>
+                <action android:name="com.ricex.cartracker.android.view.login.LoginActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
         <service android:name=".service.OBDService" />
 
         <receiver android:name=".service.receiver.BlueoothBroadcastReceiver"

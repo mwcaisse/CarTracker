@@ -2,11 +2,13 @@ package com.ricex.cartracker.android.view;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.database.SQLException;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -24,12 +26,18 @@ import com.ricex.cartracker.android.service.OBDService;
 import com.ricex.cartracker.android.service.OBDServiceBinder;
 import com.ricex.cartracker.android.service.WebServiceSyncer;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
+import com.ricex.cartracker.android.view.login.LoginActivity;
+import com.ricex.cartracker.androidrequester.request.tracker.CarTrackerRequestFactory;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "CT_MA";
 
     protected static final int REQUEST_ENABLE_BT = 5598;
+
+    protected static final int REQUEST_LOGIN_CODE = 5599;
 
     protected boolean triedEnableBluetooth;
 
@@ -46,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean databaseHelperDestroyed = false;
 
     private CarTrackerSettings settings;
+
+    private CarTrackerRequestFactory requestFactory;
 
     public MainActivity() {
         triedEnableBluetooth = false;
@@ -79,7 +89,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         settings = new CarTrackerSettings(this);
+        requestFactory = new CarTrackerRequestFactory(settings);
 
+        //check that we have the user's credentials, if not request them
+        checkForLogin();
     }
 
     @Override
@@ -233,6 +246,57 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             return databaseHelper;
+        }
+    }
+
+    protected void checkForLogin() {
+        String authToken = settings.getAuthToken();
+        if (StringUtils.isBlank(authToken)) {
+            //we don't have an auth token stored,
+            requestLogin();
+        }
+        else {
+            //we have an auth token, lets login to get a session token
+            String username = settings.getUsername();
+            requestFactory.createLoginTokenRequest(username, authToken);
+        }
+    }
+
+    protected void requestLogin() {
+        final Context context = this;
+
+        new AlertDialog.Builder(this)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setTitle("Login")
+            .setMessage("You are not currently logged in. Do you want to log in now? If not, you can " +
+                    "always log in via settings later")
+            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    startActivityForResult(intent, REQUEST_LOGIN_CODE);
+                }
+            })
+            .setNegativeButton("No", null)
+            .show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_LOGIN_CODE) {
+            if (resultCode == RESULT_OK) {
+                String username = data.getStringExtra(LoginActivity.RES_ACCOUNT_NAME);
+                String authToken = data.getStringExtra(LoginActivity.RES_AUTH_TOKEN);
+
+                settings.setUsername(username);
+                settings.setAuthenticationToken(authToken);
+
+                //repeat again, to get a session token
+                checkForLogin();
+            }
+            else {
+                Log.w(LOG_TAG, "Could not recieve an auth token from user's login!");
+            }
         }
     }
 

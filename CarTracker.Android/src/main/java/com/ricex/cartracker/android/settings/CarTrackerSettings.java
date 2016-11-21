@@ -3,6 +3,7 @@ package com.ricex.cartracker.android.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 
 import com.ricex.cartracker.androidrequester.request.ApplicationPreferences;
 
@@ -90,12 +91,12 @@ public class CarTrackerSettings implements ApplicationPreferences {
 
     @Override
     public String getDeviceUID() {
-        return null;
+        return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
     @Override
     public String getAuthToken() {
-        return null;
+        return authenticationToken;
     }
 
     public String getBluetoothDeviceAddress() {
@@ -116,10 +117,6 @@ public class CarTrackerSettings implements ApplicationPreferences {
 
     public String getUsername() {
         return username;
-    }
-
-    public String getAuthenticationToken() {
-        return authenticationToken;
     }
 
     public boolean setUsername(String username) {
