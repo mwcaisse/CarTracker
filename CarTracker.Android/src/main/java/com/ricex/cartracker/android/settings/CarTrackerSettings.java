@@ -20,6 +20,7 @@ public class CarTrackerSettings implements ApplicationPreferences {
     private static final String TRIGGER_BLUETOOTH_DEVICE_ADDRESS_KEY = "pref_triggerBluetoothDevice";
     private static final String OBD_READER_TYPE_KEY = "pref_obdReaderType";
     private static final String OBD_READING_INTERVAL_KEY = "pref_obdReadingInterval";
+    private static final String ODB_DEVICE_PIN = "pref_obdDevicePin";
 
     private static final String USERNAME_KEY = "pref_username";
     private static final String AUTHENTICATION_TOKEN_KEY = "pref_auth_token";
@@ -34,6 +35,8 @@ public class CarTrackerSettings implements ApplicationPreferences {
     private double obdReadingInterval;
     private String username;
     private String authenticationToken;
+    private String obdDevicePin;
+
 
     /** The context the settings were created om */
     private Context context;
@@ -65,6 +68,7 @@ public class CarTrackerSettings implements ApplicationPreferences {
         catch (NumberFormatException e) {
             obdReadingInterval = 15.0;
         }
+        obdDevicePin = preferences.getString(ODB_DEVICE_PIN, "0000");
 
         username = preferences.getString(USERNAME_KEY, "");
         authenticationToken = preferences.getString(AUTHENTICATION_TOKEN_KEY, "");
@@ -115,6 +119,7 @@ public class CarTrackerSettings implements ApplicationPreferences {
         return obdReaderType;
     }
 
+
     public String getUsername() {
         return username;
     }
@@ -127,6 +132,10 @@ public class CarTrackerSettings implements ApplicationPreferences {
         return setStringValue(AUTHENTICATION_TOKEN_KEY, authenticationToken);
     }
 
+    public String getObdDevicePin() {
+        return obdDevicePin;
+
+    }
     private boolean setStringValue(String key, String value) {
         if (null == preferences) {
             loadPreferences();
@@ -137,4 +146,5 @@ public class CarTrackerSettings implements ApplicationPreferences {
     private void loadPreferences() {
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
+
 }
