@@ -76,7 +76,12 @@ public class BluetoothOBDReader implements OBDReader {
     }
 
     protected boolean initializeBluetoothConnection() {
-        bluetoothSocket = BluetoothManager.connectToDevice(settings.getBluetoothDeviceAddress());
+        try {
+            bluetoothSocket = BluetoothManager.connectToDevice(settings.getBluetoothDeviceAddress());
+        }
+        catch (BluetoothDeviceNotPairedException e) {
+            logger.error(LOG_TAG, "Could not establish bluetooth connection to device! Not paired", e);
+        }
         if (null == bluetoothSocket) {
             logger.error(LOG_TAG, "Could not establish bluetooth connection to device!");
         }

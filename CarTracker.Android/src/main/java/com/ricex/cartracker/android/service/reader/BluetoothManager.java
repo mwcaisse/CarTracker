@@ -31,11 +31,14 @@ public class BluetoothManager {
         return adapter.getRemoteDevice(deviceAddress);
     }
 
-    public static BluetoothSocket connectToDevice(String deviceAddress) {
+    public static BluetoothSocket connectToDevice(String deviceAddress) throws BluetoothDeviceNotPairedException {
         return connectToDevice(getDevice(deviceAddress));
     }
 
-    public static BluetoothSocket connectToDevice(BluetoothDevice device) {
+    public static BluetoothSocket connectToDevice(BluetoothDevice device) throws BluetoothDeviceNotPairedException {
+        if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
+            throw new BluetoothDeviceNotPairedException("Cannot connect to device! Device not paired");
+        }
         BluetoothSocket socket = null;
         try {
             socket = device.createInsecureRfcommSocketToServiceRecord(BT_SERIAL_UUID);
@@ -62,8 +65,17 @@ public class BluetoothManager {
                 return null;
             }
         }
-
         return socket;
+
+    }
+
+    /** Determines if the given bluetooth device is paired or nopt
+     *
+     * @param device The device to check
+     * @return True if the device is paired, false otherwise
+     */
+    public static boolean isDevicePaired(BluetoothDevice device) {
+        return device.getBondState() == BluetoothDevice.BOND_BONDED;
     }
 
 }
