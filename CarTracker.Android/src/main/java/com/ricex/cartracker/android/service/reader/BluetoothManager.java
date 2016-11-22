@@ -78,4 +78,14 @@ public class BluetoothManager {
         return device.getBondState() == BluetoothDevice.BOND_BONDED;
     }
 
+    /** Pairs with the given device, using the given pin
+     *
+     * @param device The device to pair with
+     * @param pin The device's pin
+     */
+    public static void pairWithDevice(BluetoothDevice device, String pin) {
+        device.setPin(pin.getBytes());
+        device.createBond();
+    }
+
 }

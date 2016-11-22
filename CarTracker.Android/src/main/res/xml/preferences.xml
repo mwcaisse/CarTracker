@@ -31,6 +31,18 @@
         android:summary="The ODBII bluetooth device"
         android:defaultValue="" />
 
+    <CheckBoxPreference
+        android:key="pref_adbDeviceAutoPair"
+        android:title="Auto Pair"
+        android:summary="Automatically pair with the OBD Device"
+        android:defaultValue="true" />
+
+    <EditTextPreference
+        androidKey="pref_obdDevicePin"
+        android:title="Bluetooth Device Pin"
+        android:summary="The PIN to use to pair with the OBDII device"
+        android:defaultValue="1234" />
+
     <com.ricex.cartracker.android.view.BluetoothDevicePreference
         android:key="pref_triggerBluetoothDevice"
         android:title="Service Trigger Device"

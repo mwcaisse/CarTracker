@@ -19,6 +19,7 @@ public class CarTrackerSettings implements ApplicationPreferences {
     private static final String TRIGGER_BLUETOOTH_DEVICE_ADDRESS_KEY = "pref_triggerBluetoothDevice";
     private static final String OBD_READER_TYPE_KEY = "pref_obdReaderType";
     private static final String OBD_READING_INTERVAL_KEY = "pref_obdReadingInterval";
+    private static final String ODB_DEVICE_PIN = "pref_obdDevicePin";
 
     private boolean serviceEnabled;
     private boolean locationEnabled;
@@ -28,6 +29,7 @@ public class CarTrackerSettings implements ApplicationPreferences {
     private String triggerBluetoothDeviceAddress;
     private OBDReaderType obdReaderType;
     private double obdReadingInterval;
+    private String obdDevicePin;
 
     /** The context the settings were created om */
     private Context context;
@@ -59,6 +61,7 @@ public class CarTrackerSettings implements ApplicationPreferences {
         catch (NumberFormatException e) {
             obdReadingInterval = 15.0;
         }
+        obdDevicePin = preferences.getString(ODB_DEVICE_PIN, "0000");
 
     }
 
@@ -104,5 +107,9 @@ public class CarTrackerSettings implements ApplicationPreferences {
 
     public OBDReaderType getOBDReaderType() {
         return obdReaderType;
+    }
+
+    public String getObdDevicePin() {
+        return obdDevicePin;
     }
 }
