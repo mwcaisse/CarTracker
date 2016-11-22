@@ -49,11 +49,12 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
             }
         }
         else if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action)) {
-            if (isOBDDevice(intent)) {
-                //we have paired to the OBD Device... lets start the service
+            //bond state between device has changed, check that the device is teh ODB Device
+            // and that we are now paired with the device. If so
+            // start the service
+            BluetoothDevice device = getDeviceFromIntent(intent);
+            if (isOBDDevice(device) && BluetoothManager.isDevicePaired(device)) {
 
-                //We might want to synchronize this between the connection recieve device.. Otherwise
-                //we might start the service twice?
                 startService(context);
             }
         }
