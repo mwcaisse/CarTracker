@@ -27,7 +27,7 @@ define("Modules/Admin/RegistrationKeyGrid/RegistrationKeyGrid",
 			
 			rku.createDateDispaly = ko.computed(function () {
 				if (rku.createDate()) {
-					return rku.createDate().format("YYYY-MM-DD HH:mm:ss");
+					return util.formatDateTime(rku.createDate());
 				}
 				return "";
 			});
@@ -49,10 +49,7 @@ define("Modules/Admin/RegistrationKeyGrid/RegistrationKeyGrid",
 			}));
 			
 			key.createDateDisplay = ko.computed(function () {
-				if (key.createDate()) {
-					return key.createDate().format("YYYY-MM-DD HH:mm:ss");
-				}
-				return "";
+				return util.formatDateTime(key.createDate());
 			});
 			
 			key.activeDisplay = ko.computed(function () {

@@ -59,12 +59,25 @@ define("Service/util", ["moment"], function () {
 					string.trim().length === 0);
 		};
 		
-		self.formatDateTime = function (date) {				
+		self.formatDateTime = function (date, formatString) {	
+			if (typeof formatString === "undefined") {
+				formatString = "YYYY-MM-DD HH:mm:ss";
+			}
 			if (date && date.isValid()) {
-				return date.format("YYYY-MM-DD HH:mm:ss");
+				return date.format(formatString);
 			}
 			return "";
 		};
+		
+		self.formatDuration = function (duration, formatString) {
+			if (typeof formatString === "undefined") {
+				formatString = "hh:mm:ss";
+			}
+			if (duration) {
+				return duration.format(formatString);
+			}
+			return "";
+		}
 	
 		
 	})();

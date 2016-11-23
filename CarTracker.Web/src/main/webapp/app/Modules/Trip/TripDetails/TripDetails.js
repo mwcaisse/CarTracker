@@ -36,20 +36,20 @@ define("Modules/Trip/TripDetails/TripDetails",
 			return moment.duration(msDiff, "ms");
 		});
 		
-		self.tripTimeDisplay = ko.computed(function () {
-			return self.tripTime().format("hh:mm:ss");
+		self.tripTimeDisplay = ko.computed(function () {		
+			return util.formatDuration(self.tripTime());
 		});
 		
 		self.startDateDisplay = ko.computed(function () {
-			return self.startDate().format("YYYY-MM-DD HH:mm:ss");
+			return util.formatDateTime(self.startDate());
 		});
 		
 		self.endDateDisplay = ko.computed(function () {
-			return self.endDate().format("YYYY-MM-DD HH:mm:ss");
+			return util.formatDateTime(self.endDate());
 		});	
 		
 		self.idleTimeDisplay = ko.computed(function () {
-			return self.idleTime().format("hh:mm:ss");
+			return util.formatDuration(self.idleTime());	
 		});
 		
 		self.useImperial = ko.observable(true);

@@ -34,11 +34,11 @@ define("Modules/Trip/TripGrid/TripGrid", ["moment", "Service/system", "Service/u
 			trip.destination = ko.observable(data.destination);
 			
 			trip.startDateDisplay = ko.computed(function () {
-				return trip.startDate().format("YYYY-MM-DD HH:mm:ss");
+				return util.formatDateTime(trip.startDate());
 			});
 			
 			trip.endDateDisplay = ko.computed(function () {
-				return trip.endDate().format("YYYY-MM-DD HH:mm:ss");
+				return util.formatDateTime(trip.endDate());
 			});	
 			
 			trip.distanceTraveledDisplay = ko.computed(function() {
