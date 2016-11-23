@@ -1,0 +1,24 @@
+<html layout:decorator="common/layout">
+
+	<body>	
+		<div layout:fragment="content">
+		
+			<div class="container">				
+		
+				<div id="pagevm" data-bind="template: { name: 'Views/User/Tokens/Tokens.html', data: $data}"></div>
+								
+				<script type="text/javascript">
+					navigationPromise.then(function () {	
+						require(["Views/User/Tokens/Tokens"], function(vm) {
+							ko.applyBindings(new vm(), $("#pagevm")[0]);
+						});
+					});
+					
+				</script>
+								
+			</div>	
+								
+		</div>
+	</body>
+	
+</html>

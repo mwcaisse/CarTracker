@@ -1,7 +1,7 @@
 package com.ricex.cartracker.common.entity.auth;
 
 import com.ricex.cartracker.common.entity.AbstractEntity;
-import com.ricex.cartracker.common.viewmodel.UserViewModel;
+import com.ricex.cartracker.common.viewmodel.auth.UserViewModel;
 
 public class RegistrationKeyUse extends AbstractEntity {
 

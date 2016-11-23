@@ -1,17 +1,13 @@
-package com.ricex.cartracker.common.entity.auth;
+package com.ricex.cartracker.common.viewmodel.auth;
 
+import java.io.Serializable;
 import java.util.Date;
 
-import com.ricex.cartracker.common.entity.AbstractEntity;
-import com.ricex.cartracker.common.viewmodel.auth.UserAuthenticationTokenViewModel;
-
-public class UserAuthenticationToken extends AbstractEntity {
+public class UserAuthenticationTokenViewModel implements Serializable {
 
 	private long userId;
 	
-	private User user;
-	
-	private String token;
+	private UserViewModel user;
 	
 	private String deviceUuid;
 	
@@ -22,10 +18,8 @@ public class UserAuthenticationToken extends AbstractEntity {
 	private String lastLoginAddress;
 	
 	private Date expirationDate;
-
-	public UserAuthenticationToken() {
-		userId = INVALID_ID;
-	}
+	
+	private Date createDate;
 	
 	/**
 	 * @return the userId
@@ -44,29 +38,15 @@ public class UserAuthenticationToken extends AbstractEntity {
 	/**
 	 * @return the user
 	 */
-	public User getUser() {
+	public UserViewModel getUser() {
 		return user;
 	}
 
 	/**
 	 * @param user the user to set
 	 */
-	public void setUser(User user) {
+	public void setUser(UserViewModel user) {
 		this.user = user;
-	}
-
-	/**
-	 * @return the token
-	 */
-	public String getToken() {
-		return token;
-	}
-
-	/**
-	 * @param token the token to set
-	 */
-	public void setToken(String token) {
-		this.token = token;
 	}
 
 	/**
@@ -137,27 +117,22 @@ public class UserAuthenticationToken extends AbstractEntity {
 	 */
 	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
+	}
+
+	/**
+	 * @return the createDate
+	 */
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	/**
+	 * @param createDate the createDate to set
+	 */
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}	
 	
-	public boolean isValid() {
-		return isActive() &&
-				(null == expirationDate || new Date().before(expirationDate));
-	}
 	
-	public UserAuthenticationTokenViewModel toViewModel() {
-		UserAuthenticationTokenViewModel model = new UserAuthenticationTokenViewModel();
-		
-		model.setUserId(userId);
-		model.setUser(user);
-		model.setDeviceUuid(deviceUuid);
-		model.setActive(active);
-		model.setLastLogin(lastLogin);
-		model.setLastLoginAddress(lastLoginAddress);
-		model.setExpirationDate(expirationDate);
-		model.setCreateDate(createDate);
-		
-		return model;
-				
-	}
 	
 }

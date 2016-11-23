@@ -7,11 +7,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ricex.cartracker.common.entity.TripStatus;
 import com.ricex.cartracker.common.entity.auth.User;
+import com.ricex.cartracker.common.entity.auth.UserAuthenticationToken;
 import com.ricex.cartracker.common.util.JsonDateMillisecondsEpochDeserializer;
 import com.ricex.cartracker.common.util.JsonTripStatusSerializer;
 import com.ricex.cartracker.common.util.JsonUserAdapter;
+import com.ricex.cartracker.common.util.JsonUserAuthenticationTokenAdapter;
 import com.ricex.cartracker.common.util.JsonUserViewModelAdapter;
-import com.ricex.cartracker.common.viewmodel.UserViewModel;
+import com.ricex.cartracker.common.viewmodel.auth.UserViewModel;
 
 /** Factory Object for creating the Gson Parser
  * 
@@ -35,6 +37,7 @@ public class GsonFactory {
 				.registerTypeAdapter(TripStatus.class, new JsonTripStatusSerializer())
 				.registerTypeAdapter(User.class, new JsonUserAdapter())
 				.registerTypeAdapter(UserViewModel.class, new JsonUserViewModelAdapter())
+				.registerTypeAdapter(UserAuthenticationToken.class, new JsonUserAuthenticationTokenAdapter())
 				.create();		
 		return gson;
 	}

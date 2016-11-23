@@ -1,7 +1,7 @@
 package com.ricex.cartracker.data.manager.auth;
 
 import com.ricex.cartracker.common.entity.auth.User;
-import com.ricex.cartracker.common.viewmodel.UserRegistration;
+import com.ricex.cartracker.common.viewmodel.auth.UserRegistration;
 import com.ricex.cartracker.data.manager.AbstractEntityManager;
 import com.ricex.cartracker.data.mapper.auth.UserMapper;
 import com.ricex.cartracker.data.query.properties.EntityType;

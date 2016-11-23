@@ -3,8 +3,8 @@ package com.ricex.cartracker.common.entity.auth;
 import java.util.Date;
 
 import com.ricex.cartracker.common.entity.AbstractEntity;
-import com.ricex.cartracker.common.viewmodel.UserViewModel;
-import com.ricex.cartracker.common.viewmodel.UserViewModelImpl;
+import com.ricex.cartracker.common.viewmodel.auth.UserViewModel;
+import com.ricex.cartracker.common.viewmodel.auth.UserViewModelImpl;
 
 public class User extends AbstractEntity implements UserViewModel {
 

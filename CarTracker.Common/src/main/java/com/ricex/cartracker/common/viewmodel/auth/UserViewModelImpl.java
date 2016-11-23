@@ -1,4 +1,4 @@
-package com.ricex.cartracker.common.viewmodel;
+package com.ricex.cartracker.common.viewmodel.auth;
 
 public class UserViewModelImpl implements UserViewModel {
 

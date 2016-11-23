@@ -18,7 +18,7 @@ import com.ricex.cartracker.common.entity.auth.User;
 import com.ricex.cartracker.common.entity.auth.UserAuthenticationToken;
 import com.ricex.cartracker.common.viewmodel.BooleanResponse;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
-import com.ricex.cartracker.common.viewmodel.UserRegistration;
+import com.ricex.cartracker.common.viewmodel.auth.UserRegistration;
 import com.ricex.cartracker.data.manager.auth.UserAuthenticationTokenManager;
 import com.ricex.cartracker.data.manager.auth.UserManager;
 import com.ricex.cartracker.data.query.properties.EntityType;

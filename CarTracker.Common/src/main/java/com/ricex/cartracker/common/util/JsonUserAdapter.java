@@ -9,8 +9,8 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.ricex.cartracker.common.entity.auth.User;
-import com.ricex.cartracker.common.viewmodel.UserViewModel;
-import com.ricex.cartracker.common.viewmodel.UserViewModelImpl;
+import com.ricex.cartracker.common.viewmodel.auth.UserViewModel;
+import com.ricex.cartracker.common.viewmodel.auth.UserViewModelImpl;
 
 public class JsonUserAdapter  implements JsonSerializer<User> {
 

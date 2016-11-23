@@ -6,8 +6,8 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.ricex.cartracker.common.viewmodel.UserViewModel;
-import com.ricex.cartracker.common.viewmodel.UserViewModelImpl;
+import com.ricex.cartracker.common.viewmodel.auth.UserViewModel;
+import com.ricex.cartracker.common.viewmodel.auth.UserViewModelImpl;
 
 public class JsonUserViewModelAdapter implements JsonDeserializer<UserViewModel>  {
 
