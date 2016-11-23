@@ -1,8 +1,13 @@
 package com.ricex.cartracker.data.manager.auth;
 
+import java.util.List;
 import java.util.UUID;
 
+import org.apache.ibatis.session.RowBounds;
+
 import com.ricex.cartracker.common.entity.auth.UserAuthenticationToken;
+import com.ricex.cartracker.common.viewmodel.PagedEntity;
+import com.ricex.cartracker.common.viewmodel.SortParam;
 import com.ricex.cartracker.data.manager.AbstractEntityManager;
 import com.ricex.cartracker.data.mapper.auth.UserAuthenticationTokenMapper;
 import com.ricex.cartracker.data.query.properties.EntityType;
@@ -29,6 +34,12 @@ public class UserAuthenticationTokenManager extends AbstractEntityManager<UserAu
 	
 	public UserAuthenticationToken getByToken(String token) {
 		return mapper.getByToken(token);
+	}
+	
+	public PagedEntity<UserAuthenticationToken> getActiveForUser(long userId, int startAt, int maxResults, SortParam sort) {
+		List<UserAuthenticationToken> tokens = mapper.getActiveForUser(userId, parseSortBy(sort), new RowBounds(startAt, maxResults));
+		long total = mapper.countActiveForUser(userId);
+		return new PagedEntity<UserAuthenticationToken>(tokens, startAt, maxResults, total);
 	}
 	
 	/** Generates a new Authentication Token for the given user and device uuid

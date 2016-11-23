@@ -15,15 +15,6 @@ import com.ricex.cartracker.common.entity.Car;
 
 public interface CarMapper extends EntityMapper<Car> {		
 	
-	/** Gets all of the cars with paging and sorting
-	 * 
-	 * @param orderBy The sorting string
-	 * @param bounds the bounds specifying the offset + limit
-	 * @return All of the cars within the bounds + sorted
-	 */
-	
-	public List<Car> getAll(@Param("orderBy") String orderBy, RowBounds bounds);
-	
 	/** Fetches a Car by its VIN
 	 * 
 	 * @param vin The VIN of the car

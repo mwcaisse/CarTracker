@@ -35,13 +35,28 @@
     
     <select id="getAll" resultMap="userAuthenticationTokenResultMap">
         SELECT * FROM USER_AUTHENTICATION_TOKEN
-          <if test="orderBy != null">
+     	<if test="orderBy != null">
             ORDER BY ${orderBy}
-        </if>
+       	</if>
     </select>
     
     <select id="countAll" resultType="long">
         SELECT COUNT(*) FROM USER_AUTHENTICATION_TOKEN
+    </select>
+    
+    <select id="getActiveForUser" resultMap="userAuthenticationTokenResultMap" parameterType="long">
+        SELECT * FROM USER_AUTHENTICATION_TOKEN
+        WHERE USER_ID = #{userId}
+        AND   ACTIVE  = 1
+        <if test="orderBy != null">
+            ORDER BY ${orderBy}
+       	</if>
+    </select>
+    
+    <select id="countActiveForUser" parameterType="long" resultType="long">
+        SELECT COUNT(*) FROM USER_AUTHENTICATION_TOKEN
+        WHERE USER_ID = #{userId}
+        AND   ACTIVE  = 1
     </select>
     
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
