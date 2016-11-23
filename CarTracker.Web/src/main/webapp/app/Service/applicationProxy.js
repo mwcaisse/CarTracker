@@ -62,6 +62,9 @@ define("Service/applicationProxy", ["Service/proxy"], function (core) {
 			},
 			available: function (username) {
 				return core.get("user/available?username=" + username);
+			},
+			me: function () {
+				return core.get("user/me", {});
 			}
 		};
 		

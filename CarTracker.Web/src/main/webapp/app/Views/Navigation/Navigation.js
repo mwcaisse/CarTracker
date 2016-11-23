@@ -1,9 +1,9 @@
 "use strict";
 
 define("Views/Navigation/Navigation", 
-	["Service/system", "Service/util", "Service/navigation", 
+	["Service/system", "Service/util", "Service/navigation", "Service/applicationProxy",
 	 "Modules/Navigation/NavigationLink/NavigationLink", 
-	 "AMD/koTemplateLoader!Views/Navigation/Navigation.html"], function (system, util, navigation, navigationLink) {
+	 "AMD/koTemplateLoader!Views/Navigation/Navigation.html"], function (system, util, navigation, proxy, navigationLink) {
 	
 	var vm = function() {
 		var self = this;	
@@ -11,6 +11,12 @@ define("Views/Navigation/Navigation",
 		self.isAuthenticated = system.isAuthenticated;
 		
 		self.navigationLinks = ko.observableArray([]);
+		
+		self.rightNavigationLinks = ko.observableArray([]);
+		
+		self.currentUserName = ko.observable("");
+		
+		self.logoutLink = navigation.logoutLink();
 		
 		if (self.isAuthenticated) {
 			self.navigationLinks.push(new navigationLink({
@@ -28,12 +34,27 @@ define("Views/Navigation/Navigation",
 			self.navigationLinks.push(new navigationLink({
 				id: "Admin", name: "Admin", link: navigation.adminRegistrationKeyLink()
 			}));
-		}
+			
+			proxy.user.me().then(function(user) {
+				self.currentUserName(user.name);
+			});
+			
+			self.userNavigationLink = new navigationLink({
+				id: "User", name: self.currentUserName}
+			);
+			
+			self.userNavigationLink.addSubNavigationLink(new navigationLink({
+				id: "Settings", name: "Settings", link: "#"
+			}));
+			
+			self.userNavigationLink.addSubNavigationLink(new navigationLink({
+				id: "Logout", name: "Logout", link: navigation.logoutLink()
+			}));
+			
+			self.rightNavigationLinks.push(self.userNavigationLink);
+			
+		}		
 		
-		self.logoutClick = function () {
-			navigation.navigateToLogout();
-		};
-
 	};
 	
 	return vm;

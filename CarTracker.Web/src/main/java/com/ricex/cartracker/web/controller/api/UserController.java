@@ -101,6 +101,11 @@ public class UserController extends ApiController<User> {
 		}	
 	}
 	
+	@RequestMapping(value = "/me", method=RequestMethod.GET, produces = {JSON})	
+	public @ResponseBody EntityResponse<User> fetchCurrentUser() {
+		return createEntityResponse(super.getCurrentUser());
+	}
+	
 	/** Handles the result of a user login.
 	 * 
 	 * If the authentication failed, then returns a false BooleanResponse.

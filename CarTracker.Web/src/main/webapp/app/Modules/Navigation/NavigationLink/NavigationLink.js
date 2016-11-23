@@ -20,9 +20,11 @@ define("Modules/Navigation/NavigationLink/NavigationLink",
 		self.name = opts.name;
 		self.link = opts.link;
 		
-		self.subNavigationLinks = opts.subNavigationLinks;
+		self.subNavigationLinks = ko.observableArray([]);;
 		
-		self.hasSubNavigation = self.subNavigationLinks && self.subNavigationLinks.length > 0;
+		self.hasSubNavigation = ko.computed(function () {
+			return self.subNavigationLinks() && self.subNavigationLinks().length > 0;
+		});
 		
 		self.active = ko.observable(false);
 		
