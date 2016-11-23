@@ -82,6 +82,12 @@ define("Service/applicationProxy", ["Service/proxy"], function (core) {
 				return core.put("registration/key/", toUpdate);
 			}
 		};
+		
+		self.authToken = {
+			getAllActivePaged: function (startAt, maxResults, sort) {
+				return core.getPaged("user/tokens/active", startAt, maxResults, sort);
+			}
+		}
 				 
 		
 	})();

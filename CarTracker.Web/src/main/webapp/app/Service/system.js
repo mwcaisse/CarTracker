@@ -1,6 +1,6 @@
 "use strict";
 
-define("Service/system", [], function (text) {
+define("Service/system", ["Service/applicationProxy"], function (proxy) {
 	
 	var system = new (function() {
 		var self = this;
@@ -17,8 +17,7 @@ define("Service/system", [], function (text) {
 		self.EVENT_ALERT_DISPLAY = "alert:display";
 		self.EVENT_ALERT_CLEAR = "alert:clear";
 		
-		self.isAuthenticated = $("#isAuthenticated").val() === "true";
-		
+		self.isAuthenticated = $("#isAuthenticated").val() === "true";		
 		
 	})();
 	

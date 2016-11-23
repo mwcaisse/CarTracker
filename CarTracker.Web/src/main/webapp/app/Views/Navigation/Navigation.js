@@ -35,16 +35,12 @@ define("Views/Navigation/Navigation",
 				id: "Admin", name: "Admin", link: navigation.adminRegistrationKeyLink()
 			}));
 			
-			proxy.user.me().then(function(user) {
-				self.currentUserName(user.name);
-			});
-			
 			self.userNavigationLink = new navigationLink({
 				id: "User", name: self.currentUserName}
 			);
 			
 			self.userNavigationLink.addSubNavigationLink(new navigationLink({
-				id: "Settings", name: "Settings", link: "#"
+				id: "AuthTokens", name: "Tokens", link: navigation.userAuthenticationTokensLink()
 			}));
 			
 			self.userNavigationLink.addSubNavigationLink(new navigationLink({
@@ -52,6 +48,10 @@ define("Views/Navigation/Navigation",
 			}));
 			
 			self.rightNavigationLinks.push(self.userNavigationLink);
+			
+			proxy.user.me().then(function(user) {
+				self.currentUserName(user.name);
+			});
 			
 		}		
 		

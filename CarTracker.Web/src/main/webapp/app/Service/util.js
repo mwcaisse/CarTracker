@@ -1,6 +1,6 @@
 "use strict";
 
-define("Service/util", [], function () {
+define("Service/util", ["moment"], function () {
 	
 	var util = new (function() {
 		var self = this;
@@ -57,6 +57,13 @@ define("Service/util", [], function () {
 					typeof string !== "string" ||
 					string.length === 0 ||
 					string.trim().length === 0);
+		};
+		
+		self.formatDateTime = function (date) {				
+			if (date && date.isValid()) {
+				return date.format("YYYY-MM-DD HH:mm:ss");
+			}
+			return "";
 		};
 	
 		

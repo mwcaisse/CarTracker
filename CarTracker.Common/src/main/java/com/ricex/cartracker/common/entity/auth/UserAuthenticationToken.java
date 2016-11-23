@@ -147,6 +147,7 @@ public class UserAuthenticationToken extends AbstractEntity {
 	public UserAuthenticationTokenViewModel toViewModel() {
 		UserAuthenticationTokenViewModel model = new UserAuthenticationTokenViewModel();
 		
+		model.setId(id);
 		model.setUserId(userId);
 		model.setUser(user);
 		model.setDeviceUuid(deviceUuid);

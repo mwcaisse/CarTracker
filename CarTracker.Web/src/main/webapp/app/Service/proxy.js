@@ -1,11 +1,11 @@
 "use strict";
 
-define("Service/proxy", ["Service/system"], function (system) {
+define("Service/proxy", [], function () {
 	
 	var proxy = new (function() {
 		var self = this;
 
-		self.baseUrl = system.baseUrl + "api/";
+		self.baseUrl = "/cartracker/api/";
 		
 		self.ajax = function(options) {
 			var def = Q.defer();

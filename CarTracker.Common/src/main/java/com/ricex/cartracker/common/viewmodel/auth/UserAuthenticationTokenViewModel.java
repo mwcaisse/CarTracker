@@ -5,6 +5,8 @@ import java.util.Date;
 
 public class UserAuthenticationTokenViewModel implements Serializable {
 
+	private long id;
+	
 	private long userId;
 	
 	private UserViewModel user;
@@ -21,6 +23,21 @@ public class UserAuthenticationTokenViewModel implements Serializable {
 	
 	private Date createDate;
 	
+		
+	/**
+	 * @return the id
+	 */
+	public long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	/**
 	 * @return the userId
 	 */

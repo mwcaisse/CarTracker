@@ -45,6 +45,10 @@ define("Service/navigation", ["Service/system"], function (system) {
 			return system.baseUrl + "login" + (param ? ("?" + param) : "");
 		};
 		
+		self.userAuthenticationTokensLink = function () {
+			return system.baseUrl + "user/tokens";
+		};
+		
 		self.navigateToHome = function () {
 			self.navigateTo(self.homeLink());
 		};
