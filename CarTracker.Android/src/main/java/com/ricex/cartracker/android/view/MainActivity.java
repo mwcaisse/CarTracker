@@ -285,12 +285,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_LOGIN_CODE) {
             if (resultCode == RESULT_OK) {
-                String username = data.getStringExtra(LoginActivity.RES_ACCOUNT_NAME);
-                String authToken = data.getStringExtra(LoginActivity.RES_AUTH_TOKEN);
-
-                settings.setUsername(username);
-                settings.setAuthenticationToken(authToken);
-
                 //repeat again, to get a session token
                 checkForLogin();
             }

@@ -25,9 +25,6 @@ public class LoginActivity extends Activity {
 
     private static final String LOG_TAG = "CT_LoginActivity";
 
-    /** The key for passing in an account name to the activity */
-    public static final String ARG_ACCOUNT_NAME = "ACCOUNT_NAME";
-
     /** The key for retreiving the account name result */
     public static final String RES_ACCOUNT_NAME = "com.ricex.cartracker.android.view.login.account_name";
 
@@ -68,7 +65,7 @@ public class LoginActivity extends Activity {
                 }
             });
 
-        String accountName = getIntent().getStringExtra(ARG_ACCOUNT_NAME);
+        String accountName = settings.getUsername();
         if (!TextUtils.isEmpty(accountName)) {
             textUsername.setText(accountName);
         }
@@ -132,6 +129,10 @@ public class LoginActivity extends Activity {
     }
 
     protected void finishLogin(String username, String authenticationToken) {
+        //put the username and auth token in settings
+        settings.setUsername(username);
+        settings.setAuthenticationToken(authenticationToken);
+
         Intent result = new Intent();
 
         result.putExtra(RES_ACCOUNT_NAME, username);
