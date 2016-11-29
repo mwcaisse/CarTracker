@@ -41,13 +41,11 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationProcessingF
 
 		String tokenId = request.getHeader(TokenAuthentication.SESSION_TOKEN_HEADER);
 		
-		if (StringUtils.isBlank(tokenId)) {
-			return null; // no token was present in the header, move on
-		}
-		
-		Token token = tokenManager.getToken(tokenId);
-		if (null != token) {
-			return token.getAuthentication();
+		if (StringUtils.isNotBlank(tokenId)) {	
+			Token token = tokenManager.getToken(tokenId);
+			if (null != token) {
+				return token.getAuthentication();
+			}
 		}
 		
 		//no valid token was found, clear the security context and send back an error

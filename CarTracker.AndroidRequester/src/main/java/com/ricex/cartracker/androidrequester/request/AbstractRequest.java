@@ -219,14 +219,14 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	 * @return The new HttpEntity with the updated Authentication Headers
 	 */
 	private HttpEntity<?> addAuthenticationHeaders(final HttpEntity<?> entity) {
-		//only add the session token header, if we have a session token.
-		if (sessionContext.hasSessionToken()) {		
-			HttpHeaders headers = new HttpHeaders();	
-			headers.putAll(entity.getHeaders());	
-			headers.add(TokenAuthentication.SESSION_TOKEN_HEADER, sessionContext.getSessionToken());
-			return new HttpEntity<Object>(entity.getBody(), headers);
-		}
-		return entity;
+		//add the session token header
+		//add it regardless if we have a valid authentication token or not. We want to hit the
+		//	auth token filter to get the 401 response
+		HttpHeaders headers = new HttpHeaders();
+		headers.putAll(entity.getHeaders());
+		headers.add(TokenAuthentication.SESSION_TOKEN_HEADER, sessionContext.getSessionToken());
+		return new HttpEntity<Object>(entity.getBody(), headers);
+
 	}
 	
 	/** Processes the results of an AFT Request that returned a successful http status code (200 OK)
