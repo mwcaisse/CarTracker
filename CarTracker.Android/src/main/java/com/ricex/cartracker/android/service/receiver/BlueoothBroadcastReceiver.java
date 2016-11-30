@@ -33,15 +33,9 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
             initializeSettings(context);
 
             if (isTriggerDevice(intent)) {
+                Log.i(LOG_TAG, "Trigger device connected/disconnected. Starting/stoping service");
                 if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
-
-                    BluetoothDevice obdDevice = BluetoothManager.getDevice(settings.getBluetoothDeviceAddress());
-                    if (null != obdDevice && !BluetoothManager.isDevicePaired(obdDevice)) {
-                        BluetoothManager.pairWithDevice(obdDevice, settings.getObdDevicePin());
-                    }
-                    else {
-                        startService(context);
-                    }
+                    startService(context);
                 }
                 else {
                     stopService(context);
@@ -55,7 +49,8 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
             BluetoothDevice device = getDeviceFromIntent(intent);
             if (isOBDDevice(device) && BluetoothManager.isDevicePaired(device)) {
 
-                startService(context);
+                Log.i(LOG_TAG, "Paired with OBD Reader");
+                //startService(context);
             }
         }
     }
