@@ -1,6 +1,18 @@
 <div class="row">
 	<h2>Car Tracker Trip</h2>
 </div>
+<div class="row" style="padding-bottom: 5px;">
+	<div class="col-lg-6">
+		<div data-bind="if: $data.hasPreviousTrip">
+			<button class="btn btn-primary" type="button" data-bind="click: $data.clickPreviousTrip">Previous Trip</button>
+		</div>
+	</div>
+	<div class="col-lg-6">
+		<div class="pull-right" data-bind="if: $data.hasNextTrip">
+			<button class="btn btn-primary" type="button" data-bind="click: $data.clickNextTrip">Next Trip</button>
+		</div>
+	</div>
+</div>
 <div class="row">
 	<div class="col-lg-12">
 		<div data-bind="pageAlert: $data.pageAlert"></div>

@@ -39,6 +39,9 @@ define("Service/applicationProxy", ["Service/proxy"], function (core) {
 			getAllForCarPaged: function(carId, startAt, maxResults, sort) {				
 				return core.getPaged("car/" + carId + "/trip/", startAt, maxResults, sort);
 			},
+			getPreviousNext: function (id) {
+				return core.get("trip/" + id + "/prevnext");
+			},
 			update: function(trip) {
 				return core.put("trip/", trip);
 			},
