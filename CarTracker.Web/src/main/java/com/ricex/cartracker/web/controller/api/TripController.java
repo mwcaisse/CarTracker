@@ -12,6 +12,7 @@ import com.ricex.cartracker.common.entity.Trip;
 import com.ricex.cartracker.common.viewmodel.BooleanResponse;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
 import com.ricex.cartracker.common.viewmodel.PagedEntity;
+import com.ricex.cartracker.common.viewmodel.PreviousNextTrip;
 import com.ricex.cartracker.common.viewmodel.SortParam;
 import com.ricex.cartracker.data.manager.TripManager;
 import com.ricex.cartracker.data.query.properties.EntityType;
@@ -69,6 +70,16 @@ public class TripController extends ApiController<Trip> {
 			SortParam sort) { 
 		
 		return createEntityResponse(manager.getForCar(carId, startAt, maxResults, sort));
+	}
+	
+	/** Fetches the Previous and Next Trip id's for the given trip
+	 * 
+	 * @param tripId
+	 * @return
+	 */
+	@RequestMapping(value="/trip/{id}/prevnext", method = RequestMethod.GET, produces={JSON})
+	public @ResponseBody EntityResponse<PreviousNextTrip> getPreviousNextTripForCar(@PathVariable long id) {
+		return createEntityResponse(manager.getPreviousNextTrip(id));
 	}
 	
 	/** Creates a new Trip for the given car

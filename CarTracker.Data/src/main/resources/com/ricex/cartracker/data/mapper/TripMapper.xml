@@ -54,6 +54,11 @@
         </if>
     </select>  
     
+     <select id="countForCar" resultType="long" parameterType="long">
+        SELECT COUNT(*) FROM TRIP
+        WHERE TRIP.CAR_ID = #{carId}
+    </select>
+    
     <select id="getUnprocessedTrips" resultMap="tripResultMap">
         <![CDATA[
 	        SELECT T.* 
@@ -70,10 +75,27 @@
   		]]>
     </select>
     
-    <select id="countForCar" resultType="long" parameterType="long">
-        SELECT COUNT(*) FROM TRIP
-        WHERE TRIP.CAR_ID = #{carId}
+    <select id="getPreviousTripForCar" resultMap="tripResultMap" parameterType="long">
+         <![CDATA[
+	        SELECT * FROM TRIP
+		  	WHERE CAR_ID = (SELECT CAR_ID FROM TRIP WHERE ID = #{tripId}) 
+		  	AND START_DATE < (SELECT START_DATE FROM TRIP WHERE ID = #{tripId})
+		  	ORDER BY START_DATE DESC
+		  	LIMIT 1;
+	  	]]>
     </select>
+    
+    <select id="getNextTripForCar" resultMap="tripResultMap" parameterType="long">
+        <![CDATA[
+	        SELECT * FROM TRIP
+		  	WHERE CAR_ID = (SELECT CAR_ID FROM TRIP WHERE ID = #{tripId}) 
+		  	AND START_DATE > (SELECT START_DATE FROM TRIP WHERE ID = #{tripId})
+		  	ORDER BY START_DATE ASC
+		  	LIMIT 1;
+	  	]]>
+    </select>
+    
+   
     
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO TRIP (START_DATE, END_DATE, NAME, CAR_ID, AVERAGE_SPEED, MAX_SPEED, AVERAGE_ENGINE_RPM, 

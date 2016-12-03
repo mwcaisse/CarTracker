@@ -9,6 +9,7 @@ import com.ricex.cartracker.common.entity.Car;
 import com.ricex.cartracker.common.entity.Trip;
 import com.ricex.cartracker.common.entity.TripStatus;
 import com.ricex.cartracker.common.viewmodel.PagedEntity;
+import com.ricex.cartracker.common.viewmodel.PreviousNextTrip;
 import com.ricex.cartracker.common.viewmodel.SortParam;
 import com.ricex.cartracker.data.mapper.TripMapper;
 import com.ricex.cartracker.data.query.properties.EntityType;
@@ -56,6 +57,42 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 	 */
 	public List<Trip> getUnprocessedTrips() {
 		return mapper.getUnprocessedTrips();
+	}
+	
+	/** Gets the trip after the given trip for the same car
+	 * 
+	 * @param tripId
+	 * @return
+	 */
+	public Trip getNextTripForCar(long tripId) {
+		return mapper.getNextTripForCar(tripId);
+	}
+	
+	/** Gets the trip before the given trip for the same car
+	 * 
+	 * @param tripId
+	 * @return
+	 */
+	public Trip getPreviousTripForCar(long tripId) {
+		return mapper.getPreviousTripForCar(tripId);
+	}
+	
+	public PreviousNextTrip getPreviousNextTrip(long tripId) {
+		PreviousNextTrip pnt = new PreviousNextTrip();
+		
+		pnt.setTripId(tripId);
+		Trip prevTrip = getPreviousTripForCar(tripId);
+		Trip nextTrip = getNextTripForCar(tripId);
+		
+		if (null != prevTrip) {
+			pnt.setPreviousTripId(prevTrip.getId());
+		}
+		
+		if (null != nextTrip) {
+			pnt.setNextTripId(nextTrip.getId());
+		}
+		
+		return pnt;
 	}
 	
 	/** Creates a new trip for the car with the given VIN

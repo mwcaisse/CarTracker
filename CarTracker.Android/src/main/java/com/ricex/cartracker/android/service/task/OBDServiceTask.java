@@ -44,6 +44,7 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
     }
 
     protected void createReader() {
+        info(LOG_TAG, "Creating OBD Reader");
         switch (settings.getOBDReaderType()) {
             case BLUETOOTH_READER:
                 reader = new BluetoothOBDReader(this, settings);
@@ -56,6 +57,7 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
 
     public boolean performLoopInitialization() {
         if (! reader.initialize()) {
+            warn(LOG_TAG, "Couldn't initialize OBD Reader");
             return false;
         }
 
@@ -83,6 +85,7 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
         try {
             OBDReading data = reader.read();
             if ("-1".equals(data.getEngineRPM())) {
+                info(LOG_TAG, "Received -1 from the reader, stopping");
                 return false;
             }
             GPSLocation gpsLocation = gpsReader.getCurrentLocation();

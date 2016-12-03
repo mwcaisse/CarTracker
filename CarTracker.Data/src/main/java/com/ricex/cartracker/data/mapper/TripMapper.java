@@ -44,6 +44,20 @@ public interface TripMapper extends EntityMapper<Trip> {
 	 */
 	public List<Trip> getUnprocessedTrips();
 	
+	/** Returns the trip after the trip with the given id, for its car
+	 * 
+	 * @param tripId
+	 * @return
+	 */
+	public Trip getPreviousTripForCar(long tripId);
+	
+	/** Returns the trip before the trip with the given id, for its car
+	 * 
+	 * @param tripId
+	 * @return
+	 */
+	public Trip getNextTripForCar(long tripId);
+	
 	/** Deletes all the trips for the given car
 	 * 
 	 * @param carId The id of the car
