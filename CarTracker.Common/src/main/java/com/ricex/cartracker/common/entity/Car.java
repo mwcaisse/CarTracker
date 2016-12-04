@@ -1,5 +1,7 @@
 package com.ricex.cartracker.common.entity;
 
+import java.util.Date;
+
 import com.ricex.cartracker.common.entity.auth.User;
 
 public class Car extends AbstractEntity {
@@ -11,6 +13,10 @@ public class Car extends AbstractEntity {
 	private long ownerId;
 	
 	private User owner;
+	
+	private double mileage;
+	
+	private Date mileageLastUserSet;
 	
 	/**
 	 * @return the vin
@@ -66,5 +72,34 @@ public class Car extends AbstractEntity {
 	 */
 	public void setOwner(User owner) {
 		this.owner = owner;
-	}	
+	}
+
+	/**
+	 * @return the mileage
+	 */
+	public double getMileage() {
+		return mileage;
+	}
+
+	/**
+	 * @param mileage the mileage to set
+	 */
+	public void setMileage(double mileage) {
+		this.mileage = mileage;
+	}
+
+	/**
+	 * @return the mileageLastUserSet
+	 */
+	public Date getMileageLastUserSet() {
+		return mileageLastUserSet;
+	}
+
+	/**
+	 * @param mileageLastUserSet the mileageLastUserSet to set
+	 */
+	public void setMileageLastUserSet(Date mileageLastUserSet) {
+		this.mileageLastUserSet = mileageLastUserSet;
+	}		
+	
 }

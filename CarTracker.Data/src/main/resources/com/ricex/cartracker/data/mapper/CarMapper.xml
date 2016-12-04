@@ -12,6 +12,8 @@
         <result property="vin" column="VIN" />
         <result property="name" column="NAME" />
         <result property="ownerId" column="OWNER_ID" />
+        <result property="mileage" column="MILEAGE" />
+        <result property="mileageLastUserSet" column="MILEAGE_LAST_USER_SET" />
         <result property="createDate" column="CREATE_DATE" />
         <result property="modifiedDate" column="MODIFIED_DATE" />
         
@@ -40,14 +42,16 @@
     </select>
     
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO CAR (VIN, NAME)
-        VALUES (#{vin}, #{name})
+        INSERT INTO CAR (VIN, NAME, MILEAGE, MILEAGE_LAST_USER_SET)
+        VALUES (#{vin}, #{name}, #{mileage}, #{mileageLastUserSet})
     </insert>
     
     <update id="update">
         UPDATE CAR SET
         	VIN = #{vin},
-        	NAME = #{name}
+        	NAME = #{name},
+        	MILEAGE = #{mileage},
+        	MILEAGE_LAST_USER_SET = #{mileageLastUserSet}
        	WHERE ID = #{id}
     </update>
     
