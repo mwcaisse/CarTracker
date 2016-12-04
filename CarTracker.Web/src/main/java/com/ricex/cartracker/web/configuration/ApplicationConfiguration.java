@@ -135,7 +135,7 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	
 	@Bean
 	public TripProcessor tripProcessor() throws Exception {
-		return new TripProcessor(tripManager(), readingManager());
+		return new TripProcessor(tripManager(), readingManager(), carManager());
 	}
 	
 	@Bean 

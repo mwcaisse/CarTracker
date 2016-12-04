@@ -3,9 +3,11 @@ package com.ricex.cartracker.web.processor;
 import java.util.Date;
 import java.util.List;
 
+import com.ricex.cartracker.common.entity.Car;
 import com.ricex.cartracker.common.entity.Reading;
 import com.ricex.cartracker.common.entity.Trip;
 import com.ricex.cartracker.common.entity.TripStatus;
+import com.ricex.cartracker.data.manager.CarManager;
 import com.ricex.cartracker.data.manager.ReadingManager;
 import com.ricex.cartracker.data.manager.TripManager;
 import com.ricex.cartracker.data.validation.EntityValidationException;
@@ -16,31 +18,16 @@ public class TripProcessor {
 	
 	private final ReadingManager readingManager;
 	
-	public TripProcessor(TripManager tripManager, ReadingManager readingManager) {
+	private final CarManager carManager;
+	
+	public TripProcessor(TripManager tripManager, ReadingManager readingManager, CarManager carManager) {
 		this.tripManager = tripManager;
 		this.readingManager = readingManager;
+		this.carManager = carManager;
 	}
 	
 	public Trip processTrip(long tripId) throws EntityValidationException {
 		return processTrip(tripManager.get(tripId));
-	}
-	
-	/** Processes all trips of the given trips
-	 * 
-	 * @param tripsToProcess The trips to p rocess
-	 */
-	
-	public void processTrips(List<Trip> tripsToProcess)  {	
-		for (Trip trip : tripsToProcess) {
-			processTrip(trip);	
-		}
-	}
-	
-	/** Processes all unprocessed trips
-	 * 
-	 */
-	public void processUnprocessedTrips() {
-		processTrips(tripManager.getUnprocessedTrips());
 	}
 	
 	/** Processes the given trip
@@ -49,7 +36,13 @@ public class TripProcessor {
 	 * @return The processed trip
 	 */
 	
-	public Trip processTrip(Trip trip) {	
+	public Trip processTrip(Trip trip) throws EntityValidationException {
+		if (TripStatus.PROCESSED.equals(trip.getStatus())) {
+			throw new EntityValidationException("Trip has already been processed!");
+		}
+		
+		Car tripCar = trip.getCar();
+		
 		List<Reading> readings = readingManager.getForTrip(trip.getId());
 		
 		if (!readings.isEmpty()) {
@@ -96,19 +89,31 @@ public class TripProcessor {
 			trip.setMaxEngineRPM(maxEngineRPM);
 			trip.setMaximumSpeed(maxSpeed);
 			trip.setDistanceTraveled(totalDistance);
-			trip.setIdleTime(idleTime);
+			trip.setIdleTime(idleTime);			
+			
 			
 			//if the end date of the trip is null, set it to the date of the last reading
 			if (null == trip.getEndDate()) {
 				Date endDate = readings.get(readings.size() - 1).getReadDate();
 				trip.setEndDate(endDate);
 			}
+			
+			if (null != tripCar &&
+					(null == tripCar.getMileageLastUserSet() ||
+					tripCar.getMileageLastUserSet().before(trip.getEndDate()))) {
+				double carMileage = tripCar.getMileage();
+				carMileage += totalDistance;
+				tripCar.setMileage(carMileage);
+			}
 		}		
 		
 		trip.setStatus(TripStatus.PROCESSED);
 		
 		try {
-			tripManager.update(trip);
+			tripManager.update(trip);	
+			if (null != tripCar && trip.getDistanceTraveled() > 0) {
+				carManager.update(tripCar);
+			}
 		}
 		catch (EntityValidationException e) {
 			Trip originalTrip = tripManager.get(trip.getId());
