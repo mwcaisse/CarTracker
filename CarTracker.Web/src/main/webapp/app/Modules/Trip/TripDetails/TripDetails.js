@@ -172,12 +172,22 @@ define("Modules/Trip/TripDetails/TripDetails",
 			});
 		};
 		
+		self.processTrip = function () {
+			proxy.trip.process(self.tripId).then(function (processedTrip) {
+				self.update(processedTrip);
+			});
+		};
+		
 		self.canSave = ko.computed(function () {
 			var currentTrip = self.toTripObject();
 			if (ko.toJSON(currentTrip) !== ko.toJSON(self.originalTrip())) {
 				return true;
 			}
 			return false;
+		});
+		
+		self.canProcess = ko.computed(function() {
+			return self.status() !== util.TRIP_STATUS_PROCESSED;
 		});
 		
 		self.load = function() {
@@ -190,6 +200,10 @@ define("Modules/Trip/TripDetails/TripDetails",
 		
 		self.saveClicked = function () {
 			self.saveTrip();
+		};
+		
+		self.processClicked = function () {
+			self.processTrip();
 		};
 	};
 	
