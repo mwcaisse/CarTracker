@@ -27,7 +27,7 @@ import com.github.pires.obd.exceptions.UnsupportedCommandException;
 import com.ricex.cartracker.android.model.OBDReading;
 import com.ricex.cartracker.android.service.OBDCommandJob;
 import com.ricex.cartracker.android.service.OBDCommandStatus;
-import com.ricex.cartracker.android.service.ServiceLogger;
+import com.ricex.cartracker.android.service.logger.ServiceLogger;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
 
 import java.io.IOException;

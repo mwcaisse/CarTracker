@@ -13,6 +13,9 @@ import com.j256.ormlite.android.apptools.OrmLiteBaseService;
 import com.ricex.cartracker.android.R;
 import com.ricex.cartracker.android.data.util.DatabaseHelper;
 import com.ricex.cartracker.android.model.OBDReading;
+import com.ricex.cartracker.android.service.logger.*;
+
+import com.ricex.cartracker.android.service.logger.ServiceLogger;
 import com.ricex.cartracker.android.service.persister.DatabasePersister;
 import com.ricex.cartracker.android.service.persister.Persister;
 import com.ricex.cartracker.android.service.persister.webservice.WebServicePersister;
@@ -39,6 +42,7 @@ public class OBDService extends OrmLiteBaseService<DatabaseHelper> {
     private OBDServiceBinder binder;
 
     private Persister persister;
+    private ServiceLogger databaseLogger;
     private Thread persisterThread;
 
     public static final int FOREGROUND_NOTIFICATION_ID = 15;
@@ -75,15 +79,19 @@ public class OBDService extends OrmLiteBaseService<DatabaseHelper> {
 
     protected void startService() {
         //if we haven't created the thread before, create it
-        if (persisterThread == null) {
+        if (null == persisterThread) {
             //persister = new WebServicePersister(settings);
             persister = new DatabasePersister(settings, getHelper());
             persisterThread = new Thread(persister);
         }
-        if (thread == null) {
-            task = new OBDServiceTask(this, settings, persister, new GoogleGPSReader(this));
+        if (null == databaseLogger) {
+            databaseLogger = new DatabaseLogger(getHelper());
+        }
+        if (null == thread) {
+            task = new OBDServiceTask(this, settings, persister, new GoogleGPSReader(this), databaseLogger);
             thread = new Thread(task);
         }
+
         //if the thread isn't running (stopped? or was just created)
         //start it
         if (!thread.isAlive()) {

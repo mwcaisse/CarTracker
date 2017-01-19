@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.ricex.cartracker.android.model.OBDReading;
 import com.ricex.cartracker.android.service.OBDService;
-import com.ricex.cartracker.android.service.ServiceLogger;
+import com.ricex.cartracker.android.service.logger.ServiceLogger;
 import com.ricex.cartracker.android.service.persister.Persister;
 import com.ricex.cartracker.android.service.reader.BluetoothOBDReader;
 import com.ricex.cartracker.android.service.reader.ConnectionLostException;
@@ -32,14 +32,17 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
 
     private GPSReader gpsReader;
 
+    private ServiceLogger logger;
+
     private static final String LOG_TAG = "ODBSERVICETASK";
 
-    public OBDServiceTask(OBDService service, CarTrackerSettings settings, Persister persister, GPSReader gpsReader) {
+    public OBDServiceTask(OBDService service, CarTrackerSettings settings, Persister persister, GPSReader gpsReader, ServiceLogger logger) {
         super(settings.getODBReadingInterval());
         this.service = service;
         this.settings = settings;
         this.persister = persister;
         this.gpsReader = gpsReader;
+        this.logger = logger;
         createReader();
     }
 
@@ -120,26 +123,45 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
     }
 
     @Override
+    public void debug(String tag, String message) {
+        Log.d(tag, message);
+        service.addMessage(message);
+        logger.debug(tag, message);
+    }
+
+    @Override
     public void info(String tag, String message) {
         Log.i(tag, message);
         service.addMessage(message);
+        logger.info(tag, message);
     }
 
     @Override
     public void warn(String tag, String message) {
         Log.w(tag, message);
         service.addMessage(message);
+        logger.warn(tag, message);
+    }
+
+    @Override
+    public void warn(String tag, String message, Throwable ex) {
+        Log.w(tag, message, ex);
+        service.addMessage(message + " : " + ex.getMessage());
+        logger.warn(tag, message, ex);
     }
 
     @Override
     public void error(String tag, String message) {
         Log.e(tag, message);
         service.addMessage(message);
+        logger.error(tag, message);
     }
 
     @Override
-    public void error(String tag, String message, Exception e) {
-        Log.e(tag, message, e);
-        service.addMessage(message + " : " + e.getMessage());
+    public void error(String tag, String message, Throwable ex) {
+        Log.e(tag, message, ex);
+        service.addMessage(message + " : " + ex.getMessage());
+        logger.error(tag, message);
     }
+
 }
