@@ -53,6 +53,10 @@ lint.xml
 .idea/
 
 
+# Node Files #
+##############
+
+node_modules/
 
 # Gradle Files #
 ################
