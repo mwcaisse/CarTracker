@@ -58,6 +58,7 @@ import com.ricex.cartracker.web.controller.view.AdminViewController;
 import com.ricex.cartracker.web.controller.view.CarViewController;
 import com.ricex.cartracker.web.controller.view.HomeController;
 import com.ricex.cartracker.web.controller.view.LoginViewController;
+import com.ricex.cartracker.web.controller.view.TestViewController;
 import com.ricex.cartracker.web.controller.view.TripViewController;
 import com.ricex.cartracker.web.controller.view.UserViewController;
 import com.ricex.cartracker.web.processor.TripProcessor;
@@ -111,6 +112,11 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	@Bean
 	public CarViewController carViewController() {
 		return new CarViewController();
+	}
+	
+	@Bean
+	public TestViewController testViewController() {
+		return new TestViewController();
 	}
 	
 	@Bean
