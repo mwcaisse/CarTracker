@@ -57,6 +57,8 @@ lint.xml
 ##############
 
 node_modules/
+CarTracker.Web/src/main/webapp/lib/
+
 
 # Gradle Files #
 ################
