@@ -9,6 +9,7 @@
         </File>
     </Appenders>
     <Loggers>
+    <Logger name="org.springframework" level="DEBUG"/>
         <Root level="debug">
             <AppenderRef ref="Console" />
             <AppenderRef ref="MyFile"/>

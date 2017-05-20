@@ -23,7 +23,7 @@
         android:key="pref_serverAddress"
         android:title="Server Address"
         android:summary="The address of the server containing the api"
-        android:defaultValue="localhost:8080" />
+        android:defaultValue="https://home.fourfivefire.com/cartracker/" />
 
     <PreferenceScreen
         android:title="Login"

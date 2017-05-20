@@ -22,6 +22,11 @@ eclipse {
 	}
 }
 
+
+configurations {
+	compile.exclude module: 'commons-logging'
+}
+
 repositories {
     mavenCentral()
 }
@@ -54,7 +59,7 @@ dependencies {
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
     
     //spring framework
-    compile group: 'org.springframework', name: 'spring-webmvc', version: "$springVersion"
+    compile (group: 'org.springframework', name: 'spring-webmvc', version: "$springVersion")
     compile group: 'org.springframework', name: 'spring-jdbc', version: "$springVersion"
     
     //spring security
@@ -84,6 +89,7 @@ dependencies {
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: "$log4jVersion"
     compile group: 'org.slf4j', name: 'slf4j-api', version: "$slf4jVersion"
     compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: "$log4jVersion"
+    compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.7.25'
     
     providedCompile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
     

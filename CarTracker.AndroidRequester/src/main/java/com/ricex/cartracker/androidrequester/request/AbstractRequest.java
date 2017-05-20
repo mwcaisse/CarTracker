@@ -200,7 +200,12 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	
 	protected RequestResponse<T> makeRequest(String url, HttpMethod method, HttpEntity<?> requestEntity, ParameterizedTypeReference<EntityResponse<T>> responseType, Object... urlVariables) throws RequestException {	
 		url = processUrl(url);
-		HttpEntity<?> entity = addAuthenticationHeaders(requestEntity);
+		HttpEntity<?> entity = requestEntity;
+
+		//Only add the authentication headers if we are not making a login request
+		if (!isLoginUrl(url)) {
+			entity = addAuthenticationHeaders(requestEntity);
+		}
 		try {
 			ResponseEntity<EntityResponse<T>> results = restTemplate.exchange(url, method, entity, responseType, urlVariables);
 			return processSucessfulRequestResponse(results, url, method, requestEntity, responseType, urlVariables);
@@ -210,6 +215,18 @@ public abstract class AbstractRequest<T> implements Request<T> {
 			HttpStatus status = e.getStatusCode();
 			return processErrorRequestResponse(responseBody, status, url, method, requestEntity, responseType, urlVariables);
 		}
+	}
+
+	protected String getTokenLoginAddress() {
+		return serverAddress + "user/login/token";
+	}
+
+	protected String getPasswordLoginAddress() {
+		return serverAddress + "user/login/password";
+	}
+
+	protected boolean isLoginUrl(String url) {
+		return getTokenLoginAddress().equalsIgnoreCase(url) || getPasswordLoginAddress().equalsIgnoreCase(url);
 	}
 	
 	/** Adds the appropriate Authentication headers to the given HttpEntity. The entity passed in is not modified. New entity
@@ -225,6 +242,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 		HttpHeaders headers = new HttpHeaders();
 		headers.putAll(entity.getHeaders());
 		headers.add(TokenAuthentication.SESSION_TOKEN_HEADER, sessionContext.getSessionToken());
+
 		return new HttpEntity<Object>(entity.getBody(), headers);
 
 	}

@@ -42,7 +42,7 @@ public class LoginPasswordRequest extends AbstractRequest<Boolean> {
 	
 	protected RequestResponse<Boolean> executeRequest() throws RequestException {
 		AuthUser user = new AuthUser(username, password);
-		return postForObject(serverAddress + "user/login/password", user, new BooleanResponseType());
+		return postForObject(getPasswordLoginAddress(), user, new BooleanResponseType());
 	}
 
 }

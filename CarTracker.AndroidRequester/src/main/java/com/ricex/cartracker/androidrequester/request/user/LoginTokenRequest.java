@@ -51,7 +51,7 @@ public class LoginTokenRequest extends AbstractRequest<Boolean> {
 	
 	protected RequestResponse<Boolean> executeRequest() throws RequestException {
 		AuthToken authToken = new AuthToken(username, token, getDeviceUID());
-		return postForObject(serverAddress + "user/login/token", authToken, new BooleanResponseType());
+		return postForObject(getTokenLoginAddress(), authToken, new BooleanResponseType());
 	}
 	
 }
