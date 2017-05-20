@@ -8,6 +8,10 @@
     "experimentalDecorators": true,
     "lib": [ "es2015", "dom" ],
     "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true
-  }
+    "suppressImplicitAnyIndexErrors": true,
+		"rootDir": "src/main/webapp/app",
+		"declaration": true
+  },
+	"compileOnSave": true,
+	"buildOnSave": true
 }
