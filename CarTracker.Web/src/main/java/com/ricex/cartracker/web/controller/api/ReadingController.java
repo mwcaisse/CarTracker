@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ricex.cartracker.common.entity.Reading;
+import com.ricex.cartracker.common.mapper.ReadingMapper;
+import com.ricex.cartracker.common.viewmodel.BulkUploadResult;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
 import com.ricex.cartracker.common.viewmodel.ReadingUpload;
-import com.ricex.cartracker.common.viewmodel.BulkUploadResult;
+import com.ricex.cartracker.common.viewmodel.entity.ReadingViewModel;
 import com.ricex.cartracker.data.manager.ReadingManager;
 import com.ricex.cartracker.data.query.properties.EntityType;
 import com.ricex.cartracker.data.validation.EntityValidationException;
@@ -50,8 +52,8 @@ public class ReadingController extends ApiController<Reading> {
 	 * @return The readings
 	 */
 	@RequestMapping(value="/trip/{tripId}/reading/", method = RequestMethod.GET, produces={JSON})
-	public @ResponseBody EntityResponse<List<Reading>> getAllForTrip(@PathVariable long tripId) {
-		return createEntityResponse(manager.getForTrip(tripId));
+	public @ResponseBody EntityResponse<List<ReadingViewModel>> getAllForTrip(@PathVariable long tripId) {
+		return createEntityResponse(ReadingMapper.ToViewModel(manager.getForTrip(tripId)));
 	}
 	
 	/** Performs a bulk upload of readings
