@@ -95,8 +95,6 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
             data.setLocation(gpsLocation);
             persister.persist(data);
             service.notifyListeners(data);
-
-            info(LOG_TAG, "Read some data, Engine RPM: " + data.getEngineRPM());
         }
         catch (ConnectionLostException e) {
             info(LOG_TAG, "Connection to ODB Device lost.");
