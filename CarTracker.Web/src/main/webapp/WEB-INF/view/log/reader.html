@@ -1,0 +1,24 @@
+<html layout:decorator="common/layout">
+
+	<body>	
+		<div layout:fragment="content">
+		
+			<div class="container">				
+		
+				<div id="pagevm" data-bind="template: { name: 'Views/Log/Reader.html', data: $data}"></div>
+				
+				<script type="text/javascript">
+					navigationPromise.then(function () {	
+						require(["Views/Log/Reader"], function(vm) {
+							ko.applyBindings(new vm(), $("#pagevm")[0]);
+						});
+					});
+				</script>
+
+								
+			</div>	
+								
+		</div>
+	</body>
+	
+</html>

@@ -31,6 +31,16 @@ define("Views/Navigation/Navigation",
 				id: "Trip", name: "Trip", link: navigation.tripsLink()
 			}));
 			
+			self.logNavigationLink = new navigationLink({
+				id: "Log", name: "Log"
+			});
+			
+			self.logNavigationLink.addSubNavigationLink(new navigationLink({
+				id: "Log/Reader", name: "Reader", link: navigation.readerLogLink()
+			}));
+			
+			self.navigationLinks.push(self.logNavigationLink);
+			
 			self.navigationLinks.push(new navigationLink({
 				id: "Admin", name: "Admin", link: navigation.adminRegistrationKeyLink()
 			}));
