@@ -37,7 +37,7 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
 
         String action = intent.getAction();
 
-        logInfo(LOG_TAG, "Received a bluetooth broadcast");
+        logInfo(LOG_TAG, "Received a bluetooth broadcast: " + getDeviceName(intent));
 
         if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action) ||
             BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
@@ -133,5 +133,10 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
         if (null == settings) {
             settings = new CarTrackerSettings(context);
         }
+    }
+
+    protected String getDeviceName(Intent intent) {
+        BluetoothDevice device = getDeviceFromIntent(intent);
+        return null == device ? "" :  device.getName();
     }
 }
