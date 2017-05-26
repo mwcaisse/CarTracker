@@ -1,11 +1,11 @@
 <!-- ko ifnot: $data.hasSubNavigation --> 
-	<li data-bind="css: {active: $data.active}">
-		<a data-bind="text: $data.name, attr: {href: $data.link} "></a>
+	<li class="nav-item" data-bind="css: {active: $data.active}">
+		<a class="nav-link" data-bind="text: $data.name, attr: {href: $data.link} "></a>
 	</li>
 <!-- /ko -->
 <!-- ko if: $data.hasSubNavigation -->
-	<li class="dropdown" data-bind="css: {active: $data.active}">
-		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span data-bind="text: $data.name"></span> <span class="caret"></span></a>	
+	<li class="nav-item dropdown" data-bind="css: {active: $data.active}">
+		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><span data-bind="text: $data.name"></span> <span class="caret"></span></a>	
 		<ul class="dropdown-menu" data-bind="foreach: $data.subNavigationLinks">
 			<div data-bind="navigationLink: $data"></div>					
 		</ul>		
