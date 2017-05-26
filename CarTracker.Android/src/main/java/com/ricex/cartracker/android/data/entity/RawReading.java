@@ -17,11 +17,6 @@ public class RawReading extends ServerEntity {
     @DatabaseField(canBeNull = false)
     private Date readDate;
 
-    /*
-    public static final String PROPERTY_TRIP_ID = "tripId";
-    @DatabaseField(canBeNull = false)
-    private long tripId;*/
-
     public static final String PROPERTY_TRIP = "trip_id";
     @DatabaseField(foreign = true, canBeNull = false, columnName = "trip_id")
     private RawTrip trip;

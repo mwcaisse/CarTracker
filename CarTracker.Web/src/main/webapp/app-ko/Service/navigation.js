@@ -21,6 +21,10 @@ define("Service/navigation", ["Service/system"], function (system) {
 			return system.baseUrl + "trip/";
 		};
 		
+		self.readerLogLink = function () {
+			return system.baseUrl + "log/reader";
+		};
+		
 		self.viewTripLink = function (tripId) {
 			return system.baseUrl + "trip/details?tripId=" + tripId;
 		};
