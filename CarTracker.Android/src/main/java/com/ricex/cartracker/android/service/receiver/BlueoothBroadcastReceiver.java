@@ -67,7 +67,10 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
             BluetoothDevice device = getDeviceFromIntent(intent);
             if (isOBDDevice(device) && BluetoothManager.isDevicePaired(device)) {
                 logInfo(LOG_TAG, "Paired with OBD Reader");
-                //startService(context); // we don't need to start the service here?
+                if (!OBDService.SERVICE_RUNNING) {
+                    //if the service isn't already running, start it.
+                    startService(context);
+                }
             }
             else {
                 logInfo(LOG_TAG, "Bond State Changed was not for ODB device.");
@@ -96,8 +99,10 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
 
     protected void startService(Context context) {
         logInfo(LOG_TAG, "Registered Bluetooth device has connected!");
-        serviceIntent = new Intent(context, OBDService.class);
-        context.startService(serviceIntent);
+        if (!OBDService.SERVICE_RUNNING) {
+            serviceIntent = new Intent(context, OBDService.class);
+            context.startService(serviceIntent);
+        }
     }
 
     protected void stopService(Context context) {
