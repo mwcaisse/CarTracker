@@ -42,12 +42,12 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
         if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action) ||
             BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
 
-            logInfo(LOG_TAG, "Received device connected / disconnected broadcast");
+            logInfo(LOG_TAG, "Received device "+ action + " broadcast");
 
             initializeSettings(context);
 
             if (isTriggerDevice(intent)) {
-                logInfo(LOG_TAG, "Trigger device connected/disconnected. Starting/stoping service");
+                logInfo(LOG_TAG, "Trigger device "+ action + ". Starting/stoping service");
                 if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
                     startService(context);
                 }
@@ -56,7 +56,7 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
                 }
             }
             else {
-                logInfo(LOG_TAG, "Connection/Disconnection was NOT trigger device.");
+                logInfo(LOG_TAG, action + " was NOT trigger device.");
             }
         }
         else if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action)) {
