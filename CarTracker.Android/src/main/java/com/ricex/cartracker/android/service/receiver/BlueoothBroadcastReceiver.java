@@ -25,8 +25,6 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
 
     private static final String LOG_TAG = "BTBR";
 
-    private Intent serviceIntent;
-
     private ServiceLogger databaseLogger;
 
     private DatabaseHelper databaseHelper;
@@ -46,12 +44,12 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
 
             initializeSettings(context);
 
-            if (isTriggerDevice(intent)) {
+            if (isTriggerDevice(intent) || isOBDDevice(intent)) {
                 logInfo(LOG_TAG, "Trigger device "+ action + ". Starting/stoping service");
-                if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
+                if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action) && !OBDService.SERVICE_RUNNING) {
                     startService(context);
                 }
-                else {
+                else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action) && OBDService.SERVICE_RUNNING) {
                     stopService(context);
                 }
             }
@@ -100,13 +98,18 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
     protected void startService(Context context) {
         logInfo(LOG_TAG, "Registered Bluetooth device has connected!");
         if (!OBDService.SERVICE_RUNNING) {
-            serviceIntent = new Intent(context, OBDService.class);
+            Intent serviceIntent = new Intent(context, OBDService.class);
             context.startService(serviceIntent);
         }
     }
 
     protected void stopService(Context context) {
         logInfo(LOG_TAG, "Registered Bluetooth device has disconnected!");
+
+        if (OBDService.SERVICE_RUNNING) {
+            Intent serviceIntent = new Intent(context, OBDService.class);
+            context.stopService(serviceIntent);
+        }
     }
 
     protected BluetoothDevice getDeviceFromIntent(Intent intent) {
