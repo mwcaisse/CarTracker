@@ -13,7 +13,7 @@ buildscript {
 		jcenter()
 	}
 	dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.android.tools.build:gradle:2.3.2'
 	}
 }
  
@@ -21,10 +21,12 @@ subprojects {
 	repositories {
 		mavenLocal()
 		
-		maven { url "http://arch-server.mwc.com:8081/nexus/" }
-		maven { url "http://repo.maven.apache.org/maven2" }
-		maven { url "http://arch-server.mwc.com:8081/nexus/content/repositories/google-repo/" }
 		maven { url "https://repo.spring.io/milestone" }
+		maven { url "http://repo.maven.apache.org/maven2" }
+		
+		//maven { url "http://arch-server.mwc.com:8081/nexus/" }
+		//maven { url "http://arch-server.mwc.com:8081/nexus/content/repositories/google-repo/" }
+		
 		
 		mavenCentral()
 	}

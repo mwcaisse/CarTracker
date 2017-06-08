@@ -39,12 +39,14 @@ public abstract class ServiceTask implements Runnable {
             }
 
             //sleep for configured number of secconds
+            /*
             try {
                 Thread.sleep((long)(1000 * secondsToSleep));
             }
             catch (InterruptedException e) {
                 //we were interrupted... meh. just go back through loop, no need to re-sleep
             }
+            */
 
             //update the ending condition
             synchronized (monitor) {
