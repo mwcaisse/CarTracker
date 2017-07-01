@@ -26,7 +26,7 @@ public class DatabasePersister implements Persister {
 
     private static final String CAR_VIN = "JF1VA1E66G9807558";
 
-    private static final int BUFFER_SIZE = 25;
+    private static final int BUFFER_SIZE = 100;
 
     private CarTrackerSettings settings;
 
@@ -97,19 +97,14 @@ public class DatabasePersister implements Persister {
             }
         }
 
-        Log.i(LOG_TAG, "Database Persister run calling endTrip");
         //emd tje trip
         endTrip();
 
-        Log.i(LOG_TAG, "Database Persister run calling persistReadings");
         //persist any readings remaining in the buffer
         persistReadings();
 
-        Log.i(LOG_TAG, "Database Persister run calling webService.fullSync");
         webServiceSyncer.fullSync();
 
-
-        Log.i(LOG_TAG, "Database Persister run notifying stopMonitor");
         synchronized (stopMonitor) {
             stopMonitor.notifyAll();
         }
