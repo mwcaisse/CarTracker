@@ -114,11 +114,6 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
 
     protected void stopService(Context context) {
         logInfo(LOG_TAG, "Registered Bluetooth device has disconnected!");
-
-        if (OBDService.SERVICE_RUNNING) {
-            Intent serviceIntent = new Intent(context, OBDService.class);
-            context.stopService(serviceIntent);
-        }
     }
 
     protected BluetoothDevice getDeviceFromIntent(Intent intent) {

@@ -88,7 +88,9 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
         try {
             OBDReading data = reader.read();
             if ("-1".equals(data.getEngineRPM())) {
-                info(LOG_TAG, "Received -1 from the reader. Let's continue anyway");
+                //TODO: How do we determine if -1 means connection is gone, or false positive..
+                info(LOG_TAG, "Received -1 from the reader. Stopping reading.");
+                return false; // stop the reading loop
             }
             GPSLocation gpsLocation = gpsReader.getCurrentLocation();
             data.setLocation(gpsLocation);
