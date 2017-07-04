@@ -1,5 +1,7 @@
 package com.ricex.cartracker.android.service.logger;
 
+import android.util.Log;
+
 import com.ricex.cartracker.android.data.entity.ReaderLog;
 import com.ricex.cartracker.android.data.manager.ReaderLogManager;
 import com.ricex.cartracker.android.data.util.DatabaseHelper;
@@ -12,12 +14,18 @@ import java.util.Date;
  */
 public class DatabaseLogger extends AbstractServiceLogger {
 
+    private static final String LOG_TAG = "CT_DB";
+
     private ReaderLogManager readerLogManager;
 
     private DatabaseHelper databaseHelper;
 
     public DatabaseLogger(DatabaseHelper databaseHelper) {
         this.databaseHelper = databaseHelper;
+
+        if (!databaseHelper.isOpen()) {
+            throw new IllegalArgumentException("Database Logger cannot be created with a closed DatbaseHelper!");
+        }
 
         readerLogManager = databaseHelper.getReaderLogManager();
     }

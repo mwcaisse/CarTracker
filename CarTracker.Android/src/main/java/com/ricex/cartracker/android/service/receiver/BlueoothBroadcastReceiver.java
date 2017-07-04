@@ -16,6 +16,8 @@ import com.ricex.cartracker.android.settings.CarTrackerSettings;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.sql.SQLException;
+
 /**
  * Created by Mitchell on 2016-09-21.
  */
@@ -87,10 +89,17 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
 
     protected void initializeDatabase(Context context) {
         databaseHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
-        databaseLogger = new DatabaseLogger(databaseHelper);
+        try {
+            databaseHelper.initializeDaosManagers();
+            databaseLogger = new DatabaseLogger(databaseHelper);
+        }
+        catch (SQLException e) {
+            Log.e(LOG_TAG, "Couldn't initilize databaseHelper, DatabaseLogger not created", e);
+        }
     }
 
     protected void destroyDatabase() {
+        OpenHelperManager.releaseHelper(); // we are destroying the database, release the helper
         databaseHelper = null;
         databaseLogger = null;
     }
