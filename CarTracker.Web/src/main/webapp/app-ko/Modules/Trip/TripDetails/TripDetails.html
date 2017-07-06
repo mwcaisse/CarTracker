@@ -7,7 +7,7 @@
 		<div class="row">	
 			<div class="pull-right" style="padding-right: 15px; padding-bottom: 15px">
 				<input type="checkbox" data-bind="toggle: $data.useImperial, toggleOptions: {on: 'Imperial', off: 'Metric'}" />	
-				<button type="button" class="btn btn-primary" data-bind="click: $data.processClicked, visible: $data.canProcess">Process</button>	
+				<button type="button" class="btn btn-primary" data-bind="click: $data.processClicked, text: $data.canProcess() ? 'Process' : 'Re-Process'">Process</button>	
 				<button type="button" class="btn btn-primary" data-bind="click: $data.saveClicked, enable: $data.canSave">Save</button>		
 			</div>
 		</div>

@@ -16,6 +16,8 @@ import com.ricex.cartracker.android.settings.CarTrackerSettings;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.sql.SQLException;
+
 /**
  * Created by Mitchell on 2016-09-21.
  */
@@ -24,8 +26,6 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
     private CarTrackerSettings settings;
 
     private static final String LOG_TAG = "BTBR";
-
-    private Intent serviceIntent;
 
     private ServiceLogger databaseLogger;
 
@@ -42,21 +42,21 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
         if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action) ||
             BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
 
-            logInfo(LOG_TAG, "Received device connected / disconnected broadcast");
+            logInfo(LOG_TAG, "Received device "+ action + " broadcast");
 
             initializeSettings(context);
 
-            if (isTriggerDevice(intent)) {
-                logInfo(LOG_TAG, "Trigger device connected/disconnected. Starting/stoping service");
-                if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
+            if (isTriggerDevice(intent) || isOBDDevice(intent)) {
+                logInfo(LOG_TAG, "Trigger device "+ action + ". Starting/stoping service");
+                if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action) && !OBDService.SERVICE_RUNNING) {
                     startService(context);
                 }
-                else {
+                else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action) && OBDService.SERVICE_RUNNING) {
                     stopService(context);
                 }
             }
             else {
-                logInfo(LOG_TAG, "Connection/Disconnection was NOT trigger device.");
+                logInfo(LOG_TAG, action + " was NOT trigger device.");
             }
         }
         else if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action)) {
@@ -67,7 +67,10 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
             BluetoothDevice device = getDeviceFromIntent(intent);
             if (isOBDDevice(device) && BluetoothManager.isDevicePaired(device)) {
                 logInfo(LOG_TAG, "Paired with OBD Reader");
-                //startService(context); // we don't need to start the service here?
+                if (!OBDService.SERVICE_RUNNING) {
+                    //if the service isn't already running, start it.
+                    startService(context);
+                }
             }
             else {
                 logInfo(LOG_TAG, "Bond State Changed was not for ODB device.");
@@ -86,18 +89,27 @@ public class BlueoothBroadcastReceiver extends BroadcastReceiver {
 
     protected void initializeDatabase(Context context) {
         databaseHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
-        databaseLogger = new DatabaseLogger(databaseHelper);
+        try {
+            databaseHelper.initializeDaosManagers();
+            databaseLogger = new DatabaseLogger(databaseHelper);
+        }
+        catch (SQLException e) {
+            Log.e(LOG_TAG, "Couldn't initilize databaseHelper, DatabaseLogger not created", e);
+        }
     }
 
     protected void destroyDatabase() {
+        OpenHelperManager.releaseHelper(); // we are destroying the database, release the helper
         databaseHelper = null;
         databaseLogger = null;
     }
 
     protected void startService(Context context) {
         logInfo(LOG_TAG, "Registered Bluetooth device has connected!");
-        serviceIntent = new Intent(context, OBDService.class);
-        context.startService(serviceIntent);
+        if (!OBDService.SERVICE_RUNNING) {
+            Intent serviceIntent = new Intent(context, OBDService.class);
+            context.startService(serviceIntent);
+        }
     }
 
     protected void stopService(Context context) {

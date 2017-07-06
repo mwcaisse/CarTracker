@@ -37,6 +37,8 @@ public class OBDService extends OrmLiteBaseService<DatabaseHelper> {
 
     private static final String LOG_TAG = "ODBSERVICE";
 
+    public static boolean SERVICE_RUNNING = false;
+
     private OBDServiceTask task;
     private Thread thread;
     private OBDServiceBinder binder;
@@ -119,6 +121,9 @@ public class OBDService extends OrmLiteBaseService<DatabaseHelper> {
         notificationBuilder.setContentIntent(pendingIntent);
 
         startForeground(FOREGROUND_NOTIFICATION_ID,notificationBuilder.build());
+
+        //we've started the service, flip the running flag
+        SERVICE_RUNNING = true;
     }
 
     public void onDestroy() {
@@ -128,6 +133,7 @@ public class OBDService extends OrmLiteBaseService<DatabaseHelper> {
         persister.stop();
         Log.i(LOG_TAG, "OBDService onDestroy calling super.onDestroy");
         super.onDestroy();
+        SERVICE_RUNNING = false; //just in case
     }
 
     public void addListener(OBDServiceListener listener) {
@@ -151,6 +157,7 @@ public class OBDService extends OrmLiteBaseService<DatabaseHelper> {
     }
 
     public void onTaskStopped() {
+        SERVICE_RUNNING = false;
         stopSelf();
     }
 

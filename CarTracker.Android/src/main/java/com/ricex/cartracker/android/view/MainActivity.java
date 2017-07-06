@@ -99,6 +99,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        //if the service is running, then we want to bind to it.
+        if (OBDService.SERVICE_RUNNING){
+            bindService();
+        }
+
     }
 
     protected void onDestroy() {
@@ -169,9 +174,17 @@ public class MainActivity extends AppCompatActivity {
     protected void startService() {
         debugFragment.addMessage("Starting OBD Service...");
         serviceIntent = new Intent(this, OBDService.class);
-        startService(serviceIntent);
-        bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+        if (!OBDService.SERVICE_RUNNING) { // only start the service if it isn't running
+            startService(serviceIntent);
+        }
+       bindService();
+    }
 
+    protected void bindService() {
+        if (null == serviceIntent) {
+            serviceIntent = new Intent(this, OBDService.class);
+        }
+        bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
         Log.i("CarTracker", "Bound to Service");
     }
 
