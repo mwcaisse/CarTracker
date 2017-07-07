@@ -17,7 +17,7 @@
 		<script th:src="@{/js/moment-timezone.js}" type="text/javascript"></script>
 		<script th:src="@{/js/moment-duration-format.js}" type="text/javascript"></script>
 		<script th:src="@{/js/q.js}" type="text/javascript"></script>		
-		<script th:src="@{/js/require.js}" type="text/javascript"></script>
+		<!-- <script th:src="@{/js/require.js}" type="text/javascript"></script> -->
 		<script th:src="@{/js/highcharts.js}" type="text/javascript"></script>
 			
 	
@@ -28,6 +28,19 @@
 		<link th:href="@{/css/highcharts.css}" rel="stylesheet" />
 		<link th:href="@{/css/site.css}" rel="stylesheet" />				
 		
+		
+		<!-- Angular Scripts -->
+		<!-- Polyfill(s) for older browsers -->
+	    <script th:src="@{/lib/core-js/shim.min.js}"></script>
+	
+	    <script th:src="@{/lib/zone.js/zone.js}"></script>
+	    <script th:src="@{/lib/systemjs/system.src.js}"></script>
+	
+	    <script th:src="@{/systemjs.config.js}"></script>
+	    <script>
+	      System.import('app/navigation/main').catch(function(err){ console.error(err); });
+	    </script>
+		
 		<title>Car Tracker</title>
 		
 	</head>
@@ -37,29 +50,14 @@
 		<input id="isAuthenticated" sec:authorize="isAuthenticated()" type="hidden" value="true" />
 		<input id="googleMapsApiKey" type="hidden" th:value="${googleMapsApiKey}"/>
 		
-		<!--  need to load up the requrie config, after the google map api key -->		
-		<script th:src="@{/app-ko/Common.js}" type="text/javascript"></script>		
-			
-		<div id="navigationvm" data-bind="template: { name: 'Views/Navigation/Navigation.html', data: $data}"></div>
-		
-		
-		<script type="text/javascript">
-			var navigationDeferred = Q.defer();
-			var navigationPromise = navigationDeferred.promise;
-		
-			require(["Views/Navigation/Navigation"], function(vm) {
-				ko.applyBindings(new vm(), $("#navigationvm")[0]);
-				
-				navigationDeferred.resolve();
-			});
-		</script>
+		<!-- navigation module -->
+		<navigation>Loading Navigation Module</navigation>	
 		
 		<!-- the body of the page -->
 		<div layout:fragment="content"></div>
 		
 		<!-- page footer -->		
-		<footer th:replace="@{common/footer}"></footer>
-		
+		<footer th:replace="@{common/footer}"></footer>		
 		
 	</body>
 </html>
