@@ -46,8 +46,13 @@
 		<!--  Element + vue model to load the navigation -->
 		<div id="navigationvm"></div>
 		<script type="text/javascript">
+			var navigationDeferred = Q.defer();
+			var navigationPromise = navigationDeferred.promise;
+		
 			require(["Views/Navigation/Navigation"], function(navVm) {
 				navVm("#navigationvm");
+				
+				navigationDeferred.resolve();
 			});
 		</script>
 		
