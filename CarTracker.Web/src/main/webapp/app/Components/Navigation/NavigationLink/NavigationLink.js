@@ -37,7 +37,13 @@ define("Components/Navigation/NavigationLink/NavigationLink",
 			addSubLink: function (link) {
 				this.subLinks.push(link);
 			}
-		}		
+		},
+		created: function () {
+			var vm = this;
+			system.events.on(navigation.EVENT_NAVIGATION_ACTIVE_CHANGED, function (event, data) {
+				vm.active = (vm.id === data.id);
+			});
+		}
 	});
 	
 });
