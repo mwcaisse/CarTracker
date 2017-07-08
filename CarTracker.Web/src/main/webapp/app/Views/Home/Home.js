@@ -11,7 +11,9 @@ define("Views/Home/Home",
 			el: elementId,
 			template: template		
 		});
-	}
+	};
+	
+	navigation.setActiveNavigation("Home");
 	
 	return vm;
 	
