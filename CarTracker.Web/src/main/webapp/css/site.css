@@ -1,0 +1,11 @@
+.col-bottom {
+	padding-bottom: 15px;
+}
+
+.card.card-link {
+	cursor: pointer;
+}
+
+.card.card-hover:hover {
+	background: rgba(0,0,0,0.25);
+}

@@ -5,8 +5,15 @@
 		
 			<div class="container">				
 		
-				<h2> Welcome to Car Tracker</h2>
+				<div id="pagevm"></div>
+				
+				<script type="text/javascript">				
+					require(["Views/Home/Home"], function(vm) {
+						vm("#pagevm");	
+					});
+				</script>
 
+				
 								
 			</div>	
 								

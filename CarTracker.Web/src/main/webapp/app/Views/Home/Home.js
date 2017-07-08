@@ -3,13 +3,15 @@
 define("Views/Home/Home", 
 	["Service/util",
 	 "Service/navigation", 
-	 "AMD/koTemplateLoader!Views/Home/Home.html"], function (util, navigation) {
+	 "Components/Car/CarSelection/CarSelection",
+	 "AMD/text!Views/Home/Home.html"], function (util, navigation, carSelection, template) {
 	
-	var vm = function() {
-		var self = this;	
-		
-		navigation.setActiveNavigation("Home");
-	};
+	var vm = function (elementId) {
+		return new Vue({			
+			el: elementId,
+			template: template		
+		});
+	}
 	
 	return vm;
 	
