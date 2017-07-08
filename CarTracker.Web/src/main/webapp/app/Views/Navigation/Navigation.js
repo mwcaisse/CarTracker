@@ -1,72 +1,58 @@
 "use strict";
 
 define("Views/Navigation/Navigation", 
-	["Service/system", "Service/util", "Service/navigation", "Service/applicationProxy",
-	 "Modules/Navigation/NavigationLink/NavigationLink", 
-	 "AMD/koTemplateLoader!Views/Navigation/Navigation.html"], function (system, util, navigation, proxy, navigationLink) {
-	
-	var vm = function() {
-		var self = this;	
+		["Service/navigation", "Components/Navigation/NavigationLink/NavigationLink",
+		 "AMD/text!Views/Navigation/Navigation.html"], 
 		
-		self.isAuthenticated = system.isAuthenticated;
-		
-		self.navigationLinks = ko.observableArray([]);
-		
-		self.rightNavigationLinks = ko.observableArray([]);
-		
-		self.currentUserName = ko.observable("");
-		
-		self.logoutLink = navigation.logoutLink();
-		
-		if (self.isAuthenticated) {
-			self.navigationLinks.push(new navigationLink({
-				id: "Home", name: "Home", link: navigation.homeLink()
-			}));
+		function(navigation, navLink, template) {
+			var vm = function (elementId) {
+				return new Vue({			
+					el: elementId,
+					template: template,
+					data: {
+						navigationLinks: [],
+						rightNavigationLinks: []
+					},
+					methods: {
+						initalizeLinks: function () {
+							this.navigationLinks.push({
+								id: "Home", name: "Home", link: navigation.homeLink()
+							});
+							this.navigationLinks.push({
+								id: "Car", name: "Car", link: navigation.carsLink()
+							});
+							this.navigationLinks.push({
+								id: "Trip", name: "Trip", link: navigation.tripsLink()
+							});
+							
+							//Create the log links
+							var logLink = { id: "Log", name: "Log", link: "#", subLinks: [] };
+							logLink.subLinks.push({
+								id: "Log/Reader", name: "Reader", link: navigation.readerLogLink()
+							});
+							
+							this.navigationLinks.push(logLink);
+							
+							var userNav = {
+								id: "User", name: "User", link: "#", subLinks: []
+							};
+							
+							userNav.subLinks.push({
+								id: "User/AuthTokens", name: "Tokens", link: navigation.userAuthenticationTokensLink()
+							});
+							userNav.subLinks.push({
+								id: "User/Logout", name: "Logout", link: navigation.logoutLink()
+							});
+							
+							this.rightNavigationLinks.push(userNav);
+						}
+					},
+					created: function () {
+						this.initalizeLinks();
+					}
+				});
+			}
 			
-			self.navigationLinks.push(new navigationLink({
-				id: "Car", name: "Car", link: navigation.carsLink()
-			}));
-			
-			self.navigationLinks.push(new navigationLink({
-				id: "Trip", name: "Trip", link: navigation.tripsLink()
-			}));
-			
-			self.logNavigationLink = new navigationLink({
-				id: "Log", name: "Log"
-			});
-			
-			self.logNavigationLink.addSubNavigationLink(new navigationLink({
-				id: "Log/Reader", name: "Reader", link: navigation.readerLogLink()
-			}));
-			
-			self.navigationLinks.push(self.logNavigationLink);
-			
-			self.navigationLinks.push(new navigationLink({
-				id: "Admin", name: "Admin", link: navigation.adminRegistrationKeyLink()
-			}));
-			
-			self.userNavigationLink = new navigationLink({
-				id: "User", name: self.currentUserName}
-			);
-			
-			self.userNavigationLink.addSubNavigationLink(new navigationLink({
-				id: "AuthTokens", name: "Tokens", link: navigation.userAuthenticationTokensLink()
-			}));
-			
-			self.userNavigationLink.addSubNavigationLink(new navigationLink({
-				id: "Logout", name: "Logout", link: navigation.logoutLink()
-			}));
-			
-			self.rightNavigationLinks.push(self.userNavigationLink);
-			
-			proxy.user.me().then(function(user) {
-				self.currentUserName(user.name);
-			});
-			
-		}		
-		
-	};
-	
-	return vm;
-	
-});
+			return vm;
+		}
+);

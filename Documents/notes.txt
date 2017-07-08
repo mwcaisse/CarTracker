@@ -167,6 +167,19 @@ Notes:
 			
 			
 			
+UI Redesign / Restructuring
+
+	-Want the UI to be more car centric.
+	
+	-A car needs to be chosen before trips can be viewed.
+	
+	-Landing page that allows the users to select which car to view
+	
+	-Perhaps add a default car, that a user's view defaults to when they load.
+	
+	-Add the car id to each URL path, and require it be there for viewing trips/ etc.
+			
+			
 			
 				
 				

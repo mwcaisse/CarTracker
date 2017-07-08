@@ -1,13 +1,17 @@
-<div class="navbar-header">
-	<a class="navbar-brand" href="/cartracker/">Car Tracker</a>
-</div>
-<div class="collpase navbar-collapse">
-	<ul class="nav navbar-nav" data-bind="foreach: $data.navigationLinks">
-		<div data-bind="navigationLink: $data"></div>					
-	</ul>
-	<!--  ko if: $data.isAuthenticated -->
-	<ul class="nav navbar-nav navbar-right" data-bind="foreach: $data.rightNavigationLinks">
-		<div data-bind="navigationLink: $data"></div>	
-	</ul>
-	<!-- /ko -->
-</div>
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+		<span class="navbar-toggler-icon"></span>
+  	</button>
+  	
+	<a class="navbar-brand" href="#">Car Tracker</a>
+	
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+			<app-nav-link v-for="link in navigationLinks" :key="link.id" :nav-link="link"></app-nav-link>
+		</ul>
+		
+		<ul class="navbar-nav navbar-right">
+			<app-nav-link v-for="link in rightNavigationLinks" :key="link.id" :nav-link="link" :right="true"></app-nav-link>
+		</ul>
+	</div>
+</nav>	

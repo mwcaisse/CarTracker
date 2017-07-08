@@ -41,22 +41,13 @@
 		<input id="googleMapsApiKey" type="hidden" th:value="${googleMapsApiKey}"/>
 		
 		<!--  need to load up the requrie config, after the google map api key -->		
-		<script th:src="@{/app/Common.js}" type="text/javascript"></script>	
-		
-		<nav class="navbar navbar-default navbar-static-top">
-			<div class="container-fluid">
-				<div id="navigationvm" data-bind="template: { name: 'Views/Navigation/Navigation.html', data: $data}"></div>	
-			</div>
-		</nav>
-		
+		<script th:src="@{/app/Common.js}" type="text/javascript"></script>			
+
+		<!--  Element + vue model to load the navigation -->
+		<div id="navigationvm"></div>
 		<script type="text/javascript">
-			var navigationDeferred = Q.defer();
-			var navigationPromise = navigationDeferred.promise;
-		
-			require(["Views/Navigation/Navigation"], function(vm) {
-				ko.applyBindings(new vm(), $("#navigationvm")[0]);
-				
-				navigationDeferred.resolve();
+			require(["Views/Navigation/Navigation"], function(navVm) {
+				navVm("#navigationvm");
 			});
 		</script>
 		
