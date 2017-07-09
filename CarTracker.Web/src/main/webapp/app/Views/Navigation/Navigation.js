@@ -1,10 +1,12 @@
 "use strict";
 
 define("Views/Navigation/Navigation", 
-		["Service/navigation", "Components/Navigation/NavigationLink/NavigationLink",
+		["Service/navigation", 
+		 "Components/Navigation/NavigationLink/NavigationLink",
+		 "Service/applicationProxy",
 		 "AMD/text!Views/Navigation/Navigation.html"], 
 		
-		function(navigation, navLink, template) {
+		function(navigation, navLink, proxy, template) {
 			
 			var isAuthenticated = $("#isAuthenticated").val() === "true";
 	
@@ -14,46 +16,55 @@ define("Views/Navigation/Navigation",
 					template: template,
 					data: {
 						navigationLinks: [],
-						rightNavigationLinks: []
+						rightNavigationLinks: [],
+						currentUserName: "User"
 					},
 					methods: {
 						initalizeLinks: function () {
-							//we only add navigation links if we are authenticated
 							if (isAuthenticated) {
-								this.navigationLinks.push({
-									id: "Home", name: "Home", link: navigation.homeLink()
-								});
-								this.navigationLinks.push({
-									id: "Car", name: "Car", link: navigation.carsLink()
-								});
-								this.navigationLinks.push({
-									id: "Trip", name: "Trip", link: navigation.tripsLink()
-								});
+								this.fetchCurrentUser().then(function () {				
 								
-								//Create the log links
-								var logLink = { id: "Log", name: "Log", link: "#", subLinks: [] };
-								logLink.subLinks.push({
-									id: "Log/Reader", name: "Reader", link: navigation.readerLogLink()
-								});
-								
-								this.navigationLinks.push(logLink);
-								
-								var userNav = {
-									id: "User", name: "User", link: "#", subLinks: []
-								};
-								
-								userNav.subLinks.push({
-									id: "User/AuthTokens", name: "Tokens", link: navigation.userAuthenticationTokensLink()
-								});
-								userNav.subLinks.push({
-									id: "User/Logout", name: "Logout", link: navigation.logoutLink()
-								});
-								
-								this.rightNavigationLinks.push(userNav);
+									this.navigationLinks.push({
+										id: "Home", name: "Home", link: navigation.homeLink()
+									});
+									this.navigationLinks.push({
+										id: "Car", name: "Car", link: navigation.carsLink()
+									});
+									this.navigationLinks.push({
+										id: "Trip", name: "Trip", link: navigation.tripsLink()
+									});
+									
+									//Create the log links
+									var logLink = { id: "Log", name: "Log", link: "#", subLinks: [] };
+									logLink.subLinks.push({
+										id: "Log/Reader", name: "Reader", link: navigation.readerLogLink()
+									});
+									
+									this.navigationLinks.push(logLink);
+									
+									var userNav = {
+										id: "User", name: this.currentUserName, link: "#", subLinks: []
+									};
+									
+									userNav.subLinks.push({
+										id: "User/AuthTokens", name: "Tokens", link: navigation.userAuthenticationTokensLink()
+									});
+									userNav.subLinks.push({
+										id: "User/Logout", name: "Logout", link: navigation.logoutLink()
+									});
+									
+									this.rightNavigationLinks.push(userNav);
+									
+								}.bind(this));
 							}
+						},
+						fetchCurrentUser: function () {
+							return proxy.user.me().then(function (user) {
+								this.currentUserName = user.name;
+							}.bind(this));
 						}
 					},
-					created: function () {
+					created: function () {				
 						this.initalizeLinks();
 					}
 				});
