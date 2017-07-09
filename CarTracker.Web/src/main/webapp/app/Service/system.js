@@ -1,6 +1,6 @@
 "use strict";
 
-define("Service/system", ["Service/applicationProxy"], function (proxy) {
+define("Service/system", ["Service/applicationProxy", "Service/customDirectives"], function (proxy) {
 	
 	var system = new (function() {
 		var self = this;
