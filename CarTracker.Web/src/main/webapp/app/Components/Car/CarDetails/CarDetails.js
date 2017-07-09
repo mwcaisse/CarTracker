@@ -5,6 +5,12 @@ define("Components/Car/CarDetails/CarDetails",
          "AMD/text!Components/Car/CarDetails/CarDetails.html"],
 	function (moment, system, util, proxy, navigation, template) {
 	
+	Vue.directive("tooltip", {
+		bind: function (el, binding) {
+			$(el).tooltip(binding.value);
+		}
+	});
+	
 	return Vue.component("app-car-details", {
 		data: function() {
 			return {
