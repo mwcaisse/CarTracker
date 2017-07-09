@@ -4,7 +4,8 @@ define("Views/Car/Car",
 	["Service/util",
 	 "Service/navigation", 
 	 "Components/Car/CarDetails/CarDetails",
-	 "AMD/text!Views/Car/Car.html"], function (util, navigation, carDetails, template) {
+	 "Components/Trip/TripGrid/TripGrid",
+	 "AMD/text!Views/Car/Car.html"], function (util, navigation, carDetails, tripGrid, template) {
 	
 	var vm = function (elementId) {
 		var carId = parseInt(util.getURLParameter("carId", -1), 10);		
