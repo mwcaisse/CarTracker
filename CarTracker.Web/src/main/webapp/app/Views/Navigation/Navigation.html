@@ -7,11 +7,22 @@
 	
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
-			<app-nav-link v-for="link in navigationLinks" :key="link.id" :nav-link="link"></app-nav-link>
+			<app-nav-link v-for="link in navigationLinks" 
+						  :key="link.id" 
+						  :linkId="link.id"
+						  :name="link.name"
+						  :link="link.link"
+						  :subLinks="link.subLinks"></app-nav-link>
 		</ul>
 		
 		<ul class="navbar-nav navbar-right">
-			<app-nav-link v-for="link in rightNavigationLinks" :key="link.id" :nav-link="link" :right="true"></app-nav-link>
+			<app-nav-link v-for="link in rightNavigationLinks" 
+						  :key="link.id"
+						  :linkId="link.id"
+						  :name="link.name"
+						  :link="link.link"
+						  :subLinks="link.subLinks"
+						  :right="true"></app-nav-link>
 		</ul>
 	</div>
 </nav>	

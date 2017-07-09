@@ -7,21 +7,33 @@ define("Components/Navigation/NavigationLink/NavigationLink",
 	
 	return Vue.component("app-nav-link", {
 		data: function() {
-			var vm = $.extend({}, {
-				id: "", 
-				name: "", 
-				link: "#",
-				subLinks: [],
+			return {
 				active: false
-			}, this.navLink);	
-			
-			return vm;
+			};
 		},	
 		props: {
-			navLink: {
-				type: Object,
-				required: true		
+			linkId: {
+				type: String,
+				required: true
 			},
+			name: {
+				type: String,
+				required: true
+			},
+			link: {
+				type: String,
+				required: false,
+				default: function () {
+					return "#";
+				}
+			},
+			subLinks: {
+				type: Array,
+				required: false,
+				default: function () {
+					return [];
+				}
+			},	
 			right: {
 				type: Boolean,
 				default: false
@@ -39,10 +51,9 @@ define("Components/Navigation/NavigationLink/NavigationLink",
 			}
 		},
 		created: function () {
-			var vm = this;
 			system.events.on(navigation.EVENT_NAVIGATION_ACTIVE_CHANGED, function (event, data) {
-				vm.active = (vm.id === data.id);
-			});
+				this.active = (this.linkId === data.id);
+			}.bind(this));
 		}
 	});
 	
