@@ -1,9 +1,9 @@
 "use strict";
 
 define("Components/Car/CarSelection/CarSelection", 
-		["moment", "Service/system", "Service/util", "Service/applicationProxy",  
+		["moment", "Service/system", "Service/util", "Service/applicationProxy", "Service/navigation", 
          "AMD/text!Components/Car/CarSelection/CarSelection.html"],
-	function (moment, system, util, proxy, template) {
+	function (moment, system, util, proxy, navigation, template) {
 	
 	return Vue.component("app-car-selection", {
 		data: function() {
@@ -20,8 +20,10 @@ define("Components/Car/CarSelection/CarSelection",
 				function (error) {
 					
 				})
-			}
-				
+			},
+			getLinkForCar: function (car) {
+				return navigation.viewCarLink(car.id);
+			}				
 		},
 		created: function () {
 			this.fetchCars();
