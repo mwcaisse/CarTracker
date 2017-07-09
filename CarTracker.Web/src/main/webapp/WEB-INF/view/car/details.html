@@ -10,11 +10,10 @@
 				<script type="text/javascript">
 					navigationPromise.then(function () {	
 						require(["Views/Car/Car"], function(vm) {
-							ko.applyBindings(new vm(), $("#pagevm")[0]);
+							vm("#pagevm");	
 						});
 					});
 				</script>
-
 								
 			</div>	
 								

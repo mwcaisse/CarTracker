@@ -1,0 +1,26 @@
+<div class="card">
+	<div class="card-header">
+		Details
+		<span class="float-right">
+			<i class="fa fa-floppy-o action-icon" aria-hidden="true" v-on:click="save"></i>
+			&nbsp;
+			<i class="fa fa-refresh action-icon" aria-hidden="true" v-on:click="refresh"></i>
+		</span>
+	</div>
+	<div class="card-block">
+		<form>
+			<div class="form-group row">
+				<label class="col-md-2 col-form-label">Name</label>
+				<div class="col-md-10">
+					<input type="text" class="form-control" placeholder="Name" v-model="name"/>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-md-2 col-form-label">VIN</label>
+				<div class="col-md-10">
+					<span>{{ vin }}</span>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

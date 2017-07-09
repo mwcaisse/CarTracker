@@ -15,3 +15,11 @@ a.no-color, a.no-color:visited, a.no-color:hover {
 	color: inherit;
 	text-decoration: inherit;
 }
+
+i.action-icon {
+	cursor: pointer;
+}
+
+i.action-icon:hover {
+	color: blue;
+}

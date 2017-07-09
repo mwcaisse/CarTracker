@@ -1,34 +1,24 @@
 "use strict";
 
 define("Views/Car/Car", 
-	["Service/util", 
+	["Service/util",
 	 "Service/navigation", 
-	 "Modules/Common/PageAlert/PageAlert",
-	 "Modules/Car/CarDetails/CarDetails",
-	 "Modules/Trip/TripGrid/TripGrid",
-	 "AMD/koTemplateLoader!Views/Car/Car.html"], function (util, navigation, pageAlert, carDetails, tripGrid) {
+	 "Components/Car/CarDetails/CarDetails",
+	 "AMD/text!Views/Car/Car.html"], function (util, navigation, carDetails, template) {
 	
-	var vm = function() {
-		var self = this;
-
-		var carId = util.getURLParameter("carId", 92);
+	var vm = function (elementId) {
+		var carId = parseInt(util.getURLParameter("carId", -1), 10);		
 		
-		self.pageAlert = new pageAlert();
-		
-		self.carDetails = new carDetails({
-			carId: carId
+		return new Vue({			
+			el: elementId,
+			template: template,
+			data: {
+				carId: carId
+			}
 		});
-		
-		self.tripGrid = new tripGrid( {
-			carId: carId
-		});
-			
-		self.carDetails.load();
-		self.tripGrid.load();
-		
-		navigation.setActiveNavigation("Car");
-		
 	};
+	
+	navigation.setActiveNavigation("Car");
 	
 	return vm;
 	

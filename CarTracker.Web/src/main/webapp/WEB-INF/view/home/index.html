@@ -8,8 +8,10 @@
 				<div id="pagevm"></div>
 				
 				<script type="text/javascript">				
-					require(["Views/Home/Home"], function(vm) {
-						vm("#pagevm");	
+					navigationPromise.then(function () {	
+						require(["Views/Home/Home"], function(vm) {
+							vm("#pagevm");	
+						});
 					});
 				</script>
 
