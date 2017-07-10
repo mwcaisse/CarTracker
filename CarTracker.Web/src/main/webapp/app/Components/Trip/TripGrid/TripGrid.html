@@ -9,12 +9,12 @@
 		<thead>
 			<tr>
 				<th style="width: 1%;"></th> <!--  action -->
-				<th><app-column-header columnId="NAME" 				columnName="Name"></app-column-header></th>
-				<th><app-column-header columnId="START_DATE" 		columnName="Start Date"></app-column-header></th>
-				<th><app-column-header columnId="END_DATE"          columnName="End Date"></app-column-header></th>
-				<th><app-column-header columnId="STATUS"            columnName="Status"></app-column-header></th>
-				<th><app-column-header columnId="DISTANCE_TRAVELED" columnName="Distance Traveled"></app-column-header></th>
-				<th><app-column-header columnId="DESTINATION" 	    columnName="Destination" :enableSort="false"></app-column-header></th>				
+				<th><app-column-header columnId="NAME" 				columnName="Name" 				:currentSort="currentSort" v-on:sort:update="sortUpdated" v-on:sort:clear="sortCleared"></app-column-header></th>
+				<th><app-column-header columnId="START_DATE" 		columnName="Start Date" 		:currentSort="currentSort" v-on:sort:update="sortUpdated" v-on:sort:clear="sortCleared" ></app-column-header></th>
+				<th><app-column-header columnId="END_DATE"          columnName="End Date" 			:currentSort="currentSort" v-on:sort:update="sortUpdated" v-on:sort:clear="sortCleared"></app-column-header></th>
+				<th><app-column-header columnId="STATUS"            columnName="Status" 		 	:currentSort="currentSort" v-on:sort:update="sortUpdated" v-on:sort:clear="sortCleared"></app-column-header></th>
+				<th><app-column-header columnId="DISTANCE_TRAVELED" columnName="Distance Traveled" 	:currentSort="currentSort" v-on:sort:update="sortUpdated" v-on:sort:clear="sortCleared"></app-column-header></th>
+				<th><app-column-header columnId="DESTINATION" 	    columnName="Destination" 		:enableSort="false"></app-column-header></th>				
 			</tr>
 		</thead>
 		<tbody>

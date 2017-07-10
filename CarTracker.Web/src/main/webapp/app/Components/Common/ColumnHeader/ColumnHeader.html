@@ -1,9 +1,10 @@
 <div class="dropdown" style="display: block;" v-if="enableSort">
-	<a href="#" class="dropdown-toggle" data-toggle="dropdown"> {{ columnName }}</a>
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown" v-on:click.prevent >{{ columnName }}</a>
+	<i class="fa float-right" :class="sortIcon" v-if="sort" style="vertical-align:middle;"></i>
 	<div class="dropdown-menu">
-		<a class="dropdown-item" href="#"><i class="fa fa-sort-amount-asc"></i>&nbsp;Sort Ascending</a>
-		<a class="dropdown-item" href="#"><i class="fa fa-sort-amount-desc"></i>&nbsp;Sort Descending</a>
-		<a class="dropdown-item" href="#"><i class="fa fa-close"></i>&nbsp;Clear Sort</a>
+		<a class="dropdown-item" href="#" v-on:click.prevent="sortAscending"><i class="fa fa-sort-amount-asc"></i>&nbsp;Sort Ascending</a>
+		<a class="dropdown-item" href="#" v-on:click.prevent="sortDescending"><i class="fa fa-sort-amount-desc"></i>&nbsp;Sort Descending</a>
+		<a class="dropdown-item" href="#" v-on:click.prevent="clearSort"><i class="fa fa-close"></i>&nbsp;Clear Sort</a>
 	</div>
 </div>
 <span v-else>

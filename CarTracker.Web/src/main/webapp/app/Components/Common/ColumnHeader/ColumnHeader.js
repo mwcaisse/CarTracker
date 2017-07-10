@@ -11,9 +11,18 @@ define("Components/Common/ColumnHeader/ColumnHeader",
 	return Vue.component("app-column-header", {
 		data: function() {
 			return {
-			
+				sort: false,
+				sortOrder: SORT_ORDER_DESC
 			}
 		},	
+		computed: {
+			sortIcon: function() {
+				return {
+					"fa-sort-amount-asc"  : this.sortOrder === SORT_ORDER_ASC,
+					"fa-sort-amount-desc" : this.sortOrder === SORT_ORDER_DESC
+				}			
+			}
+		},
 		props: {
 			columnId: {
 				type: String,
@@ -26,22 +35,53 @@ define("Components/Common/ColumnHeader/ColumnHeader",
 			enableSort: {
 				type: Boolean,
 				default: true
+			},
+			currentSort: {
+				type: Object,
+				required: false
+			}
+		},
+		watch: {
+			currentSort: function(newSort) {	
+				this.updateSort(newSort);				
 			}
 		},
 		template: template,
 		methods: {
-			softAscending: function () {
-				
+			sortAscending: function () {
+				var eventData = {
+					propertyId: this.columnId,
+					ascending: true
+				};
+				this.$emit("sort:update", eventData);
 			},
 			sortDescending: function() {
-				
+				var eventData = {
+					propertyId: this.columnId,
+					ascending: false
+				};
+				this.$emit("sort:update", eventData);
 			},
 			clearSort: function () {
-				
+				this.$emit("sort:clear");
+			},
+			updateSort: function (newSort) {
+				if (null === newSort || typeof newSort === "undefined") {
+					this.sort = false;
+				}
+				else if (!(null === newSort || typeof newSort === "undefined") && newSort.propertyId === this.columnId) {
+					this.sort = true;
+					this.sortOrder = newSort.ascending === true ? SORT_ORDER_ASC : SORT_ORDER_DESC;
+				}
+				else {
+					this.sort = false;
+				}
 			}
 		},
 		created: function () {
-			
+			if (typeof this.currentSort !== "undefined") {
+				this.updateSort(this.currentSort);
+			}
 		}
 	});
 	
