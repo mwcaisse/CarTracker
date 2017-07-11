@@ -27,6 +27,7 @@ i.action-icon:hover {
 .pagination select {
 	-webkit-appearance: none;
 	-moz-appearance: none;
+	padding-bottom: 0.45rem;
 }
 
 .pagination select::-ms-expand {
