@@ -29,5 +29,5 @@
 			</tr>
 		</tbody>		
 	</table>
-	<app-pager :totalItems="totalItems"></app-pager>
+	<app-pager :totalItems="totalItems" v-on:paging:update="pagingUpdated"></app-pager>
 </div>

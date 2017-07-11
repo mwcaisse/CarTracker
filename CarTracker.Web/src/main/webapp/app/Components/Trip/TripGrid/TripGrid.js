@@ -12,6 +12,10 @@ define("Components/Trip/TripGrid/TripGrid",
 			return {
 				trips: [],
 				currentSort: { propertyId: "START_DATE", ascending: false},
+				currentPaging: {
+					itemsPerPage: 15,
+					currentPage: 1
+				},
 				totalItems: 1
 			}
 		},	
@@ -24,7 +28,9 @@ define("Components/Trip/TripGrid/TripGrid",
 		template: template,
 		methods: {
 			fetchTrips: function () {
-				proxy.trip.getAllForCarPaged(this.carId, 0, 15, this.currentSort).then(function (data) {
+				var take = this.currentPaging.itemsPerPage;
+				var startAt = (this.currentPaging.currentPage - 1) * take;				
+				proxy.trip.getAllForCarPaged(this.carId, startAt, take, this.currentSort).then(function (data) {
 					this.update(data);
 				}.bind(this),
 				function (error) {
@@ -40,6 +46,10 @@ define("Components/Trip/TripGrid/TripGrid",
 			},
 			sortUpdated: function (newSort) {
 				this.currentSort = newSort;	
+				this.refresh();
+			},
+			pagingUpdated: function (newPaging) {
+				this.currentPaging = newPaging;
 				this.refresh();
 			},
 			sortCleared: function () {

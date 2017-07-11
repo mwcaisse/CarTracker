@@ -39,6 +39,11 @@ define("Components/Common/Pager/Pager",
 				return pages;
 			}
 		},
+		watch: {
+			itemsPerPage: function () {
+				this.updatePaging();
+			}
+		},
 		props: {
 			itemsPerPageOptions: {
 				type: Array,
@@ -49,8 +54,7 @@ define("Components/Common/Pager/Pager",
 				type: Number,
 				required: true
 			}
-		},
-		
+		},		
 		template: template,
 		methods: {
 			updatePaging: function () {
@@ -58,7 +62,7 @@ define("Components/Common/Pager/Pager",
 					itemsPerPage: this.itemsPerPage,
 					currentPage: this.currentPage
 				};
-				this.$emit("paging:update", eventData);
+				this.$emit("paging:update", eventData);				
 			},
 			previousPage: function () {
 				this.setPage(this.currentPage - 1);
