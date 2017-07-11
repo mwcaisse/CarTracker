@@ -3,7 +3,8 @@
 define("Components/Trip/TripGrid/TripGrid", 
 		["moment", "Service/system", "Service/util", "Service/applicationProxy", "Service/navigation", 	
          "AMD/text!Components/Trip/TripGrid/TripGrid.html",
-         "Components/Common/ColumnHeader/ColumnHeader"],
+         "Components/Common/ColumnHeader/ColumnHeader",
+         "Components/Common/Pager/Pager"],
 	function (moment, system, util, proxy, navigation, template) {
 	
 	return Vue.component("app-trip-grid", {
@@ -11,8 +12,7 @@ define("Components/Trip/TripGrid/TripGrid",
 			return {
 				trips: [],
 				currentSort: { propertyId: "START_DATE", ascending: false},
-				startAt: 0,
-				maxResults: 15
+				totalItems: 1
 			}
 		},	
 		props: {
@@ -24,7 +24,7 @@ define("Components/Trip/TripGrid/TripGrid",
 		template: template,
 		methods: {
 			fetchTrips: function () {
-				proxy.trip.getAllForCarPaged(this.carId, this.startAt, this.maxResults, this.currentSort).then(function (data) {
+				proxy.trip.getAllForCarPaged(this.carId, 0, 15, this.currentSort).then(function (data) {
 					this.update(data);
 				}.bind(this),
 				function (error) {
@@ -33,6 +33,7 @@ define("Components/Trip/TripGrid/TripGrid",
 			},
 			update: function (data) {
 				this.trips = data.data;
+				this.totalItems = data.total;
 			},	
 			refresh: function () {
 				this.fetchTrips();

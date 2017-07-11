@@ -23,3 +23,12 @@ i.action-icon {
 i.action-icon:hover {
 	color: blue;
 }
+
+.pagination select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+
+.pagination select::-ms-expand {
+	display: none;
+}
