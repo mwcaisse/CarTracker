@@ -49,8 +49,11 @@ define("Components/Trip/TripGrid/TripGrid",
 				this.refresh();
 			},
 			pagingUpdated: function (newPaging) {
-				this.currentPaging = newPaging;
-				this.refresh();
+				//only update the paging if it is different than the one we currently have
+				if (JSON.stringify(newPaging) !== JSON.stringify(this.currentPaging)) {
+					this.currentPaging = newPaging;
+					this.refresh();
+				}
 			},
 			sortCleared: function () {
 				this.currentSort = null;

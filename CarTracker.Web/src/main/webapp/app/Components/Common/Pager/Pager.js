@@ -42,6 +42,13 @@ define("Components/Common/Pager/Pager",
 		watch: {
 			itemsPerPage: function () {
 				this.updatePaging();
+			},
+			currentPage: function () {
+				this.updatePaging();
+			},
+			currentPaging: function (newPaging) {
+				this.itemsPerPage = newPaging.itemsPerPage;
+				this.currentPage = newPaging.currentPage;
 			}
 		},
 		props: {
@@ -53,6 +60,10 @@ define("Components/Common/Pager/Pager",
 			totalItems: {
 				type: Number,
 				required: true
+			},
+			currentPaging: {
+				type: Object,
+				required: false
 			}
 		},		
 		template: template,
@@ -80,8 +91,7 @@ define("Components/Common/Pager/Pager",
 				if (newPage < 1 || newPage > this.totalPages) {
 					return;
 				}
-				this.currentPage = newPage;
-				this.updatePaging();
+				this.currentPage = newPage;			
 			}
 	
 		},
