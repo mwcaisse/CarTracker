@@ -33,3 +33,9 @@ i.action-icon:hover {
 .pagination select::-ms-expand {
 	display: none;
 }
+
+.pager-top {
+	padding-top: 15px;	
+}
+
+.pager-bottom {}
