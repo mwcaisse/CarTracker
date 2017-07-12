@@ -19,7 +19,9 @@
 		</thead>
 		<tbody>
 			<tr v-for="trip in trips">
-				<td><i class="fa fa-th-list action-icon" aria-hidden="true" v-tooltip="{}" title="View Trip"></i></td>
+				<td>
+					<i class="fa fa-th-list action-icon" aria-hidden="true" v-tooltip="{}" title="View Trip"></i>
+				</td>
 				<td> {{ trip.name }} </td>
 				<td> {{ trip.startDate | formatDate }} </td>
 				<td> {{ trip.endDate | formatDate}} </td>
