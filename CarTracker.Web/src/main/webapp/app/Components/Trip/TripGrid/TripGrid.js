@@ -30,15 +30,41 @@ define("Components/Trip/TripGrid/TripGrid",
 			fetchTrips: function () {
 				var take = this.currentPaging.itemsPerPage;
 				var startAt = (this.currentPaging.currentPage - 1) * take;				
-				proxy.trip.getAllForCarPaged(this.carId, startAt, take, this.currentSort).then(function (data) {
+				proxy.trip.getAllForCarPaged(this.carId, startAt, take, this.currentSort).then(function (data) {					
 					this.update(data);
 				}.bind(this),
 				function (error) {
 					alert("error fetching car!");
 				})
 			},
+			augmentTrip: function (trip) {
+				trip.canProcess = trip.status !== util.TRIP_STATUS_PROCESSED;
+				
+				switch (trip.status) {
+					case util.TRIP_STATUS_NEW:
+						trip.rowCss = "table-danger";
+						break;
+					case util.TRIP_STATUS_STARTED:
+						trip.rowCss = "table-warning";
+							break;
+					case util.TRIP_STATUS_FINISHED:
+						trip.rowCss = "table-info";
+						break;
+					case util.TRIP_STATUS_PROCESSED:
+						trip.rowCss = "";
+						break;
+					default:
+						trip.rowCss = "table-danger";
+						break;
+				}
+				
+				return trip;
+			},
 			update: function (data) {
-				this.trips = data.data;
+				this.trips = $.map(data.data, function (elm, ind) {
+					return this.augmentTrip(elm);
+				}.bind(this));
+				
 				this.totalItems = data.total;
 			},	
 			refresh: function () {
