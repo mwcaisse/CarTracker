@@ -2,12 +2,80 @@
 
 define("Components/Trip/TripGrid/TripGrid", 
 		["moment", "Service/system", "Service/util", "Service/applicationProxy", "Service/navigation", 	
-         "AMD/text!Components/Trip/TripGrid/TripGrid.html",
+		 "AMD/text!Components/Trip/TripGrid/TripGrid.html",
+         "AMD/text!Components/Trip/TripGrid/TripRow.html",
          "Components/Common/ColumnHeader/ColumnHeader",
          "Components/Common/Pager/Pager"],
-	function (moment, system, util, proxy, navigation, template) {
+	function (moment, system, util, proxy, navigation, template, tripRowTemplate) {
+	
+	var tripRow = {
+		template: tripRowTemplate,	
+		data: function () {
+			return {
+				id: -1,
+				name: "",
+				startDate: moment(),
+				endDate: moment(),
+				status: "",
+				distanceTraveled: 0,
+				start: "",
+				destination: ""
+			};
+		},
+		props: {
+			trip: {
+				type: Object,
+				requred: true
+			}
+		},
+		computed: {
+			canProcess: function() {
+				return this.status !== util.TRIP_STATUS_PROCESSED;
+			},
+			rowCss: function () {
+				switch (this.status) {
+					case util.TRIP_STATUS_NEW:
+						return "table-danger";
+					case util.TRIP_STATUS_STARTED:
+						return "table-warning";				
+					case util.TRIP_STATUS_FINISHED:
+						return "table-info";			
+					case util.TRIP_STATUS_PROCESSED:
+						return "";			
+					default:
+						return "table-danger";				
+				}
+			},
+			viewLink: function () {
+				return navigation.viewTripLink(this.id);
+			}
+		},
+		methods: {
+			process: function () {
+				proxy.trip.process(this.id).then(function (processedTrip) {
+					this.update(processedTrip);
+				}.bind(this));
+			},
+			update: function (data) {
+				this.id = data.id;
+				this.name = data.name;
+				this.startDate = moment(data.startDate);
+				this.endDate = moment(data.endDate);
+				this.status = data.status;
+				this.distanceTraveled = data.distanceTraveled;
+				this.start = data.start;
+				this.destination = data.destination;
+			}
+		},
+		created: function() {
+			this.update(this.trip);
+		}
+	};
 	
 	return Vue.component("app-trip-grid", {
+		components: {
+			"app-trip-row": tripRow
+		},	
 		data: function() {
 			return {
 				trips: [],
@@ -37,34 +105,16 @@ define("Components/Trip/TripGrid/TripGrid",
 					alert("error fetching car!");
 				})
 			},
-			augmentTrip: function (trip) {
-				trip.canProcess = trip.status !== util.TRIP_STATUS_PROCESSED;
-				
-				switch (trip.status) {
-					case util.TRIP_STATUS_NEW:
-						trip.rowCss = "table-danger";
-						break;
-					case util.TRIP_STATUS_STARTED:
-						trip.rowCss = "table-warning";
-							break;
-					case util.TRIP_STATUS_FINISHED:
-						trip.rowCss = "table-info";
-						break;
-					case util.TRIP_STATUS_PROCESSED:
-						trip.rowCss = "";
-						break;
-					default:
-						trip.rowCss = "table-danger";
-						break;
-				}
-				
-				return trip;
-			},
+			createTrip: function (data) {
+				return new (function() {
+					var trip = this;
+					
+					trip.id = data.id;
+					trip.name = data.name;
+				})();	
+			},	
 			update: function (data) {
-				this.trips = $.map(data.data, function (elm, ind) {
-					return this.augmentTrip(elm);
-				}.bind(this));
-				
+				this.trips = data.data;				
 				this.totalItems = data.total;
 			},	
 			refresh: function () {

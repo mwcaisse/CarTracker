@@ -18,18 +18,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr v-for="trip in trips" :class="trip.rowCss">
-				<td>
-					<i class="fa fa-th-list action-icon" aria-hidden="true" v-tooltip="{}" title="View Trip"></i>
-					<i class="fa fa-hdd-o action-icon" aria-hidden="true" v-tooltip="{}" title="Process Trip" v-if="trip.canProcess"></i>
-				</td>
-				<td> {{ trip.name }} </td>
-				<td> {{ trip.startDate | formatDate }} </td>
-				<td> {{ trip.endDate | formatDate}} </td>
-				<td> {{ trip.status }} </td>
-				<td> {{ trip.distanceTraveled | kmToMi | round(2) }} mi</td>
-				<td> {{ trip.destination }} </td>
-			</tr>
+			<app-trip-row v-for="trip in trips" :key="trip.id" :trip="trip"></app-trip-row>
 		</tbody>		
 	</table>
 	<app-pager :totalItems="totalItems" :currentPaging="currentPaging" v-on:paging:update="pagingUpdated"></app-pager>
