@@ -16,7 +16,7 @@ define("Components/Trip/TripDetails/TripDetails",
 				maximumSpeed: 0,
 				averageEngineRPM: 0,
 				maxEngineRPM: 0,
-				distancedTraveled: 0,
+				distanceTraveled: 0,
 				idleTime: 0,
 				status: ""
 			}
@@ -26,6 +26,13 @@ define("Components/Trip/TripDetails/TripDetails",
 				type: Number,
 				required: true
 			}
+		},
+		computed: {
+			tripLength: function () {
+				var msDiff = this.endDate.diff(this.startDate);
+				return moment.duration(msDiff, "ms");
+			}
+				
 		},
 		template: template,
 		methods: {
@@ -46,8 +53,8 @@ define("Components/Trip/TripDetails/TripDetails",
 				this.maximumSpeed = trip.maximumSpeed;
 				this.averageEngineRPM = trip.averageEngineRPM;
 				this.maxEngineRPM = trip.maxEngineRPM;
-				this.distancedTraveled = trip.distancedTraveled;
-				this.idleTime = trip.idleTime;
+				this.distanceTraveled = trip.distanceTraveled;
+				this.idleTime = moment.duration(trip.idleTime);
 				this.status = trip.status;
 			},		
 			refresh: function () {

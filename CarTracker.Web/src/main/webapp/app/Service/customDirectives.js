@@ -1,6 +1,7 @@
 "use strict";
 
-define("Service/customDirectives", ["Service/util"], function (util) {
+define("Service/customDirectives", 
+		["moment", "Service/util"], function (moment, util) {
 	
 	Vue.directive("tooltip", {
 		bind: function (el, binding) {
@@ -8,15 +9,22 @@ define("Service/customDirectives", ["Service/util"], function (util) {
 		}
 	});
 	
-	Vue.filter("formatDate", function (value) {
-		if (value) {
-			return util.formatDateTime(moment(value));
+	Vue.filter("formatDate", function (value, formatString) {
+		if (typeof value === "undefined" || typeof value.format !== "function") {
+			return "";
+		}		
+		return util.formatDateTime(value, formatString);
+	});
+	
+	Vue.filter("formatDuration", function (value, formatString) {
+		if (typeof value === "undefined" || typeof value.format !== "function") {
+			return "";
 		}
-		return "";
+		return util.formatDuration(value, formatString);
 	});
 	
 	Vue.filter("round", function (value, places) {
-		if (typeof value == "undefined") {
+		if (typeof value === "undefined") {
 			return "";
 		}
 		

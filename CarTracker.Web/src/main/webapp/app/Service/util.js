@@ -1,6 +1,6 @@
 "use strict";
 
-define("Service/util", ["moment"], function () {
+define("Service/util", ["moment", "moment-duration-format"], function () {
 	
 	var util = new (function() {
 		var self = this;

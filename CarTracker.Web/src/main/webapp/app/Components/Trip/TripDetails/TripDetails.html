@@ -10,69 +10,69 @@
 	<div class="card-block">
 		<form>
 			<div class="form-group row">
-				<label class="col-md-2 col-form-label">Name</label>
-				<div class="col-md-10">
+				<label class="col-md-5 col-form-label">Name</label>
+				<div class="col-md-7">
 					<input type="text" class="form-control" placeholder="Name" v-model="name"/>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-md-2 col-form-label">Status</label>
-				<div class="col-md-10">
+				<label class="col-md-5 col-form-label">Status</label>
+				<div class="col-md-7">
 					<p class="form-control-static"> {{ status }}</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-md-2 col-form-label">Start Date</label>
-				<div class="col-md-10">
+				<label class="col-md-5 col-form-label">Start Date</label>
+				<div class="col-md-7">
 					<p class="form-control-static"> {{ startDate | formatDate }}</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-md-2 col-form-label">End Date</label>
-				<div class="col-md-10">
+				<label class="col-md-5 col-form-label">End Date</label>
+				<div class="col-md-7">
 					<p class="form-control-static"> {{ endDate | formatDate }}</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-md-2 col-form-label">Trip Length</label>
-				<div class="col-md-10">
-					<p class="form-control-static"> {{ endDate | formatDate }}</p>
+				<label class="col-md-5 col-form-label">Trip Length</label>
+				<div class="col-md-7">
+					<p class="form-control-static"> {{ tripLength | formatDuration }}</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-md-2 col-form-label">Average Speed</label>
-				<div class="col-md-10">
-					<p class="form-control-static"> {{ endDate | formatDate }}</p>
+				<label class="col-md-5 col-form-label">Average Speed</label>
+				<div class="col-md-7">
+					<p class="form-control-static"> {{ averageSpeed | kmToMi | round(2) }} mph</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-md-2 col-form-label">Maximum Speed</label>
-				<div class="col-md-10">
-					<p class="form-control-static"> {{ endDate | formatDate }}</p>
+				<label class="col-md-5 col-form-label">Maximum Speed</label>
+				<div class="col-md-7">
+					<p class="form-control-static"> {{ maximumSpeed | kmToMi | round(2) }} mph</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-md-2 col-form-label">Average Engine RPM</label>
-				<div class="col-md-10">
-					<p class="form-control-static"> {{ endDate | formatDate }}</p>
+				<label class="col-md-5 col-form-label">Average Engine Speed</label>
+				<div class="col-md-7">
+					<p class="form-control-static"> {{ averageEngineRPM | round(2) }} RPM</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-md-2 col-form-label">Max Engine RPM</label>
-				<div class="col-md-10">
-					<p class="form-control-static"> {{ endDate | formatDate }}</p>
+				<label class="col-md-5 col-form-label">Max Engine Speed</label>
+				<div class="col-md-7">
+					<p class="form-control-static"> {{ maxEngineRPM | round(2) }} RPM</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-md-2 col-form-label">Distance Traveled</label>
-				<div class="col-md-10">
-					<p class="form-control-static"> {{ endDate | formatDate }}</p>
+				<label class="col-md-5 col-form-label">Distance Traveled</label>
+				<div class="col-md-7">
+					<p class="form-control-static"> {{ distanceTraveled | kmToMi | round(2) }} mi</p>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-md-2 col-form-label">Idle Time</label>
-				<div class="col-md-10">
-					<p class="form-control-static"> {{ endDate | formatDate }}</p>
+				<label class="col-md-5 col-form-label">Idle Time</label>
+				<div class="col-md-7">
+					<p class="form-control-static"> {{ idleTime | formatDuration }}</p>
 				</div>
 			</div>
 		</form>
