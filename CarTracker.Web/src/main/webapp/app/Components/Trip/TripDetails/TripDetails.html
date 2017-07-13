@@ -1,0 +1,80 @@
+<div class="card">
+	<div class="card-header">
+		Details
+		<span class="float-right">
+			<i class="fa fa-floppy-o action-icon" aria-hidden="true" v-tooltip="{}" title="Save"></i>
+			&nbsp;
+			<i class="fa fa-refresh action-icon" aria-hidden="true" v-on:click="refresh" v-tooltip="{}" title="Refresh"></i>
+		</span>
+	</div>
+	<div class="card-block">
+		<form>
+			<div class="form-group row">
+				<label class="col-md-2 col-form-label">Name</label>
+				<div class="col-md-10">
+					<input type="text" class="form-control" placeholder="Name" v-model="name"/>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-md-2 col-form-label">Status</label>
+				<div class="col-md-10">
+					<p class="form-control-static"> {{ status }}</p>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-md-2 col-form-label">Start Date</label>
+				<div class="col-md-10">
+					<p class="form-control-static"> {{ startDate | formatDate }}</p>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-md-2 col-form-label">End Date</label>
+				<div class="col-md-10">
+					<p class="form-control-static"> {{ endDate | formatDate }}</p>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-md-2 col-form-label">Trip Length</label>
+				<div class="col-md-10">
+					<p class="form-control-static"> {{ endDate | formatDate }}</p>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-md-2 col-form-label">Average Speed</label>
+				<div class="col-md-10">
+					<p class="form-control-static"> {{ endDate | formatDate }}</p>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-md-2 col-form-label">Maximum Speed</label>
+				<div class="col-md-10">
+					<p class="form-control-static"> {{ endDate | formatDate }}</p>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-md-2 col-form-label">Average Engine RPM</label>
+				<div class="col-md-10">
+					<p class="form-control-static"> {{ endDate | formatDate }}</p>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-md-2 col-form-label">Max Engine RPM</label>
+				<div class="col-md-10">
+					<p class="form-control-static"> {{ endDate | formatDate }}</p>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-md-2 col-form-label">Distance Traveled</label>
+				<div class="col-md-10">
+					<p class="form-control-static"> {{ endDate | formatDate }}</p>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-md-2 col-form-label">Idle Time</label>
+				<div class="col-md-10">
+					<p class="form-control-static"> {{ endDate | formatDate }}</p>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
