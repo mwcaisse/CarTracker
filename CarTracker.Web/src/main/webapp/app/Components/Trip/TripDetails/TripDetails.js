@@ -44,6 +44,11 @@ define("Components/Trip/TripDetails/TripDetails",
 					alert("error fetching trip!");
 				})
 			},
+			save: function () {
+				proxy.trip.update(this.toTripObject()).then(function (data) {
+					self.update(data);
+				}.bind(this));
+			},
 			update: function (trip) {
 				this.name = trip.name;
 				this.carId = trip.carId;
@@ -56,7 +61,24 @@ define("Components/Trip/TripDetails/TripDetails",
 				this.distanceTraveled = trip.distanceTraveled;
 				this.idleTime = moment.duration(trip.idleTime);
 				this.status = trip.status;
-			},		
+			},	
+			/** TODO: When saving probaly shouldn't save all of the data. especially the dates. could overwrite */
+			toTripObject: function () { 
+				return {
+					id: this.tripId,				
+					name: this.name,
+					carId: this.carId,
+					startDate: this.startDate.toDate().getTime(),
+					endDate: this.endDate.toDate().getTime(),
+					averageSpeed: this.averageSpeed,
+					maximumSpeed: this.maximumSpeed,
+					averageEngineRPM: this.averageEngineRPM,
+					maxEngineRPM: this.maxEngineRPM,
+					distanceTraveled: this.distanceTraveled,
+					idleTime: this.idleTime.asMilliseconds(),
+					status: this.status					
+				};
+			},
 			refresh: function () {
 				this.fetch();
 			}				
