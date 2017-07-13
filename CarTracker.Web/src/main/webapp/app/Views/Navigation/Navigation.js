@@ -27,12 +27,6 @@ define("Views/Navigation/Navigation",
 									this.navigationLinks.push({
 										id: "Home", name: "Home", link: navigation.homeLink()
 									});
-									this.navigationLinks.push({
-										id: "Car", name: "Car", link: navigation.carsLink()
-									});
-									this.navigationLinks.push({
-										id: "Trip", name: "Trip", link: navigation.tripsLink()
-									});
 									
 									//Create the log links
 									var logLink = { id: "Log", name: "Log", link: "#", subLinks: [] };
