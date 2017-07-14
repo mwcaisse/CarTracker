@@ -1,29 +1,28 @@
 "use strict";
 
-define("Components/Trip/TripChart/TripThrottleChart", 
+define("Components/Trip/TripChart/TripMAFChart", 
 		["moment", "Service/system", "Service/util", "Service/applicationProxy", "Service/navigation", 
 			"Components/Trip/TripChart/TripChartMixin"],
 	function (moment, system, util, proxy, navigation, tripChartMixin) {
 	
-	return Vue.component("app-trip-throttle-chart", {
+	return Vue.component("app-trip-maf-chart", {
 		mixins: [tripChartMixin],
 		data: function() {
 			return {
-				name: "Throttle Position"
+				name: "Mass Air Flow"
 			}
 		},		
 		computed: {
 			chartOptions: function () {
 				var opts = {};	
-				var units = "%";
+				var units = "";
 				
 				opts.title = {
 					text: this.name
 				};
 				
-				var data = $.map(this.readings, function (elm, ind) {
-					var throttlePosition = Math.round(elm.throttlePosition);
-					return {x: elm.readDate, y: throttlePosition };
+				var data = $.map(this.readings, function (elm, ind) {		
+					return {x: elm.readDate, y: elm.massAirFlow };
 				});
 				
 				opts.plotOptions = {
@@ -34,7 +33,7 @@ define("Components/Trip/TripChart/TripThrottleChart",
 				
 				opts.yAxis = {
 					title: {
-						text: "Throttle Position (" + units + ")"
+						text: "MAF " + units
 					}
 				};
 				
@@ -48,7 +47,7 @@ define("Components/Trip/TripChart/TripThrottleChart",
 				};
 				
 				opts.series = [{
-					name: "Throttle Position",
+					name: "MAF",
 					data: data
 				}];
 				

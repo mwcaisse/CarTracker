@@ -9,7 +9,7 @@ define("Components/Trip/TripChart/TripSpeedChart",
 		mixins: [tripChartMixin],
 		data: function() {
 			return {
-				name: "Trip Speed"
+				name: "Speed"
 			}
 		},		
 		computed: {
