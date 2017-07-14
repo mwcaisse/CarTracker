@@ -3,20 +3,21 @@
 define("Views/Log/Reader", 
 	["Service/util", 
 	 "Service/navigation", 
-	 "Modules/Common/PageAlert/PageAlert",
-	 "Modules/Log/ReaderLogGrid/ReaderLogGrid",
-	 "AMD/koTemplateLoader!Views/Log/Reader.html"], function (util, navigation, pageAlert, readerLogGrid) {
+	 "Modules/Common/PageAlert/PageAlert",	
+	 "AMD/text!Views/Log/Reader.html",
+	 "Components/Log/ReaderLogGrid/ReaderLogGrid"], function (util, navigation, pageAlert, template) {
 	
-	var vm = function() {
-		var self = this;
-	
-		self.readerLogGrid = new readerLogGrid();
-		
-		self.readerLogGrid.load();
+	var vm = function(elementId) {
 		
 		navigation.setActiveNavigation("Log");
 		
+		return new Vue({			
+			el: elementId,
+			template: template			
+		});	
 	};
+	
+	
 	
 	return vm;
 	
