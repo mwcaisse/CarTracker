@@ -37,21 +37,29 @@ define("Components/Common/Pager/Pager",
 					pages.push(i);
 				}
 				return pages;
+			},
+			currentPageUserInput: {
+				get: function () {
+					return this.currentPage;
+				},
+				set: _.debounce(function (newValue) {
+					if (!$.isNumeric(newValue)) {
+						newValue = 1;
+					}
+					if (newValue > this.totalPages) {
+						newValue = this.totalPages;
+					}
+					this.currentPage = newValue;
+				}, 500)
 			}
 		},
 		watch: {
 			itemsPerPage: function () {
 				this.updatePaging();
 			},
-			currentPage: _.debounce(function () {
-				if (!$.isNumeric(this.currentPage)) {
-					this.currentPage = 1;
-				}
-				if (this.currentPage > this.totalPages) {
-					this.currentPage = this.totalPages;
-				}
+			currentPage: function () {				
 				this.updatePaging();
-			}, 500),
+			},
 			currentPaging: function (newPaging) {
 				this.itemsPerPage = newPaging.itemsPerPage;
 				this.currentPage = newPaging.currentPage;

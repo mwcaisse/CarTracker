@@ -18,7 +18,7 @@
 				<a class="page-link" href="#" v-on:click.prevent="previousPage">Previous</a>
 			</li>
 			<li>
-				<input class="form-control" style="width: 75px;" type="text" v-model.number="currentPage" />
+				<input class="form-control" style="width: 75px;" type="text" v-model.number="currentPageUserInput" />
 			</li>			
 			<li class="page-item" :class="{ disabled: !showLastPageButton }">
 				<a class="page-link" href="#" v-on:click.prevent="nextPage">Next</a>
