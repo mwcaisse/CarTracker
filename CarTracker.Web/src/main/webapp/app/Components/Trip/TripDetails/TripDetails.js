@@ -81,7 +81,13 @@ define("Components/Trip/TripDetails/TripDetails",
 			},
 			refresh: function () {
 				this.fetch();
-			}				
+			},
+			process: function () {
+				proxy.trip.process(this.tripId).then(function (processedTrip) {
+					this.update(processedTrip);
+				}.bind(this));
+			}
+				
 		},
 		created: function () {
 			this.fetch();
