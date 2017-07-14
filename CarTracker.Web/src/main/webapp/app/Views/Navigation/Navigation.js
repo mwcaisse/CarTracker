@@ -36,6 +36,14 @@ define("Views/Navigation/Navigation",
 									
 									this.navigationLinks.push(logLink);
 									
+									var adminLink = {id: "Admin", name: "Admin", link: "#", subLinks: [] };
+									adminLink.subLinks.push({
+										id:"Admin/RegistrationKeys", name: "Registration Keys", 
+										link: navigation.adminRegistrationKeyLink()
+									});
+									
+									this.navigationLinks.push(adminLink);
+									
 									var userNav = {
 										id: "User", name: this.currentUserName, link: "#", subLinks: []
 									};
