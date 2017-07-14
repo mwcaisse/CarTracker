@@ -43,9 +43,15 @@ define("Components/Common/Pager/Pager",
 			itemsPerPage: function () {
 				this.updatePaging();
 			},
-			currentPage: function () {
+			currentPage: _.debounce(function () {
+				if (!$.isNumeric(this.currentPage)) {
+					this.currentPage = 1;
+				}
+				if (this.currentPage > this.totalPages) {
+					this.currentPage = this.totalPages;
+				}
 				this.updatePaging();
-			},
+			}, 500),
 			currentPaging: function (newPaging) {
 				this.itemsPerPage = newPaging.itemsPerPage;
 				this.currentPage = newPaging.currentPage;
