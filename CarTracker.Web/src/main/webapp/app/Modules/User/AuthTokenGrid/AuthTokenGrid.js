@@ -42,8 +42,7 @@ define("Modules/User/AuthTokenGrid/AuthTokenGrid",
 			
 			token.activeDisplay = ko.computed(function () {
 				return token.active() ? "Yes" : "No";
-			});
-			
+			});			
 			
 			return token;
 		};

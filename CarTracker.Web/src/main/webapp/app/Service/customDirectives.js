@@ -34,6 +34,21 @@ define("Service/customDirectives",
 		return util.formatDuration(value, formatString);
 	});
 	
+	Vue.filter("formatBoolean", function (value, nullIsBlank) {
+		if (value === true) {
+			return "Yes";
+		}
+		else if (value === false) {
+			return "No";
+		}
+		else if (nullIsBlank) {
+			return "";
+		}
+		else {
+			return "No";
+		}
+	});
+	
 	Vue.filter("round", function (value, places) {
 		if (typeof value === "undefined") {
 			return "";

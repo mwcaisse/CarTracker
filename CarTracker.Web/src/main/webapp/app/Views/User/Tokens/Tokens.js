@@ -2,19 +2,23 @@
 
 define("Views/User/Tokens/Tokens", 
 	["Service/util", 
-	 "Service/navigation", 	
-	 "Modules/User/AuthTokenGrid/AuthTokenGrid",
-	 "AMD/koTemplateLoader!Views/User/Tokens/Tokens.html"], function (util, navigation, tokenGrid) {
+	 "Service/navigation", 	 
+	 "AMD/text!Views/User/Tokens/Tokens.html",
+	 "Components/User/AuthTokenGrid/AuthTokenGrid" ], function (util, navigation, template) {
 	
-	var vm = function() {
-		var self = this;		
+	var vm = function(elementId) {		
 		
-		self.tokenGrid = new tokenGrid();
-		self.tokenGrid.load();
 		
-		navigation.setActiveNavigation("User");
+		
+		return new Vue({
+			el: elementId,
+			template: template
+		});
+		
 		
 	};
+	
+	navigation.setActiveNavigation("User");
 	
 	return vm;
 	

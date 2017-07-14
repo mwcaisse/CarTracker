@@ -1,0 +1,33 @@
+<div class="card">
+	<div class="card-header">
+		Reader Logs
+		<span class="float-right">			
+			<i class="fa fa-refresh action-icon" aria-hidden="true" v-on:click="refresh" v-tooltip="{}" title="Refresh"></i>
+		</span>
+	</div>	
+	<table class="table table-striped table-bordered">
+		<thead>
+			<tr>
+				<th></th> <!-- actions column -->
+			    <th><app-column-header columnId="DEVICE_UUID" 			columnName="Device UUID" 		:currentSort="currentSort" v-on:sort:update="sortUpdated" v-on:sort:clear="sortCleared"></app-column-header></th>
+				<th><app-column-header columnId="ACTIVE" 				columnName="Active" 			:currentSort="currentSort" v-on:sort:update="sortUpdated" v-on:sort:clear="sortCleared" ></app-column-header></th>
+				<th><app-column-header columnId="LAST_LOGIN"   			columnName="Last Login" 		:currentSort="currentSort" v-on:sort:update="sortUpdated" v-on:sort:clear="sortCleared"></app-column-header></th>
+				<th><app-column-header columnId="LAST_LOGIN_ADDRESS"    columnName="Last Login Address" :currentSort="currentSort" v-on:sort:update="sortUpdated" v-on:sort:clear="sortCleared"></app-column-header></th>
+				<th><app-column-header columnId="EXPIRATION_DATE"   	columnName="Expiration Date" 	:currentSort="currentSort" v-on:sort:update="sortUpdated" v-on:sort:clear="sortCleared"></app-column-header></th>
+				<th><app-column-header columnId="CREATE_DATE"   		columnName="Create Date" 		:currentSort="currentSort" v-on:sort:update="sortUpdated" v-on:sort:clear="sortCleared"></app-column-header></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-for="token in tokens">
+				<td></td>			
+				<td> {{ token.deviceUuid }}</td>			
+				<td> {{ token.active | formatBoolean }}</td>			
+				<td> {{ token.lastLogin | formatDate }}</td>			
+				<td> {{ token.lastLoginAddress }}</td>			
+				<td> {{ token.expirationDate | formatDate }}</td>			
+				<td> {{ token.createDate | formatDate }}</td>			
+			</tr>
+		</tbody>		
+	</table>
+	<app-pager :totalItems="totalItems" :currentPaging="currentPaging" v-on:paging:update="pagingUpdated"></app-pager>
+</div>

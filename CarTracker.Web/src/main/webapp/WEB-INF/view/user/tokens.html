@@ -5,12 +5,12 @@
 		
 			<div class="container">				
 		
-				<div id="pagevm" data-bind="template: { name: 'Views/User/Tokens/Tokens.html', data: $data}"></div>
+				<div id="pagevm"></div>
 								
-				<script type="text/javascript">
+				<script type="text/javascript">					
 					navigationPromise.then(function () {	
 						require(["Views/User/Tokens/Tokens"], function(vm) {
-							ko.applyBindings(new vm(), $("#pagevm")[0]);
+							vm("#pagevm");	
 						});
 					});
 					
