@@ -9,6 +9,17 @@ define("Service/customDirectives",
 		}
 	});
 	
+	/** Binding for High Charts
+	 * 
+	 * 	Uses the value as the options to initialize high charts	
+	 */
+	Vue.directive("highcharts", function (el, binding) {
+		if (typeof binding.oldValue === "undefined" || binding.oldValue !== binding.value) {
+			var $el = $(el);
+			$el.highcharts(binding.value);
+		}
+	});
+	
 	Vue.filter("formatDate", function (value, formatString) {
 		if (typeof value === "undefined" || typeof value.format !== "function") {
 			return "";
@@ -40,7 +51,7 @@ define("Service/customDirectives",
 			return "";
 		}
 		return util.convertKmToMi(value);
-	});
+	});	
 	
 	return {};	
 });
