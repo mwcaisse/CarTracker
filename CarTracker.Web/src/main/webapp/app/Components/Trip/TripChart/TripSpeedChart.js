@@ -2,22 +2,16 @@
 
 define("Components/Trip/TripChart/TripSpeedChart", 
 		["moment", "Service/system", "Service/util", "Service/applicationProxy", "Service/navigation", 
-         "AMD/text!Components/Trip/TripChart/TripChart.html"],
-	function (moment, system, util, proxy, navigation, template) {
+		 "Components/Trip/TripChart/TripChartMixin"],
+	function (moment, system, util, proxy, navigation, tripChartMixin) {
 	
 	return Vue.component("app-trip-speed-chart", {
+		mixins: [tripChartMixin],
 		data: function() {
 			return {
-				name: "Trip Speed",
-				readings: []
+				name: "Trip Speed"
 			}
-		},	
-		props: {
-			tripId: {
-				type: Number,
-				required: true
-			}
-		},
+		},		
 		computed: {
 			chartOptions: function () {
 				var opts = {};
@@ -65,23 +59,6 @@ define("Components/Trip/TripChart/TripSpeedChart",
 				
 				return opts;
 			}	
-		},
-		template: template,
-		methods: {
-			fetch: function () {
-				proxy.reading.getAllForTrip(this.tripId).then(function (data) {
-					this.readings = data;
-				}.bind(this),
-				function (error) {
-					alert("error fetching trip readings!");
-				})
-			},	
-			refresh: function () {
-				this.fetch();
-			}				
-		},
-		created: function () {
-			this.fetch();
 		}
 	});
 	

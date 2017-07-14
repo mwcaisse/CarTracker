@@ -1,27 +1,29 @@
 "use strict";
 
-define("Components/Trip/TripChart/TripEngineChart", 
+define("Components/Trip/TripChart/TripThrottleChart", 
 		["moment", "Service/system", "Service/util", "Service/applicationProxy", "Service/navigation", 
 			"Components/Trip/TripChart/TripChartMixin"],
 	function (moment, system, util, proxy, navigation, tripChartMixin) {
 	
-	return Vue.component("app-trip-engine-chart", {
+	return Vue.component("app-trip-throttle-chart", {
 		mixins: [tripChartMixin],
 		data: function() {
 			return {
-				name: "Trip Engine Speed"
+				name: "Trip Throttle Position"
 			}
-		},			
+		},		
 		computed: {
 			chartOptions: function () {
 				var opts = {};	
+				var units = "%";
 				
 				opts.title = {
 					text: this.name
-				};				
+				};
 				
 				var data = $.map(this.readings, function (elm, ind) {
-					return {x: elm.readDate, y: elm.engineRPM };
+					var throttlePosition = Math.round(elm.throttlePosition);
+					return {x: elm.readDate, y: throttlePosition };
 				});
 				
 				opts.plotOptions = {
@@ -32,7 +34,7 @@ define("Components/Trip/TripChart/TripEngineChart",
 				
 				opts.yAxis = {
 					title: {
-						text: "Engine Speed (RPM)"
+						text: "Throttle Position (" + units + ")"
 					}
 				};
 				
@@ -42,17 +44,17 @@ define("Components/Trip/TripChart/TripEngineChart",
 				};
 				
 				opts.tooltip = {
-					valueSuffix: " RPM"
+					valueSuffix: " " + units
 				};
 				
 				opts.series = [{
-					name: "Engine Speed",
+					name: "Throttle Position",
 					data: data
 				}];
 				
 				return opts;
 			}	
-		}
+		}	
 	});
 	
 });
