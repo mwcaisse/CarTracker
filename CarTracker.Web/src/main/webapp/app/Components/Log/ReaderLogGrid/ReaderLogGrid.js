@@ -2,36 +2,29 @@
 
 define("Components/Log/ReaderLogGrid/ReaderLogGrid", 
 		["moment", "Service/system", "Service/util", "Service/applicationProxy", "Service/navigation", 	
+		 "Components/Common/Pager/PagedGridMixin",
 		 "AMD/text!Components/Log/ReaderLogGrid/ReaderLogGrid.html",     
          "Components/Common/ColumnHeader/ColumnHeader",
          "Components/Common/Pager/Pager"],
-	function (moment, system, util, proxy, navigation, template) {	
+	function (moment, system, util, proxy, navigation, pagedGridMixin, template) {	
 	
 	
 	return Vue.component("app-reader-log-grid", {
-	
+		mixins: [pagedGridMixin],
 		data: function() {
 			return {
 				logs: [],
-				currentSort: { propertyId: "DATE", ascending: false},
-				currentPaging: {
-					itemsPerPage: 15,
-					currentPage: 1
-				},
-				totalItems: 1
+				currentSort: { propertyId: "DATE", ascending: false},			
 			}
 		},			
 		template: template,
 		methods: {
-			fetch: function () {
-				var take = this.currentPaging.itemsPerPage;
-				var startAt = (this.currentPaging.currentPage - 1) * take;				
-				proxy.readerLog.getAllPaged(startAt, take, this.currentSort).then(function (data) {	
-					console.log("we be updating logs?");
+			fetch: function () {							
+				proxy.readerLog.getAllPaged(this.startAt, this.take, this.currentSort).then(function (data) {					
 					this.update(data);
 				}.bind(this),
 				function (error) {
-					alert("error fetching car!");
+					alert("error fetching reader log!");
 				})
 			},		
 			update: function (data) {			
@@ -46,22 +39,7 @@ define("Components/Log/ReaderLogGrid/ReaderLogGrid",
 			},
 			refresh: function () {
 				this.fetch();
-			},
-			sortUpdated: function (newSort) {
-				this.currentSort = newSort;	
-				this.refresh();
-			},
-			pagingUpdated: function (newPaging) {
-				//only update the paging if it is different than the one we currently have
-				if (JSON.stringify(newPaging) !== JSON.stringify(this.currentPaging)) {
-					this.currentPaging = newPaging;
-					this.refresh();
-				}
-			},
-			sortCleared: function () {
-				this.currentSort = null;
-				this.refresh();
-			}
+			}		
 		},
 		created: function () {
 			this.fetch();
