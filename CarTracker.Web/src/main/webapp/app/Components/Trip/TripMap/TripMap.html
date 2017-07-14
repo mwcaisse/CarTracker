@@ -1,0 +1,11 @@
+<div class="card">
+	<div class="card-header">
+		Route Map
+		<span class="float-right">		
+			<i class="fa fa-refresh action-icon" aria-hidden="true" v-on:click="refresh" v-tooltip="{}" title="Refresh"></i>
+		</span>
+	</div>
+	<div class="card-block">
+		<app-map v-on:map:loaded="mapInitialized"></app-map>
+	</div>
+</div>
