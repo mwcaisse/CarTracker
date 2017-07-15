@@ -4,16 +4,16 @@
 		<div layout:fragment="content">
 		
 			<div class="container">	
-			
-				<div id="pagevm" data-bind="template: { name: 'Views/Admin/RegistrationKeys/RegistrationKeys.html', data: $data}"></div>
+				
+				<div id="pagevm"></div>
 				
 				<script type="text/javascript">
-					navigationPromise.then(function () {			
+					navigationPromise.then(function () {	
 						require(["Views/Admin/RegistrationKeys/RegistrationKeys"], function(vm) {
-							ko.applyBindings(new vm(), $("#pagevm")[0]);
+							vm("#pagevm");	
 						});
 					});
-				</script>			
+				</script>		
 								
 			</div>	
 								

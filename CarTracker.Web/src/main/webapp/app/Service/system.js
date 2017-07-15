@@ -8,6 +8,9 @@ define("Service/system", ["Service/applicationProxy", "Service/customDirectives"
 		self.baseUrl = "/cartracker/";	
 		
 		self.events = $({});
+		
+		//Vue Instance for an event bus
+		self.bus = new Vue();
 	
 		self.ALERT_TYPE_ERROR = "ERROR";
 		self.ALERT_TYPE_SUCCESS = "SUCCESS";

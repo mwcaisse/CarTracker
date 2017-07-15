@@ -1,16 +1,13 @@
-<div class="row">
-	<div class="col-md-6">
-		<h2>Registration Keys</h2>	
+<div>
+	<div class="row">
+		<div class="col-md-12">
+			<h2>Registration Keys</h2>	
+		</div>
 	</div>
-	<div class="col-md-6">
-		<button class="btn btn-primary pull-right" data-bind="click: $data.createKey">Create Key</button>
-	</div>	
-</div>
-
-<div class="row">
-	<div data-bind="registrationKeyDetails: $data.registrationKeyDetails"></div>
-</div>
-
-<div class="row">
-	<div data-bind="registrationKeyGrid: $data.registrationKeyGrid"></div>
+	
+	<div class="row">
+		<div class="col-md-12 py-3">
+			<app-registration-key-grid></app-registration-key-grid>
+		</div>
+	</div>
 </div>

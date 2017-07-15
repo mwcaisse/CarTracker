@@ -5,22 +5,24 @@ define("Views/Car/Car",
 	 "Service/navigation", 
 	 "Components/Car/CarDetails/CarDetails",
 	 "Components/Trip/TripGrid/TripGrid",
-	 "AMD/text!Views/Car/Car.html"], function (util, navigation, carDetails, tripGrid, template) {
+	 "AMD/text!Views/Car/Car.html"], 
+	 
+	 function (util, navigation, carDetails, tripGrid, template) {
 	
-	var vm = function (elementId) {
-		var carId = parseInt(util.getURLParameter("carId", -1), 10);		
+		var vm = function (elementId) {
+			var carId = parseInt(util.getURLParameter("carId", -1), 10);		
+			
+			return new Vue({			
+				el: elementId,
+				template: template,
+				data: {
+					carId: carId
+				}
+			});
+		};
 		
-		return new Vue({			
-			el: elementId,
-			template: template,
-			data: {
-				carId: carId
-			}
-		});
-	};
-	
-	navigation.setActiveNavigation("Car");
-	
-	return vm;
+		navigation.setActiveNavigation("Car");
+		
+		return vm;
 	
 });

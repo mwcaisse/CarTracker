@@ -1,0 +1,36 @@
+<div class="card">
+	<div class="card-header">
+		Registration Keys
+		<span class="float-right">
+			<i class="fa fa-plus action-icon" aria-hidden="true" v-on:click="createKey" v-tooltip="{}" title="New Registration Key"></i>
+			&nbsp;			
+			<i class="fa fa-refresh action-icon" aria-hidden="true" v-on:click="refresh" v-tooltip="{}" title="Refresh"></i>
+		</span>
+	</div>	
+	<table class="table table-striped table-bordered">
+		<thead>
+			<tr>
+				<th style="width: 1%;"></th> <!-- actions column -->
+			    <th><app-column-header columnId="KEY_VAL" 			columnName="Key" 			:currentSort="currentSort" v-on:sort:update="sortUpdated" v-on:sort:clear="sortCleared"></app-column-header></th>
+				<th><app-column-header columnId="USES_REMAINING" 	columnName="Uses Remaining" :currentSort="currentSort" v-on:sort:update="sortUpdated" v-on:sort:clear="sortCleared" ></app-column-header></th>
+				<th><app-column-header columnId="ACTIVE"   			columnName="Active" 		:currentSort="currentSort" v-on:sort:update="sortUpdated" v-on:sort:clear="sortCleared"></app-column-header></th>
+				<th><app-column-header columnId="CREATE_DATE"   	columnName="Create Date" 	:currentSort="currentSort" v-on:sort:update="sortUpdated" v-on:sort:clear="sortCleared"></app-column-header></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-for="key in keys" :class="key.rowCss">
+				<td>
+					<i class="fa fa-th-list action-icon" aria-hidden="true" v-on:click="viewKey(key.id)" v-tooltip="{}" title="View Registration Key"></i>
+				</td>			
+				<td> {{ key.key }}</td>			
+				<td> {{ key.usesRemaining }}</td>			
+				<td> {{ key.active | formatBoolean }}</td>	
+				<td> {{ key.createDate | formatDate }}</td>			
+			</tr>
+		</tbody>		
+	</table>
+	<app-pager :totalItems="totalItems" :currentPaging="currentPaging" v-on:paging:update="pagingUpdated"></app-pager>
+	
+	<!--  the modal for creating/viewing registration keys -->
+	<app-registration-key-modal></app-registration-key-modal>
+</div>

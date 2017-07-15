@@ -3,39 +3,22 @@
 define("Views/Admin/RegistrationKeys/RegistrationKeys", 
 	["Service/util", 
 	 "Service/navigation", 
-	 "Modules/Admin/RegistrationKeyGrid/RegistrationKeyGrid",
-	 "Modules/Admin/RegistrationKeyDetails/RegistrationKeyDetails",
-	 "AMD/koTemplateLoader!Views/Admin/RegistrationKeys/RegistrationKeys.html"], 
+	 "AMD/text!Views/Admin/RegistrationKeys/RegistrationKeys.html",
+	 "Components/Admin/RegistrationKeyGrid/RegistrationKeyGrid"], 
 	 
-	 function (util, navigation, registrationKeyGrid, registrationKeyDetails) {
+	function (util, navigation, template) {	
+
 	
-	var vm = function() {
-		var self = this;		
-		
-		self.registrationKeyDetails = new registrationKeyDetails({
-			onSave: function () {
-				self.registrationKeyGrid.refresh();
-			}
-		});
-		self.registrationKeyGrid = new registrationKeyGrid({
-			displayKeyDetails: function (keyId) {
-				self.displayKey(keyId);
-			}
-		});
-		
-		self.registrationKeyGrid.load();
-		
-		self.createKey = function () {
-			self.registrationKeyDetails.display();
+		var vm = function (elementId) {	
+			
+			return new Vue({			
+				el: elementId,
+				template: template			
+			});
 		};
 		
-		self.displayKey = function (keyId) {
-			self.registrationKeyDetails.display(keyId);
-		}
-				
 		navigation.setActiveNavigation("Admin");	
-	};
-	
-	return vm;
+		
+		return vm;
 	
 });
