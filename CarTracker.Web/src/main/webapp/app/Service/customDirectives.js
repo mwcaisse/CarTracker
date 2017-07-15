@@ -20,35 +20,6 @@ define("Service/customDirectives",
 		}
 	});
 	
-	/** Binding for showing a bootstrap modal
-	 * 
-	 */
-	Vue.directive("show-modal", {
-		bind: function (el, binding) {
-			if (binding.value === true) {
-				$(el).modal("show");
-			}
-			
-			$(el).on("hide.bs.modal", function (e) {
-				binding.value = false;
-			});
-		},
-		update: function (el, binding) {
-			if (binding.value !== binding.oldValue) {
-				var modalOpen = ($(el).data("bs.modal") || {}).isShown;
-				
-				if (binding.value === true && !modalOpen) {
-					$(el).modal("show");
-				}
-				else if (binding.value === false && modalOpen) {
-					$(el).modal("hide");
-				}
-			}
-		}
-		
-	});	
-
-	
 	Vue.filter("formatDate", function (value, formatString) {
 		if (typeof value === "undefined" || typeof value.format !== "function") {
 			return "";
