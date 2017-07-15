@@ -57,7 +57,7 @@ define("Components/Admin/RegistrationKeyGrid/RegistrationKeyGrid",
 				this.fetch();
 			},
 			viewKey: function (id) {
-				system.bus.$emit("registrationKey:view", id);
+				system.bus.$emit("registrationKey:edit", id);
 			},
 			createKey: function (id) {
 				system.bus.$emit("registrationKey:create");

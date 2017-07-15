@@ -1,19 +1,33 @@
-<div class="modal fade" v-show-modal="showModal">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">Create Registration Key</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+<div>
+	<app-modal :title="title" ref="modal">
+		<form>
+			<div class="form-group row">
+				<label class="col-md-2 col-form-label">Key</label>
+				<div class="col-md-10">
+					<input type="text" class="form-control" placeholder="Enter Key"/>
+				</div>
 			</div>
-			<div class="modal-body">
-				<p>Here is the modal Content</p>
+			<div class="form-group row">
+				<label class="col-md-2 col-form-label">Number of Uses</label>
+				<div class="col-md-10">
+					<input type="text" class="form-control" placeholder="Enter Number of Uses"/>
+				</div>
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-primary">Save</button>
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			<div class="form-group row">
+				<label class="col-md-2 col-form-label">Active</label>
+				<div class="col-md-10">
+					<label class="custom-control custom-radio">
+						<input name="active" type="radio" class="custom-control-input" />
+						<span class="custom-control-indicator"></span>
+						<span class="custom-control-description">Yes</span>
+					</label>
+					<label class="custom-control custom-radio">
+						<input name="active" type="radio" class="custom-control-input" />
+						<span class="custom-control-indicator"></span>
+						<span class="custom-control-description">No</span>
+					</label>
+				</div>
 			</div>
-		</div>		
-	</div>
+		</form>
+	</app-modal>
 </div>
