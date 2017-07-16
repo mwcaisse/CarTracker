@@ -1,33 +1,38 @@
 <div>
-	<app-modal :title="title" ref="modal">
+	<app-modal :title="title" ref="modal" :onClose="clear">
 		<form>
 			<div class="form-group row">
 				<label class="col-md-2 col-form-label">Key</label>
-				<div class="col-md-10">
-					<input type="text" class="form-control" placeholder="Enter Key"/>
+				<div class="col-md-9">
+					<input type="text" class="form-control" placeholder="Enter Key" v-model="key"/>
+				</div>
+				<div class="col-md-1">
+					<i class="fa fa-gear action-icon" style="font-size: 2em;" aria-hidden="true" v-tooltip="{}" title="Generate" v-on:click="generateKey"></i>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label class="col-md-2 col-form-label">Number of Uses</label>
 				<div class="col-md-10">
-					<input type="text" class="form-control" placeholder="Enter Number of Uses"/>
+					<input type="text" class="form-control" placeholder="Enter Number of Uses" v-model="usesRemaining"/>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label class="col-md-2 col-form-label">Active</label>
 				<div class="col-md-10">
 					<label class="custom-control custom-radio">
-						<input name="active" type="radio" class="custom-control-input" />
+						<input name="active" type="radio" class="custom-control-input" :value="true" v-model="active"/>
 						<span class="custom-control-indicator"></span>
 						<span class="custom-control-description">Yes</span>
 					</label>
 					<label class="custom-control custom-radio">
-						<input name="active" type="radio" class="custom-control-input" />
+						<input name="active" type="radio" class="custom-control-input" :value="false" v-model="active"/>
 						<span class="custom-control-indicator"></span>
 						<span class="custom-control-description">No</span>
 					</label>
 				</div>
 			</div>
 		</form>
+		
+		<button slot="footer" type="button" class="btn btn-primary" v-on:click="save">Save</button>
 	</app-modal>
 </div>

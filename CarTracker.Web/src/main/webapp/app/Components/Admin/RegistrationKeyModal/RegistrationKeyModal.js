@@ -39,9 +39,37 @@ define("Components/Admin/RegistrationKeyModal/RegistrationKeyModal",
 				this.usesRemaining = 0;
 				this.active = false;
 			},
+			createModel: function () {
+				return {
+					id: this.id,
+					key: this.key,
+					usesRemaining: this.usesRemaining,
+					active: this.active
+				};
+			},
+			save: function () {
+				var func;
+				if (this.id < 0) {
+					func = proxy.registrationKey.create;
+				}
+				else {
+					func = proxy.registrationKey.update;
+				}
+				
+				func(this.createModel()).then(function (key) {
+					this.$emit("registrationKey:updated");	
+					this.$refs.modal.close();
+				}.bind(this),
+				function (error) {
+					alert(error);
+				});
+			},
 			refresh: function () {
 				this.fetchKey();
-			}		
+			},
+			generateKey: function () {
+				this.key = util.generateUuid();
+			}
 		},
 		created: function () {
 			system.bus.$on("registrationKey:create", function () {

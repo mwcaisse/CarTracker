@@ -22,6 +22,11 @@ define("Components/Common/Modal/Modal",
 				type: Function,
 				required: false,
 				default: function () { }
+			},
+			width: {
+				type: String,
+				required: false,
+				default: "800px"
 			}
 		},
 		template: template,
