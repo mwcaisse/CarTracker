@@ -8,6 +8,8 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import com.ricex.cartracker.web.util.VueDialect;
+
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @Configuration
@@ -34,6 +36,7 @@ public class ThymeleafConfiguration {
 		templateEngine.setTemplateResolver(templateResolver());
 		templateEngine.addDialect(new LayoutDialect());
 		templateEngine.addDialect(new SpringSecurityDialect());
+		templateEngine.addDialect(new VueDialect());
 		return templateEngine;
 	}
 	
