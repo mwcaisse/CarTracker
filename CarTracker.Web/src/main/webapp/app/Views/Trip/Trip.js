@@ -4,9 +4,7 @@ define("Views/Trip/Trip",
 	["Service/util", 
 	 "Service/navigation", 
 	 "Service/applicationProxy",
-	 "Modules/Common/PageAlert/PageAlert",	 
-	 "AMD/text!Views/Trip/Trip.html",
-	 
+	 "AMD/text!Views/Trip/Trip.html",	 
 	 "Components/Trip/TripDetails/TripDetails",
 	 "Components/Trip/TripMap/TripMap",
 	 "Components/Trip/TripChart/TripSpeedChart",
@@ -14,7 +12,7 @@ define("Views/Trip/Trip",
 	 "Components/Trip/TripChart/TripThrottleChart",
 	 "Components/Trip/TripChart/TripMAFChart",
 	 "Components/Trip/TripChart/TripTemperatureChart"], 
-	 function (util, navigation, proxy, pageAlert, template) {
+	 function (util, navigation, proxy, template) {
 	
 	var vm = function(elementId) {
 		var tripId = parseInt(util.getURLParameter("tripId", 92), 10);	
