@@ -1,24 +1,12 @@
 <html layout:decorator="common/layout">
-
+	<head>
+		<title>Reader Logs</title>
+	</head>
 	<body>	
-		<div layout:fragment="content">
-		
+		<div layout:fragment="content">		
 			<div class="container">				
-		
-				<div id="pagevm"></div>
-				
-				<script type="text/javascript">
-					navigationPromise.then(function () {	
-						require(["Views/Log/Reader"], function(vm) {
-							vm("#pagevm");	
-						});
-					});
-				</script>
-
-								
-			</div>	
-								
+				<vue:view name="Views/Log/Reader"></vue:view>								
+			</div>									
 		</div>
-	</body>
-	
+	</body>	
 </html>

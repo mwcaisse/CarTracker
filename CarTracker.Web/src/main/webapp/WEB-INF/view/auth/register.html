@@ -1,22 +1,12 @@
 <html layout:decorator="common/layout">
-
+	<head>
+		<title>Register</title>
+	</head>
 	<body>	
-		<div layout:fragment="content">
-		
-			<div class="container">				
-				
-				<div id="pagevm"></div>				
-				<script type="text/javascript">
-					navigationPromise.then(function () {	
-						require(["Views/Register/Register"], function(vm) {
-							vm("#pagevm");	
-						});
-					});
-				</script>
-												
-			</div>	
-								
+		<div layout:fragment="content">		
+			<div class="container">		
+				<vue:view name="Views/Register/Register"></vue:view>									
+			</div>									
 		</div>
-	</body>
-	
+	</body>	
 </html>

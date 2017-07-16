@@ -1,23 +1,12 @@
 <html layout:decorator="common/layout">
-
+	<head>
+		<title>Trip</title>
+	</head>
 	<body>	
-		<div layout:fragment="content">
-		
+		<div layout:fragment="content">		
 			<div class="container">		
-				
-				<div id="pagevm"></div>
-				
-				<script type="text/javascript">
-					navigationPromise.then(function () {	
-						require(["Views/Trip/Trip"], function(vm) {
-							vm("#pagevm");	
-						});
-					});
-				</script>
-								
-			</div>	
-								
+				<vue:view name="Views/Trip/Trip"></vue:view>								
+			</div>			
 		</div>
-	</body>
-	
+	</body>	
 </html>
