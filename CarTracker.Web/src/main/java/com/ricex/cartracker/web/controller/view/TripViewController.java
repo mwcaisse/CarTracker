@@ -8,11 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "/trip/")
 public class TripViewController extends ViewController {
-
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView tripHome() {
-		return new ModelAndView("trip/index");
-	}
 	
 	@RequestMapping(value = "/details", method = RequestMethod.GET)
 	public ModelAndView tripDetails() {

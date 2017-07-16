@@ -8,11 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "/car/")
 public class CarViewController extends ViewController {
-
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView carHome() {
-		return new ModelAndView("car/index");
-	}
 	
 	@RequestMapping(value = "/details", method = RequestMethod.GET)
 	public ModelAndView carDetails() {
