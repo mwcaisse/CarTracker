@@ -1,14 +1,18 @@
 "use strict";
 
 define("Views/Register/Register", 
-	["Service/system", "Service/util", "Service/navigation",
-	 "Modules/Auth/Registration/Registration",
-	 "AMD/koTemplateLoader!Views/Register/Register.html"], function (system, util, navigation, registration) {
+	["Service/system", "Service/util", "Service/navigation",	 
+	 "AMD/text!Views/Register/Register.html",
+	 "Components/Auth/Registration/Registration",], 
+	 
+	 function (system, util, navigation, template) {
 	
-	var vm = function() {
-		var self = this;	
+	var vm = function (elementId) {	
 		
-		self.registration = new registration();
+		return new Vue({
+			el: elementId,
+			template: template		
+		});
 		
 	};
 	

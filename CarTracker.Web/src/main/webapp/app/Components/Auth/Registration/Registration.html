@@ -1,0 +1,70 @@
+<form>
+
+	<span v-if="isValid"></span>
+
+	<div class="alert alert-danger alert-dismissible" role="alert" v-if="hasPageError">
+		<button type="button" class="close" aria-label="Close" v-on:click="clearPageError"><span aria-hidden="true">&times;</span></button>
+		<span>{{ pageError }}</span>
+	</div>	
+
+	<div class="form-group">
+		<label>Name</label>		
+		<input type="text" class="form-control" placeholder="Name" v-model="name"/>
+	</div>
+	
+	<div class="alert alert-danger" v-if="hasNameError">
+		<span>{{ nameError }}</span>
+	</div>	
+
+	<div class="form-group">
+		<label>Username</label>		
+		<input type="text" class="form-control" placeholder="Username" v-model="username"/>
+	</div>	
+	
+	<div class="alert alert-danger" v-if="hasUsernameError">
+		<span>{{ usernameError }}</span>
+	</div>	
+		
+	<div class="form-group">
+		<label>Password</label>		
+		<input type="password" class="form-control" placeholder="Password" v-model="password" />
+	</div>
+		
+	<div class="form-group">
+		<label>Confirm Password</label>		
+		<input type="password" class="form-control" placeholder="Confirm Password"  v-model="passwordConfirm" />
+	</div>
+	
+	<div class="alert alert-danger" v-if="hasPasswordError">
+		<span>{{ passwordError }}</span>
+	</div>	
+	
+	<div class="form-group">
+		<label>Email</label>		
+		<input type="email" class="form-control" placeholder="Email" v-model="email" />
+	</div>
+	
+	<div class="form-group">
+		<label>Confirm Email</label>		
+		<input type="email" class="form-control" placeholder="Confirm Email" v-model="emailConfirm" />
+	</div>
+	
+	<div class="alert alert-danger" v-if="hasEmailError">
+		<span>{{ emailError }}</span>
+	</div>	
+		
+	<div class="form-group">
+		<label>Registration Key</label>		
+		<input type="text" class="form-control" placeholder="Registration Key" v-model="registrationKey" />
+	</div>
+	
+	<div class="alert alert-danger" v-if="hasRegistrationKeyError">
+		<span>{{ registrationKeyError }}</span>
+	</div>	
+	
+	<div class="pull-right">
+		<button type="button" class="btn btn-primary" v-on:click="registerClick">Register</button>
+		<button type="button" class="btn btn-default" v-on:click="cancel">Cancel</button>
+	</div>
+	
+</form>

@@ -4,18 +4,16 @@
 		<div layout:fragment="content">
 		
 			<div class="container">				
-		
-				<div id="pagevm" data-bind="template: { name: 'Views/Register/Register.html', data: $data}"></div>
 				
+				<div id="pagevm"></div>				
 				<script type="text/javascript">
 					navigationPromise.then(function () {	
 						require(["Views/Register/Register"], function(vm) {
-							ko.applyBindings(new vm(), $("#pagevm")[0]);
+							vm("#pagevm");	
 						});
 					});
 				</script>
-
-								
+												
 			</div>	
 								
 		</div>
