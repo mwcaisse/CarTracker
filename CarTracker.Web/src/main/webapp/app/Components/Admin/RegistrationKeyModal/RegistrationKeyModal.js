@@ -3,7 +3,8 @@
 define("Components/Admin/RegistrationKeyModal/RegistrationKeyModal", 
 		["moment", "Service/system", "Service/util", "Service/applicationProxy", "Service/navigation", 	
 		 "AMD/text!Components/Admin/RegistrationKeyModal/RegistrationKeyModal.html",   
-         "Components/Common/Modal/Modal"],
+         "Components/Common/Modal/Modal",
+         "Components/Admin/RegistrationKeyUses/RegistrationKeyUses"],
 	function (moment, system, util, proxy, navigation, template) {	
 	
 	
@@ -14,7 +15,8 @@ define("Components/Admin/RegistrationKeyModal/RegistrationKeyModal",
 				id: -1,
 				key: "",
 				usesRemaining: 0,
-				active: false
+				active: false,
+				keyUses: []
 			}
 		},			
 		template: template,
@@ -32,12 +34,14 @@ define("Components/Admin/RegistrationKeyModal/RegistrationKeyModal",
 				this.key = key.key;
 				this.usesRemaining = key.usesRemaining;
 				this.active = key.active;
+				this.keyUses = key.keyUses;
 			},
 			clear: function () {
 				this.id = -1;
 				this.key = "";
 				this.usesRemaining = 0;
 				this.active = false;
+				this.keyUses = [];
 			},
 			createModel: function () {
 				return {

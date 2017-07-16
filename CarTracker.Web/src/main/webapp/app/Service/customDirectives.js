@@ -21,9 +21,12 @@ define("Service/customDirectives",
 	});
 	
 	Vue.filter("formatDate", function (value, formatString) {
-		if (typeof value === "undefined" || typeof value.format !== "function") {
+		if (typeof value === "undefined") {
 			return "";
 		}		
+		if (typeof value.format !== "function") {
+			value = moment(value);
+		}
 		return util.formatDateTime(value, formatString);
 	});
 	
