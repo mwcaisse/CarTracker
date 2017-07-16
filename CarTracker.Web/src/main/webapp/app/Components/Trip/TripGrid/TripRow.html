@@ -1,9 +1,9 @@
 <tr :class="rowCss">
 	<td>
 		<a :href="viewLink" class="no-color">
-			<i class="fa fa-th-list action-icon" aria-hidden="true" v-tooltip="{}" title="View Trip"></i>
+			<i class="fa fa-th-list action-icon" aria-hidden="true" v-tooltip title="View Trip"></i>
 		</a>
-		<i class="fa fa-hdd-o action-icon" aria-hidden="true" v-tooltip="{}" title="Process Trip" v-if="canProcess" v-on:click="process"></i>
+		<i class="fa fa-hdd-o action-icon" aria-hidden="true" v-tooltip title="Process Trip" v-if="canProcess" v-on:click="process"></i>
 	</td>
 	<td> {{ name }} </td>
 	<td> {{ startDate | formatDate }} </td>
