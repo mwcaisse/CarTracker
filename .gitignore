@@ -68,6 +68,10 @@ build/
 local.properties
 *.iml
 
+# Node Files #
+##############
+node_modules/
+
 # Ignore the Local Buidl Properties File #
 ##########################################
 CarTracker.Web/src/main/resources/build.properties
