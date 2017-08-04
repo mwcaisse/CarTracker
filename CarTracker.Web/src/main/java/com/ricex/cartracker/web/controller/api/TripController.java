@@ -1,5 +1,7 @@
 package com.ricex.cartracker.web.controller.api;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +19,8 @@ import com.ricex.cartracker.common.viewmodel.SortParam;
 import com.ricex.cartracker.data.manager.TripManager;
 import com.ricex.cartracker.data.query.properties.EntityType;
 import com.ricex.cartracker.data.validation.EntityValidationException;
+import com.ricex.cartracker.placesrequester.PlaceRequester;
+import com.ricex.cartracker.placesrequester.entity.placesearch.PlaceSearchModel;
 import com.ricex.cartracker.web.processor.TripProcessor;
 
 @Controller
@@ -27,10 +31,13 @@ public class TripController extends ApiController<Trip> {
 	
 	private final TripProcessor tripProcessor;
 	
-	public TripController(TripManager manager,TripProcessor tripProcessor) {
+	private final PlaceRequester placeRequester;
+	
+	public TripController(TripManager manager,TripProcessor tripProcessor, PlaceRequester placeRequester) {
 		super(EntityType.TRIP, manager);
 		this.manager = manager;
 		this.tripProcessor = tripProcessor;
+		this.placeRequester = placeRequester;
 	}
 	
 	/** Fetches the trip with the given id
@@ -144,5 +151,12 @@ public class TripController extends ApiController<Trip> {
 		catch (EntityValidationException e) {
 			return createEntityResponseError(e);
 		}
+	}
+	
+	@RequestMapping(value ="/trip/placeSearch", method=RequestMethod.GET, produces={JSON})
+	public @ResponseBody EntityResponse<List<PlaceSearchModel>> testPlaceSearch(@RequestParam double lat, 
+			@RequestParam double lng, @RequestParam int range) {		
+		return createEntityResponse(placeRequester.getPlacesNearby(lat, lng, range));
+		
 	}
 }

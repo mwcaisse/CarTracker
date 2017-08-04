@@ -46,6 +46,7 @@ import com.ricex.cartracker.data.validation.auth.RegistrationKeyUseValidator;
 import com.ricex.cartracker.data.validation.auth.RegistrationKeyValidator;
 import com.ricex.cartracker.data.validation.auth.UserAuthenticationTokenValidator;
 import com.ricex.cartracker.data.validation.auth.UserValidator;
+import com.ricex.cartracker.placesrequester.PlaceRequester;
 import com.ricex.cartracker.web.auth.ProxyPasswordEncoder;
 import com.ricex.cartracker.web.controller.api.CarController;
 import com.ricex.cartracker.web.controller.api.ReaderLogController;
@@ -79,7 +80,7 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	
 	@Bean
 	public TripController tripController() throws Exception {
-		return new TripController(tripManager(), tripProcessor());
+		return new TripController(tripManager(), tripProcessor(), placeRequester());
 	}
 	
 	@Bean
@@ -315,6 +316,11 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 		sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
 		sqlSessionFactoryBean.setDataSource(dataSource());
 		return sqlSessionFactoryBean.getObject();
+	}
+	
+	@Bean
+	public PlaceRequester placeRequester() throws NamingException {
+		return new PlaceRequester(googleMapsApiKey());
 	}
 	
 	@Bean
