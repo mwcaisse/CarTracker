@@ -2,7 +2,7 @@
 
 define("Components/Car/CarSelection/CarSelection", 
 		["moment", "Service/system", "Service/util", "Service/applicationProxy", "Service/navigation", 
-         "AMD/text!Components/Car/CarSelection/CarSelection.html"],
+         "Components/Car/CarSelection/CarSelection.html"],
 	function (moment, system, util, proxy, navigation, template) {
 	
 	return Vue.component("app-car-selection", {
