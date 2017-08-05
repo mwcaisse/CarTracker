@@ -8,9 +8,11 @@ import com.ricex.cartracker.common.entity.Reading;
 import com.ricex.cartracker.common.entity.Trip;
 import com.ricex.cartracker.common.entity.TripStatus;
 import com.ricex.cartracker.data.manager.CarManager;
+import com.ricex.cartracker.data.manager.PlaceManager;
 import com.ricex.cartracker.data.manager.ReadingManager;
 import com.ricex.cartracker.data.manager.TripManager;
 import com.ricex.cartracker.data.validation.EntityValidationException;
+import com.ricex.cartracker.placesrequester.PlaceRequester;
 
 public class TripProcessor {
 
@@ -20,10 +22,18 @@ public class TripProcessor {
 	
 	private final CarManager carManager;
 	
-	public TripProcessor(TripManager tripManager, ReadingManager readingManager, CarManager carManager) {
+	private final PlaceManager placeManager;
+	
+	private final PlaceRequester placeRequester;
+	
+	public TripProcessor(TripManager tripManager, ReadingManager readingManager, CarManager carManager, 
+			PlaceManager placeManager, PlaceRequester placeRequester) {
+		
 		this.tripManager = tripManager;
 		this.readingManager = readingManager;
 		this.carManager = carManager;
+		this.placeManager = placeManager;
+		this.placeRequester = placeRequester;
 	}
 	
 	public Trip processTrip(long tripId) throws EntityValidationException {

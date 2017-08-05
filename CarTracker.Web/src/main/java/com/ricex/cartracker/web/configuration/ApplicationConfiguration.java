@@ -23,6 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 import com.google.gson.Gson;
 import com.ricex.cartracker.data.manager.CarManager;
+import com.ricex.cartracker.data.manager.PlaceManager;
 import com.ricex.cartracker.data.manager.ReaderLogManager;
 import com.ricex.cartracker.data.manager.ReadingManager;
 import com.ricex.cartracker.data.manager.TripManager;
@@ -31,6 +32,7 @@ import com.ricex.cartracker.data.manager.auth.RegistrationKeyUseManager;
 import com.ricex.cartracker.data.manager.auth.UserAuthenticationTokenManager;
 import com.ricex.cartracker.data.manager.auth.UserManager;
 import com.ricex.cartracker.data.mapper.CarMapper;
+import com.ricex.cartracker.data.mapper.PlaceMapper;
 import com.ricex.cartracker.data.mapper.ReaderLogMapper;
 import com.ricex.cartracker.data.mapper.ReadingMapper;
 import com.ricex.cartracker.data.mapper.TripMapper;
@@ -39,6 +41,7 @@ import com.ricex.cartracker.data.mapper.auth.RegistrationKeyUseMapper;
 import com.ricex.cartracker.data.mapper.auth.UserAuthenticationTokenMapper;
 import com.ricex.cartracker.data.mapper.auth.UserMapper;
 import com.ricex.cartracker.data.validation.CarValidator;
+import com.ricex.cartracker.data.validation.PlaceValidator;
 import com.ricex.cartracker.data.validation.ReaderLogValidator;
 import com.ricex.cartracker.data.validation.ReadingValidator;
 import com.ricex.cartracker.data.validation.TripValidator;
@@ -142,7 +145,7 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	
 	@Bean
 	public TripProcessor tripProcessor() throws Exception {
-		return new TripProcessor(tripManager(), readingManager(), carManager());
+		return new TripProcessor(tripManager(), readingManager(), carManager(), placeManager(), placeRequester());
 	}
 	
 	@Bean 
@@ -155,6 +158,11 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	@Bean
 	public CarManager carManager() throws Exception {
 		return new CarManager(carMapper(), carValidator(), tripManager());
+	}
+	
+	@Bean
+	public PlaceManager placeManager() throws Exception {
+		return new PlaceManager(placeMapper(), placeValidator());
 	}
 	
 	@Bean
@@ -203,6 +211,11 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	}
 	
 	@Bean
+	public PlaceValidator placeValidator() throws Exception {
+		return new PlaceValidator(placeMapper());
+	}
+	
+	@Bean
 	public TripValidator tripValidator() throws Exception {
 		return new TripValidator(tripMapper());
 	}
@@ -243,6 +256,14 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	public CarMapper carMapper() throws Exception { 
 		MapperFactoryBean<CarMapper> mapperFactoryBean = new MapperFactoryBean<CarMapper>();
 		mapperFactoryBean.setMapperInterface(CarMapper.class);
+		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
+		return mapperFactoryBean.getObject();
+	}
+	
+	@Bean
+	public PlaceMapper placeMapper() throws Exception { 
+		MapperFactoryBean<PlaceMapper> mapperFactoryBean = new MapperFactoryBean<PlaceMapper>();
+		mapperFactoryBean.setMapperInterface(PlaceMapper.class);
 		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
 		return mapperFactoryBean.getObject();
 	}

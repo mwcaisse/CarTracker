@@ -3,6 +3,7 @@ package com.ricex.cartracker.data.query.properties;
 public enum EntityType {
 
 	CAR ("Car"),
+	PLACE ("Place"),
 	READER_LOG ("Reader Log"),
 	READING ("Reading"),
 	TRIP ("Trip"),

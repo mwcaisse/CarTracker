@@ -4,6 +4,8 @@ public class Place extends AbstractEntity {
 
 	private String name;
 	
+	private String googlePlaceId;
+	
 	private double latitude;
 	
 	private double longitude;
@@ -22,6 +24,20 @@ public class Place extends AbstractEntity {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	/**
+	 * @return the googlePlaceId
+	 */
+	public String getGooglePlaceId() {
+		return googlePlaceId;
+	}
+
+	/**
+	 * @param googlePlaceId the googlePlaceId to set
+	 */
+	public void setGooglePlaceId(String googlePlaceId) {
+		this.googlePlaceId = googlePlaceId;
 	}
 
 	/**

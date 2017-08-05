@@ -9,6 +9,7 @@
     
     <resultMap id="placeResultMap" type="Place">
         <id property="id" column="ID" />
+        <result property="googlePlaceId" column="GOOGLE_PLACE_ID" />
         <result property="name" column="NAME" />
         <result property="latitude" column="LATITUDE" />
         <result property="longitude" column="LONGITUDE" />
@@ -34,12 +35,13 @@
     </select>
     
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO PLACE (NAME, LATITUDE, LONGITUDE, ACTIVE)
-        VALUES (#{name}, #{latitude}, #{longitude}, #{active})
+        INSERT INTO PLACE (GOOGLE_PLACE_ID,NAME, LATITUDE, LONGITUDE, ACTIVE)
+        VALUES (#{googlePlaceId}, #{name}, #{latitude}, #{longitude}, #{active})
     </insert>
     
     <update id="update">
         UPDATE PLACE SET 
+        	GOOGLE_PLACE_ID= #{googlePlaceId},
         	NAME = #{name},
         	LATITUDE = #{latitude},
         	LONGITUDE = #{longitude},
