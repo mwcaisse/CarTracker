@@ -4,15 +4,20 @@ import java.util.Date;
 import java.util.List;
 
 import com.ricex.cartracker.common.entity.Car;
+import com.ricex.cartracker.common.entity.Place;
 import com.ricex.cartracker.common.entity.Reading;
 import com.ricex.cartracker.common.entity.Trip;
+import com.ricex.cartracker.common.entity.TripPossiblePlace;
+import com.ricex.cartracker.common.entity.TripPossiblePlaceType;
 import com.ricex.cartracker.common.entity.TripStatus;
 import com.ricex.cartracker.data.manager.CarManager;
 import com.ricex.cartracker.data.manager.PlaceManager;
 import com.ricex.cartracker.data.manager.ReadingManager;
 import com.ricex.cartracker.data.manager.TripManager;
+import com.ricex.cartracker.data.manager.TripPossiblePlaceManager;
 import com.ricex.cartracker.data.validation.EntityValidationException;
 import com.ricex.cartracker.placesrequester.PlaceRequester;
+import com.ricex.cartracker.placesrequester.entity.placesearch.PlaceSearchModel;
 
 public class TripProcessor {
 
@@ -26,14 +31,18 @@ public class TripProcessor {
 	
 	private final PlaceRequester placeRequester;
 	
+	private final TripPossiblePlaceManager tripPossiblePlaceManager;
+	
 	public TripProcessor(TripManager tripManager, ReadingManager readingManager, CarManager carManager, 
-			PlaceManager placeManager, PlaceRequester placeRequester) {
+			PlaceManager placeManager, PlaceRequester placeRequester, 
+			TripPossiblePlaceManager tripPossiblePlaceManager) {
 		
 		this.tripManager = tripManager;
 		this.readingManager = readingManager;
 		this.carManager = carManager;
 		this.placeManager = placeManager;
 		this.placeRequester = placeRequester;
+		this.tripPossiblePlaceManager = tripPossiblePlaceManager;
 	}
 	
 	public Trip processTrip(long tripId) throws EntityValidationException {
@@ -124,6 +133,7 @@ public class TripProcessor {
 			if (null != tripCar && trip.getDistanceTraveled() > 0) {
 				carManager.update(tripCar);
 			}
+			addTripPossiblePlaces(trip, readings);
 		}
 		catch (EntityValidationException e) {
 			Trip originalTrip = tripManager.get(trip.getId());
@@ -131,6 +141,7 @@ public class TripProcessor {
 			originalTrip.setStatus(TripStatus.FAILED);
 			try {
 				tripManager.update(originalTrip);
+				
 				return originalTrip;
 			}
 			catch (EntityValidationException ex) {
@@ -138,6 +149,8 @@ public class TripProcessor {
 				throw new RuntimeException("TODO: Change this into a logger or better exception", ex);
 			}
 		}	
+		
+		
 		
 		return trip;
 	}
@@ -162,6 +175,55 @@ public class TripProcessor {
 		double distance = radius * c;	
 		
 		return Math.abs(distance);
+	}
+	
+	private void addTripPossiblePlaces(Trip trip, List<Reading> readings) throws EntityValidationException {
+		if (readings.isEmpty()) {
+			return;
+		}
+		addTripPossiblePlaces(trip, readings.get(0), TripPossiblePlaceType.START);
+		addTripPossiblePlaces(trip, readings.get(readings.size() - 1), TripPossiblePlaceType.DESTINATION);
+	}
+	
+	private void addTripPossiblePlaces(Trip trip, Reading reading, TripPossiblePlaceType type) throws EntityValidationException {
+		List<PlaceSearchModel> possiblePlaces = 
+				placeRequester.getPlacesNearby(reading.getLatitude(), reading.getLongitude(), 150);
+		
+		for (PlaceSearchModel model : possiblePlaces) {
+			TripPossiblePlace possiblePlace = new TripPossiblePlace();
+			
+			Place place = createOrFetchPlace(model);
+			
+			possiblePlace.setTripId(trip.getId());
+			possiblePlace.setPlace(place);
+			possiblePlace.setPlaceType(type);
+			
+			tripPossiblePlaceManager.create(possiblePlace);
+		}
+	}
+	
+	private Place createOrFetchPlace(PlaceSearchModel model) throws EntityValidationException {
+		Place place = placeManager.getByGoogleId(model.getId());
+		boolean create = false;
+		if (null == place) {
+			create = true;
+			place = new Place();
+			place.setGooglePlaceId(model.getId());
+		}
+		
+		place.setName(model.getName());
+		place.setLatitude(model.getGeometry().getLocation().getLat());
+		place.setLongitude(model.getGeometry().getLocation().getLng());
+		place.setActive(true);
+		
+		if (create) {
+			placeManager.create(place);
+		}
+		else {
+			placeManager.update(place);
+		}
+		
+		return place;
 	}
 	
 }

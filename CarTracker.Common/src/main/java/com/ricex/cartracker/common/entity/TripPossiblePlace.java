@@ -67,6 +67,12 @@ public class TripPossiblePlace extends AbstractEntity {
 	 */
 	public void setPlace(Place place) {
 		this.place = place;
+		if (null != place) {
+			this.placeId = place.getId();
+		}
+		else {
+			this.placeId = Place.INVALID_ID;
+		}
 	}
 	
 	

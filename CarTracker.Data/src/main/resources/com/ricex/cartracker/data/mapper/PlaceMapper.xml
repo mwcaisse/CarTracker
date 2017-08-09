@@ -34,6 +34,11 @@
         WHERE PLACE.ID = #{id}
     </select>
     
+     <select id="getByGoogleId" resultMap="placeResultMap" parameterType="string">
+        SELECT PLACE.* FROM PLACE
+        WHERE PLACE.GOOGLE_PLACE_ID = #{googlePlaceId}
+    </select>
+    
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO PLACE (GOOGLE_PLACE_ID,NAME, LATITUDE, LONGITUDE, ACTIVE)
         VALUES (#{googlePlaceId}, #{name}, #{latitude}, #{longitude}, #{active})

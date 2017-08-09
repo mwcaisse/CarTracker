@@ -17,6 +17,10 @@ public class PlaceManager extends AbstractEntityManager<Place> {
 		this.mapper = mapper;
 		this.validator = validator;
 	}
+	
+	public Place getByGoogleId(String googlePlaceId) {
+		return mapper.getByGoogleId(googlePlaceId);
+	}
 
 	@Override
 	protected void createValidationLogic(Place toCreate) throws EntityValidationException {
