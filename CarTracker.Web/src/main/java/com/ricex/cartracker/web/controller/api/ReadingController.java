@@ -53,7 +53,7 @@ public class ReadingController extends ApiController<Reading> {
 	 */
 	@RequestMapping(value="/trip/{tripId}/reading/", method = RequestMethod.GET, produces={JSON})
 	public @ResponseBody EntityResponse<List<ReadingViewModel>> getAllForTrip(@PathVariable long tripId) {
-		return createEntityResponse(ReadingMapper.ToViewModel(manager.getForTrip(tripId)));
+		return createEntityResponse(ReadingMapper.toViewModel(manager.getForTrip(tripId)));
 	}
 	
 	/** Performs a bulk upload of readings

@@ -15,6 +15,7 @@
 		<typeAlias alias="ReaderLog" type="com.ricex.cartracker.common.entity.ReaderLog"/>
 		<typeAlias alias="Reading" type="com.ricex.cartracker.common.entity.Reading"/>	
 		<typeAlias alias="Trip" type="com.ricex.cartracker.common.entity.Trip"/>
+		<typeAlias alias="TripPossiblePlace" type="com.ricex.cartracker.common.entity.TripPossiblePlace"/>
 		
 		<!-- Authentication Entities -->
 		<typeAlias alias="UserAuthenticationToken" type="com.ricex.cartracker.common.entity.auth.UserAuthenticationToken"/>
@@ -30,6 +31,7 @@
 		<mapper resource="com/ricex/cartracker/data/mapper/ReadingMapper.xml" />
 		<mapper resource="com/ricex/cartracker/data/mapper/ReaderLogMapper.xml" />
 		<mapper resource="com/ricex/cartracker/data/mapper/TripMapper.xml" />
+		<mapper resource="com/ricex/cartracker/data/mapper/TripPossiblePlaceMapper.xml" />
 		
 		<!-- Authentication Mappers -->
 		<mapper resource="com/ricex/cartracker/data/mapper/auth/UserAuthenticationTokenMapper.xml" />

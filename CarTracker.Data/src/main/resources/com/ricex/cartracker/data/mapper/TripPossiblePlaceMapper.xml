@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.cartracker.data.mapper.TripPossiblePlaceMapper">
+    
+    <cache />
+    
+    <resultMap id="tripPossiblePlaceResultMap" type="TripPossiblePlace">
+        <id property="id" column="ID" />
+        <result property="tripId" column="TRIP_ID" />
+        <result property="placeId" column="PLACE_ID" />
+        <result property="placeType" column="PLACE_TYPE" />
+        <result property="createDate" column="CREATE_DATE" />
+        <result property="modifiedDate" column="MODIFIED_DATE" />          
+            
+        <association property="place" column="PLACE_ID" javaType="Place" select="com.ricex.cartracker.data.mapper.PlaceMapper.get" />    
+    </resultMap>
+    
+     <select id="get" resultMap="tripPossiblePlaceResultMap" parameterType="long">
+        SELECT TRIP_POSSIBLE_PLACE.* FROM TRIP_POSSIBLE_PLACE
+        WHERE TRIP_POSSIBLE_PLACE.ID = #{id}
+    </select>
+    
+    <select id="getAll" resultMap="tripPossiblePlaceResultMap">
+        SELECT TRIP_POSSIBLE_PLACE.* FROM TRIP_POSSIBLE_PLACE
+          <if test="orderBy != null">
+            ORDER BY ${orderBy}
+        </if>
+    </select>
+    
+    <select id="getForTrip" resultMap="tripPossiblePlaceResultMap" parameterType="long">
+    	SELECT TRIP_POSSIBLE_PLACE.* FROM TRIP_POSSIBLE_PLACE
+    	WHERE TRIP_POSSIBLE_PLACE.TRIP_ID = #{tripId}
+    	<if test="orderBy != null">
+    		ORDER BY ${orderBy}
+    	</if>
+    </select>
+    
+    <select id="countForTrip" resultType="long" parameterType="long">
+    	SELECT COUNT(*) FROM TRIP_POSSIBLE_PLACE
+    	WHERE TRIP_POSSIBLE_PLACE.TRIP_ID = #{tripId}
+    </select>
+    
+     <select id="getForTripOfType" resultMap="tripPossiblePlaceResultMap" parameterType="long">
+    	SELECT TRIP_POSSIBLE_PLACE.* FROM TRIP_POSSIBLE_PLACE
+    	WHERE TRIP_POSSIBLE_PLACE.TRIP_ID = #{tripId}
+    	  AND PLACE_TYPE = #{type}
+    	<if test="orderBy != null">
+    		ORDER BY ${orderBy}
+    	</if>
+    </select>
+    
+    <select id="countForTripOfType" resultType="long" parameterType="long">
+    	SELECT COUNT(*) FROM TRIP_POSSIBLE_PLACE
+    	WHERE TRIP_POSSIBLE_PLACE.TRIP_ID = #{tripId}
+    	  AND PLACE_TYPE = #{type}
+    </select>
+    
+    <select id="countAll" resultType="long">
+        SELECT COUNT(*) FROM TRIP_POSSIBLE_PLACE
+    </select>     
+    
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO TRIP_POSSIBLE_PLACE (TRIP_ID, PLACE_ID, PLACE_TYPE)        	
+        VALUES (#{tripId}, #{placeId}, #{placeType})
+    </insert>
+    
+    <update id="update">
+        UPDATE TRIP_POSSIBLE_PLACE SET
+        	TRIP_ID = #{tripId},
+        	PLACE_ID = #{placeId},
+        	PLACE_TYPE = #{placeType}
+       	WHERE TRIP_POSSIBLE_PLACE.ID = #{id}
+    </update>
+    
+    <delete id="delete" parameterType="long">
+        DELETE FROM TRIP_POSSIBLE_PLACE
+        WHERE TRIP_POSSIBLE_PLACE.ID = #{id}
+    </delete>    
+    
+</mapper>

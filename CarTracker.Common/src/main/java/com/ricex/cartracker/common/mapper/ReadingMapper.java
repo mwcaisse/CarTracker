@@ -9,7 +9,7 @@ import com.ricex.cartracker.common.viewmodel.entity.ReadingViewModel;
 public class ReadingMapper {
 
 	
-	public static ReadingViewModel ToViewModel(Reading reading) {
+	public static ReadingViewModel toViewModel(Reading reading) {
 		if (null == reading) {
 			return null;
 		}
@@ -33,13 +33,13 @@ public class ReadingMapper {
 		return vm;
 	}
 	
-	public static List<ReadingViewModel> ToViewModel(List<Reading> readings) {
+	public static List<ReadingViewModel> toViewModel(List<Reading> readings) {
 		List<ReadingViewModel> vms = new ArrayList<ReadingViewModel>();
 		if (null == readings) {
 			return vms;
 		}
 		for(Reading reading : readings) {
-			vms.add(ToViewModel(reading));
+			vms.add(toViewModel(reading));
 		}
 		return vms;
 	}
