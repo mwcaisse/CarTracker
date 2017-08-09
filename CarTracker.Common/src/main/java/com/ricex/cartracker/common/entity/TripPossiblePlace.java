@@ -6,7 +6,7 @@ public class TripPossiblePlace extends AbstractEntity {
 	
 	private long placeId;
 	
-	private String placeType;
+	private TripPossiblePlaceType placeType;
 	
 	private Place place;
 	
@@ -43,14 +43,14 @@ public class TripPossiblePlace extends AbstractEntity {
 	/**
 	 * @return the placeType
 	 */
-	public String getPlaceType() {
+	public TripPossiblePlaceType getPlaceType() {
 		return placeType;
 	}
 
 	/**
 	 * @param placeType the placeType to set
 	 */
-	public void setPlaceType(String placeType) {
+	public void setPlaceType(TripPossiblePlaceType placeType) {
 		this.placeType = placeType;
 	}
 

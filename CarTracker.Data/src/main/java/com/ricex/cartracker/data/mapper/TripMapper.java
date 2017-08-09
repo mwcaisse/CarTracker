@@ -26,7 +26,7 @@ public interface TripMapper extends EntityMapper<Trip> {
 	 * 
 	 * @param carId The car's id
 	 * @param orderBy the sorting string
-	 * @param bounds The bounds specifiying  the offset + limit
+	 * @param bounds The bounds specifying  the offset + limit
 	 * @return ALl of the trips within the bounds
 	 */
 	public List<Trip> getForCar(@Param("carId") long carId, @Param("orderBy") String orderBy, RowBounds bounds);

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import com.ricex.cartracker.common.entity.TripPossiblePlace;
+import com.ricex.cartracker.common.entity.TripPossiblePlaceType;
 
 /** Trip Possible Place mapper for fetching Trip Possible Place data
  * 
@@ -45,10 +46,19 @@ public interface TripPossiblePlaceMapper extends EntityMapper<TripPossiblePlace>
 	 * @param type The Possible place type
 	 * @return The count
 	 */
-	public List<TripPossiblePlace> getForTripOfType(@Param("tripId") long tripId, @Param("type") String type, 
-			@Param("orderBy") String orderBy, RowBounds bounds);
+	public List<TripPossiblePlace> getForTripOfType(long tripId, TripPossiblePlaceType type);
 	
-	public List<TripPossiblePlace> getForTripOfType(long tripId, String type);
+	/** Gets all of possible places of the given type for the given trip with paging and sorting
+	 * 
+	 * @param tripId The trip's id
+	 * @param type The Possible place type
+	 * @param orderBy the sorting string
+	 * @param bounds The bounds specifying the offset + limit
+	 * @return The count
+	 */	
+	public List<TripPossiblePlace> getForTripOfType(@Param("tripId") long tripId, 
+			@Param("type") TripPossiblePlaceType type, @Param("orderBy") String orderBy, RowBounds bounds);	
+	
 	
 	/** Counts the number of possible places of the given type for the given trip
 	 * 
@@ -56,6 +66,6 @@ public interface TripPossiblePlaceMapper extends EntityMapper<TripPossiblePlace>
 	 * @param type The Possible place type
 	 * @return The count
 	 */
-	public long countForTripOfType(long tripId, String type);
+	public long countForTripOfType(long tripId, TripPossiblePlaceType type);
 	
 }

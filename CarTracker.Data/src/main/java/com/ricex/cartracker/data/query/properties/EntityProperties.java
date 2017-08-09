@@ -118,6 +118,30 @@ public final class EntityProperties {
 		}
 	}
 	
+	public enum TripPossiblePlace implements EntityProperty {
+		
+		ID,
+		TRIP_ID,
+		PLACE_ID,
+		PLACE_TYPE,
+		CREATE_DATE,
+		MODIFIED_DATE;
+		
+		private final String propertyField;
+		
+		private TripPossiblePlace() {
+			this.propertyField = this.name();
+		}
+		
+		private TripPossiblePlace(String propertyField) {
+			this.propertyField = propertyField;
+		}
+
+		public String getPropertyField() {
+			return propertyField;
+		}
+	}
+	
 	public enum User implements EntityProperty {
 		
 		ID,
@@ -241,6 +265,7 @@ public final class EntityProperties {
 		entityTypeProperties.put(EntityType.READER_LOG, ReaderLog.values());
 		entityTypeProperties.put(EntityType.READING, Reading.values());
 		entityTypeProperties.put(EntityType.TRIP, Trip.values());
+		entityTypeProperties.put(EntityType.TRIP_POSSIBLE_PLACE, TripPossiblePlace.values());
 		entityTypeProperties.put(EntityType.USER, User.values());
 		entityTypeProperties.put(EntityType.REGISTRATION_KEY, RegistrationKey.values());
 		entityTypeProperties.put(EntityType.REGISTRATION_KEY_USE, RegistrationKeyUse.values());
