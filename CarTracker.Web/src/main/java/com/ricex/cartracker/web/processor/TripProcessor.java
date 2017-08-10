@@ -177,11 +177,26 @@ public class TripProcessor {
 		return Math.abs(distance);
 	}
 	
+	private Reading getFirstReading(List<Reading> readings) {
+		Reading reading = null;
+		for(Reading cur : readings) {
+			if (cur.getLatitude() != 0 && cur.getLongitude() != 0) {
+				reading = cur;
+				break;
+			}
+		}
+		return reading;
+	}
+	
 	private void addTripPossiblePlaces(Trip trip, List<Reading> readings) throws EntityValidationException {
 		if (readings.isEmpty()) {
 			return;
 		}
-		addTripPossiblePlaces(trip, readings.get(0), TripPossiblePlaceType.START);
+		Reading firstReading = getFirstReading(readings);
+		if (null == firstReading) {
+			return; // invalid trip or trip didn't have any GPS readings
+		}
+		addTripPossiblePlaces(trip, firstReading, TripPossiblePlaceType.START);
 		addTripPossiblePlaces(trip, readings.get(readings.size() - 1), TripPossiblePlaceType.DESTINATION);
 	}
 	
