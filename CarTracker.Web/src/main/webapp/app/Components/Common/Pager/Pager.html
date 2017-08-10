@@ -1,15 +1,15 @@
 <div class="row">
-	<div class="col-md-4">	
+	<div class="col-xl">	
 		<span style="margin-left: 15px;">Showing items {{ itemStart }} to {{ itemEnd }} out of {{ totalItems }}</span>	
 	</div>
-	<div class="col-md-4">
+	<div class="col-xl">
 		<ul class="pagination justify-content-center">
 			<li class="page-item" v-for="item in itemsPerPageOptions" :class="{ active: itemsPerPage == item }">
 				<a class="page-link" href="#" v-on:click.prevent="itemsPerPage = item">{{ item }}</a>
 			</li>
 		</ul>
 	</div>
-	<div class="col-md-4">
+	<div class="col-xl">
 		<ul class="pagination justify-content-end" style="margin-right: 15px;">
 			<li class="page-item" :class="{ disabled: !showFirstPageButton }">
 				<a class="page-link" href="#" v-on:click.prevent="firstPage">First</a>

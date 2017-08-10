@@ -50,6 +50,12 @@ define("Service/applicationProxy", ["Service/proxy"], function (core) {
 			}
 		};
 		
+		self.tripPossiblePlaces = {
+			getForTrip: function (tripId, type, startAt, maxResults, sort) {
+				return core.getPaged("trip/" + tripId + "/possibleplaces/" + type, startAt, maxResults, sort);
+			}
+		};
+		
 		self.reading = {
 			get: function(id) {
 				return core.get("reading/" + id);

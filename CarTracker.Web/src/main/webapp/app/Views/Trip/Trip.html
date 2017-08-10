@@ -8,6 +8,14 @@
 		</div>
 	</div>
 	<div class="row py-3">
+		<div class="col-md-6">
+			<app-trip-possible-places :tripId="tripId" type="START"></app-trip-possible-places>
+		</div>
+		<div class="col-md-6">
+			<app-trip-possible-places :tripId="tripId" type="DESTINATION"></app-trip-possible-places>
+		</div>
+	</div>
+	<div class="row py-3">
 		<div class="col-md-12">
 			<app-trip-speed-chart :tripId="tripId"></app-trip-speed-chart>
 		</div>

@@ -11,7 +11,8 @@ define("Views/Trip/Trip",
 	 "Components/Trip/TripChart/TripEngineChart",
 	 "Components/Trip/TripChart/TripThrottleChart",
 	 "Components/Trip/TripChart/TripMAFChart",
-	 "Components/Trip/TripChart/TripTemperatureChart"], 
+	 "Components/Trip/TripChart/TripTemperatureChart",
+	 "Components/Trip/TripPossiblePlaces/TripPossiblePlaces"], 
 	 function (util, navigation, proxy, template) {
 	
 	var vm = function(elementId) {
