@@ -12,6 +12,7 @@
         <result property="tripId" column="TRIP_ID" />
         <result property="placeId" column="PLACE_ID" />
         <result property="placeType" column="PLACE_TYPE" />
+        <result property="distance" column="DISTANCE" />
         <result property="createDate" column="CREATE_DATE" />
         <result property="modifiedDate" column="MODIFIED_DATE" />          
             
@@ -63,15 +64,16 @@
     </select>     
     
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO TRIP_POSSIBLE_PLACE (TRIP_ID, PLACE_ID, PLACE_TYPE)        	
-        VALUES (#{tripId}, #{placeId}, #{placeType})
+        INSERT INTO TRIP_POSSIBLE_PLACE (TRIP_ID, PLACE_ID, PLACE_TYPE, DISTANCE)        	
+        VALUES (#{tripId}, #{placeId}, #{placeType}, #{distance})
     </insert>
     
     <update id="update">
         UPDATE TRIP_POSSIBLE_PLACE SET
         	TRIP_ID = #{tripId},
         	PLACE_ID = #{placeId},
-        	PLACE_TYPE = #{placeType}
+        	PLACE_TYPE = #{placeType},
+        	DISTANCE = #{distance}
        	WHERE TRIP_POSSIBLE_PLACE.ID = #{id}
     </update>
     

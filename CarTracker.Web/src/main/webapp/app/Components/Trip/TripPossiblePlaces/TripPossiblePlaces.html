@@ -10,11 +10,13 @@
 			<thead>
 				<tr>			
 					<th><app-column-header columnId="PLACE.NAME" columnName="Name" :enableSort="false"></app-column-header></th>									
+					<th><app-column-header columnId="DISTANCE" columnName="Distance" :currentSort="currentSort" v-on:sort:update="sortUpdated" v-on:sort:clear="sortCleared"></app-column-header></th>									
 				</tr>
 			</thead>
 			<tbody>
 				<tr v-for="place in possiblePlaces" :key="place.id">				
-					<td>{{place.place.name}}</td>
+					<td>{{ place.place.name }}</td>
+					<td>{{ place.distance | kmToMi | round(2) }} mi</td>
 				</tr>
 		
 			</tbody>		

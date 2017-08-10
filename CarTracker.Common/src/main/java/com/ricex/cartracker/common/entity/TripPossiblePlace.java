@@ -8,6 +8,8 @@ public class TripPossiblePlace extends AbstractEntity {
 	
 	private TripPossiblePlaceType placeType;
 	
+	private double distance;
+	
 	private Place place;
 	
 	/**
@@ -55,6 +57,21 @@ public class TripPossiblePlace extends AbstractEntity {
 	}
 
 	
+	
+	/**
+	 * @return the distance
+	 */
+	public double getDistance() {
+		return distance;
+	}
+
+	/**
+	 * @param distance the distance to set
+	 */
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
+
 	/**
 	 * @return the place
 	 */

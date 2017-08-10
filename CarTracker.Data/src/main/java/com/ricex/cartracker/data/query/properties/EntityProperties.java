@@ -124,6 +124,7 @@ public final class EntityProperties {
 		TRIP_ID,
 		PLACE_ID,
 		PLACE_TYPE,
+		DISTANCE,
 		CREATE_DATE,
 		MODIFIED_DATE;
 		
