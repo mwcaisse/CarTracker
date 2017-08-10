@@ -59,6 +59,7 @@ import com.ricex.cartracker.web.controller.api.ReaderLogController;
 import com.ricex.cartracker.web.controller.api.ReadingController;
 import com.ricex.cartracker.web.controller.api.RegistrationKeyController;
 import com.ricex.cartracker.web.controller.api.TripController;
+import com.ricex.cartracker.web.controller.api.TripPossiblePlaceController;
 import com.ricex.cartracker.web.controller.api.UserAuthenticationTokenController;
 import com.ricex.cartracker.web.controller.api.UserController;
 import com.ricex.cartracker.web.controller.view.AdminViewController;
@@ -87,6 +88,11 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	@Bean
 	public TripController tripController() throws Exception {
 		return new TripController(tripManager(), tripProcessor(), placeRequester());
+	}
+	
+	@Bean
+	public TripPossiblePlaceController tripPossiblePlaceController() throws Exception {
+		return new TripPossiblePlaceController(tripPossiblePlaceManager());
 	}
 	
 	@Bean

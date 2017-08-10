@@ -21,7 +21,7 @@ public interface TripPossiblePlaceMapper extends EntityMapper<TripPossiblePlace>
 	 * @param tripId The trip's id
 	 * @return All of the trip's possible places
 	 */
-	public List<TripPossiblePlace> getForTrip(long tripId);
+	public List<TripPossiblePlace> getForTrip(@Param("tripId") long tripId);
 	
 	/** Gets all of the possible places for the given trip with paging and sorting
 	 *  
@@ -38,7 +38,7 @@ public interface TripPossiblePlaceMapper extends EntityMapper<TripPossiblePlace>
 	 * @param tripId The id of the trip
 	 * @return The number of possible places that exist for the trip
 	 */
-	public long countForTrip(long tripId);
+	public long countForTrip(@Param("tripId") long tripId);
 	
 	/** Gets all of possible places of the given type for the given trip
 	 * 
@@ -46,7 +46,8 @@ public interface TripPossiblePlaceMapper extends EntityMapper<TripPossiblePlace>
 	 * @param type The Possible place type
 	 * @return The count
 	 */
-	public List<TripPossiblePlace> getForTripOfType(long tripId, TripPossiblePlaceType type);
+	public List<TripPossiblePlace> getForTripOfType(@Param("tripId") long tripId, 
+			@Param("type") TripPossiblePlaceType type);
 	
 	/** Gets all of possible places of the given type for the given trip with paging and sorting
 	 * 
@@ -66,6 +67,6 @@ public interface TripPossiblePlaceMapper extends EntityMapper<TripPossiblePlace>
 	 * @param type The Possible place type
 	 * @return The count
 	 */
-	public long countForTripOfType(long tripId, TripPossiblePlaceType type);
+	public long countForTripOfType(@Param("tripId") long tripId, @Param("type") TripPossiblePlaceType type);
 	
 }

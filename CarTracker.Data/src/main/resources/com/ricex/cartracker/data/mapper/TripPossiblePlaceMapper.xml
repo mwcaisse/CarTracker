@@ -30,7 +30,7 @@
         </if>
     </select>
     
-    <select id="getForTrip" resultMap="tripPossiblePlaceResultMap" parameterType="long">
+    <select id="getForTrip" resultMap="tripPossiblePlaceResultMap">
     	SELECT TRIP_POSSIBLE_PLACE.* FROM TRIP_POSSIBLE_PLACE
     	WHERE TRIP_POSSIBLE_PLACE.TRIP_ID = #{tripId}
     	<if test="orderBy != null">
@@ -38,12 +38,12 @@
     	</if>
     </select>
     
-    <select id="countForTrip" resultType="long" parameterType="long">
+    <select id="countForTrip" resultType="long">
     	SELECT COUNT(*) FROM TRIP_POSSIBLE_PLACE
     	WHERE TRIP_POSSIBLE_PLACE.TRIP_ID = #{tripId}
     </select>
     
-     <select id="getForTripOfType" resultMap="tripPossiblePlaceResultMap" parameterType="long">
+     <select id="getForTripOfType" resultMap="tripPossiblePlaceResultMap">
     	SELECT TRIP_POSSIBLE_PLACE.* FROM TRIP_POSSIBLE_PLACE
     	WHERE TRIP_POSSIBLE_PLACE.TRIP_ID = #{tripId}
     	  AND PLACE_TYPE = #{type}
@@ -52,7 +52,7 @@
     	</if>
     </select>
     
-    <select id="countForTripOfType" resultType="long" parameterType="long">
+    <select id="countForTripOfType" resultType="long">
     	SELECT COUNT(*) FROM TRIP_POSSIBLE_PLACE
     	WHERE TRIP_POSSIBLE_PLACE.TRIP_ID = #{tripId}
     	  AND PLACE_TYPE = #{type}
