@@ -9,16 +9,13 @@
 		<table class="table table-striped table-bordered">
 			<thead>
 				<tr>			
+					<th></th>
 					<th><app-column-header columnId="PLACE.NAME" columnName="Name" :enableSort="false"></app-column-header></th>									
 					<th><app-column-header columnId="DISTANCE" columnName="Distance" :currentSort="currentSort" v-on:sort:update="sortUpdated" v-on:sort:clear="sortCleared"></app-column-header></th>									
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="place in possiblePlaces" :key="place.id">				
-					<td>{{ place.place.name }}</td>
-					<td>{{ place.distance | kmToMi | round(2) }} mi</td>
-				</tr>
-		
+				<app-trip-possible-places-row v-for="possiblePlace in possiblePlaces" :key="possiblePlace.id" :possiblePlace="possiblePlace"></app-trip-possible-places-row>		
 			</tbody>		
 		</table>
 		<app-pager :totalItems="totalItems" :currentPaging="currentPaging" v-on:paging:update="pagingUpdated"></app-pager>

@@ -1,0 +1,7 @@
+<tr>				
+	<td>
+		<i class="fa fa-map-marker action-icon" aria-hidden="true" v-tooltip :title="'Select ' + placeType" v-on:click="setPlace"></i>
+	</td>
+	<td>{{ placeName }}</td>
+	<td>{{ distance | kmToMi | round(2) }} mi</td>
+</tr>

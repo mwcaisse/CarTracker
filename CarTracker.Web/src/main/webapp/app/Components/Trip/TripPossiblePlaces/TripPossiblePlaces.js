@@ -4,12 +4,65 @@ define("Components/Trip/TripPossiblePlaces/TripPossiblePlaces",
 		["moment", "Service/system", "Service/util", "Service/applicationProxy", "Service/navigation", 	
 		 "Components/Common/Pager/PagedGridMixin",
 		 "AMD/text!Components/Trip/TripPossiblePlaces/TripPossiblePlaces.html",
+		 "AMD/text!Components/Trip/TripPossiblePlaces/TripPossiblePlacesRow.html",
          "Components/Common/ColumnHeader/ColumnHeader",
          "Components/Common/Pager/Pager"],
-	function (moment, system, util, proxy, navigation, pagedGridMixin, template) {
+	function (moment, system, util, proxy, navigation, pagedGridMixin, template, rowTemplate) {
+	
+	var placeRow = {
+			template: rowTemplate,	
+			data: function () {
+				return {
+					id: -1,
+					tripId: -1,
+					placeId: -1,
+					placeType: "",
+					distance: 0,
+					placeName: ""
+				};
+			},
+			props: {
+				possiblePlace: {
+					type: Object,
+					requred: true
+				}
+			},
+			computed: {
+				
+			},
+			methods: {
+				setPlace: function () {
+					var promise;
+					if (this.placeType === "START") {
+						promise = proxy.trip.setStartingPlace(this.tripId, this.placeId);
+					}
+					else {
+						promise = proxy.trip.setDestinationPlace(this.tripId, this.placeId);
+					}					
+					promise.then(function (res) {
+						
+					}.bind(this));
+				},
+				update: function (data) {
+					this.id = data.id;
+					this.tripId = data.tripId;
+					this.placeId = data.placeId;
+					this.placeType = data.placeType;
+					this.distance = data.distance;
+					this.placeName = data.place.name;
+				}
+			},
+			created: function() {
+				this.update(this.possiblePlace);
+			}
+		};
+		
 	
 	return Vue.component("app-trip-possible-places", {
-		mixins: [pagedGridMixin],			
+		mixins: [pagedGridMixin],
+		components: {
+			"app-trip-possible-places-row": placeRow
+		},
 		data: function() {
 			return {
 				possiblePlaces: [],

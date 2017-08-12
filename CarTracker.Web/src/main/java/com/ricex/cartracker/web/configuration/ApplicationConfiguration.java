@@ -177,7 +177,7 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	
 	@Bean
 	public TripManager tripManager() throws Exception {
-		return new TripManager(tripMapper(), tripValidator(), carValidator());
+		return new TripManager(tripMapper(), tripValidator(), carValidator(), placeValidator());
 	}
 	
 	@Bean

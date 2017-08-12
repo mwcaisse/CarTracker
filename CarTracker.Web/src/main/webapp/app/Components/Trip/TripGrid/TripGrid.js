@@ -49,6 +49,12 @@ define("Components/Trip/TripGrid/TripGrid",
 			},
 			viewLink: function () {
 				return navigation.viewTripLink(this.id);
+			},
+			destinationName: function () {
+				if (null == this.destination || typeof this.destination == "undefined") {
+					return "";
+				}
+				return this.destination.name;
 			}
 		},
 		methods: {

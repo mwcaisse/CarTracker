@@ -47,6 +47,12 @@ define("Service/applicationProxy", ["Service/proxy"], function (core) {
 			},
 			process: function (id) {
 				return core.post("trip/" + id + "/process"); 
+			},
+			setStartingPlace: function (id, placeId) {
+				return core.post("trip/" + id + "/starting-place?placeId="+ placeId);
+			},
+			setDestinationPlace: function(id, placeId) {
+				return core.post("trip/" + id + "/destination-place?placeId="+ placeId);
 			}
 		};
 		

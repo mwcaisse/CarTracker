@@ -15,19 +15,22 @@ import com.ricex.cartracker.data.mapper.TripMapper;
 import com.ricex.cartracker.data.query.properties.EntityType;
 import com.ricex.cartracker.data.validation.CarValidator;
 import com.ricex.cartracker.data.validation.EntityValidationException;
+import com.ricex.cartracker.data.validation.PlaceValidator;
 import com.ricex.cartracker.data.validation.TripValidator;
 
 public class TripManager extends AbstractEntityManager<Trip>  {	
 	
-	protected TripMapper mapper;
-	protected TripValidator validator;
-	protected CarValidator carValidator;
+	protected final TripMapper mapper;
+	protected final TripValidator validator;
+	protected final CarValidator carValidator;
+	protected final PlaceValidator placeValidator;
 	
-	public TripManager(TripMapper mapper, TripValidator validator, CarValidator carValidator) {
+	public TripManager(TripMapper mapper, TripValidator validator, CarValidator carValidator, PlaceValidator placeValidator) {
 		super(mapper, validator, EntityType.TRIP);
 		this.mapper = mapper;
 		this.validator = validator;
 		this.carValidator = carValidator;
+		this.placeValidator = placeValidator;
 	}
 	
 	/** Gets all of the trips associated with the given car
@@ -129,6 +132,37 @@ public class TripManager extends AbstractEntityManager<Trip>  {
 		trip.setStatus(TripStatus.FINISHED);
 		mapper.update(trip);
 		
+		return true;
+	}
+	
+	/** Sets the starting place of the given trip
+	 * 
+	 * @param id
+	 * @param placeId
+	 * @return
+	 * @throws EntityValidationException
+	 */
+	public boolean setStartingPlace(long id, long placeId) throws EntityValidationException{
+		placeValidator.exists(placeId);
+		Trip trip = get(id);
+		trip.setStartPlaceId(placeId);
+		mapper.update(trip);
+		
+		return true;
+	}
+	
+	/** Sets the destination place of the given trip
+	 * 
+	 * @param id
+	 * @param placeId
+	 * @return
+	 * @throws EntityValidationException
+	 */
+	public boolean setDestinationPlace(long id, long placeId) throws EntityValidationException {
+		placeValidator.exists(placeId);
+		Trip trip = get(id);
+		trip.setDestinationPlaceId(placeId);
+		mapper.update(trip);		
 		return true;
 	}
 	

@@ -153,6 +153,28 @@ public class TripController extends ApiController<Trip> {
 		}
 	}
 	
+	@RequestMapping(value ="/trip/{id}/starting-place", method=RequestMethod.POST, produces={JSON})
+	public @ResponseBody BooleanResponse setStartingPlace(@PathVariable long id, @RequestParam long placeId) {
+		try {
+			boolean response = manager.setStartingPlace(id, placeId);
+			return new BooleanResponse(response);			
+		} 
+		catch (EntityValidationException e) {
+			return new BooleanResponse(e.getMessage());
+		}
+	}
+	
+	@RequestMapping(value ="/trip/{id}/destination-place", method=RequestMethod.POST, produces={JSON})
+	public @ResponseBody BooleanResponse setDestinationlace(@PathVariable long id, @RequestParam long placeId) {
+		try {
+			boolean response = manager.setDestinationPlace(id, placeId);
+			return new BooleanResponse(response);			
+		} 
+		catch (EntityValidationException e) {
+			return new BooleanResponse(e.getMessage());
+		}
+	}
+	
 	@RequestMapping(value ="/trip/placeSearch", method=RequestMethod.GET, produces={JSON})
 	public @ResponseBody EntityResponse<List<PlaceSearchModel>> testPlaceSearch(@RequestParam double lat, 
 			@RequestParam double lng, @RequestParam int range) {		
