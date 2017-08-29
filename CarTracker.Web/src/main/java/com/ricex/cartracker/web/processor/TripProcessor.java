@@ -166,17 +166,24 @@ public class TripProcessor {
 		}
 		
 		LocationModel prevLocation = new LocationModel(prev.getLatitude(), prev.getLongitude());
-		LocationModel currentLocation = new LocationModel(current.getLatitude(), prev.getLongitude());		
+		LocationModel currentLocation = new LocationModel(current.getLatitude(), current.getLongitude());		
 		return calculateDistanceBetweenLocations(prevLocation, currentLocation);
 	}
 	
-	private double calculateDistanceBetweenLocations(LocationModel first, LocationModel second) {
+	private double calculateDistanceBetweenLocations(LocationModel start, LocationModel end) {
 		double radius = 6371.0; // radius of earth in km
-		double deltaLat = Math.toRadians(first.getLatitude() - second.getLatitude());
-		double deltaLong = Math.toRadians(first.getLongitude() - second.getLongitude());		
+		
+		
+		double startLat = Math.toRadians(start.getLatitude()); // prevLat 
+		double endLat = Math.toRadians(end.getLatitude()); // curLat
+		double deltaLat = Math.toRadians(end.getLatitude() - start.getLatitude());
+		double deltaLong = Math.toRadians(end.getLongitude() - start.getLongitude());		
 
 		
-		double a = Math.pow(Math.sin(deltaLat / 2.0), 2.0) + Math.pow(Math.sin(deltaLong / 2.0), 2.0) * Math.cos(second.getLatitude()) * Math.cos(first.getLatitude());
+		double a = Math.pow(Math.sin(deltaLat / 2.0), 2.0) + 
+				   Math.pow(Math.sin(deltaLong / 2.0), 2.0) * 
+				   Math.cos(startLat) * Math.cos(endLat);
+		
 		double c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0-a));
 		double distance = radius * c;	
 		
