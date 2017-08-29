@@ -45,6 +45,17 @@ public class TripProcessor {
 		this.tripPossiblePlaceManager = tripPossiblePlaceManager;
 	}
 	
+	/** Processes trips that have yet to be processed
+	 * 
+	 * @throws EntityValidationException
+	 */
+	public void processUnprocessedTrips() throws EntityValidationException {
+		List<Trip> unprocessedTrips = tripManager.getUnprocessedTrips();
+		for (Trip trip : unprocessedTrips) {
+			processTrip(trip);
+		}
+	}
+	
 	public Trip processTrip(long tripId) throws EntityValidationException {
 		return processTrip(tripManager.get(tripId));
 	}

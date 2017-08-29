@@ -153,6 +153,21 @@ public class TripController extends ApiController<Trip> {
 		}
 	}
 	
+	/** Processes all of the unprocessed trips
+	 * 
+	 * @return True if successful, false otherwise
+	 */
+	@RequestMapping(value ="/trip/process/unprocessed", method=RequestMethod.POST, produces={JSON})
+	public @ResponseBody BooleanResponse processUnprocessedTrip() {
+		try {
+			tripProcessor.processUnprocessedTrips();
+			return new BooleanResponse(true);
+		}
+		catch (EntityValidationException e) {
+			return new BooleanResponse(e.getMessage());
+		}
+	}
+	
 	@RequestMapping(value ="/trip/{id}/starting-place", method=RequestMethod.POST, produces={JSON})
 	public @ResponseBody BooleanResponse setStartingPlace(@PathVariable long id, @RequestParam long placeId) {
 		try {

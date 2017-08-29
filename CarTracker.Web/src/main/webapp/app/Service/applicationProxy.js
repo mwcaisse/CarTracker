@@ -48,6 +48,9 @@ define("Service/applicationProxy", ["Service/proxy"], function (core) {
 			process: function (id) {
 				return core.post("trip/" + id + "/process"); 
 			},
+			processUnprocessed: function () {
+				return core.post("trip/process/unprocessed");
+			},
 			setStartingPlace: function (id, placeId) {
 				return core.post("trip/" + id + "/starting-place?placeId="+ placeId);
 			},

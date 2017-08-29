@@ -106,6 +106,11 @@ define("Components/Trip/TripGrid/TripGrid",
 					alert("error fetching trips!");
 				})
 			},
+			processAll: function () {
+				proxy.trip.processUnprocessed().then(function (processedTrip) {
+					this.refresh();
+				}.bind(this));
+			},
 			createTrip: function (data) {
 				return new (function() {
 					var trip = this;
