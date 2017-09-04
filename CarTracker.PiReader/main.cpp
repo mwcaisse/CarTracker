@@ -35,17 +35,24 @@ int main(int argc, char* argv[])
 	printf("Initialized serial port \n");
 
 	//write the OBD command to get engine RPMs
-	ssize_t written = write(fd, "01 0C\r", 6);
+	ssize_t written = write(fd, "010C\r", 6);
 
 	printf("Wrote: 01 0C Bytes: %d\n", written);
 
 	char* readBuf = (char*)(malloc(sizeof(char) * 1024));
 
 	printf("About to read a byte \n");
-	ssize_t bytesRead = read(fd, readBuf, 1024);
+	int res = readSerialData(fd, readBuf, 1024);
 
-	printf("Read Bytes: %d \n", bytesRead);
-	printf("Read: %s\n", readBuf);
+	printf("Read Bytes: %d \n", res);
+	if (res > 0)
+	{
+		printf("Read: %s\n", readBuf);
+	}
+	else
+	{
+		printf("Read nothing");
+	}	
 
 	free(readBuf);
 
@@ -81,4 +88,30 @@ int initializeSerialPort(int fd, int speed)
 	}
 
 	return 0;
+}
+
+int readSerialData(int fd, char* buf, int bufSize)
+{
+	int totalBytesRead = 0;
+	int bytesRead = 0;
+	memset(buf, '\0', bufSize);
+
+	do
+	{
+		bytesRead = read(fd, buf, bufSize - totalBytesRead);
+		if (bytesRead == -1 && errno != EAGAIN)
+		{
+			perror("readSerialData");
+		}
+		if (bytesRead != 1)
+		{
+			totalBytesRead += bytesRead;
+			buf += bytesRead; // advance the head of our buffer
+		}
+	} 
+	//loop while we haven't read anything, we haven't seen the > char yet, and we haven't filled
+	// our buffer
+	while ((totalBytesRead == 0 || *(buf-1) != '>') && totalBytesRead < bufSize);
+
+	return totalBytesRead;
 }

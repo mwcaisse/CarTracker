@@ -60,10 +60,15 @@
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(IncludePath);$(ISenseIncludePath);Y:\</IncludePath>
+  </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="makefile" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

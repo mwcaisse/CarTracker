@@ -74,5 +74,6 @@ CarTracker.Web/src/main/resources/build.properties
 
 # Visual Studio Files #
 #######################
-
 .vs
+*/obj/
+*.vcxproj.user

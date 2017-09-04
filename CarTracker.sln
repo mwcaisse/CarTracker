@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CarTracker.PiReader", "CarTracker.PiReader\CarTracker.PiReader.vcxproj", "{9504D6AE-623B-4247-87A8-A381FDAA710C}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CarTracker.Test", "CarTracker.Test\CarTracker.Test.vcxproj", "{299E3E7F-BFE6-425F-A0F6-B330B4F55E0C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CarTracker.PiReader", "CarTracker.PiReader\CarTracker.PiReader.vcxproj", "{14CED9EF-957D-4777-BB35-DF55F5C33D6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,30 +15,18 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9504D6AE-623B-4247-87A8-A381FDAA710C}.Debug|ARM.ActiveCfg = Debug|ARM
-		{9504D6AE-623B-4247-87A8-A381FDAA710C}.Debug|ARM.Build.0 = Debug|ARM
-		{9504D6AE-623B-4247-87A8-A381FDAA710C}.Debug|x64.ActiveCfg = Debug|x64
-		{9504D6AE-623B-4247-87A8-A381FDAA710C}.Debug|x64.Build.0 = Debug|x64
-		{9504D6AE-623B-4247-87A8-A381FDAA710C}.Debug|x86.ActiveCfg = Debug|x86
-		{9504D6AE-623B-4247-87A8-A381FDAA710C}.Debug|x86.Build.0 = Debug|x86
-		{9504D6AE-623B-4247-87A8-A381FDAA710C}.Release|ARM.ActiveCfg = Release|ARM
-		{9504D6AE-623B-4247-87A8-A381FDAA710C}.Release|ARM.Build.0 = Release|ARM
-		{9504D6AE-623B-4247-87A8-A381FDAA710C}.Release|x64.ActiveCfg = Release|x64
-		{9504D6AE-623B-4247-87A8-A381FDAA710C}.Release|x64.Build.0 = Release|x64
-		{9504D6AE-623B-4247-87A8-A381FDAA710C}.Release|x86.ActiveCfg = Release|x86
-		{9504D6AE-623B-4247-87A8-A381FDAA710C}.Release|x86.Build.0 = Release|x86
-		{299E3E7F-BFE6-425F-A0F6-B330B4F55E0C}.Debug|ARM.ActiveCfg = Debug|ARM
-		{299E3E7F-BFE6-425F-A0F6-B330B4F55E0C}.Debug|ARM.Build.0 = Debug|ARM
-		{299E3E7F-BFE6-425F-A0F6-B330B4F55E0C}.Debug|x64.ActiveCfg = Debug|x64
-		{299E3E7F-BFE6-425F-A0F6-B330B4F55E0C}.Debug|x64.Build.0 = Debug|x64
-		{299E3E7F-BFE6-425F-A0F6-B330B4F55E0C}.Debug|x86.ActiveCfg = Debug|x86
-		{299E3E7F-BFE6-425F-A0F6-B330B4F55E0C}.Debug|x86.Build.0 = Debug|x86
-		{299E3E7F-BFE6-425F-A0F6-B330B4F55E0C}.Release|ARM.ActiveCfg = Release|ARM
-		{299E3E7F-BFE6-425F-A0F6-B330B4F55E0C}.Release|ARM.Build.0 = Release|ARM
-		{299E3E7F-BFE6-425F-A0F6-B330B4F55E0C}.Release|x64.ActiveCfg = Release|x64
-		{299E3E7F-BFE6-425F-A0F6-B330B4F55E0C}.Release|x64.Build.0 = Release|x64
-		{299E3E7F-BFE6-425F-A0F6-B330B4F55E0C}.Release|x86.ActiveCfg = Release|x86
-		{299E3E7F-BFE6-425F-A0F6-B330B4F55E0C}.Release|x86.Build.0 = Release|x86
+		{14CED9EF-957D-4777-BB35-DF55F5C33D6D}.Debug|ARM.ActiveCfg = Debug|ARM
+		{14CED9EF-957D-4777-BB35-DF55F5C33D6D}.Debug|ARM.Build.0 = Debug|ARM
+		{14CED9EF-957D-4777-BB35-DF55F5C33D6D}.Debug|x64.ActiveCfg = Debug|x64
+		{14CED9EF-957D-4777-BB35-DF55F5C33D6D}.Debug|x64.Build.0 = Debug|x64
+		{14CED9EF-957D-4777-BB35-DF55F5C33D6D}.Debug|x86.ActiveCfg = Debug|x86
+		{14CED9EF-957D-4777-BB35-DF55F5C33D6D}.Debug|x86.Build.0 = Debug|x86
+		{14CED9EF-957D-4777-BB35-DF55F5C33D6D}.Release|ARM.ActiveCfg = Release|ARM
+		{14CED9EF-957D-4777-BB35-DF55F5C33D6D}.Release|ARM.Build.0 = Release|ARM
+		{14CED9EF-957D-4777-BB35-DF55F5C33D6D}.Release|x64.ActiveCfg = Release|x64
+		{14CED9EF-957D-4777-BB35-DF55F5C33D6D}.Release|x64.Build.0 = Release|x64
+		{14CED9EF-957D-4777-BB35-DF55F5C33D6D}.Release|x86.ActiveCfg = Release|x86
+		{14CED9EF-957D-4777-BB35-DF55F5C33D6D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
