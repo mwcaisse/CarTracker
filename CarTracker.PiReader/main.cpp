@@ -87,6 +87,20 @@ int initializeSerialPort(int fd, int speed)
 		return -1;
 	}
 
+	//reset device
+	sendBlindCommand(fd, "ATZ");
+
+	//clear
+	sendBlindCommand(fd, "0100");
+	//echo off
+	sendBlindCommand(fd, "ATE0");
+	//disable linefeeds
+	sendBlindCommand(fd, "ATL0");
+	//don't insert spaces
+	sendBlindCommand(fd, "ATS0");
+	//resend for good measure
+	sendBlindCommand(fd, "0100");
+
 	return 0;
 }
 
@@ -114,4 +128,19 @@ int readSerialData(int fd, char* buf, int bufSize)
 	while ((totalBytesRead == 0 || *(buf-1) != '>') && totalBytesRead < bufSize);
 
 	return totalBytesRead;
+}
+
+void readToEnd(int fd)
+{
+	char buf[4096];
+	sleep(1);
+	readSerialData(fd, buf, 4096);
+}
+
+void sendBlindCommand(int fd, const char* cmd)
+{
+	char buf[1024];
+	snprintf(buf, sizeof(buf), "%s%s\0", cmd, "\r");
+	write(fd, buf, strlen(buf));
+	readToEnd(fd);
 }

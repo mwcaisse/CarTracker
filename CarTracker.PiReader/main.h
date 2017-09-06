@@ -19,3 +19,14 @@ int initializeSerialPort(int fd, int speed);
  * @param bufSize the size of the buffer
  */
 int readSerialData(int fd, char* buf, int bufSize);
+
+/**
+ *
+ *	Reads all of the data to next prompt and discards it
+ */
+void readToEnd(int fd);
+
+/**
+ * Sends a command and disregards the output
+ */
+void sendBlindCommand(int fd, const char* cmd);
