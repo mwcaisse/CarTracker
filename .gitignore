@@ -51,6 +51,7 @@ doc/
 .settings/
 lint.xml
 .idea/
+.script/
 
 
 

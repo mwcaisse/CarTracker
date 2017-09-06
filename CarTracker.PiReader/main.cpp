@@ -39,9 +39,7 @@ int main(int argc, char* argv[])
 
 	printf("Wrote: 01 0C Bytes: %d\n", written);
 
-	char* readBuf = (char*)(malloc(sizeof(char) * 1024));
-
-	printf("About to read a byte \n");
+	char readBuf[1024];
 	int res = readSerialData(fd, readBuf, 1024);
 
 	printf("Read Bytes: %d \n", res);
@@ -51,10 +49,8 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		printf("Read nothing");
+		printf("Read nothing\n");
 	}	
-
-	free(readBuf);
 
 	// close the serial port after we are done
 	close(fd);
@@ -63,6 +59,7 @@ int main(int argc, char* argv[])
 int initializeSerialPort(int fd, int speed)
 {
 	struct termios tty;
+
 	memset(&tty, 0, sizeof tty);
 
 	if (tcgetattr(fd, &tty) != 0)
@@ -86,7 +83,6 @@ int initializeSerialPort(int fd, int speed)
 		perror("tcsetattr");
 		return -1;
 	}
-
 	//reset device
 	sendBlindCommand(fd, "ATZ");
 
@@ -108,8 +104,8 @@ int readSerialData(int fd, char* buf, int bufSize)
 {
 	int totalBytesRead = 0;
 	int bytesRead = 0;
-	memset(buf, '\0', bufSize);
 
+	memset(buf, '\0', bufSize);
 	do
 	{
 		bytesRead = read(fd, buf, bufSize - totalBytesRead);
@@ -117,10 +113,10 @@ int readSerialData(int fd, char* buf, int bufSize)
 		{
 			perror("readSerialData");
 		}
-		if (bytesRead != 1)
+		if (bytesRead != -1)
 		{
 			totalBytesRead += bytesRead;
-			buf += bytesRead; // advance the head of our buffer
+			buf += bytesRead; // advance the head of our buffer	
 		}
 	} 
 	//loop while we haven't read anything, we haven't seen the > char yet, and we haven't filled
