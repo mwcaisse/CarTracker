@@ -1,4 +1,4 @@
-#include "OBDDevice.h"
+#include "ObdDevice.h"
 #include <cstdlib>
 #include <cstring>
 #include <fcntl.h>
@@ -8,7 +8,7 @@
 #include <errno.h>
 
 
-OBDDevice::OBDDevice(int baudRate, char* portName)
+ObdDevice::ObdDevice(int baudRate, char* portName)
 {
 	this->baudRate = baudRate;
 	this->fd = -1;
@@ -21,12 +21,12 @@ OBDDevice::OBDDevice(int baudRate, char* portName)
 
 }
 
-OBDDevice::~OBDDevice()
+ObdDevice::~ObdDevice()
 {
 	free(portName);	
 }
 
-int OBDDevice::Connect()
+int ObdDevice::Connect()
 {
 	this->fd = open(this->portName, O_RDWR | O_NOCTTY | O_NDELAY);
 
@@ -46,7 +46,7 @@ int OBDDevice::Connect()
 	return 0;
 }
 
-int OBDDevice::Disconnect()
+int ObdDevice::Disconnect()
 {
 	close(this->fd);
 
@@ -54,7 +54,7 @@ int OBDDevice::Disconnect()
 }
 
 
-int OBDDevice::InitializeSerialPort()
+int ObdDevice::InitializeSerialPort()
 {
 	struct termios tty;
 
@@ -85,7 +85,7 @@ int OBDDevice::InitializeSerialPort()
 	return 0;
 }
 
-int OBDDevice::InitializeOBDDevice()
+int ObdDevice::InitializeOBDDevice()
 {
 	//reset device
 	this->SendBlindCommand("ATZ");
@@ -103,20 +103,20 @@ int OBDDevice::InitializeOBDDevice()
 	return 0;
 }
 
-void OBDDevice::SendBlindCommand(const char* command)
+void ObdDevice::SendBlindCommand(const char* command)
 {
 	this->WriteCommand(command);
 	sleep(1); // sleep for a second to wait for device to respond
 	this->ReadToEnd();
 }
 
-int OBDDevice::SendCommand(const char* command, char* buffer, int bufferSize)
+int ObdDevice::SendCommand(const char* command, char* buffer, int bufferSize)
 {
 	this->WriteCommand(command);
 	return this->ReadData(buffer, bufferSize);
 }
 
-int OBDDevice::WriteCommand(const char* command)
+int ObdDevice::WriteCommand(const char* command)
 {
 	char buf[1024];
 	snprintf(buf, sizeof(buf), "%s%s\0", command, "\r");
@@ -125,7 +125,7 @@ int OBDDevice::WriteCommand(const char* command)
 
 
 
-int OBDDevice::ReadData(char* buffer, int bufferSize)
+int ObdDevice::ReadData(char* buffer, int bufferSize)
 {
 	int totalBytesRead = 0;
 	int bytesRead = 0;
@@ -153,7 +153,7 @@ int OBDDevice::ReadData(char* buffer, int bufferSize)
 	return totalBytesRead;
 }
 
-void OBDDevice::ReadToEnd()
+void ObdDevice::ReadToEnd()
 {
 	char buffer[4096];
 	this->ReadData(buffer, 4096);

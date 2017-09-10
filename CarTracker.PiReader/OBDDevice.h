@@ -1,5 +1,5 @@
 #pragma once
-class OBDDevice
+class ObdDevice
 {
 
 	int baudRate;
@@ -42,8 +42,8 @@ class OBDDevice
 	int WriteCommand(const char* command);
 
 public:
-	OBDDevice(int baudRate, char* portName);
-	~OBDDevice();
+	ObdDevice(int baudRate, char* portName);
+	~ObdDevice();
 
 	/**
 	 * Opens the serial port and initilizes the connection to the OBD Device

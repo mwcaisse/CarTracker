@@ -66,11 +66,11 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="makefile" />
-    <ClCompile Include="SerialPort.cpp" />
+    <ClCompile Include="ObdDevice.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
-    <ClInclude Include="SerialPort.h" />
+    <ClInclude Include="ObdDevice.h" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
