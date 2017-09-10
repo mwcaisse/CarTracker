@@ -1,12 +1,13 @@
+source := $(wildcard *.cpp)
+objects := $(patsubst %.cpp, %.o, $(source))
+
 all: pireader
 
-pireader: %.o
-	g++ %.o -o pireader
+pireader: $(objects)
+	g++ $(objects) -o pireader
 
-
-
-%.o: %.cpp %.h
-	g++ -c  %.cpp
+%.o: %.cpp
+	g++ -c $< -o $@
 
 clean:
 	rm *.o
