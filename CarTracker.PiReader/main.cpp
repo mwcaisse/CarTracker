@@ -16,11 +16,14 @@ int main(int argc, char* argv[])
 		return 2;
 	}
 
-	int fd = open(argv[1], O_RDWR | O_NOCTTY | O_NDELAY);
-
 	ObdDevice device(115200, argv[1]);
 
-	device.Connect();
+	int res = device.Connect();
+	if (res < 0)
+	{
+		perror("connect to device");
+		return -1;
+	}
 	printf("Opened and Initialized serial port \n");
 
 	printf("Writing command \n");
