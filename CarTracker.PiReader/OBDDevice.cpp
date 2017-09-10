@@ -149,6 +149,12 @@ int ObdDevice::ReadData(char* buffer, int bufferSize)
 	//TODO: Might want to add a time out here, incase we never see a > character, we don't
 	//		loop infitivly.
 	while ((totalBytesRead == 0 || *(buffer - 1) != '>') && totalBytesRead < bufferSize);
+	
+	//if buffer -1 equals the ending char, replace it with null byte
+	if ( *(buffer -1) == '>')
+	{
+		*(buffer - 1) = '\0'; 
+	}
 
 	return totalBytesRead;
 }

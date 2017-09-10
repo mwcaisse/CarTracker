@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 
 	printf("Writing command \n");
 	char readBuffer[1024];
-	int read = device.SendCommand("010C", readBuffer, 2014);
+	int read = device.SendCommand("010C", readBuffer, 1024);
 	printf("Wrote: 01 0C. Read Bytes: %d\n", read);
 	
 	if (read > 0)
