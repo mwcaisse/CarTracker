@@ -2,15 +2,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <unistd.h>
-#include <errno.h>
-#include <cstring>
-#include <cstdlib>
 #include <iostream>
-#include <termios.h>
 
 #include "main.h"
-#include "OBDDevice.h"
+#include "ObdDevice.h"
 
 int main(int argc, char* argv[])
 {
@@ -23,7 +18,7 @@ int main(int argc, char* argv[])
 
 	int fd = open(argv[1], O_RDWR | O_NOCTTY | O_NDELAY);
 
-	OBDDevice device(115200, argv[1]);
+	ObdDevice device(115200, argv[1]);
 
 	device.Connect();
 	printf("Opened and Initialized serial port \n");

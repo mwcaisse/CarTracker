@@ -1,13 +1,12 @@
 all: pireader
 
-pireader: main.o OBDDevice.o
-	g++ main.o OBDDevice.o -o pireader
+pireader: %.o
+	g++ %.o -o pireader
 
-main.o: main.cpp main.h
-	g++ -c main.cpp
 
-OBDDevice.o: OBDDevice.cpp OBDDevice.h
-	g++ -c  OBDDevice.cpp
+
+%.o: %.cpp %.h
+	g++ -c  %.cpp
 
 clean:
 	rm *.o
