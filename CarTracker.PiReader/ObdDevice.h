@@ -39,7 +39,7 @@ class ObdDevice
 	 * @param command cstring containing the command to send
 	 * @return the number of bytes written
 	 */
-	int WriteCommand(const char* command);
+	int WriteCommand(const char* command);	
 
 public:
 	ObdDevice(int baudRate, char* portName);
@@ -74,6 +74,14 @@ public:
 	 * @return The number of bytes read
 	 */
 	int SendCommand(const char* command, char* buffer, int bufferSize);
+
+	/*
+	* Trims any leading and/or training white space in the given string
+	*
+	* @param str cstring to trim
+	* @param len the max length of the string
+	*/
+	static void StringTrim(char* str, int maxlen);
 
 };
 

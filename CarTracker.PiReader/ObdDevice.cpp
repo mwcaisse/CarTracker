@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <ctime>
+#include <cctype>
 
 
 ObdDevice::ObdDevice(int baudRate, char* portName)
@@ -98,8 +99,10 @@ int ObdDevice::InitializeOBDDevice()
 	this->SendBlindCommand("ATL0");
 	//don't insert spaces
 	this->SendBlindCommand("ATS0");
-	//resend for good measure
-	this->SendBlindCommand("0100");
+	//Setprotocol to 0
+	this->SendBlindCommand("ATSP00");
+	//Get Engine RPM just for fun
+	this->SendBlindCommand("010C");
 
 	return 0;
 }
@@ -130,6 +133,7 @@ int ObdDevice::ReadData(char* buffer, int bufferSize)
 {
 	int totalBytesRead = 0;
 	int bytesRead = 0;
+	char* bufferStart = buffer;
 
 	memset(buffer, '\0', bufferSize);
 
@@ -166,6 +170,10 @@ int ObdDevice::ReadData(char* buffer, int bufferSize)
 		*(buffer - 1) = '\0'; 
 	}
 
+	StringTrim(bufferStart, bufferSize);
+
+	printf("ObdDevice Read:|%s|\n", bufferStart);
+
 	return totalBytesRead;
 }
 
@@ -173,6 +181,49 @@ void ObdDevice::ReadToEnd()
 {
 	char buffer[4096];
 	this->ReadData(buffer, 4096);
+}
+
+void ObdDevice::StringTrim(char* str, int maxlen)
+{
+	//if string is empty return
+	if (*(str) == '\0')
+	{
+		return;
+	}
+
+	char* start = str;
+	char* end;
+
+	while (isspace(*start) && start - str < maxlen)
+	{
+		start++;
+	}
+
+	//the string was all space, set first character to string terminator and return
+	if (start - str == maxlen)
+	{
+		*str = '\0';
+		return;
+	}
+
+	end = str + strnlen(str, maxlen) - 1;
+	if (end == str + maxlen)
+	{
+		return; // we overflowed, can't trim right
+	}
+
+	while (end > start && isspace(*end))
+	{
+		end--;
+	}
+
+	while (start <= end)
+	{
+		*str = *start;
+		str++;
+		start++;
+	}
+	*str = '\0';	
 }
 
 

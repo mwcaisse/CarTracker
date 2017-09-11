@@ -6,6 +6,7 @@
 
 #include "main.h"
 #include "ObdDevice.h"
+#include <cstring>
 
 int main(int argc, char* argv[])
 {
@@ -33,7 +34,7 @@ int main(int argc, char* argv[])
 	
 	if (read > 0)
 	{
-		printf("Read: %s\n", readBuffer);
+		printf("Read: |%s|\n", readBuffer);
 	}
 	else
 	{
