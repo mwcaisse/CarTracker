@@ -1,12 +1,8 @@
 #include <cstdio>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #include <iostream>
 
 #include "main.h"
 #include "ObdDevice.h"
-#include <cstring>
 
 int main(int argc, char* argv[])
 {

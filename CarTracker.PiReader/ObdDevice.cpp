@@ -44,7 +44,6 @@ int ObdDevice::Connect()
 	{
 		return -1;
 	}
-
 	return 0;
 }
 
@@ -68,15 +67,34 @@ int ObdDevice::InitializeSerialPort()
 		return -1;
 	}
 
+	tty.c_cflag |= (CLOCAL | CREAD);
+
+	tty.c_lflag &= ~(ICANON | ECHO | ECHOE | ECHOK | ECHONL | ISIG | IEXTEN);
+	tty.c_lflag &= ~(ECHOCTL);
+	tty.c_lflag &= ~(ECHOKE);
+
+	tty.c_oflag &= ~(OPOST);
+
+	tty.c_iflag &= ~(INLCR | IGNCR | ICRNL | IGNBRK);
+	tty.c_iflag &= ~(IUCLC);
+	tty.c_iflag &= ~(PARMRK);
+
+	tty.c_cflag &= ~CSIZE;
+	tty.c_cflag |= CS8;
+
+	tty.c_cflag &= ~(CSTOPB);
+	tty.c_iflag &= ~(INPCK | ISTRIP);
+	tty.c_cflag &= ~(PARENB | PARODD);
+	tty.c_iflag &= ~(IXON | IXOFF | IXANY);
+	tty.c_cflag &= ~(CRTSCTS);
+
+	tty.c_cc[VMIN] = 0;
+	tty.c_cc[VTIME] = 0;
+
 	//set the baud rate
 	cfsetospeed(&tty, this->baudRate);
 	cfsetispeed(&tty, this->baudRate);
-
-	tty.c_cflag |= (CLOCAL | CREAD);
-	tty.c_lflag &= !(ICANON | ECHO | ECHOE | ISIG);
-	tty.c_oflag &= !(OPOST);
-	tty.c_cc[VMIN] = 0; // read doesn't block
-	tty.c_cc[VTIME] = 100; // 10 second time out
+	
 
 	if (tcsetattr(fd, TCSANOW, &tty) != 0)
 	{
@@ -123,7 +141,7 @@ int ObdDevice::SendCommand(const char* command, char* buffer, int bufferSize)
 int ObdDevice::WriteCommand(const char* command)
 {
 	char buf[1024];
-	snprintf(buf, sizeof(buf), "%s%s\0", command, "\r");
+	snprintf(buf, sizeof(buf), "%s%s", command, "\r\n");
 	return write(this->fd, buf, strlen(buf));
 }
 
