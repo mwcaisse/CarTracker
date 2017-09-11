@@ -6,6 +6,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <errno.h>
+#include <ctime>
 
 
 ObdDevice::ObdDevice(int baudRate, char* portName)
@@ -131,6 +132,9 @@ int ObdDevice::ReadData(char* buffer, int bufferSize)
 	int bytesRead = 0;
 
 	memset(buffer, '\0', bufferSize);
+
+	time_t startTime = time(nullptr);
+
 	do
 	{
 		bytesRead = read(this->fd, buffer, bufferSize - totalBytesRead);
@@ -143,11 +147,17 @@ int ObdDevice::ReadData(char* buffer, int bufferSize)
 			totalBytesRead += bytesRead;
 			buffer += bytesRead; // advance the head of our buffer	
 		}
+		
+		//check if we have timed out
+		time_t currentTime = time(nullptr);
+		if (currentTime - startTime > 30)
+		{
+			printf("Read timed out!\n");
+			return -1; // timed out
+		}
 	}
 	//loop while we haven't read anything, we haven't seen the > char yet, and we haven't filled
 	// our buffer
-	//TODO: Might want to add a time out here, incase we never see a > character, we don't
-	//		loop infitivly.
 	while ((totalBytesRead == 0 || *(buffer - 1) != '>') && totalBytesRead < bufferSize);
 	
 	//if buffer -1 equals the ending char, replace it with null byte

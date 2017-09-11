@@ -66,10 +66,12 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="makefile" />
+    <ClCompile Include="ObdCommand.cpp" />
     <ClCompile Include="ObdDevice.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
+    <ClInclude Include="ObdCommand.h" />
     <ClInclude Include="ObdDevice.h" />
   </ItemGroup>
   <ItemDefinitionGroup />
