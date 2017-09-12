@@ -6,6 +6,8 @@ class ObdDevice
 	char* portName;
 
 	int fd;
+	int retryAttempts;
+	int timeout;
 
 	/*
 	 * Initializes the connection to the serial port.
@@ -21,10 +23,14 @@ class ObdDevice
 	int InitializeOBDDevice();
 
 	/*
-	 * Reads all of the output of the previously executed command and discards it. Clearing
-	 *	the buffer for the next command.
+	 * Reads all of the output of the previously executed command and discards it.
 	 */
 	void ReadToEnd();
+
+	/*
+	 * Reads all of the remaining data in the queue and discards it. Clearning the buffer.
+	 */
+	void ReadAll();
 
 	/* Reads all of the output of the previously executed command into the given buffer
 	 * 

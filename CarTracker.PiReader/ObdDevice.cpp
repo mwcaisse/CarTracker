@@ -21,6 +21,9 @@ ObdDevice::ObdDevice(int baudRate, char* portName)
 	memset(this->portName, '\0', portNameLen + 1);
 	strncpy(this->portName, portName, portNameLen);
 
+	retryAttempts = 1;
+	timeout = 10;
+
 }
 
 ObdDevice::~ObdDevice()
@@ -140,57 +143,109 @@ int ObdDevice::SendCommand(const char* command, char* buffer, int bufferSize)
 
 int ObdDevice::WriteCommand(const char* command)
 {
-	char buf[1024];
-	snprintf(buf, sizeof(buf), "%s%s", command, "\r\n");
-	return write(this->fd, buf, strlen(buf));
+	ssize_t bytesWritten = 0;
+	ssize_t retry = 0;
+	ssize_t index;
+	int res = -1;
+
+	struct timeval tv;
+	tv.tv_sec = this->timeout;
+	tv.tv_usec = 0;
+
+	fd_set fdWrite;
+	FD_ZERO(&fdWrite);
+	FD_SET(this->fd, &fdWrite);
+
+	while (retry < this->retryAttempts)
+	{
+		res = select(this->fd + 1, nullptr, &fdWrite, nullptr, &tv);
+
+		if (res > 0)
+		{
+			tcflush(this->fd, TCIFLUSH);
+			tcflush(this->fd, TCOFLUSH);
+
+			for (index = 0; index < strlen(command); index++)
+			{
+				bytesWritten += write(this->fd, command + index, sizeof(char));
+			}			
+
+			bytesWritten += write(this->fd, "\r", sizeof(char));
+			bytesWritten += write(this->fd, "\n", sizeof(char));
+
+			if (bytesWritten == strlen(command) + 2)
+			{
+				return bytesWritten;
+			}
+		}
+		else if (res == 0)
+		{
+			retry++;
+			printf("No data written\n");
+		}
+		else
+		{
+			retry++;
+			perror("Write Command");
+		}
+	}
+
+	return -1;
 }
 
 
 
 int ObdDevice::ReadData(char* buffer, int bufferSize)
 {
-	int totalBytesRead = 0;
-	int bytesRead = 0;
-	char* bufferStart = buffer;
+	ssize_t totalBytesRead = 0;
+	ssize_t index = 0;
+
+	ssize_t retry = 0;
+
+	int res = 0;
+
+	struct timeval tv;
+	tv.tv_sec = this->timeout;
+	tv.tv_usec = 0;
+
+	fd_set fdRead;
+	FD_ZERO(&fdRead);
+	FD_SET(this->fd, &fdRead);
 
 	memset(buffer, '\0', bufferSize);
 
-	time_t startTime = time(nullptr);
+	while (retry < this->retryAttempts)
+	{		
+		res = select(this->fd + 1, &fdRead, nullptr, nullptr, &tv);
 
-	do
-	{
-		bytesRead = read(this->fd, buffer, bufferSize - totalBytesRead);
-		if (bytesRead == -1 && errno != EAGAIN)
+		if (res > 0)
 		{
-			perror("readSerialData");
+			totalBytesRead += read(this->fd, buffer + index, sizeof(char));
+			if (totalBytesRead > 0 && buffer[index] == '>' )
+			{				
+				break;
+			}
+			if (buffer[index] != '>' && !isspace(buffer[index]))
+			{
+				index++ % (bufferSize - 1);
+			}
 		}
-		if (bytesRead != -1)
+		else if (res == 0)
 		{
-			totalBytesRead += bytesRead;
-			buffer += bytesRead; // advance the head of our buffer	
+			return 0; // no data to read
 		}
-		
-		//check if we have timed out
-		time_t currentTime = time(nullptr);
-		if (currentTime - startTime > 30)
+		else
 		{
-			printf("Read timed out!\n");
-			return -1; // timed out
+			perror("Read Data");
 		}
 	}
-	//loop while we haven't read anything, we haven't seen the > char yet, and we haven't filled
-	// our buffer
-	while ((totalBytesRead == 0 || *(buffer - 1) != '>') && totalBytesRead < bufferSize);
-	
-	//if buffer -1 equals the ending char, replace it with null byte
-	if ( *(buffer -1) == '>')
-	{
-		*(buffer - 1) = '\0'; 
-	}
 
-	StringTrim(bufferStart, bufferSize);
+	//always null terminate our string
+	buffer[index] = '\0';
 
-	printf("ObdDevice Read:|%s|\n", bufferStart);
+	StringTrim(buffer, bufferSize);
+
+	printf("ObdDevice Read:|%s|\n", buffer);
 
 	return totalBytesRead;
 }
@@ -199,6 +254,26 @@ void ObdDevice::ReadToEnd()
 {
 	char buffer[4096];
 	this->ReadData(buffer, 4096);
+}
+
+void ObdDevice::ReadAll()
+{
+	char buffer[2];
+	memset(buffer, '\0', 2);
+
+	struct timeval tv;
+	tv.tv_sec = this->timeout;
+	tv.tv_usec = 0;
+
+	fd_set fdRead;
+	FD_ZERO(&fdRead);
+	FD_SET(this->fd, &fdRead);	
+
+	//while there is data available read it into our buffer
+	while(select(this->fd + 1, &fdRead, nullptr, nullptr, &tv) > 0)
+	{
+		read(this->fd, buffer, sizeof(char));
+	}	
 }
 
 void ObdDevice::StringTrim(char* str, int maxlen)
