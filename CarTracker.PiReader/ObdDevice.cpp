@@ -165,11 +165,10 @@ int ObdDevice::WriteCommand(const char* command)
 			tcflush(this->fd, TCIFLUSH);
 			tcflush(this->fd, TCOFLUSH);
 
-			for (index = 0; index < strlen(command); index++)
-			{
-				bytesWritten += write(this->fd, command + index, sizeof(char));
-			}			
+			int commandLength = strlen(command);
 
+			//write the command + terminating characters
+			bytesWritten += write(this->fd, command, sizeof(char) * strlen(command));
 			bytesWritten += write(this->fd, "\r", sizeof(char));
 			bytesWritten += write(this->fd, "\n", sizeof(char));
 
