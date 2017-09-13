@@ -109,20 +109,21 @@ int ObdDevice::InitializeSerialPort()
 }
 
 int ObdDevice::InitializeOBDDevice()
-{
-	//reset device
-	this->SendBlindCommand("ATZ");
-	//clear
-	this->SendBlindCommand("0100");
+{	
 	//echo off
+	this->SendBlindCommand("ATE0");
+	//twice just to be safe
 	this->SendBlindCommand("ATE0");
 	//disable linefeeds
 	this->SendBlindCommand("ATL0");
 	//don't insert spaces
 	this->SendBlindCommand("ATS0");
+	//timeout command, 62 * 4 milliseconds (62 is 3E)
+	this->SendBlindCommand("AT ST 3E");
 	//Setprotocol to 0
 	this->SendBlindCommand("ATSP00");
-	//Get Engine RPM just for fun
+	//Get Engine RPM, this will set the protocol, and clear "SEARCHING..." output
+	//	from ATSP00 command, as it waits until next command to find protocol
 	this->SendBlindCommand("010C");
 
 	return 0;
@@ -169,10 +170,10 @@ int ObdDevice::WriteCommand(const char* command)
 
 			//write the command + terminating characters
 			bytesWritten += write(this->fd, command, sizeof(char) * commandLength);
-			bytesWritten += write(this->fd, "\r", sizeof(char));
-			bytesWritten += write(this->fd, "\n", sizeof(char));
+			const char returnCharacter = 0x0D; // carriage return "\r"
+			bytesWritten += write(this->fd, &returnCharacter, sizeof(char));
 
-			if (bytesWritten == sizeof(char) * (commandLength + 2))
+			if (bytesWritten == sizeof(char) * (commandLength + 1))
 			{
 				return bytesWritten;
 			}
