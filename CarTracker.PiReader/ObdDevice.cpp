@@ -168,11 +168,11 @@ int ObdDevice::WriteCommand(const char* command)
 			int commandLength = strlen(command);
 
 			//write the command + terminating characters
-			bytesWritten += write(this->fd, command, sizeof(char) * strlen(command));
+			bytesWritten += write(this->fd, command, sizeof(char) * commandLength);
 			bytesWritten += write(this->fd, "\r", sizeof(char));
 			bytesWritten += write(this->fd, "\n", sizeof(char));
 
-			if (bytesWritten == strlen(command) + 2)
+			if (bytesWritten == sizeof(char) * (commandLength + 2))
 			{
 				return bytesWritten;
 			}
