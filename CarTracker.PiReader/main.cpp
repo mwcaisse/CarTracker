@@ -70,8 +70,40 @@ int main(int argc, char* argv[])
 		}
 	}
 	
+
+	ObdCommand command("010C");
+	device.ExecuteCommand(&command);
+
+	if (command.HasData()) {
+		printf("Command Data: %s\n", command.rawOutput);
+		int arrayLength = 0;
+		int* commandBytes = command.GetBytes(&arrayLength);
+		if (arrayLength != 4)
+		{
+			printf("Array Length was less than 3.. No data?\n");
+		}
+		else
+		{
+			printf("command bytes: ");
+			for (int i=2; i < arrayLength;i++)
+			{
+				if (i > 2)
+				{
+					printf(", ");
+				}
+				printf("%d", commandBytes[i]);
+			}
+			printf("\n");
+
+			int engineRpm = (256 * commandBytes[2] + commandBytes[4]) / 4;
+			printf("Engine RPM: %d\n", engineRpm);
+		}
+	}
+
 	//disconnect from the device
 	device.Disconnect();
+
+	
 
 }
 

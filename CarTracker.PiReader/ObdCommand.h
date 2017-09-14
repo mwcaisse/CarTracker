@@ -29,5 +29,13 @@ public:
 	 * True if it has data, false otherwise
 	 */
 	bool HasData() const;
+
+	/*
+	 * Returns an array containing the byte responses for the command.
+	 * 
+	 * Each byte is converted to an integer
+	 *
+	 */
+	int* GetBytes(int* arrayLength) const;
 };
 
