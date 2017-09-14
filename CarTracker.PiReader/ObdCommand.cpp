@@ -11,3 +11,11 @@ ObdCommand::ObdCommand(const char* command)
 ObdCommand::~ObdCommand()
 {
 }
+
+bool ObdCommand::HasData() const
+{
+	return this->rawOutputRead > 0 &&
+		strncmp(NO_DATA_RESPONSE, rawOutput, RAW_OUTPUT_LENGTH) != 0 &&
+		strncmp(INVALID_RESPONSE, rawOutput, RAW_OUTPUT_LENGTH) != 0;
+
+}

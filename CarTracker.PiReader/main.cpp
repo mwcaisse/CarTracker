@@ -62,6 +62,7 @@ int main(int argc, char* argv[])
 		if (command.rawOutputRead > 0)
 		{
 			printf("Read: |%s|\n", command.rawOutput);
+			printf("Has Data: %s\n", command.HasData() ? "Yes" : "No");
 		}
 		else
 		{

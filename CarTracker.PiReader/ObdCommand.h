@@ -1,6 +1,8 @@
 #pragma once
 
 #define RAW_OUTPUT_LENGTH 1024
+#define NO_DATA_RESPONSE "NODATA"
+#define INVALID_RESPONSE "?"
 
 class ObdCommand
 {
@@ -20,5 +22,12 @@ public:
 	{
 		return RAW_OUTPUT_LENGTH;
 	}
+
+	/*
+	 * Determines if the command has data
+	 * 
+	 * True if it has data, false otherwise
+	 */
+	bool HasData() const;
 };
 
