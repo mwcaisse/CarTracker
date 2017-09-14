@@ -1,4 +1,6 @@
 #pragma once
+class ObdCommand;
+
 class ObdDevice
 {
 
@@ -80,6 +82,14 @@ public:
 	 * @return The number of bytes read
 	 */
 	int SendCommand(const char* command, char* buffer, int bufferSize);
+
+	/*
+	 * Executes the given ObdCommand
+	 * 
+	 * Sends the command to the device, reads the output into the ObdCommand
+	 * 
+	 */
+	void ExecuteCommand(ObdCommand* command);
 
 	/*
 	* Trims any leading and/or training white space in the given string

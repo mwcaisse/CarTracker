@@ -9,6 +9,8 @@
 #include <ctime>
 #include <cctype>
 
+#include "ObdCommand.h"
+
 
 ObdDevice::ObdDevice(int baudRate, char* portName)
 {
@@ -140,6 +142,12 @@ int ObdDevice::SendCommand(const char* command, char* buffer, int bufferSize)
 {
 	this->WriteCommand(command);
 	return this->ReadData(buffer, bufferSize);
+}
+
+void ObdDevice::ExecuteCommand(ObdCommand* command)
+{
+	this->WriteCommand(command->command);
+	command->rawOutputRead = this->ReadData(command->rawOutput, command->GetRawOutputLength());
 }
 
 int ObdDevice::WriteCommand(const char* command)
