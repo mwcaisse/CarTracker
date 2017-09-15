@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
@@ -67,6 +68,32 @@ public class BluetoothManager {
         }
         return socket;
 
+    }
+
+    /** Disconnect from the Bluetooth Device connected on the given Bluetooth Socket
+     *
+     * @param deviceSocket The socket the device is connected on
+     */
+
+    public static void disconnectFromDevice(BluetoothSocket deviceSocket) {
+        try {
+            deviceSocket.getInputStream().close();
+        }
+        catch (IOException e) {
+            //fail quietly, we are trying to disconnect
+        }
+        try {
+            deviceSocket.getOutputStream().close();
+        }
+        catch (IOException e) {
+            //fail quietly, we are trying to disconnect
+        }
+        try {
+            deviceSocket.close();
+        }
+        catch (IOException e) {
+            //fail quietly, we are trying to disconnect
+        }
     }
 
     /** Determines if the given bluetooth device is paired or nopt
