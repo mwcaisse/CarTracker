@@ -45,6 +45,7 @@ public class ObdAvailableCommandsService {
     public void determineAndSaveAvailableCommands() {
         try {
             device.connect();
+            initializeDevice();
 
             //Construct the support commands object
             CarSupportedCommands supportedCommands = determineSupportedCommands();

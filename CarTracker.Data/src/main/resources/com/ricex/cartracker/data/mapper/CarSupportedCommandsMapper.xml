@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>	 
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ricex.cartracker.data.mapper.CarSupportedCommandsMapper">
+    
+    <cache />
+    
+    <resultMap id="carSupportedCommandsResultMap" type="CarSupportedCommands">
+        <id property="id" column="ID" />
+        <result property="carId" column="VAR_ID" />
+        <result property="pids0120Bitmask" column="PIDS_01_20_BITMASK" />
+        <result property="pids2140Bitmask" column="PIDS_21_40_BITMASK" />
+        <result property="pids4160Bitmask" column="PIDS_41_60_BITMASK" />
+        <result property="pids6180Bitmask" column="PIDS_61_80_BITMASK" />
+        <result property="pids81A0Bitmask" column="PIDS_81_A0_BITMASK" />
+        
+        <result property="createDate" column="CREATE_DATE" />
+        <result property="modifiedDate" column="MODIFIED_DATE" />
+        
+        <association property="owner" column="OWNER_ID" javaType="User" select="com.ricex.cartracker.data.mapper.auth.UserMapper.get" />        
+    </resultMap>
+    
+    <select id="getAll" resultMap="carSupportedCommandsResultMap">
+        SELECT CAR_SUPPORTED_COMMANDS.* FROM CAR_SUPPORTED_COMMANDS
+        <if test="orderBy != null">
+            ORDER BY ${orderBy}
+        </if>
+    </select>
+    
+     <select id="countAll" resultType="long">
+        SELECT COUNT(*) FROM CAR_SUPPORTED_COMMANDS
+    </select>
+    
+    <select id="get" resultMap="carSupportedCommandsResultMap" parameterType="long">
+        SELECT CAR_SUPPORTED_COMMANDS.* FROM CAR_SUPPORTED_COMMANDS
+        WHERE CAR_SUPPORTED_COMMANDS.ID = #{id}
+    </select>
+    
+    <select id="getForCar" resultMap="carSupportedCommandsResultMap" parameterType="long">
+    	SELECT CAR_SUPPORTED_COMMANDS.* FROM CAR_SUPPORTED_COMMANDS
+        WHERE CAR_SUPPORTED_COMMANDS.CAR_ID = #{carId}
+    </select>
+ 
+    
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO CAR_SUPPORTED_COMMANDS (
+        	CAR_ID, 
+        	PIDS_01_20_BITMASK, 
+        	PIDS_21_40_BITMASK, 
+        	PIDS_41_60_BITMASK,
+        	PIDS_61_80_BITMASK, 
+        	PIDS_81_A0_BITMASK)
+        									
+        VALUES (
+        	#{carId}, 
+        	#{pids0120Bitmask}, 
+        	#{pids2140Bitmask}, 
+        	#{pids4160Bitmask}, 
+        	#{pids6180Bitmask}, 
+        	#{pids81A0Bitmask})
+    </insert>
+    
+    <update id="CAR_SUPPORTED_COMMANDS">
+        UPDATE CAR SET
+        	CAR_ID = #{carId},
+        	PIDS_01_20_BITMASK = #{pids0120Bitmask},
+        	PIDS_21_40_BITMASK = #{pids2140Bitmask},
+        	PIDS_41_60_BITMASK = #{pids4160Bitmask},
+        	PIDS_61_80_BITMASK = #{pids6180Bitmask},
+        	PIDS_81_A0_BITMASK = #{pids81A0Bitmask}
+        
+       	WHERE ID = #{id}
+    </update>
+    
+    <delete id="delete">
+        DELETE FROM CAR_SUPPORTED_COMMANDS
+        WHERE ID = #{id}
+    </delete>
+    
+    
+</mapper>

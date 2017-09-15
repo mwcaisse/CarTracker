@@ -23,6 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 import com.google.gson.Gson;
 import com.ricex.cartracker.data.manager.CarManager;
+import com.ricex.cartracker.data.manager.CarSupportedCommandsManager;
 import com.ricex.cartracker.data.manager.PlaceManager;
 import com.ricex.cartracker.data.manager.ReaderLogManager;
 import com.ricex.cartracker.data.manager.ReadingManager;
@@ -33,6 +34,7 @@ import com.ricex.cartracker.data.manager.auth.RegistrationKeyUseManager;
 import com.ricex.cartracker.data.manager.auth.UserAuthenticationTokenManager;
 import com.ricex.cartracker.data.manager.auth.UserManager;
 import com.ricex.cartracker.data.mapper.CarMapper;
+import com.ricex.cartracker.data.mapper.CarSupportedCommandsMapper;
 import com.ricex.cartracker.data.mapper.PlaceMapper;
 import com.ricex.cartracker.data.mapper.ReaderLogMapper;
 import com.ricex.cartracker.data.mapper.ReadingMapper;
@@ -42,6 +44,7 @@ import com.ricex.cartracker.data.mapper.auth.RegistrationKeyMapper;
 import com.ricex.cartracker.data.mapper.auth.RegistrationKeyUseMapper;
 import com.ricex.cartracker.data.mapper.auth.UserAuthenticationTokenMapper;
 import com.ricex.cartracker.data.mapper.auth.UserMapper;
+import com.ricex.cartracker.data.validation.CarSupportedCommandsValidator;
 import com.ricex.cartracker.data.validation.CarValidator;
 import com.ricex.cartracker.data.validation.PlaceValidator;
 import com.ricex.cartracker.data.validation.ReaderLogValidator;
@@ -55,6 +58,7 @@ import com.ricex.cartracker.data.validation.auth.UserValidator;
 import com.ricex.cartracker.placesrequester.PlaceRequester;
 import com.ricex.cartracker.web.auth.ProxyPasswordEncoder;
 import com.ricex.cartracker.web.controller.api.CarController;
+import com.ricex.cartracker.web.controller.api.CarSupportedCommandsController;
 import com.ricex.cartracker.web.controller.api.ReaderLogController;
 import com.ricex.cartracker.web.controller.api.ReadingController;
 import com.ricex.cartracker.web.controller.api.RegistrationKeyController;
@@ -85,6 +89,11 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 		return new CarController(carManager());
 	}
 	
+	@Bean
+	public CarSupportedCommandsController carSupportedCommandsController() throws Exception {
+		return new CarSupportedCommandsController(carSupportedCommandsManager());
+	}
+		
 	@Bean
 	public TripController tripController() throws Exception {
 		return new TripController(tripManager(), tripProcessor(), placeRequester());
@@ -170,6 +179,12 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 		return new CarManager(carMapper(), carValidator(), tripManager());
 	}
 	
+	@Bean 
+	public CarSupportedCommandsManager carSupportedCommandsManager() throws Exception {
+		return new CarSupportedCommandsManager(carSupportedCommandsMapper(), carMapper(), 
+				carSupportedCommandsValidator(), carValidator());
+	}
+	
 	@Bean
 	public PlaceManager placeManager() throws Exception {
 		return new PlaceManager(placeMapper(), placeValidator());
@@ -227,6 +242,11 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	}
 	
 	@Bean
+	public CarSupportedCommandsValidator carSupportedCommandsValidator() throws Exception {
+		return new CarSupportedCommandsValidator(carSupportedCommandsMapper());
+	}
+	
+	@Bean
 	public PlaceValidator placeValidator() throws Exception {
 		return new PlaceValidator(placeMapper());
 	}
@@ -277,6 +297,13 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
 	public CarMapper carMapper() throws Exception { 
 		MapperFactoryBean<CarMapper> mapperFactoryBean = new MapperFactoryBean<CarMapper>();
 		mapperFactoryBean.setMapperInterface(CarMapper.class);
+		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
+		return mapperFactoryBean.getObject();
+	}
+	
+	public CarSupportedCommandsMapper carSupportedCommandsMapper() throws Exception {
+		MapperFactoryBean<CarSupportedCommandsMapper> mapperFactoryBean = new MapperFactoryBean<CarSupportedCommandsMapper>();
+		mapperFactoryBean.setMapperInterface(CarSupportedCommandsMapper.class);
 		mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory());
 		return mapperFactoryBean.getObject();
 	}
