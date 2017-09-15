@@ -1,9 +1,12 @@
 #include <cstdio>
 #include <iostream>
+#include <list>
 
 #include "main.h"
 #include "ObdDevice.h"
 #include "ObdCommand.h"
+#include "ObdCommandTypes.h"
+#include <cstring>
 
 int main(int argc, char* argv[])
 {
@@ -97,6 +100,81 @@ int main(int argc, char* argv[])
 
 			int engineRpm = (256 * commandBytes[2] + commandBytes[4]) / 4;
 			printf("Engine RPM: %d\n", engineRpm);
+		}
+	}
+
+	ObdCommand commandModeOneAvailable("0100");
+	device.ExecuteCommand(&commandModeOneAvailable);
+
+	if (commandModeOneAvailable.HasData())
+	{
+		int arrayLength = 0;
+		int* commandBytes = commandModeOneAvailable.GetBytes(&arrayLength);
+		if (arrayLength != 6)
+		{
+			printf("Array Length wasn't 6, No Data?: Was: %d \n", arrayLength);
+			printf("Outputlength: %d\n", strlen(commandModeOneAvailable.rawOutput));
+			printf("Output: |%s|", commandModeOneAvailable.rawOutput);
+		}
+		else
+		{
+			int availableCommands = 0;
+			for (int i=2; i < arrayLength; i ++)
+			{
+				availableCommands = availableCommands << 8;
+				availableCommands += commandBytes[i];
+			}
+
+			std::list<ObdCommands> supportedCommands = {};
+
+			printf("Available Commands: %d\n", availableCommands);
+
+			if (availableCommands & 0x20000000)
+			{
+				//PID 03 is supported
+				printf("PID 03, INTAKE_AIR_TEMPERATURE SUPPORTED \n");
+			}
+
+			if (availableCommands & 0x10000000)
+			{
+				//PID 04 is supported
+				printf("PID 04, CALCULATED_ENGINE_LOAD SUPPORTED \n");
+			}
+			if (availableCommands & 0x8000000)
+			{
+				//PID 05 is supported
+				printf("PID 05, ENGINE_COOLANT_TEMPERATURE SUPPORTED \n");
+			}
+			if (availableCommands & 0x400000)
+			{
+				//PID 0A is supported
+				printf("PID 0A, FUEL_PRESSURE SUPPORTED \n");
+			}
+			if (availableCommands & 0x200000)
+			{
+				//PID 0B is supported
+				printf("PID 0B, INTAKE_MANIFOLD_PRESSURE SUPPORTED \n");
+			}
+			if (availableCommands & 0x100000)
+			{
+				//PID 0C is supported
+				printf("PID 0C, ENGINE_RPM SUPPORTED \n");
+			}
+			if (availableCommands & 0x80000)
+			{
+				//PID 0D is supported
+				printf("PID 0D, VEHICLE_SPEED SUPPORTED \n");
+			}
+			if (availableCommands & 0x40000)
+			{
+				//PID 0E is supported
+				printf("PID 0E, TIMING_ADVANCE SUPPORTED \n");
+			}
+			if (availableCommands & 0x20000)
+			{
+				//PID 0F is supported
+				printf("PID 0F, INTAKE_AIR_TEMPERATURE SUPPORTED \n");
+			}
 		}
 	}
 
