@@ -25,6 +25,9 @@ import com.github.pires.obd.enums.AvailableCommandNames;
 import com.github.pires.obd.enums.ObdProtocols;
 import com.github.pires.obd.exceptions.UnsupportedCommandException;
 import com.ricex.cartracker.android.model.OBDReading;
+import com.ricex.cartracker.android.obd.device.BluetoothObdDevice;
+import com.ricex.cartracker.android.obd.device.ObdDevice;
+import com.ricex.cartracker.android.obd.device.ObdDeviceConnectionFailedException;
 import com.ricex.cartracker.android.service.OBDCommandJob;
 import com.ricex.cartracker.android.service.OBDCommandStatus;
 import com.ricex.cartracker.android.service.logger.ServiceLogger;
@@ -41,7 +44,7 @@ public class BluetoothOBDReader implements OBDReader {
 
     private static final String LOG_TAG = "BTOBDReader";
 
-    private BluetoothSocket bluetoothSocket;
+    private ObdDevice device;
 
     private CarTrackerSettings settings;
 
@@ -50,11 +53,12 @@ public class BluetoothOBDReader implements OBDReader {
     public BluetoothOBDReader(ServiceLogger logger, CarTrackerSettings settings) {
         this.logger = logger;
         this.settings = settings;
+        this.device = new BluetoothObdDevice(settings.getBluetoothDeviceAddress());
     }
 
     public boolean initialize() {
         //check if we are already connected, if so there is nothing to do
-        if (isConnected()) {
+        if (device.isConnected()) {
             return true;
         }
 
@@ -77,15 +81,12 @@ public class BluetoothOBDReader implements OBDReader {
 
     protected boolean initializeBluetoothConnection() {
         try {
-            bluetoothSocket = BluetoothManager.connectToDevice(settings.getBluetoothDeviceAddress());
+            device.connect();
+        } catch (ObdDeviceConnectionFailedException e) {
+            Log.w(LOG_TAG, "Failed to connect to ObdDevice", e);
+            return false;
         }
-        catch (BluetoothDeviceNotPairedException e) {
-            logger.error(LOG_TAG, "Could not establish bluetooth connection to device! Not paired", e);
-        }
-        if (null == bluetoothSocket) {
-            logger.error(LOG_TAG, "Could not establish bluetooth connection to device!");
-        }
-        return null != bluetoothSocket;
+        return true;
     }
 
     protected boolean initiateOBDConnection() {
@@ -197,8 +198,8 @@ public class BluetoothOBDReader implements OBDReader {
             if (job.getStatus() == OBDCommandStatus.NEW) {
                 job.setStatus(OBDCommandStatus.RUNNING);
 
-                if (bluetoothSocket.isConnected()) {
-                    job.getCommand().run(bluetoothSocket.getInputStream(), bluetoothSocket.getOutputStream());
+                if (device.isConnected()) {
+                    job.getCommand().run(device.getInputStream(), device.getOutputStream());
                 }
                 else {
                     job.setStatus(OBDCommandStatus.CONNECTION_LOST);
@@ -222,7 +223,7 @@ public class BluetoothOBDReader implements OBDReader {
     }
 
     protected boolean runOBDCommand(ObdCommand command) throws IOException, InterruptedException {
-        command.run(bluetoothSocket.getInputStream(), bluetoothSocket.getOutputStream());
+        command.run(device.getInputStream(), device.getOutputStream());
         return true;
     }
 
@@ -234,9 +235,4 @@ public class BluetoothOBDReader implements OBDReader {
         }
         return null;
     }
-
-    protected boolean isConnected() {
-        return null != bluetoothSocket && bluetoothSocket.isConnected();
-    }
-
 }
