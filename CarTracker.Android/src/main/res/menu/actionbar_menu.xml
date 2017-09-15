@@ -6,6 +6,10 @@
           android:title="Settings"
           app:showAsAction="never" />
 
+    <item android:id="@+id/action_available_commands"
+          android:title="Check Available Commands"
+          app:showAsAction="never" />
+
     <item android:id="@+id/action_sync"
           android:title="Sync with Server"
           app:showAsAction="never" />

@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.ricex.cartracker.android.R;
 import com.ricex.cartracker.android.data.util.DatabaseHelper;
+import com.ricex.cartracker.android.obd.ObdAvailableCommandsService;
 import com.ricex.cartracker.android.service.OBDService;
 import com.ricex.cartracker.android.service.OBDServiceBinder;
 import com.ricex.cartracker.android.service.WebServiceSyncer;
@@ -166,6 +167,23 @@ public class MainActivity extends AppCompatActivity {
                 }.execute(getDatabaseHelper());
                 return true;
 
+            case R.id.action_available_commands:
+                new AsyncTask<Void, Void, Void>() {
+
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        new ObdAvailableCommandsService(settings).determineAndSaveAvailableCommands();
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void result) {
+                        Toast toast = Toast.makeText(context, "Web Sync complete!", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+
+                }.execute();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
