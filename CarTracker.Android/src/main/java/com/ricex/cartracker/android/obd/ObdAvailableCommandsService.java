@@ -14,12 +14,18 @@ import com.github.pires.obd.commands.protocol.SelectProtocolCommand;
 import com.github.pires.obd.commands.protocol.TimeoutCommand;
 import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand;
 import com.github.pires.obd.enums.ObdProtocols;
+import com.github.pires.obd.exceptions.MisunderstoodCommandException;
+import com.github.pires.obd.exceptions.NoDataException;
+import com.github.pires.obd.exceptions.UnsupportedCommandException;
 import com.ricex.cartracker.android.obd.command.AvailablePidsCommand_61_80;
 import com.ricex.cartracker.android.obd.command.AvailablePidsCommand_81_A0;
 import com.ricex.cartracker.android.obd.device.BluetoothObdDevice;
 import com.ricex.cartracker.android.obd.device.ObdDevice;
 import com.ricex.cartracker.android.obd.device.ObdDeviceConnectionFailedException;
+import com.ricex.cartracker.android.service.logger.DatabaseLogger;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
+import com.ricex.cartracker.androidrequester.request.exception.RequestException;
+import com.ricex.cartracker.androidrequester.request.tracker.UpdateCarSupportedCommandsRequest;
 import com.ricex.cartracker.common.entity.CarSupportedCommands;
 
 import java.io.IOException;
@@ -32,9 +38,11 @@ public class ObdAvailableCommandsService {
 
     private CarTrackerSettings settings;
     private ObdDevice device;
+    private DatabaseLogger logger;
 
-    public ObdAvailableCommandsService(CarTrackerSettings settings) {
+    public ObdAvailableCommandsService(CarTrackerSettings settings, DatabaseLogger logger) {
         this.settings = settings;
+        this.logger = logger;
 
         device = new BluetoothObdDevice(settings.getBluetoothDeviceAddress());
     }
@@ -44,15 +52,27 @@ public class ObdAvailableCommandsService {
      */
     public void determineAndSaveAvailableCommands() {
         try {
+            logger.debug("OBDACS", "Connected to device...");
             device.connect();
+            logger.debug("OBDACS", "Initilizing device...");
             initializeDevice();
 
+
+            logger.debug("OBDACS", "Pulling suported commands...");
             //Construct the support commands object
             CarSupportedCommands supportedCommands = determineSupportedCommands();
+
+            logger.debug("OBDACS", "Pulling VIN...");
+            String vin = getVin();
+
+            logger.debug("OBDACS", "Sending supported commands to server...");
+            //persist the commands to the server
+            persistSupportedCommands(vin, supportedCommands);
 
 
         } catch (Exception e) {
             Log.w("OBDACS", "Failed to Determine Available Commands", e);
+            logger.error("OBDACS", "Failed to Determine Available Commands", e);
         }
     }
 
@@ -63,25 +83,46 @@ public class ObdAvailableCommandsService {
         ObdCommand availablePids4160 = new AvailablePidsCommand_41_60();
         ObdCommand availablePids6180 = new AvailablePidsCommand_61_80();
         ObdCommand availablePids81A1 = new AvailablePidsCommand_81_A0();
-        ObdCommand vinCommand = new VinCommand();
-
-        //send the commands
-        runOBDCommand(availablePids0120);
-        runOBDCommand(availablePids2140);
-        runOBDCommand(availablePids4160);
-        runOBDCommand(availablePids6180);
-        runOBDCommand(availablePids81A1);
-        runOBDCommand(vinCommand);
 
         //Construct the support commands object
         CarSupportedCommands supportedCommands = new CarSupportedCommands();
-        supportedCommands.setPids0120Bitmask(Integer.parseInt(availablePids0120.getFormattedResult(), 16));
-        supportedCommands.setPids2140Bitmask(Integer.parseInt(availablePids2140.getFormattedResult(), 16));
-        supportedCommands.setPids4160Bitmask(Integer.parseInt(availablePids4160.getFormattedResult(), 16));
-        supportedCommands.setPids6180Bitmask(Integer.parseInt(availablePids6180.getFormattedResult(), 16));
-        supportedCommands.setPids81A0Bitmask(Integer.parseInt(availablePids81A1.getFormattedResult(), 16));
+
+        //send the commands + populate supported commands object
+        if (runOBDCommand(availablePids0120)) {
+            //Integer.parseInt, parses into a signed int, 0xFFFFFFFF will throw an error as it is higher than
+            //  Integer.MAX_VALUE when signed. The result will always be 4 bytes, we can safely cast back
+            //  to an int. Android 8 (API 26) introduced Integer.parseUnsignedInt, targetting Android 7 (API 24)
+            supportedCommands.setPids0120Bitmask((int)Long.parseLong(availablePids0120.getFormattedResult(), 16));
+        }
+        if (runOBDCommand(availablePids2140)) {
+            supportedCommands.setPids2140Bitmask((int)Long.parseLong(availablePids2140.getFormattedResult(), 16));
+        }
+        if (runOBDCommand(availablePids4160)) {
+            supportedCommands.setPids4160Bitmask((int)Long.parseLong(availablePids4160.getFormattedResult(), 16));
+        }
+        if (runOBDCommand(availablePids6180)) {
+            supportedCommands.setPids6180Bitmask((int)Long.parseLong(availablePids6180.getFormattedResult(), 16));
+        }
+        if (runOBDCommand(availablePids81A1)){
+            supportedCommands.setPids81A0Bitmask((int)Long.parseLong(availablePids81A1.getFormattedResult(), 16));
+        }
 
         return supportedCommands;
+    }
+
+    protected String getVin() throws IOException, InterruptedException {
+        ObdCommand vinCommand = new VinCommand();
+        runOBDCommand(vinCommand);
+        return vinCommand.getCalculatedResult();
+    }
+
+    protected void persistSupportedCommands(String vin, CarSupportedCommands supportedCommands)
+            throws RequestException {
+
+        UpdateCarSupportedCommandsRequest request =
+                new UpdateCarSupportedCommandsRequest(settings, vin, supportedCommands);
+
+        boolean res = request.execute();
     }
 
     //TODO: Move initialization + run command to a common class
@@ -104,12 +145,19 @@ public class ObdAvailableCommandsService {
 
         }
         catch (IOException | InterruptedException e) {
-            return;
+            Log.e("OBDACS", "Failed to initilize device", e);
+            logger.error("OBDACS", "Failed to initilize device", e);
         }
     }
 
     protected boolean runOBDCommand(ObdCommand command) throws IOException, InterruptedException {
-        command.run(device.getInputStream(), device.getOutputStream());
+        try {
+            command.run(device.getInputStream(), device.getOutputStream());
+        }
+        catch (NoDataException | UnsupportedCommandException | MisunderstoodCommandException e) {
+            logger.warn("OBDACS", "Error occured while running command.", e);
+            return false;
+        }
         return true;
     }
 

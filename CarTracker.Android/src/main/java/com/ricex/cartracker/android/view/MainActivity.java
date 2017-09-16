@@ -26,6 +26,7 @@ import com.ricex.cartracker.android.obd.ObdAvailableCommandsService;
 import com.ricex.cartracker.android.service.OBDService;
 import com.ricex.cartracker.android.service.OBDServiceBinder;
 import com.ricex.cartracker.android.service.WebServiceSyncer;
+import com.ricex.cartracker.android.service.logger.DatabaseLogger;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
 import com.ricex.cartracker.android.view.login.LoginActivity;
 import com.ricex.cartracker.androidrequester.request.tracker.CarTrackerRequestFactory;
@@ -168,21 +169,23 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_available_commands:
-                new AsyncTask<Void, Void, Void>() {
+                new AsyncTask<DatabaseHelper, Void, Void>() {
 
                     @Override
-                    protected Void doInBackground(Void... params) {
-                        new ObdAvailableCommandsService(settings).determineAndSaveAvailableCommands();
+                    protected Void doInBackground(DatabaseHelper... params) {
+                        DatabaseHelper helper = params[0];
+                        DatabaseLogger logger = new DatabaseLogger(helper);
+                        new ObdAvailableCommandsService(settings, logger).determineAndSaveAvailableCommands();
                         return null;
                     }
 
                     @Override
                     protected void onPostExecute(Void result) {
-                        Toast toast = Toast.makeText(context, "Web Sync complete!", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(context, "Determining Available Commands Complete!", Toast.LENGTH_SHORT);
                         toast.show();
                     }
 
-                }.execute();
+                }.execute(getDatabaseHelper());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

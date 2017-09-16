@@ -37,11 +37,11 @@ public class BluetoothObdDevice extends ObdDevice {
         }
         catch (BluetoothDeviceNotPairedException e) {
             throw new ObdDeviceConnectionFailedException("Could not connect to Bluetooth Device ("
-                    + deviceSocket + ") Not Paired", e);
+                    + deviceAddress + ") Not Paired", e);
         }
         if (null == deviceSocket) {
             throw new ObdDeviceConnectionFailedException("Could not connect to Bluetooth Device: "
-                    + deviceSocket);
+                    + deviceAddress);
     }
 
     }

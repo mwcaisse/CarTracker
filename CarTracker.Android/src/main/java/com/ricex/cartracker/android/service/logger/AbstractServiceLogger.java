@@ -1,5 +1,7 @@
 package com.ricex.cartracker.android.service.logger;
 
+import android.util.Log;
+
 import com.ricex.cartracker.common.entity.LogType;
 
 /**
@@ -38,7 +40,7 @@ public abstract class AbstractServiceLogger implements ServiceLogger {
     }
 
     public void log(LogType type, String  tag, String message, Throwable ex) {
-        String msg = message = "\n" + ex.getMessage() + "\n" + ex.getStackTrace();
+        String msg = message + "\n" + ex.getMessage() + "\n" + Log.getStackTraceString(ex);
         log (type, tag, msg);
     }
 
