@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ricex.cartracker.common.entity.CarSupportedCommands;
 import com.ricex.cartracker.common.viewmodel.BooleanResponse;
 import com.ricex.cartracker.common.viewmodel.EntityResponse;
+import com.ricex.cartracker.common.viewmodel.entity.CarSupportedCommandsViewModel;
 import com.ricex.cartracker.data.manager.CarSupportedCommandsManager;
 import com.ricex.cartracker.data.query.properties.EntityType;
 import com.ricex.cartracker.data.validation.EntityValidationException;
@@ -26,9 +27,9 @@ public class CarSupportedCommandsController extends ApiController<CarSupportedCo
 	}	
 	
 	@RequestMapping(value = "/{carId}/supportedCommands/", method=RequestMethod.GET, produces = {JSON})
-	public @ResponseBody EntityResponse<CarSupportedCommands> get(@PathVariable long carId) {
+	public @ResponseBody EntityResponse<CarSupportedCommandsViewModel> getViewModel(@PathVariable long carId) {
 		CarSupportedCommands supportedCommands = manager.getForCar(carId);
-		return createEntityResponse(supportedCommands);
+		return createEntityResponse(new CarSupportedCommandsViewModel(supportedCommands));
 	}
 	
 	@RequestMapping(value = "/{vin}/supportedCommands/", method = RequestMethod.POST, produces = {JSON})
