@@ -24,8 +24,6 @@ public class DatabasePersister implements Persister {
 
     private static final String LOG_TAG = "CT_DB_PERSISTER";
 
-    private static final String CAR_VIN = "JF1VA1E66G9807558";
-
     private static final int BUFFER_SIZE = 100;
 
     private CarTrackerSettings settings;
