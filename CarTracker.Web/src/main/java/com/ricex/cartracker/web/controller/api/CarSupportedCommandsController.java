@@ -29,6 +29,9 @@ public class CarSupportedCommandsController extends ApiController<CarSupportedCo
 	@RequestMapping(value = "/{carId}/supportedCommands/", method=RequestMethod.GET, produces = {JSON})
 	public @ResponseBody EntityResponse<CarSupportedCommandsViewModel> getViewModel(@PathVariable long carId) {
 		CarSupportedCommands supportedCommands = manager.getForCar(carId);
+		if (null == supportedCommands) {
+			return createEntityResponse(null);
+		}
 		return createEntityResponse(new CarSupportedCommandsViewModel(supportedCommands));
 	}
 	

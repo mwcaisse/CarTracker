@@ -7,6 +7,8 @@ public class ObdPids {
 		public int getBitmask();
 		
 		public ObdCommand getCommand();
+		
+		public String getName();
 	}
 	
 	public enum PIDS_01_20_SUPPORT implements ObdPidSupport {
@@ -66,6 +68,10 @@ public class ObdPids {
 		 */
 		public ObdCommand getCommand() {
 			return command;
+		}
+		
+		public String getName() {
+			return toString().replaceAll("_", " ");
 		}
 		
 		
@@ -130,6 +136,10 @@ public class ObdPids {
 		public ObdCommand getCommand() {
 			return command;
 		}
+		
+		public String getName() {
+			return toString().replaceAll("_", " ");
+		}
 	}	
 	
 	public enum PIDS_41_60_SUPPORT implements ObdPidSupport  {
@@ -192,6 +202,11 @@ public class ObdPids {
 		public ObdCommand getCommand() {
 			return command;
 		}
+		
+		public String getName() {
+			return toString().replaceAll("_", " ");
+		}
+		
 	}
 	
 	public enum PIDS_61_80_SUPPORT implements ObdPidSupport {
@@ -252,6 +267,11 @@ public class ObdPids {
 		public ObdCommand getCommand() {
 			return command;
 		}
+		
+		public String getName() {
+			return toString().replaceAll("_", " ");
+		}
+		
 	}
 	
 	public enum PIDS_81_A0_SUPPORT implements ObdPidSupport {
@@ -281,6 +301,10 @@ public class ObdPids {
 			return command;
 		}
 		
+		public String getName() {
+			return toString().replaceAll("_", " ");
+		}
+				
 	}
 	
 	
