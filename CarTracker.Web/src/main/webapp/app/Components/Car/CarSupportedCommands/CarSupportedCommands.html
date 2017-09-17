@@ -1,0 +1,33 @@
+<div class="card">
+	<div class="card-header">
+		Supported Commands
+		<span class="float-right">			
+			<i class="fa fa-refresh action-icon" aria-hidden="true" v-on:click="refresh" v-tooltip title="Refresh"></i>
+		</span>
+	</div>
+	
+	<div v-if="supportedCommands.length > 0">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>PID</th>
+					<th>Supported</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="supportedCommand in supportedCommands" 
+					:class="{ 'table-success': supportedCommand.supported, 'table-danger': !supportedCommand.supported }">
+					<td>{{ supportedCommand.name }}</td>
+					<td>{{ supportedCommand.pid }}</td>
+					<td>{{ supportedCommand.supported | formatBoolean }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="card-block text-center" v-else>
+		<p class="card-text">No supported command information is available for this car yet. 
+		They can be added by selecting the "Check Available Commands" option from the application menu of the reader.</p>
+	</div>
+	
+</div>

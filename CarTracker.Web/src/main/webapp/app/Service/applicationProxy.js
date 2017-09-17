@@ -23,7 +23,10 @@ define("Service/applicationProxy", ["Service/proxy"], function (core) {
 			},
 			update: function(car) {
 				return core.put("car/", car);
-			}				
+			},
+			getSupportedCommands: function (id) {
+				return core.get("car/" + id + "/supportedCommands/");
+			}
 		};
 		
 		self.trip = {
