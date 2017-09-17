@@ -39,12 +39,14 @@ public class ObdAvailableCommandsService {
     private CarTrackerSettings settings;
     private ObdDevice device;
     private DatabaseLogger logger;
+    private ObdCommandExecutor commandExecutor;
 
     public ObdAvailableCommandsService(CarTrackerSettings settings, DatabaseLogger logger) {
         this.settings = settings;
         this.logger = logger;
 
         device = new BluetoothObdDevice(settings.getBluetoothDeviceAddress());
+        commandExecutor = new ObdCommandExecutor(device);
     }
 
     /** Determines the available commands and persists them to the web server
@@ -52,23 +54,12 @@ public class ObdAvailableCommandsService {
      */
     public void determineAndSaveAvailableCommands() {
         try {
-            logger.debug("OBDACS", "Connected to device...");
-            device.connect();
-            logger.debug("OBDACS", "Initilizing device...");
-            initializeDevice();
-
-
-            logger.debug("OBDACS", "Pulling suported commands...");
+            commandExecutor.initialize();
             //Construct the support commands object
             CarSupportedCommands supportedCommands = determineSupportedCommands();
-
-            logger.debug("OBDACS", "Pulling VIN...");
             String vin = getVin();
-
-            logger.debug("OBDACS", "Sending supported commands to server...");
             //persist the commands to the server
             persistSupportedCommands(vin, supportedCommands);
-
 
         } catch (Exception e) {
             Log.w("OBDACS", "Failed to Determine Available Commands", e);
@@ -88,22 +79,22 @@ public class ObdAvailableCommandsService {
         CarSupportedCommands supportedCommands = new CarSupportedCommands();
 
         //send the commands + populate supported commands object
-        if (runOBDCommand(availablePids0120)) {
+        if (commandExecutor.runOBDCommand(availablePids0120)) {
             //Integer.parseInt, parses into a signed int, 0xFFFFFFFF will throw an error as it is higher than
             //  Integer.MAX_VALUE when signed. The result will always be 4 bytes, we can safely cast back
             //  to an int. Android 8 (API 26) introduced Integer.parseUnsignedInt, targetting Android 7 (API 24)
             supportedCommands.setPids0120Bitmask((int)Long.parseLong(availablePids0120.getFormattedResult(), 16));
         }
-        if (runOBDCommand(availablePids2140)) {
+        if (commandExecutor.runOBDCommand(availablePids2140)) {
             supportedCommands.setPids2140Bitmask((int)Long.parseLong(availablePids2140.getFormattedResult(), 16));
         }
-        if (runOBDCommand(availablePids4160)) {
+        if (commandExecutor.runOBDCommand(availablePids4160)) {
             supportedCommands.setPids4160Bitmask((int)Long.parseLong(availablePids4160.getFormattedResult(), 16));
         }
-        if (runOBDCommand(availablePids6180)) {
+        if (commandExecutor.runOBDCommand(availablePids6180)) {
             supportedCommands.setPids6180Bitmask((int)Long.parseLong(availablePids6180.getFormattedResult(), 16));
         }
-        if (runOBDCommand(availablePids81A1)){
+        if (commandExecutor.runOBDCommand(availablePids81A1)){
             supportedCommands.setPids81A0Bitmask((int)Long.parseLong(availablePids81A1.getFormattedResult(), 16));
         }
 
@@ -112,7 +103,7 @@ public class ObdAvailableCommandsService {
 
     protected String getVin() throws IOException, InterruptedException {
         ObdCommand vinCommand = new VinCommand();
-        runOBDCommand(vinCommand);
+        commandExecutor.runOBDCommand(vinCommand);
         return vinCommand.getCalculatedResult();
     }
 
@@ -123,42 +114,6 @@ public class ObdAvailableCommandsService {
                 new UpdateCarSupportedCommandsRequest(settings, vin, supportedCommands);
 
         boolean res = request.execute();
-    }
-
-    //TODO: Move initialization + run command to a common class
-    protected void initializeDevice() {
-        try {
-
-            //initilize the commands
-            //copied from OBD Gateway service in OBD Reader
-            runOBDCommand(new ObdResetCommand());
-            runOBDCommand(new EchoOffCommand());
-
-            //send second time based on tests...
-            runOBDCommand(new EchoOffCommand());
-            runOBDCommand(new LineFeedOffCommand());
-            runOBDCommand(new TimeoutCommand(62));
-
-
-            runOBDCommand(new SelectProtocolCommand(ObdProtocols.AUTO));
-            runOBDCommand(new AmbientAirTemperatureCommand());
-
-        }
-        catch (IOException | InterruptedException e) {
-            Log.e("OBDACS", "Failed to initilize device", e);
-            logger.error("OBDACS", "Failed to initilize device", e);
-        }
-    }
-
-    protected boolean runOBDCommand(ObdCommand command) throws IOException, InterruptedException {
-        try {
-            command.run(device.getInputStream(), device.getOutputStream());
-        }
-        catch (NoDataException | UnsupportedCommandException | MisunderstoodCommandException e) {
-            logger.warn("OBDACS", "Error occured while running command.", e);
-            return false;
-        }
-        return true;
     }
 
 }
