@@ -11,6 +11,8 @@ public class OBDCommandJob {
 
     private OBDCommandStatus status;
 
+    private boolean hasData;
+
     public OBDCommandJob(ObdCommand command) {
         if (null == command) {
             throw new IllegalArgumentException("Command cannot be null!");
@@ -33,5 +35,13 @@ public class OBDCommandJob {
 
     public void setCommand(ObdCommand command) {
         this.command = command;
+    }
+
+    public boolean isHasData() {
+        return hasData;
+    }
+
+    public void setHasData(boolean hasData) {
+        this.hasData = hasData;
     }
 }

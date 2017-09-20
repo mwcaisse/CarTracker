@@ -10,9 +10,11 @@ import com.ricex.cartracker.android.data.manager.RawTripManager;
 import com.ricex.cartracker.android.data.manager.ReaderLogManager;
 import com.ricex.cartracker.android.data.util.DatabaseHelper;
 import com.ricex.cartracker.android.settings.CarTrackerSettings;
+import com.ricex.cartracker.androidrequester.request.exception.InvalidRequestException;
 import com.ricex.cartracker.androidrequester.request.exception.RequestException;
 import com.ricex.cartracker.androidrequester.request.tracker.BulkUploadReaderLogRequest;
 import com.ricex.cartracker.androidrequester.request.tracker.CarTrackerRequestFactory;
+import com.ricex.cartracker.common.entity.Car;
 import com.ricex.cartracker.common.entity.Trip;
 import com.ricex.cartracker.common.viewmodel.BulkUploadResult;
 import com.ricex.cartracker.common.viewmodel.ReaderLogUpload;
@@ -39,6 +41,8 @@ public class WebServiceSyncer {
 
     private CarTrackerRequestFactory requestFactory;
 
+    private Map<String, Car> carCache;
+
     public WebServiceSyncer(DatabaseHelper databaseHelper, CarTrackerSettings settings) {
         this.settings = settings;
 
@@ -47,6 +51,8 @@ public class WebServiceSyncer {
         this.readingManager = databaseHelper.getReadingManager();
 
         this.requestFactory = new CarTrackerRequestFactory(settings);
+
+        carCache = new HashMap<String, Car>();
     }
 
 
@@ -110,10 +116,17 @@ public class WebServiceSyncer {
         if (null != unsyncedTrips && !unsyncedTrips.isEmpty()) {
             for (RawTrip unsyncedTrip : unsyncedTrips) {
 
+                Car car = getCarByVin(unsyncedTrip.getCarVin());
+                if (null == car) {
+                    Log.w(LOG_TAG, "Couldn't create trip, car with vin: " +
+                            unsyncedTrip.getCarVin() + " couldn't be fetched/created.");
+                    continue;
+                }
+
                 Trip trip = new Trip();
                 trip.setStartDate(unsyncedTrip.getStartDate());
                 trip.setEndDate(unsyncedTrip.getEndDate());
-                trip.setCarId(7);
+                trip.setCarId(car.getId());
                 trip.setStatus(unsyncedTrip.getStatus());
 
                 try {
@@ -130,6 +143,56 @@ public class WebServiceSyncer {
                 }
 
             }
+        }
+    }
+
+    /** Gets the car with the given VIN.
+     *
+     *  Will fetch the var with the given VIN from the server, if it doesn't exist
+     *      it will create a new car.     *
+     *
+     * @param vin The vin of the car
+     * @return The car with the given VIN, null if error occured
+     */
+    protected Car getCarByVin(String vin) {
+        if (carCache.containsKey(vin)) {
+            return carCache.get(vin);
+        }
+
+        Car car = null;
+
+        try {
+            car = requestFactory.createGetCarRequest(vin).execute();
+        }
+        catch (InvalidRequestException e) {
+            car = new Car();
+            car.setVin(vin);
+            car = createCar(car);
+        }
+        catch (RequestException e) {
+            Log.w(LOG_TAG, "Error occured while fetching car by vin", e);
+        }
+
+        //add the car to the cache if we found/created one
+        if (null != car) {
+            carCache.put(vin, car);
+        }
+
+        return car;
+    }
+
+    /** Creates the given car
+     *
+     * @param car The car to create
+     * @return The created car from the server, or null if an error ocured
+     */
+    protected Car createCar(Car car) {
+        try {
+            return requestFactory.createCreateCarRequest(car).execute();
+        }
+        catch (RequestException e) {
+            Log.w(LOG_TAG, "Error occured while creating the given car", e);
+            return null;
         }
     }
 

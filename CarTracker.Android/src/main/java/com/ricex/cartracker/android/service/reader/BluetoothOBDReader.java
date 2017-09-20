@@ -23,6 +23,7 @@ import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand;
 import com.github.pires.obd.commands.temperature.EngineCoolantTemperatureCommand;
 import com.github.pires.obd.enums.AvailableCommandNames;
 import com.github.pires.obd.enums.ObdProtocols;
+import com.github.pires.obd.exceptions.NoDataException;
 import com.github.pires.obd.exceptions.UnsupportedCommandException;
 import com.ricex.cartracker.android.model.OBDReading;
 import com.ricex.cartracker.android.obd.ObdCommandExecutor;
@@ -82,6 +83,25 @@ public class BluetoothOBDReader implements OBDReader {
         return readDataFromJobs(jobs);
     }
 
+    /** Retreives the VIN of the car from the reader
+     *
+     * @return The car's VIN or null if read failed
+     */
+    public String getCarVin() {
+        OBDCommandJob vinJob = new OBDCommandJob(new VinCommand());
+        executeOBDJob(vinJob);
+
+        String vin = null;
+        if (vinJob.getStatus() == OBDCommandStatus.FINISHED) {
+            vin = vinJob.getCommand().getCalculatedResult();
+        }
+        else {
+            logger.warn(LOG_TAG, "Failed to fetch VIN for car");
+        }
+
+        return vin;
+    }
+
     protected List<OBDCommandJob> createJobs() {
         List<OBDCommandJob> jobs = new ArrayList<OBDCommandJob>();
 
@@ -112,7 +132,9 @@ public class BluetoothOBDReader implements OBDReader {
                 results = job.getCommand().getCalculatedResult();
             }
             else {
-                results = "NO DATA";
+                //If there was an error executing task, set result to 0 for now.
+                //TODO: Have a more verbose error handling scheme.
+                results = "0";
                 logger.warn(LOG_TAG, "Failed to collect data for command: " + commandName);
             }
 
@@ -167,14 +189,15 @@ public class BluetoothOBDReader implements OBDReader {
 
                 if (commandExecutor.isConnected()) {
                     commandExecutor.runOBDCommand(job.getCommand());
+
+                    job.setStatus(OBDCommandStatus.FINISHED);
+                    job.setHasData(true);
                 }
                 else {
                     job.setStatus(OBDCommandStatus.CONNECTION_LOST);
                 }
             }
-            else {
-                //job wasn't new, can't run a old job
-            }
+
         }
         catch (UnsupportedCommandException e) {
             job.setStatus(OBDCommandStatus.NOT_SUPPORTED);
@@ -182,11 +205,13 @@ public class BluetoothOBDReader implements OBDReader {
         catch (IOException e) {
             job.setStatus(OBDCommandStatus.CONNECTION_LOST);
         }
+        catch (NoDataException e) {
+            job.setHasData(false);
+        }
         catch (Exception e) {
             job.setStatus(OBDCommandStatus.EXECUTION_ERROR);
         }
 
-        job.setStatus(OBDCommandStatus.FINISHED);
     }
 
     protected AvailableCommandNames parseCommandNameFromString(String commandName) {

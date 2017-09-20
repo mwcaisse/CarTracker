@@ -29,7 +29,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "cartracker.db";
 
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     private ReaderLogDao readerLogDao;
 

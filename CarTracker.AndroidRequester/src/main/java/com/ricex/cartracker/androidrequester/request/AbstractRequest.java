@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ricex.cartracker.androidrequester.request.exception.BadRequestException;
 import com.ricex.cartracker.androidrequester.request.exception.InvalidRequestException;
 import com.ricex.cartracker.androidrequester.request.exception.RequestException;
 import com.ricex.cartracker.androidrequester.request.exception.UnauthenticationRequestException;
@@ -333,7 +334,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 			Log.w("CT_AR", "process response, error occured: " + error);
 			switch (response.getStatusCode()) {
 			case BAD_REQUEST:
-				throw new InvalidRequestException(error);			
+				throw new BadRequestException(error);
 			case FORBIDDEN:
 				throw new UnauthorizedRequestException(error);		
 			default:

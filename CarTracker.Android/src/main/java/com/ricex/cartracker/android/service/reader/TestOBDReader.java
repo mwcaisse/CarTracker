@@ -13,6 +13,10 @@ public class TestOBDReader implements OBDReader {
         return true;
     }
 
+    public String getCarVin() {
+        return "TEST_VIN";
+    }
+
     @Override
     public OBDReading read() {
         OBDReading reading = new OBDReading();

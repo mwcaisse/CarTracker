@@ -27,6 +27,10 @@ public class RawTrip extends ServerEntity {
     @DatabaseField
     private TripStatus status;
 
+    public static final String PROPERTY_CAR_VIN = "carVin";
+    @DatabaseField(canBeNull = false)
+    private String carVin;
+
     public Date getStartDate() {
         return startDate;
     }
@@ -49,5 +53,13 @@ public class RawTrip extends ServerEntity {
 
     public void setStatus(TripStatus status) {
         this.status = status;
+    }
+
+    public String getCarVin() {
+        return carVin;
+    }
+
+    public void setCarVin(String carVin) {
+        this.carVin = carVin;
     }
 }

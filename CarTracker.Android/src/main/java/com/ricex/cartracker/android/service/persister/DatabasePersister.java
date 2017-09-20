@@ -68,16 +68,10 @@ public class DatabasePersister implements Persister {
 
         readings = new ArrayList<OBDReading>();
 
-        startTrip();
-
         while (running) {
             try {
                 synchronized (waitMonitor) {
                     waitMonitor.wait();
-                }
-
-                if (null == trip) {
-                    startTrip();
                 }
 
                 if (readings.size() > BUFFER_SIZE) {
@@ -164,7 +158,7 @@ public class DatabasePersister implements Persister {
         }
     }
 
-    public void startTrip() {
+    public void startTrip(String vin) {
         trip = new RawTrip();
         trip.setStartDate(new Date());
         trip.setStatus(TripStatus.STARTED);
@@ -184,6 +178,14 @@ public class DatabasePersister implements Persister {
                 Log.w(LOG_TAG, "Could not end trip!");
             }
         }
+    }
+
+    /** Starts a trip for the car with the given VIN
+     *
+     * @param vin The VIN of the car
+     */
+    public void start(String vin) {
+        startTrip(vin);
     }
 
     @Override

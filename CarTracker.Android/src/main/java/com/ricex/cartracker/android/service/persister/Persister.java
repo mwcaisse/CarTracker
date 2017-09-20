@@ -7,6 +7,9 @@ import com.ricex.cartracker.android.model.OBDReading;
  */
 public interface Persister extends Runnable {
 
+
+    public void start(String vin);
+
     public void persist(OBDReading reading);
 
     public void stop();

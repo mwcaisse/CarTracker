@@ -19,4 +19,10 @@ public interface OBDReader {
      */
     public OBDReading read() throws ConnectionLostException;
 
+    /** Retreives the VIN of the car from the reader
+     *
+     * @return The car's VIN or null if read failed
+     */
+    public String getCarVin();
+
 }
