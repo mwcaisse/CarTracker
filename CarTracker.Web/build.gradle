@@ -32,8 +32,8 @@ repositories {
 }
 
 ext {
-	springVersion = '4.2.4.RELEASE'
-	springSecurityVersion = '4.0.3.RELEASE'
+	springVersion = '4.3.11.RELEASE'
+	springSecurityVersion = '4.2.3.RELEASE'
 	mybatisVersion = '3.3.0'
 	mybatisSpringVersion = '1.2.3'
 	thymeleafVersion = '2.1.4.RELEASE'
