@@ -57,7 +57,7 @@ public class BluetoothOBDReader implements OBDReader {
         this.logger = logger;
         this.settings = settings;
         ObdDevice device = new BluetoothObdDevice(settings.getBluetoothDeviceAddress());
-        this.commandExecutor = new ObdCommandExecutor(device);
+        this.commandExecutor = new ObdCommandExecutor(device, logger);
     }
 
     public boolean initialize() {

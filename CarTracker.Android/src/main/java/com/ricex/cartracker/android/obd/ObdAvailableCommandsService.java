@@ -46,7 +46,7 @@ public class ObdAvailableCommandsService {
         this.logger = logger;
 
         device = new BluetoothObdDevice(settings.getBluetoothDeviceAddress());
-        commandExecutor = new ObdCommandExecutor(device);
+        commandExecutor = new ObdCommandExecutor(device, logger);
     }
 
     /** Determines the available commands and persists them to the web server
@@ -62,7 +62,6 @@ public class ObdAvailableCommandsService {
             persistSupportedCommands(vin, supportedCommands);
 
         } catch (Exception e) {
-            Log.w("OBDACS", "Failed to Determine Available Commands", e);
             logger.error("OBDACS", "Failed to Determine Available Commands", e);
         }
     }

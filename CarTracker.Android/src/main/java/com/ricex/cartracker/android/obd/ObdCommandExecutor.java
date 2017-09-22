@@ -15,6 +15,7 @@ import com.github.pires.obd.exceptions.NoDataException;
 import com.github.pires.obd.exceptions.UnsupportedCommandException;
 import com.ricex.cartracker.android.obd.device.ObdDevice;
 import com.ricex.cartracker.android.obd.device.ObdDeviceConnectionFailedException;
+import com.ricex.cartracker.android.service.logger.ServiceLogger;
 
 import java.io.IOException;
 
@@ -30,10 +31,13 @@ public class ObdCommandExecutor {
 
     private final ObdDevice device;
 
+    private final ServiceLogger logger;
+
     private boolean initialized;
 
-    public ObdCommandExecutor(ObdDevice device) {
+    public ObdCommandExecutor(ObdDevice device, ServiceLogger logger) {
         this.device = device;
+        this.logger = logger;
 
         initialized = false;
     }
@@ -67,7 +71,7 @@ public class ObdCommandExecutor {
 
         }
         catch (IOException | InterruptedException | ObdDeviceConnectionFailedException e) {
-            Log.e(LOG_TAG, "Failed to initilize command executor", e);
+            logger.error(LOG_TAG, "Failed to initilize command executor", e);
             return false;
         }
 
