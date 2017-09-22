@@ -68,15 +68,13 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
         gpsReader.start();
         info(LOG_TAG, "OBB connection established, starting data collection loop..");
 
-        //TODO: Start the trip on the persister.
-        // 1. Pull the VIN from the car
-        // 2. Tell persister to start the trip
-
         String vin = reader.getCarVin();
         if (null == vin) {
             //we couldn't get the VIN for the car, we can't persist anything
             return false;
         }
+
+        persister.start(vin);
 
         return true;
     }
