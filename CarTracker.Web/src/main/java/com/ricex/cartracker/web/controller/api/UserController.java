@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mysql.jdbc.StringUtils;
 import com.ricex.cartracker.common.auth.AuthToken;
 import com.ricex.cartracker.common.auth.AuthUser;
 import com.ricex.cartracker.common.auth.TokenAuthentication;
@@ -93,7 +94,11 @@ public class UserController extends ApiController<User> {
 	public @ResponseBody BooleanResponse loginToken(@RequestBody AuthToken auth, HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-			Token token = userAuthenticator.authenticateUser(auth, request.getRemoteAddr());
+			String clientAddress = request.getHeader("X-FORWARDED-FOR");
+			if (StringUtils.isNullOrEmpty(clientAddress)) {
+				clientAddress = request.getRemoteAddr();
+			}
+			Token token = userAuthenticator.authenticateUser(auth, clientAddress);
 			return handleLoginResult(token, response);
 		}
 		catch (AuthenticationException e) {
