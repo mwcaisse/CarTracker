@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/")
@@ -14,7 +15,10 @@ public class LoginViewController extends ViewController {
 	 * @return The login view
 	 */
 	@RequestMapping(value = "login", method = RequestMethod.GET)
-	public ModelAndView login() {
+	public ModelAndView login(RedirectAttributes ra) {
+		if (isAuthenticated()) {
+			return new ModelAndView("redirect:/");
+		}
 		return new ModelAndView("auth/login");
 	}
 	

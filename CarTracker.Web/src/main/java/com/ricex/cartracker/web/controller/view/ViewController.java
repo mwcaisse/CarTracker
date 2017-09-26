@@ -3,8 +3,9 @@ package com.ricex.cartracker.web.controller.view;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.ricex.cartracker.web.BuildProperties;
+import com.ricex.cartracker.web.controller.BaseController;
 
-public abstract class ViewController {
+public abstract class ViewController  extends BaseController {
 
 	/** The build version attribute
 	 * 
