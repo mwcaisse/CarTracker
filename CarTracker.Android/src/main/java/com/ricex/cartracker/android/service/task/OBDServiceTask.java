@@ -170,7 +170,7 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
     public void error(String tag, String message, Throwable ex) {
         Log.e(tag, message, ex);
         service.addMessage(message + " : " + ex.getMessage());
-        logger.error(tag, message);
+        logger.error(tag, message, ex);
     }
 
 }
