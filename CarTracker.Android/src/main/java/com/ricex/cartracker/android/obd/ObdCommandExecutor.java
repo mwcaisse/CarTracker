@@ -71,7 +71,7 @@ public class ObdCommandExecutor {
 
         }
         catch (IOException | InterruptedException | ObdDeviceConnectionFailedException e) {
-            logger.error(LOG_TAG, "Failed to initilize command executor MSG?: |" + e.getMessage() + "|", e);
+            logger.error(LOG_TAG, "Failed to initilize command executor.", e);
             return false;
         }
 
