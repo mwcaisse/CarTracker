@@ -57,17 +57,17 @@ public class ObdCommandExecutor {
             }
             //initilize the commands
             //copied from OBD Gateway service in OBD Reader
-            runOBDCommand(new ObdResetCommand());
-            runOBDCommand(new EchoOffCommand());
+            runOBDCommandNoCheck(new ObdResetCommand());
+            runOBDCommandNoCheck(new EchoOffCommand());
 
             //send second time based on tests...
-            runOBDCommand(new EchoOffCommand());
-            runOBDCommand(new LineFeedOffCommand());
-            runOBDCommand(new TimeoutCommand(62));
+            runOBDCommandNoCheck(new EchoOffCommand());
+            runOBDCommandNoCheck(new LineFeedOffCommand());
+            runOBDCommandNoCheck(new TimeoutCommand(62));
 
 
-            runOBDCommand(new SelectProtocolCommand(ObdProtocols.AUTO));
-            runOBDCommand(new AmbientAirTemperatureCommand());
+            runOBDCommandNoCheck(new SelectProtocolCommand(ObdProtocols.AUTO));
+            runOBDCommandNoCheck(new AmbientAirTemperatureCommand());
 
         }
         catch (IOException | InterruptedException | ObdDeviceConnectionFailedException e) {
@@ -92,6 +92,11 @@ public class ObdCommandExecutor {
         if (!initialized) {
             throw new IOException("Executor has not been initialized yet!");
         }
+        return runOBDCommandNoCheck(command);
+
+    }
+
+    private boolean runOBDCommandNoCheck(ObdCommand command) throws IOException, InterruptedException {
         try {
             command.run(device.getInputStream(), device.getOutputStream());
         }
