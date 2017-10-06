@@ -70,10 +70,12 @@ public class OBDServiceTask extends ServiceTask implements ServiceLogger {
 
         String vin = reader.getCarVin();
         if (null == vin) {
+            info(LOG_TAG, "Couldn't get the VIN for the car, can't persist anything");
             //we couldn't get the VIN for the car, we can't persist anything
             return false;
         }
 
+        info(LOG_TAG, "Starting persister with VIN: " + vin);
         persister.start(vin);
 
         return true;

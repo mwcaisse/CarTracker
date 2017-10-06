@@ -178,6 +178,17 @@ UI Redesign / Restructuring
 	-Perhaps add a default car, that a user's view defaults to when they load.
 	
 	-Add the car id to each URL path, and require it be there for viewing trips/ etc.
+	
+	
+PiReader:
+	ELM327 Communication:
+		COM Port
+		Baud Rate:
+		
+		8 data bits, no parity bits 1 stop bits
+		
+		ELM327 responses are terminated with a single carriage return (optionally linefeed)
+		
 			
 			
 			
