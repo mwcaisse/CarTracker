@@ -165,6 +165,7 @@ public class DatabasePersister implements Persister {
         trip = new RawTrip();
         trip.setStartDate(new Date());
         trip.setStatus(TripStatus.STARTED);
+        trip.setCarVin(vin);
 
         if (!tripManager.create(trip)) {
             logger.warn(LOG_TAG, "Could not start trip!");
